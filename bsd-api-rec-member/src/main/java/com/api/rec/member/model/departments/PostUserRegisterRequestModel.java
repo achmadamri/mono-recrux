@@ -1,0 +1,15 @@
+package com.api.rec.member.model.departments;
+
+import com.api.rec.member.model.RequestModel;
+
+public class PostUserRegisterRequestModel extends RequestModel {
+	private TbUser tbUser;
+
+	public TbUser getTbUser() {
+		return tbUser;
+	}
+
+	public void setTbUser(TbUser tbUser) {
+		this.tbUser = tbUser;
+	}
+}

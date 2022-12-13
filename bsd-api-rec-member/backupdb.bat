@@ -1,0 +1,1 @@
+c:\xampp\mysql\bin\mysqldump.exe -uroot -pP@55w0rd bsd_api_rec_member > "C:\Users\Achmad Amri\git\bsd-api-rec-member\bsd_api_rec_member.sql"
