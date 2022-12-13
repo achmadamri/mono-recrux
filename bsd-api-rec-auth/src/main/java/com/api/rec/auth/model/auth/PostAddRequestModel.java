@@ -24,10 +24,6 @@ public class PostAddRequestModel extends RequestModel {
 	@Size(min = 1, max = 255, message = "Token salt must be between 1 and 255 characters long")
 	private String tbaTokenSalt;
 
-	@NotEmpty(message = "Role may not be empty")
-	@Size(min = 1, max = 255, message = "Role must be between 1 and 255 characters long")
-	private String tbaRole;
-
 	public String getTbaEmail() {
 		return tbaEmail;
 	}
@@ -58,13 +54,5 @@ public class PostAddRequestModel extends RequestModel {
 
 	public void setTbaTokenSalt(String tbaTokenSalt) {
 		this.tbaTokenSalt = tbaTokenSalt;
-	}
-
-	public String getTbaRole() {
-		return tbaRole;
-	}
-
-	public void setTbaRole(String tbaRole) {
-		this.tbaRole = tbaRole;
 	}
 }

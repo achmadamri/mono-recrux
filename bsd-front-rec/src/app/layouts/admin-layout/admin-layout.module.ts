@@ -20,6 +20,7 @@ import {MatSelectModule} from '@angular/material/select';
 import { LoginComponent } from 'app/login/login.component';
 import { LogoutComponent } from 'app/logout/logout.component';
 import { RegisterComponent } from 'app/register/register.component';
+import { ConfirmationComponent } from 'app/confirmation/confirmation.component';
 
 @NgModule({
   imports: [
@@ -39,6 +40,7 @@ import { RegisterComponent } from 'app/register/register.component';
     UserProfileComponent,
     LoginComponent,
     RegisterComponent,
+    ConfirmationComponent,
     LogoutComponent,
     TableListComponent,
     TypographyComponent,

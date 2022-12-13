@@ -12,6 +12,7 @@ import { LoginComponent } from 'app/login/login.component';
 import { AuthGuard } from 'app/auth.guard';
 import { LogoutComponent } from 'app/logout/logout.component';
 import { RegisterComponent } from 'app/register/register.component';
+import { ConfirmationComponent } from 'app/confirmation/confirmation.component';
 
 export const AdminLayoutRoutes: Routes = [
     // {
@@ -66,5 +67,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'upgrade',        component: UpgradeComponent, canActivate: [AuthGuard] },
     { path: 'login',          component: LoginComponent },
     { path: 'register',       component: RegisterComponent },
+    { path: 'confirmation',   component: ConfirmationComponent },
     { path: 'logout',         component: LogoutComponent },
 ];
