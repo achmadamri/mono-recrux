@@ -21,6 +21,8 @@ import { LoginComponent } from 'app/login/login.component';
 import { LogoutComponent } from 'app/logout/logout.component';
 import { RegisterComponent } from 'app/register/register.component';
 import { ConfirmationComponent } from 'app/confirmation/confirmation.component';
+import { DepartmentsComponent } from 'app/departments/departments.component';
+import { DepartmentsDetailComponent } from 'app/departments-detail/departments-detail.component';
 
 @NgModule({
   imports: [
@@ -40,6 +42,8 @@ import { ConfirmationComponent } from 'app/confirmation/confirmation.component';
     UserProfileComponent,
     LoginComponent,
     RegisterComponent,
+    DepartmentsComponent,
+    DepartmentsDetailComponent,
     ConfirmationComponent,
     LogoutComponent,
     TableListComponent,

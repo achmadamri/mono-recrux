@@ -13,6 +13,8 @@ import { AuthGuard } from 'app/auth.guard';
 import { LogoutComponent } from 'app/logout/logout.component';
 import { RegisterComponent } from 'app/register/register.component';
 import { ConfirmationComponent } from 'app/confirmation/confirmation.component';
+import { DepartmentsComponent } from 'app/departments/departments.component';
+import { DepartmentsDetailComponent } from 'app/departments-detail/departments-detail.component';
 
 export const AdminLayoutRoutes: Routes = [
     // {
@@ -57,16 +59,19 @@ export const AdminLayoutRoutes: Routes = [
     //         component: UpgradeComponent
     //     }]
     // }
-    { path: 'dashboard',      component: DashboardComponent, canActivate: [AuthGuard] },
-    { path: 'user-profile',   component: UserProfileComponent, canActivate: [AuthGuard] },
-    { path: 'table-list',     component: TableListComponent, canActivate: [AuthGuard] },
-    { path: 'typography',     component: TypographyComponent, canActivate: [AuthGuard] },
-    { path: 'icons',          component: IconsComponent, canActivate: [AuthGuard] },
-    { path: 'maps',           component: MapsComponent, canActivate: [AuthGuard] },
-    { path: 'notifications',  component: NotificationsComponent, canActivate: [AuthGuard] },
-    { path: 'upgrade',        component: UpgradeComponent, canActivate: [AuthGuard] },
-    { path: 'login',          component: LoginComponent },
-    { path: 'register',       component: RegisterComponent },
-    { path: 'confirmation',   component: ConfirmationComponent },
-    { path: 'logout',         component: LogoutComponent },
+    { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+    { path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard] },
+    { path: 'table-list', component: TableListComponent, canActivate: [AuthGuard] },
+    { path: 'typography', component: TypographyComponent, canActivate: [AuthGuard] },
+    { path: 'icons', component: IconsComponent, canActivate: [AuthGuard] },
+    { path: 'maps', component: MapsComponent, canActivate: [AuthGuard] },
+    { path: 'notifications', component: NotificationsComponent, canActivate: [AuthGuard] },
+    { path: 'upgrade', component: UpgradeComponent, canActivate: [AuthGuard] },
+
+    { path: 'login', component: LoginComponent },
+    { path: 'register', component: RegisterComponent },
+    { path: 'confirmation', component: ConfirmationComponent },
+    { path: 'departments', component: DepartmentsComponent, canActivate: [AuthGuard] },
+    { path: 'departments-detail/:tbdId', component: DepartmentsDetailComponent, canActivate: [AuthGuard] },
+    { path: 'logout', component: LogoutComponent },
 ];
