@@ -23,6 +23,9 @@ import { RegisterComponent } from 'app/register/register.component';
 import { ConfirmationComponent } from 'app/confirmation/confirmation.component';
 import { DepartmentsComponent } from 'app/departments/departments.component';
 import { DepartmentsDetailComponent } from 'app/departments-detail/departments-detail.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   imports: [
@@ -36,6 +39,9 @@ import { DepartmentsDetailComponent } from 'app/departments-detail/departments-d
     MatInputModule,
     MatSelectModule,
     MatTooltipModule,
+    MatPaginatorModule,
+    MatRadioModule,
+    MatCheckboxModule,
   ],
   declarations: [
     DashboardComponent,

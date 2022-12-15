@@ -122,6 +122,11 @@ export class NavbarComponent implements OnInit {
               return this.listTitles[item].title;
           }
       }
+
+      var normTitle = titlee.replace('#','').replace('/','').replace('-',' ');
+
+      if (normTitle.match(/departments.*/)) return "Departments";
+
       return 'Dashboard';
     }
 

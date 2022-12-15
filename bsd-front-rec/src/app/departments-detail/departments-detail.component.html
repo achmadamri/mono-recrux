@@ -4,46 +4,113 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-danger">
-                        <h4 class="card-title">Departments : xxx</h4>
+                        <h4 class="card-title">Department Information Technology</h4>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="row">
+                                <div class="col-md-12">
+                                  <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="Name" type="text">
+                                  </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <mat-radio-group aria-label="Status" name="tbpType">
+                                        <mat-radio-button value="active">Active</mat-radio-button>
+                                        &nbsp;
+                                        <mat-radio-button value="not active">Not Active</mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+                            </div>
+                            <button mat-raised-button type="submit" class="btn btn-danger pull-right">Update</button>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title" style="cursor:pointer" title="Click to view search form" (click)="searchFormClick();">Jobs</h4>
+                    </div>
+                    <div class="card-body" *ngIf="searchForm">
+                        <form>
+                            <div class="row">
+                                <div class="col-md-12">
+                                  <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="Name" type="text">
+                                  </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <mat-radio-group aria-label="Status" name="tbpType">
+                                        <mat-radio-button value="active">Active</mat-radio-button>
+                                        &nbsp;
+                                        <mat-radio-button value="not active">Not Active</mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+                            </div>
+                            <button mat-raised-button type="submit" class="btn btn-danger pull-right">Search</button>
+                            <div class="clearfix"></div>
+                        </form>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
+                            <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="getPage($event)" [disabled]="clicked"></mat-paginator>
                             <table class="table table-hover">
                                 <thead>
                                     <th>ID</th>
                                     <th>Name</th>
-                                    <th>Country</th>
-                                    <th>City</th>
-                                    <th>Salary</th>
+                                    <th>Status</th>
                                     <th></th>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>5</td>
-                                        <td>Doris Greene</td>
-                                        <td>Malawi</td>
-                                        <td>Feldkirchen in Kärnten</td>
-                                        <td>$63,542</td>
-                                        <td><button mat-raised-button class="btn btn-danger pull-right" [disabled]="clicked">Login</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td>Mason Porter</td>
-                                        <td>Chile</td>
-                                        <td>Gloucester</td>
-                                        <td>$78,615</td>
-                                        <td><button mat-raised-button class="btn btn-danger pull-right" [disabled]="clicked">Login</button></td>
+                                        <td>Programmer</td>
+                                        <td>Added</td>
+                                        <td class="td-actions text-right">
+                                            <button mat-raised-button type="button" class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                <i class="material-icons" title="View">visibility</i>
+                                            </button>
+                                            <button mat-raised-button type="button" class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                                <i class="material-icons" title="Remove">close</i>
+                                            </button>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>5</td>
-                                        <td>Doris Greene</td>
-                                        <td>Malawi</td>
-                                        <td>Feldkirchen in Kärnten</td>
-                                        <td>$63,542</td>
-                                        <td><button mat-raised-button class="btn btn-danger pull-right" [disabled]="clicked">Login</button></td>
+                                        <td>QA</td>
+                                        <td>Added</td>
+                                        <td class="td-actions text-right">
+                                            <button mat-raised-button type="button" class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                <i class="material-icons" title="View">visibility</i>
+                                            </button>
+                                            <button mat-raised-button type="button" class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                                <i class="material-icons" title="Remove">close</i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>DevOps</td>
+                                        <td>Removed</td>
+                                        <td class="td-actions text-right">
+                                            <button mat-raised-button type="button" class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                <i class="material-icons" title="View">visibility</i>
+                                            </button>
+                                            <button mat-raised-button type="button" class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                                <i class="material-icons" title="Remove">close</i>
+                                            </button>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
+                            <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="getPage($event)" [disabled]="clicked"></mat-paginator>
+                            <button mat-raised-button type="submit" class="btn btn-danger pull-right" [disabled]="clicked" (click)="back();">Back</button>
                         </div>
                     </div>
                 </div>
