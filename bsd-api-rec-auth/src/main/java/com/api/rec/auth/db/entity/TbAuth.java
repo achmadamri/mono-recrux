@@ -51,9 +51,6 @@ public class TbAuth implements Serializable {
 	@Column(name="tba_token_salt")
 	private String tbaTokenSalt;
 
-	@Column(name="tba_role")
-	private String tbaRole;
-
 	public Integer getTbaTid() {
 		return tbaTid;
 	}
@@ -124,13 +121,5 @@ public class TbAuth implements Serializable {
 
 	public void setTbaTokenSalt(String tbaTokenSalt) {
 		this.tbaTokenSalt = tbaTokenSalt;
-	}
-
-	public String getTbaRole() {
-		return tbaRole;
-	}
-
-	public void setTbaRole(String tbaRole) {
-		this.tbaRole = tbaRole;
 	}
 }

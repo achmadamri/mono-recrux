@@ -1,1 +1,1 @@
-c:\xampp\mysql\bin\mysqldump.exe -uroot -pP@55w0rd bsd_api_rec_auth > "C:\Users\Achmad Amri\git\bsd-api-rec-auth\bsd_api_rec_auth.sql"
+c:\xampp\mysql\bin\mysqldump.exe -uroot -pP@55w0rd bsd_api_rec_auth > "C:\Users\Achmad Amri\git\mono-recrux\bsd-api-rec-auth\bsd_api_rec_auth.sql"

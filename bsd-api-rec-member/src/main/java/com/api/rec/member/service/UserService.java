@@ -1,5 +1,7 @@
 package com.api.rec.member.service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -224,7 +226,6 @@ public class UserService {
 				tbUser.setTbuCreateId(optTbUser.get().getTbuId());
 				tbUser.setTbuStatus(TbUserRepository.Active);
 				tbUser.setTbuTokenSalt(new Uid().generateString(36));
-				tbUser.setTbuRole(requestModel.getTbUser().getTbuRole());
 				tbUserRepository.save(tbUser);
 				
 				for (ViewUserMenu viewUserMenu : requestModel.getLstViewUserMenu()) {
@@ -246,11 +247,9 @@ public class UserService {
 				postAddRequestModel.setEmail(requestModel.getEmail());
 				postAddRequestModel.setToken(requestModel.getToken());
 				postAddRequestModel.setTbaEmail(tbUser.getTbuEmail());
-				postAddRequestModel.setTbaRole(tbUser.getTbuRole());
 				postAddRequestModel.setTbaPassword(tbUser.getTbuPassword());
 				postAddRequestModel.setTbaStatus(tbUser.getTbuStatus());
 				postAddRequestModel.setTbaTokenSalt(tbUser.getTbuTokenSalt());
-				postAddRequestModel.setTbaRole(tbUser.getTbuRole());
 				HttpEntity<PostAddRequestModel> requestPostAdd = new HttpEntity<>(postAddRequestModel);
 				restTemplate.postForEntity(env.getProperty("services.bsd.api.rec.auth") + "auth/postadd", requestPostAdd, String.class);
 				
@@ -279,6 +278,8 @@ public class UserService {
 	public PostUserRegisterResponseModel postUserRegister(PostUserRegisterRequestModel requestModel) throws Exception {
 		PostUserRegisterResponseModel responseModel = new PostUserRegisterResponseModel(requestModel);
 
+		if (requestModel.getAgree() == null) requestModel.setAgree("false");
+
 		if (requestModel.getAgree().equals("true")) {
 			TbUser exampleTbUserNew = new TbUser();
 			exampleTbUserNew.setTbuEmail(requestModel.getTbUser().getTbuEmail());
@@ -292,12 +293,17 @@ public class UserService {
 				tbUser.setTbuEmail(requestModel.getTbUser().getTbuEmail());
 				tbUser.setTbuFirstname(requestModel.getTbUser().getTbuFirstname());
 				tbUser.setTbuLastname(requestModel.getTbUser().getTbuLastname());
+				tbUser.setTbuMobilePhone(requestModel.getTbUser().getTbuMobilePhone());
 				tbUser.setTbuPassword(new MD5().get(requestModel.getTbUser().getTbuPassword()));
 				tbUser.setTbuCreateDate(new Date());
 				tbUser.setTbuCreateId(null);
 				tbUser.setTbuStatus(TbUserRepository.NeedConfirmation);
+				tbUser.setTbuType("alpha");
+				LocalDateTime expired = LocalDateTime.now(ZoneOffset.UTC);
+				expired = expired.plusDays(7);
+				tbUser.setTbuExpired(Date.from(expired.toInstant(ZoneOffset.UTC)));
+				tbUser.setTbuUid(new Uid().generateString(100));
 				tbUser.setTbuTokenSalt(new Uid().generateString(36));
-				tbUser.setTbuRole(requestModel.getTbUser().getTbuRole());
 				tbUserRepository.save(tbUser);
 
 				TbNotification exampleTbNotification = new TbNotification();
@@ -316,17 +322,40 @@ public class UserService {
 				strHtml = strHtml.replaceAll("\\$\\{NAME\\}", tbUser.getTbuFirstname());
 				strHtml = strHtml.replaceAll("\\$\\{EMAIL\\}", tbUser.getTbuEmail());
 
-				strHtml = strHtml.replaceAll("\\$\\{URL\\}", "http://" + env.getProperty("service.domain") + ":4200/#/user-confirmation?uuid=" + tbUser.getTbuUid());
+				strHtml = strHtml.replaceAll("\\$\\{URL\\}", "http://" + env.getProperty("services.domain") + ":4200/#/confirmation?uuid=" + tbUser.getTbuUid());
 				tbNotificationData.setTbndHtml(strHtml);
 
 				tbNotificationDataRepository.save(tbNotificationData);
 
+				RestTemplate restTemplate = new RestTemplate();
+			
+				PostAddRequestModel postAddRequestModel = new PostAddRequestModel();				
+				postAddRequestModel.setEmail(requestModel.getEmail());
+				postAddRequestModel.setToken(requestModel.getToken());
+				postAddRequestModel.setTbaEmail(tbUser.getTbuEmail());
+				postAddRequestModel.setTbaPassword(tbUser.getTbuPassword());
+				postAddRequestModel.setTbaStatus(tbUser.getTbuStatus());
+				postAddRequestModel.setTbaTokenSalt(tbUser.getTbuTokenSalt());
+				HttpEntity<PostAddRequestModel> requestPostAdd = new HttpEntity<>(postAddRequestModel);
+				restTemplate.postForEntity(env.getProperty("services.bsd.api.rec.auth") + "auth/postadd", requestPostAdd, String.class);
+				
+				SimpleMapper simpleMapper = new SimpleMapper();
+				
+				com.api.rec.member.model.departments.PostUserRegisterRequestModel postUserRegisterOrderRequestModel = new com.api.rec.member.model.departments.PostUserRegisterRequestModel();
+				postUserRegisterOrderRequestModel.setEmail(requestModel.getEmail());
+				postUserRegisterOrderRequestModel.setToken(requestModel.getToken());
+				com.api.rec.member.model.departments.TbUser postUserRegisterOrderTbUser = new com.api.rec.member.model.departments.TbUser();
+				postUserRegisterOrderTbUser = (com.api.rec.member.model.departments.TbUser) simpleMapper.assign(tbUser, postUserRegisterOrderTbUser);
+				postUserRegisterOrderRequestModel.setTbUser(postUserRegisterOrderTbUser);
+				HttpEntity<com.api.rec.member.model.departments.PostUserRegisterRequestModel> requestPostUserRegisterOrder = new HttpEntity<>(postUserRegisterOrderRequestModel);
+				restTemplate.postForEntity(env.getProperty("services.bsd.api.rec.departments") + "user/postuserregister", requestPostUserRegisterOrder, String.class);
+	
 				MailjetClient client = new MailjetClient("6d10186c41f3306a6e26576d8d9ea3c0", "04aa043913dd20aa5d3edd88cdefb546", new ClientOptions("v3.1"));
 				MailjetRequest request = new MailjetRequest(Emailv31.resource)
 											.property(Emailv31.MESSAGES, new JSONArray().put(new JSONObject()
 											.put(Emailv31.Message.FROM, new JSONObject()
-											.put("Email", env.getProperty("mailjet.email"))
-											.put("Name", env.getProperty("mailjet.name")))
+											.put("Email", "no-reply@dafba.com")
+											.put("Name", "no-reply"))
 											.put(Emailv31.Message.TO, new JSONArray().put(new JSONObject()
 											.put("Email", tbNotificationData.getTbndTo())
 											.put("Name", tbUser.getTbuFirstname())))
@@ -343,31 +372,6 @@ public class UserService {
 
 				tbNotificationDataRepository.save(tbNotificationData);
 
-				RestTemplate restTemplate = new RestTemplate();
-			
-				PostAddRequestModel postAddRequestModel = new PostAddRequestModel();				
-				postAddRequestModel.setEmail(requestModel.getEmail());
-				postAddRequestModel.setToken(requestModel.getToken());
-				postAddRequestModel.setTbaEmail(tbUser.getTbuEmail());
-				postAddRequestModel.setTbaRole(tbUser.getTbuRole());
-				postAddRequestModel.setTbaPassword(tbUser.getTbuPassword());
-				postAddRequestModel.setTbaStatus(tbUser.getTbuStatus());
-				postAddRequestModel.setTbaTokenSalt(tbUser.getTbuTokenSalt());
-				postAddRequestModel.setTbaRole(tbUser.getTbuRole());
-				HttpEntity<PostAddRequestModel> requestPostAdd = new HttpEntity<>(postAddRequestModel);
-				restTemplate.postForEntity(env.getProperty("services.bsd.api.rec.auth") + "auth/postadd", requestPostAdd, String.class);
-				
-				SimpleMapper simpleMapper = new SimpleMapper();
-				
-				com.api.rec.member.model.departments.PostUserRegisterRequestModel postUserRegisterOrderRequestModel = new com.api.rec.member.model.departments.PostUserRegisterRequestModel();
-				postUserRegisterOrderRequestModel.setEmail(requestModel.getEmail());
-				postUserRegisterOrderRequestModel.setToken(requestModel.getToken());
-				com.api.rec.member.model.departments.TbUser postUserRegisterOrderTbUser = new com.api.rec.member.model.departments.TbUser();
-				postUserRegisterOrderTbUser = (com.api.rec.member.model.departments.TbUser) simpleMapper.assign(tbUser, postUserRegisterOrderTbUser);
-				postUserRegisterOrderRequestModel.setTbUser(postUserRegisterOrderTbUser);
-				HttpEntity<com.api.rec.member.model.departments.PostUserRegisterRequestModel> requestPostUserRegisterOrder = new HttpEntity<>(postUserRegisterOrderRequestModel);
-				restTemplate.postForEntity(env.getProperty("services.bsd.api.rec.departments") + "user/postuserregister", requestPostUserRegisterOrder, String.class);
-	
 				responseModel.setStatus("200");
 				responseModel.setMessage(env.getProperty("service.user.postregister.usercreated"));
 			}
@@ -383,32 +387,39 @@ public class UserService {
 		PostConfirmationResponseModel responseModel = new PostConfirmationResponseModel(requestModel);
 
 		TbUser exampleTbUser = new TbUser();
+		exampleTbUser.setTbuEmail(requestModel.getEmail());
 		exampleTbUser.setTbuUid(requestModel.getTbuUid());
 		exampleTbUser.setTbuStatus(TbUserRepository.NeedConfirmation);
 		Optional<TbUser> optTbUser = tbUserRepository.findOne(Example.of(exampleTbUser));
 
-		optTbUser.ifPresentOrElse(tbUser -> {
-			tbUser.setTbuUpdateDate(new Date());
-			tbUser.setTbuUpdateId(0);
-			tbUser.setTbuStatus(TbUserRepository.Active);
+		if (optTbUser.isPresent()) {
+			optTbUser.get().setTbuUpdateDate(new Date());
+			optTbUser.get().setTbuUpdateId(0);
+			optTbUser.get().setTbuStatus(TbUserRepository.Active);
 
-			com.api.rec.member.model.auth.PostAddRequestModel postAddRequestModel = new com.api.rec.member.model.auth.PostAddRequestModel();
-			postAddRequestModel.setRequestDate(requestModel.getRequestDate());
-			postAddRequestModel.setRequestId(requestModel.getRequestId());
-			postAddRequestModel.setTbaEmail(tbUser.getTbuEmail());
-			postAddRequestModel.setTbaPassword(tbUser.getTbuPassword());
+			tbUserRepository.save(optTbUser.get());
 
-			HttpEntity<com.api.rec.member.model.auth.PostAddRequestModel> request = new HttpEntity<>(postAddRequestModel);
 			RestTemplate restTemplate = new RestTemplate();
-			restTemplate.postForEntity(env.getProperty("services.rest.auth.url") + "auth/postadd", request, String.class);
 
-			responseModel.setTbUsers(tbUser);
+			PutUpdateRequestModel putUpdateRequestModel = new PutUpdateRequestModel();
+			putUpdateRequestModel.setTbaEmail(optTbUser.get().getTbuEmail());
+			putUpdateRequestModel.setTbaStatus(optTbUser.get().getTbuStatus());
+			HttpEntity<PutUpdateRequestModel> requestPutUpdate = new HttpEntity<>(putUpdateRequestModel);
+			restTemplate.put(env.getProperty("services.bsd.api.rec.auth") + "auth/putupdate", requestPutUpdate, String.class);
+
+			PostConfirmationRequestModel postConfirmationRequestModel = new PostConfirmationRequestModel();				
+			postConfirmationRequestModel.setEmail(optTbUser.get().getTbuEmail());
+			postConfirmationRequestModel.setTbuUid(optTbUser.get().getTbuUid());
+			HttpEntity<PostConfirmationRequestModel> requestPostAdd = new HttpEntity<>(postConfirmationRequestModel);
+			restTemplate.postForEntity(env.getProperty("services.bsd.api.rec.departments") + "user/postconfirmation", requestPostAdd, String.class);
+
+			responseModel.setTbUsers(optTbUser.get());
 			responseModel.setStatus("200");
 			responseModel.setMessage(env.getProperty("service.user.postconfirmation.postconfirmation"));
-		}, () -> {
+		} else {
 			responseModel.setStatus("401");
-			responseModel.setError(env.getProperty("service.user.postconfirmation.datanotfound"));
-		});
+			responseModel.setMessage(env.getProperty("service.user.postconfirmation.datanotfound"));
+		}
 
 		return responseModel;
 	}
@@ -429,7 +440,6 @@ public class UserService {
 			Optional<TbUser> optTbUserExisting = tbUserRepository.findOne(Example.of(exampleTbUserExisting));
 			
 			if (optTbUserExisting.isPresent()) {
-				optTbUserExisting.get().setTbuRole(requestModel.getTbUser().getTbuRole());
 				optTbUserExisting.get().setTbuFirstname(requestModel.getTbUser().getTbuFirstname());
 				optTbUserExisting.get().setTbuLastname(requestModel.getTbUser().getTbuLastname());				
 				
@@ -461,7 +471,6 @@ public class UserService {
 				RestTemplate restTemplate = new RestTemplate();
 				
 				PutUpdateRequestModel putUpdateRequestModel = new PutUpdateRequestModel();
-				putUpdateRequestModel.setTbaRole(optTbUserExisting.get().getTbuRole());
 				putUpdateRequestModel.setTbaEmail(optTbUserExisting.get().getTbuEmail());
 				putUpdateRequestModel.setTbaPassword(optTbUserExisting.get().getTbuPassword());
 				putUpdateRequestModel.setTbaStatus(optTbUserExisting.get().getTbuStatus());
@@ -517,7 +526,6 @@ public class UserService {
 				RestTemplate restTemplate = new RestTemplate();
 				
 				PutUpdateRequestModel putUpdateRequestModel = new PutUpdateRequestModel();
-				putUpdateRequestModel.setTbaRole(optTbUserExisting.get().getTbuRole());
 				putUpdateRequestModel.setTbaEmail(optTbUserExisting.get().getTbuEmail());
 				putUpdateRequestModel.setTbaPassword(optTbUserExisting.get().getTbuPassword());
 				putUpdateRequestModel.setTbaStatus(optTbUserExisting.get().getTbuStatus());

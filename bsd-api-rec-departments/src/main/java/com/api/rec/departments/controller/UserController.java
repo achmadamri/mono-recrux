@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.api.rec.departments.model.user.PostConfirmationRequestModel;
+import com.api.rec.departments.model.user.PostConfirmationResponseModel;
 import com.api.rec.departments.model.user.PostUserAddRequestModel;
 import com.api.rec.departments.model.user.PostUserAddResponseModel;
 import com.api.rec.departments.model.user.PostUserChangePasswordRequestModel;
@@ -91,6 +93,20 @@ public class UserController {
 		PostUserChangePasswordResponseModel responseModel = userService.postUserChangePassword(requestModel);
 		
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getStatus().equals("403") ? HttpStatus.FORBIDDEN : (responseModel.getStatus().equals("200") ? HttpStatus.OK : HttpStatus.NOT_FOUND));
+		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
+
+		return responseEntity;
+	}
+	
+	@PostMapping("/postconfirmation")
+	@Transactional
+	public HttpEntity<?> postConfirmation(@Valid @RequestBody PostConfirmationRequestModel requestModel) throws Exception {
+		String fid = new Uid().generateString(20);
+		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
+		
+		PostConfirmationResponseModel responseModel = userService.postConfirmation(requestModel);
+		
+		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getStatus().equals("200") ? HttpStatus.OK : HttpStatus.UNAUTHORIZED);
 		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
 
 		return responseEntity;

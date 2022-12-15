@@ -1,5 +1,7 @@
 package com.api.rec.departments.service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.Optional;
 
@@ -16,6 +18,8 @@ import com.api.rec.departments.db.entity.TbUser;
 import com.api.rec.departments.db.repository.TbUserRepository;
 import com.api.rec.departments.model.auth.PostAddRequestModel;
 import com.api.rec.departments.model.auth.PutUpdateRequestModel;
+import com.api.rec.departments.model.user.PostConfirmationRequestModel;
+import com.api.rec.departments.model.user.PostConfirmationResponseModel;
 import com.api.rec.departments.model.user.PostUserAddRequestModel;
 import com.api.rec.departments.model.user.PostUserAddResponseModel;
 import com.api.rec.departments.model.user.PostUserChangePasswordRequestModel;
@@ -69,7 +73,6 @@ public class UserService {
 				tbUser.setTbuCreateId(optTbUser.get().getTbuId());
 				tbUser.setTbuStatus(TbUserRepository.Active);
 				tbUser.setTbuTokenSalt(new Uid().generateString(36));
-				tbUser.setTbuRole(requestModel.getTbUser().getTbuRole());
 				tbUserRepository.save(tbUser);
 				
 				RestTemplate restTemplate = new RestTemplate();
@@ -78,11 +81,9 @@ public class UserService {
 				postAddRequestModel.setEmail(requestModel.getEmail());
 				postAddRequestModel.setToken(requestModel.getToken());
 				postAddRequestModel.setTbaEmail(tbUser.getTbuEmail());
-				postAddRequestModel.setTbaRole(tbUser.getTbuRole());
 				postAddRequestModel.setTbaPassword(tbUser.getTbuPassword());
 				postAddRequestModel.setTbaStatus(tbUser.getTbuStatus());
 				postAddRequestModel.setTbaTokenSalt(tbUser.getTbuTokenSalt());
-				postAddRequestModel.setTbaRole(tbUser.getTbuRole());
 				HttpEntity<PostAddRequestModel> requestPostAdd = new HttpEntity<>(postAddRequestModel);
 				restTemplate.postForEntity(env.getProperty("services.bsd.api.rec.auth") + "auth/postadd", requestPostAdd, String.class);
 			}
@@ -109,16 +110,19 @@ public class UserService {
 			responseModel.setMessage("Data already exists. Email : " + requestModel.getTbUser().getTbuEmail());
 		} else {
 			TbUser tbUser = new TbUser();
-			tbUser.setTbuEmail(requestModel.getTbUser().getTbuEmail());
-			tbUser.setTbuFirstname(requestModel.getTbUser().getTbuFirstname());
-			tbUser.setTbuLastname(requestModel.getTbUser().getTbuLastname());
-			tbUser.setTbuPassword(new MD5().get(requestModel.getTbUser().getTbuPassword()));
-			tbUser.setTbuCreateDate(new Date());
-			tbUser.setTbuCreateId(null);
-			tbUser.setTbuStatus(TbUserRepository.NeedConfirmation);
-			tbUser.setTbuTokenSalt(new Uid().generateString(36));
-			tbUser.setTbuRole(requestModel.getTbUser().getTbuRole());
-			tbUserRepository.save(tbUser);
+				tbUser.setTbuEmail(requestModel.getTbUser().getTbuEmail());
+				tbUser.setTbuFirstname(requestModel.getTbUser().getTbuFirstname());
+				tbUser.setTbuLastname(requestModel.getTbUser().getTbuLastname());
+				tbUser.setTbuMobilePhone(requestModel.getTbUser().getTbuMobilePhone());
+				tbUser.setTbuPassword(requestModel.getTbUser().getTbuPassword());
+				tbUser.setTbuCreateDate(requestModel.getTbUser().getTbuCreateDate());
+				tbUser.setTbuCreateId(null);
+				tbUser.setTbuStatus(requestModel.getTbUser().getTbuStatus());
+				tbUser.setTbuType(requestModel.getTbUser().getTbuType());
+				tbUser.setTbuExpired(requestModel.getTbUser().getTbuExpired());
+				tbUser.setTbuUid(requestModel.getTbUser().getTbuUid());
+				tbUser.setTbuTokenSalt(requestModel.getTbUser().getTbuTokenSalt());
+				tbUserRepository.save(tbUser);
 		}
 		
 		responseModel.setStatus("200");
@@ -143,7 +147,6 @@ public class UserService {
 			Optional<TbUser> optTbUserExisting = tbUserRepository.findOne(Example.of(exampleTbUserExisting));
 			
 			if (optTbUserExisting.isPresent()) {
-				optTbUserExisting.get().setTbuRole(requestModel.getTbUser().getTbuRole());
 				optTbUserExisting.get().setTbuFirstname(requestModel.getTbUser().getTbuFirstname());
 				optTbUserExisting.get().setTbuLastname(requestModel.getTbUser().getTbuLastname());				
 				
@@ -158,7 +161,6 @@ public class UserService {
 				RestTemplate restTemplate = new RestTemplate();
 				
 				PutUpdateRequestModel putUpdateRequestModel = new PutUpdateRequestModel();
-				putUpdateRequestModel.setTbaRole(optTbUserExisting.get().getTbuRole());
 				putUpdateRequestModel.setTbaEmail(optTbUserExisting.get().getTbuEmail());
 				putUpdateRequestModel.setTbaPassword(optTbUserExisting.get().getTbuPassword());
 				putUpdateRequestModel.setTbaStatus(optTbUserExisting.get().getTbuStatus());
@@ -203,7 +205,6 @@ public class UserService {
 				RestTemplate restTemplate = new RestTemplate();
 				
 				PutUpdateRequestModel putUpdateRequestModel = new PutUpdateRequestModel();
-				putUpdateRequestModel.setTbaRole(optTbUserExisting.get().getTbuRole());
 				putUpdateRequestModel.setTbaEmail(optTbUserExisting.get().getTbuEmail());
 				putUpdateRequestModel.setTbaPassword(optTbUserExisting.get().getTbuPassword());
 				putUpdateRequestModel.setTbaStatus(optTbUserExisting.get().getTbuStatus());
@@ -221,6 +222,33 @@ public class UserService {
 			responseModel.setMessage("Not found");
 		}
 		
+		return responseModel;
+	}
+	
+	public PostConfirmationResponseModel postConfirmation(PostConfirmationRequestModel requestModel) {
+		PostConfirmationResponseModel responseModel = new PostConfirmationResponseModel(requestModel);
+
+		TbUser exampleTbUser = new TbUser();
+		exampleTbUser.setTbuEmail(requestModel.getEmail());
+		exampleTbUser.setTbuUid(requestModel.getTbuUid());
+		exampleTbUser.setTbuStatus(TbUserRepository.NeedConfirmation);
+		Optional<TbUser> optTbUser = tbUserRepository.findOne(Example.of(exampleTbUser));
+
+		if (optTbUser.isPresent()) {
+			optTbUser.get().setTbuUpdateDate(new Date());
+			optTbUser.get().setTbuUpdateId(0);
+			optTbUser.get().setTbuStatus(TbUserRepository.Active);
+
+			tbUserRepository.save(optTbUser.get());
+			
+			responseModel.setTbUsers(optTbUser.get());
+			responseModel.setStatus("200");
+			responseModel.setMessage(env.getProperty("service.user.postconfirmation.postconfirmation"));
+		} else {
+			responseModel.setStatus("401");
+			responseModel.setMessage(env.getProperty("service.user.postconfirmation.datanotfound"));
+		}
+
 		return responseModel;
 	}
 }

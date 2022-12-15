@@ -36,10 +36,6 @@ public class TbUser implements Serializable {
 	@Column(name="tbu_create_id")
 	private Integer tbuCreateId;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="tbu_date_of_birth")
-	private Date tbuDateOfBirth;
-
 	@Column(name="tbu_email")
 	private String tbuEmail;
 
@@ -58,12 +54,6 @@ public class TbUser implements Serializable {
 	@Column(name="tbu_photo")
 	private String tbuPhoto;
 
-	@Column(name="tbu_place_of_birth")
-	private String tbuPlaceOfBirth;
-
-	@Column(name="tbu_role")
-	private String tbuRole;
-
 	@Column(name="tbu_status")
 	private String tbuStatus;
 
@@ -79,6 +69,12 @@ public class TbUser implements Serializable {
 
 	@Column(name="tbu_update_id")
 	private Integer tbuUpdateId;
+
+	@Column(name="tbu_type")
+	private String tbuType;
+
+	@Column(name="tbu_expired")
+	private Date tbuExpired;
 
 	public TbUser() {
 	}
@@ -105,14 +101,6 @@ public class TbUser implements Serializable {
 
 	public void setTbuCreateId(Integer tbuCreateId) {
 		this.tbuCreateId = tbuCreateId;
-	}
-
-	public Date getTbuDateOfBirth() {
-		return this.tbuDateOfBirth;
-	}
-
-	public void setTbuDateOfBirth(Date tbuDateOfBirth) {
-		this.tbuDateOfBirth = tbuDateOfBirth;
 	}
 
 	public String getTbuEmail() {
@@ -163,22 +151,6 @@ public class TbUser implements Serializable {
 		this.tbuPhoto = tbuPhoto;
 	}
 
-	public String getTbuPlaceOfBirth() {
-		return this.tbuPlaceOfBirth;
-	}
-
-	public void setTbuPlaceOfBirth(String tbuPlaceOfBirth) {
-		this.tbuPlaceOfBirth = tbuPlaceOfBirth;
-	}
-
-	public String getTbuRole() {
-		return this.tbuRole;
-	}
-
-	public void setTbuRole(String tbuRole) {
-		this.tbuRole = tbuRole;
-	}
-
 	public String getTbuStatus() {
 		return this.tbuStatus;
 	}
@@ -217,6 +189,22 @@ public class TbUser implements Serializable {
 
 	public void setTbuUpdateId(Integer tbuUpdateId) {
 		this.tbuUpdateId = tbuUpdateId;
+	}
+
+	public String getTbuType() {
+		return tbuType;
+	}
+
+	public void setTbuType(String tbuType) {
+		this.tbuType = tbuType;
+	}
+
+	public Date getTbuExpired() {
+		return tbuExpired;
+	}
+
+	public void setTbuExpired(Date tbuExpired) {
+		this.tbuExpired = tbuExpired;
 	}
 
 }

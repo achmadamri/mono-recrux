@@ -41,7 +41,6 @@ public class AuthService {
 		
 		TbAuth exampleTbAuth = new TbAuth();
 		exampleTbAuth.setTbaEmail(requestModel.getTbaEmail());
-		exampleTbAuth.setTbaStatus(TbAuthRepository.Active);
 		Optional<TbAuth> optTbAuth = tbAuthRepository.findOne(Example.of(exampleTbAuth));
 		
 		optTbAuth.ifPresentOrElse(tbAuth -> {
@@ -72,15 +71,16 @@ public class AuthService {
 		TbAuth exampleTbAuth = new TbAuth();
 		exampleTbAuth.setTbaEmail(requestModel.getTbaEmail());
 		Optional<TbAuth> optTbAuth = tbAuthRepository.findOne(Example.of(exampleTbAuth));
-		optTbAuth.ifPresentOrElse(tbUser -> {
+
+		if (optTbAuth.isPresent()) {
 			responseModel.setStatus("208");
 			responseModel.setMessage("Email already exists");
-		}, () -> {
+		} else {
 			TbAuth tbAuth = new TbAuth();
 			SimpleMapper simpleMapper = new SimpleMapper();
 			tbAuth = (TbAuth) simpleMapper.assign(requestModel, tbAuth);
 			
-			tbAuth.setTbaStatus(TbAuthRepository.Active);
+			tbAuth.setTbaStatus(requestModel.getTbaStatus());
 			tbAuth.setTbaCreateDate(new Date());
 			tbAuth.setTbaCreateId(0);
 			tbAuthRepository.save(tbAuth);
@@ -89,8 +89,7 @@ public class AuthService {
 			
 			responseModel.setStatus("200");
 			responseModel.setMessage("Email added");
-		});		
-		
+		}
 		
 		return responseModel;
 	}
@@ -125,11 +124,11 @@ public class AuthService {
 				responseModel.setMessage("Auth generated");
 			} catch (Exception e) {
 				responseModel.setStatus("500");
-				responseModel.setError(e.getMessage());
+				responseModel.setMessage(e.getMessage());
 			}
 		}, () -> {
 			responseModel.setStatus("401");
-			responseModel.setError("Invalid login");
+			responseModel.setMessage("Invalid login");
 		});
 		
 		return responseModel;
@@ -148,7 +147,7 @@ public class AuthService {
 			responseModel.setMessage("Auth checked");
 		} catch (Exception e) {
 			responseModel.setStatus("500");
-			responseModel.setError(e.getMessage());
+			responseModel.setMessage(e.getMessage());
 		}
 		
 		return responseModel;

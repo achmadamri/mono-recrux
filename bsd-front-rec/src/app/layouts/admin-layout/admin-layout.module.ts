@@ -20,6 +20,12 @@ import {MatSelectModule} from '@angular/material/select';
 import { LoginComponent } from 'app/login/login.component';
 import { LogoutComponent } from 'app/logout/logout.component';
 import { RegisterComponent } from 'app/register/register.component';
+import { ConfirmationComponent } from 'app/confirmation/confirmation.component';
+import { DepartmentsComponent } from 'app/departments/departments.component';
+import { DepartmentsDetailComponent } from 'app/departments-detail/departments-detail.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   imports: [
@@ -33,12 +39,18 @@ import { RegisterComponent } from 'app/register/register.component';
     MatInputModule,
     MatSelectModule,
     MatTooltipModule,
+    MatPaginatorModule,
+    MatRadioModule,
+    MatCheckboxModule,
   ],
   declarations: [
     DashboardComponent,
     UserProfileComponent,
     LoginComponent,
     RegisterComponent,
+    DepartmentsComponent,
+    DepartmentsDetailComponent,
+    ConfirmationComponent,
     LogoutComponent,
     TableListComponent,
     TypographyComponent,
