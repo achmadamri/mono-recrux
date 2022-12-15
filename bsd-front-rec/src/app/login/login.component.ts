@@ -39,13 +39,13 @@ export class LoginComponent implements OnInit {
     this.authService.postGenerate(this.authGenerateRequest)
       .subscribe(
         successResponse => {
-          this.clicked = !this.clicked;
-
           this.authGenerateResponse = successResponse;
 
           this.util.setSession(this.authGenerateResponse);
 
           this.userGetRequest.tbuId = '';
+
+          this.util.showNotification('info', 'top', 'center', successResponse.message);
 
           this.userService.getUser(this.userGetRequest)
             .subscribe(

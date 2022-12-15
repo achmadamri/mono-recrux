@@ -121,7 +121,7 @@ public class AuthService {
 				
 				responseModel.setToken(token);
 				responseModel.setStatus("200");
-				responseModel.setMessage("Auth generated");
+				responseModel.setMessage("Login success. Redirecting...");
 			} catch (Exception e) {
 				responseModel.setStatus("500");
 				responseModel.setMessage(e.getMessage());

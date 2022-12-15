@@ -33,6 +33,8 @@ export class RegisterComponent implements OnInit {
           this.userRegisterResponse = successResponse;
 
           this.util.showNotification('info', 'top', 'center', successResponse.message);
+
+          this.router.navigate(['/login']);
         },
         errorResponse => {
           this.clicked = !this.clicked;
