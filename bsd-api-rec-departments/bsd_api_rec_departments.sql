@@ -58,6 +58,7 @@ CREATE TABLE `tb_department` (
   `tbd_update_id` int(11) DEFAULT NULL,
   `tbd_name` varchar(255) DEFAULT NULL,
   `tbd_status` varchar(20) DEFAULT NULL,
+  `tbd_uuid` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`tbd_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -115,6 +116,7 @@ CREATE TABLE `tb_job` (
   `tbj_update_id` int(11) DEFAULT NULL,
   `tbj_name` varchar(255) DEFAULT NULL,
   `tbj_status` varchar(20) DEFAULT NULL,
+  `tbj_uuid` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`tbj_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -240,4 +242,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-12-13 22:31:29
+-- Dump completed on 2022-12-15  9:45:33
