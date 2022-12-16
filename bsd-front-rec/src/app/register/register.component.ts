@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from 'app/services/user/user.service';
 import { Util } from 'app/util';
 import { Router } from '@angular/router';
-import { UserRegisterRequest } from 'app/services/user/UserRegisterrequest';
-import { UserRegisterResponse } from 'app/services/user/UserRegisterresponse';
+import { UserRegisterRequest } from 'app/services/user/userregisterrequest';
+import { UserRegisterResponse } from 'app/services/user/userregisterresponse';
 
 @Component({
   selector: 'app-register',

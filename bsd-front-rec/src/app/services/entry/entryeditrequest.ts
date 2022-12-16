@@ -1,4 +1,4 @@
-import { TbEntry } from "./tbEntry";
+import { TbEntry } from "./tbentry";
 
 export class EntryEditRequest {
     email: string;

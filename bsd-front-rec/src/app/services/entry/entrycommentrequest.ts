@@ -1,5 +1,5 @@
 import { TbComment } from "./tbcomment";
-import { TbEntry } from "./tbEntry";
+import { TbEntry } from "./tbentry";
 
 export class EntryCommentRequest {
     email: string;
