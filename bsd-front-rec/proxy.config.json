@@ -1,6 +1,6 @@
 {
     "/apiauth": {
-        "target": "http://127.0.0.1:2080",
+        "target": "http://localhost:2080",
         "secure": false,
         "logLevel": "debug",
         "changeOrigin": true,
@@ -10,7 +10,7 @@
     
     },    
     "/apidepartments": {
-        "target": "http://127.0.0.1:2082",
+        "target": "http://localhost:2082",
         "secure": false,
         "logLevel": "debug",
         "changeOrigin": true,
@@ -20,7 +20,7 @@
     
     },    
     "/apimember": {
-        "target": "http://127.0.0.1:2081",
+        "target": "http://localhost:2081",
         "secure": false,
         "logLevel": "debug",
         "changeOrigin": true,

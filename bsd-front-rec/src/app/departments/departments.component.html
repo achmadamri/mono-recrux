@@ -4,7 +4,51 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-danger">
-                        <h4 class="card-title" style="cursor:pointer" title="Click to view search" (click)="searchFormClick();">Departments</h4>
+                        <h4 class="card-title">Departments</h4>
+                    </div>
+                    <div class="card-body">                        
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>Information Technology</td>
+                                        <td>Active</td>
+                                        <td class="td-actions">                                            
+                                            <i class="material-icons" title="View" style="cursor: pointer;">visibility</i>
+                                            <i class="material-icons" title="Deactivate" style="cursor: pointer;">close</i>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>Product</td>
+                                        <td>Active</td>
+                                        <td class="td-actions">                                            
+                                            <i class="material-icons" title="View" style="cursor: pointer;">visibility</i>
+                                            <i class="material-icons" title="Deactivate" style="cursor: pointer;">close</i>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>Office</td>
+                                        <td>Deactivated</td>
+                                        <td class="td-actions">
+                                            <i class="material-icons" title="View" style="cursor: pointer;">visibility</i>
+                                            <i class="material-icons" title="Deactivate" style="cursor: pointer;">close</i>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="getPage($event)" [disabled]="clicked"></mat-paginator>
+                            <input type="button" class="btn btn-danger pull-right" value="Add" [disabled]="clicked" (click)="add();"/>
+                            <input type="button" class="btn btn-danger pull-right" value="Filter" [disabled]="clicked" (click)="searchFormClick();"/>
+                        </div>                                                
                     </div>
                     <div class="card-body" *ngIf="searchForm">
                         <form>
@@ -24,66 +68,10 @@
                                     </mat-radio-group>
                                 </div>
                             </div>
-                            <button mat-raised-button type="submit" class="btn btn-danger pull-right">Search</button>
+                            <button mat-raised-button type="submit" class="btn btn-danger pull-right" [disabled]="clicked" >Search</button>
                             <div class="clearfix"></div>
                         </form>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="getPage($event)" [disabled]="clicked"></mat-paginator>
-                            <table class="table table-hover">
-                                <thead>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Status</th>
-                                    <th></th>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>Information Technology</td>
-                                        <td>Active</td>
-                                        <td class="td-actions text-right">                                            
-                                            <button mat-raised-button type="button" class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                <i class="material-icons" title="View">visibility</i>
-                                            </button>
-                                            <button mat-raised-button type="button" class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                <i class="material-icons" title="Deactivate">close</i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>Product</td>
-                                        <td>Active</td>
-                                        <td class="td-actions text-right">                                            
-                                            <button mat-raised-button type="button" class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                <i class="material-icons" title="View">visibility</i>
-                                            </button>
-                                            <button mat-raised-button type="button" class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                <i class="material-icons" title="Deactivate">close</i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>Office</td>
-                                        <td>Deactivated</td>
-                                        <td class="td-actions text-right">
-                                            <button mat-raised-button type="button" class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                <i class="material-icons" title="View">visibility</i>
-                                            </button>
-                                            <button mat-raised-button type="button" class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                <i class="material-icons" title="Activate">check</i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="getPage($event)" [disabled]="clicked"></mat-paginator>
-                            <input type="button" class="btn btn-danger pull-right" value="Add" [disabled]="clicked" (click)="add();"/>
-                        </div>                                                
-                    </div>                    
+                    </div>                
                 </div>
             </div>
         </div>
