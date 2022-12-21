@@ -49,8 +49,8 @@ public class DepartmentService {
 		if (optTbUser.isPresent()) {
 			TbDepartment exampleTbDepartment = new TbDepartment();
 			exampleTbDepartment.setTbdCreateIdc(optTbUser.get().getTbuCreateIdc());
-			exampleTbDepartment.setTbdName(tbdName);
-			exampleTbDepartment.setTbdStatus(tbdStatus);
+			if (!tbdName.equals("")) exampleTbDepartment.setTbdName(tbdName);
+			if (!tbdStatus.equals("")) exampleTbDepartment.setTbdStatus(tbdStatus);
 
 			Page<TbDepartment> pgTbDepartment = tbDepartmentRepository.findAll(Example.of(exampleTbDepartment), PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbdId").ascending()));
 			

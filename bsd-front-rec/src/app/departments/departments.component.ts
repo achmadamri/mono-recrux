@@ -32,7 +32,7 @@ export class DepartmentsComponent implements OnInit {
   getDepartmentList(pageEvent: PageEvent) {
     this.clicked = !this.clicked;
 
-    this.departmentService.getDepartmentList(this.getDepartmentListRequest.department.tbdName, this.getDepartmentListRequest.department.tbdStatus, pageEvent != null ? pageEvent.length : this.length, pageEvent != null ? pageEvent.pageSize : this.pageSize, pageEvent != null ? pageEvent.pageIndex : this.pageIndex)
+    this.departmentService.getDepartmentList(this.getDepartmentListRequest.tbDepartment.tbdName, this.getDepartmentListRequest.tbDepartment.tbdStatus, pageEvent != null ? pageEvent.length : this.length, pageEvent != null ? pageEvent.pageSize : this.pageSize, pageEvent != null ? pageEvent.pageIndex : this.pageIndex)
       .subscribe(
         successResponse => {
           this.clicked = !this.clicked;
@@ -74,8 +74,8 @@ export class DepartmentsComponent implements OnInit {
   }
 
   clear() {
-    this.getDepartmentListRequest.department.tbdName = '';
-    this.getDepartmentListRequest.department.tbdStatus = '';
+    this.getDepartmentListRequest.tbDepartment.tbdName = '';
+    this.getDepartmentListRequest.tbDepartment.tbdStatus = '';
   }
 
 }
