@@ -70,7 +70,7 @@ export class DepartmentsComponent implements OnInit {
   }
 
   search() {
-    
+    this.getDepartmentList(null);
   }
 
   clear() {

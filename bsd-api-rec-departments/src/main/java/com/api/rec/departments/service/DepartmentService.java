@@ -36,7 +36,7 @@ public class DepartmentService {
 	@Autowired
 	private TbDepartmentRepository tbDepartmentRepository;
 
-	public GetDepartmentListResponseModel getDepartmentList(String brand, String length, String pageSize, String pageIndex, GetDepartmentListRequestModel requestModel) throws Exception {
+	public GetDepartmentListResponseModel getDepartmentList(String tbdName, String tbdStatus, String length, String pageSize, String pageIndex, GetDepartmentListRequestModel requestModel) throws Exception {
 		GetDepartmentListResponseModel responseModel = new GetDepartmentListResponseModel(requestModel);
 		
 		tokenUtil.claims(requestModel);
@@ -49,6 +49,8 @@ public class DepartmentService {
 		if (optTbUser.isPresent()) {
 			TbDepartment exampleTbDepartment = new TbDepartment();
 			exampleTbDepartment.setTbdCreateIdc(optTbUser.get().getTbuCreateIdc());
+			exampleTbDepartment.setTbdName(tbdName);
+			exampleTbDepartment.setTbdStatus(tbdStatus);
 
 			Page<TbDepartment> pgTbDepartment = tbDepartmentRepository.findAll(Example.of(exampleTbDepartment), PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbdId").ascending()));
 			

@@ -32,7 +32,7 @@ public class DepartmentController {
 	private DepartmentService departmentService;
 
 	@GetMapping("/getdepartmentlist")
-	public HttpEntity<?> getDepartmentList(@RequestParam String tbdName, @RequestParam String length, @RequestParam String pageSize, @RequestParam String pageIndex, @RequestParam String email, @RequestParam String token, @RequestParam String requestId, @RequestParam String requestDate) throws Exception {
+	public HttpEntity<?> getDepartmentList(@RequestParam String tbdName, @RequestParam String tbdStatus, @RequestParam String length, @RequestParam String pageSize, @RequestParam String pageIndex, @RequestParam String email, @RequestParam String token, @RequestParam String requestId, @RequestParam String requestDate) throws Exception {
 		GetDepartmentListRequestModel requestModel = new GetDepartmentListRequestModel();
 		requestModel.setEmail(email);
 		requestModel.setToken(token);
@@ -42,7 +42,7 @@ public class DepartmentController {
 		String fid = new Uid().generateString(20);
 		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
 		
-		GetDepartmentListResponseModel responseModel = departmentService.getDepartmentList(tbdName, length, pageSize, pageIndex, requestModel);
+		GetDepartmentListResponseModel responseModel = departmentService.getDepartmentList(tbdName, tbdStatus, length, pageSize, pageIndex, requestModel);
 		
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getStatus().equals("200") ? HttpStatus.OK : HttpStatus.NOT_FOUND);
 		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
