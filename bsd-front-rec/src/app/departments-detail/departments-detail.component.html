@@ -76,10 +76,11 @@
                             </table>
                             <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="getPage($event)" [disabled]="clicked"></mat-paginator>
                             <button mat-raised-button type="submit" class="btn btn-danger pull-right" [disabled]="clicked" (click)="back();">Back</button>
-                            <input type="button" class="btn btn-danger pull-right" value="Filter" [disabled]="clicked" (click)="searchFormClick();"/>
+                            <input type="button" class="btn btn-danger pull-right" value="Filter" [disabled]="clicked" (click)="filter();"/>
                         </div>
                     </div>
                     <div class="card-body" *ngIf="searchForm">
+                        <i class="material-icons" title="Search">search</i>
                         <form>
                             <div class="row">
                                 <div class="col-md-12">
@@ -90,14 +91,15 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12">                                                                   
-                                    <mat-radio-group name="tbpType">
+                                    <mat-radio-group aria-label="Select an option" name="tbjStatus">
                                         <mat-radio-button value="active">Active</mat-radio-button>
                                         &nbsp;
                                         <mat-radio-button value="not active">Not Active</mat-radio-button>
                                     </mat-radio-group>
                                 </div>
                             </div>
-                            <button mat-raised-button type="submit" class="btn btn-danger pull-right" [disabled]="clicked" >Search</button>
+                            <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked" (click)="search();">Search</button>
+                            <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked" (click)="clear();">Clear</button>
                             <div class="clearfix"></div>
                         </form>
                     </div>

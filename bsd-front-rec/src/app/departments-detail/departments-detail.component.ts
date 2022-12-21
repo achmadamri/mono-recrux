@@ -29,12 +29,20 @@ export class DepartmentsDetailComponent implements OnInit {
   getPage(pageEvent: PageEvent) {    
   }
 
-  searchFormClick() {
+  back() {
+    this.router.navigate(['/departments']);
+  }
+
+  filter() {
     this.searchForm = !this.searchForm;
   }
 
-  back() {
-    this.router.navigate(['/departments']);
+  search() {
+    
+  }
+
+  clear() {
+    
   }
 
 }

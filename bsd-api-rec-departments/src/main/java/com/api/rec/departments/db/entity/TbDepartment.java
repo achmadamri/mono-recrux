@@ -49,6 +49,12 @@ public class TbDepartment implements Serializable {
 	@Column(name="tbd_update_id")
 	private Integer tbdUpdateId;
 
+	@Column(name="tbd_create_idc")
+	private Integer tbdCreateIdc;
+
+	@Column(name="tbd_uuid")
+	private String tbdUuid;
+
 	public TbDepartment() {
 	}
 
@@ -106,6 +112,22 @@ public class TbDepartment implements Serializable {
 
 	public void setTbdUpdateId(Integer tbdUpdateId) {
 		this.tbdUpdateId = tbdUpdateId;
+	}
+
+	public Integer getTbdCreateIdc() {
+		return tbdCreateIdc;
+	}
+
+	public void setTbdCreateIdc(Integer tbdCreateIdc) {
+		this.tbdCreateIdc = tbdCreateIdc;
+	}
+
+	public String getTbdUuid() {
+		return tbdUuid;
+	}
+
+	public void setTbdUuid(String tbdUuid) {
+		this.tbdUuid = tbdUuid;
 	}
 
 }

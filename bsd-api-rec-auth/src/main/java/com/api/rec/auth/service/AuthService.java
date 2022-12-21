@@ -105,7 +105,8 @@ public class AuthService {
 
 		optTbAuthByEmail.ifPresentOrElse(tbAuth -> {
 			String token = tokenUtil.generate(optTbAuthByEmail.get().getTbaEmail(), new String[] {
-					env.getProperty("services.bsd.api.rec.member")
+					env.getProperty("services.bsd.api.rec.member"),
+					env.getProperty("services.bsd.api.rec.departments")
 			}, requestModel.getRemember() == null ? false : (requestModel.getRemember().equals("true") ? true : false));
 			
 			tbAuth.setTbaUpdateDate(new Date());
