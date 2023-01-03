@@ -20,9 +20,6 @@ export class DepartmentService {
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json');
 
-    console.log('tbdName: ' + tbdName);
-    console.log('tbdStatus: ' + tbdStatus);
-
     const params = new HttpParams()
       .set('requestId', this.util.randomString(10))
       .set('requestDate', ((new Date(Date.now() - ((new Date()).getTimezoneOffset() * 60000))).toISOString().slice(0, -1)) + '000')

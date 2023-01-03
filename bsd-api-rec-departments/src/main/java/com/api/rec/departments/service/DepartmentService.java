@@ -54,23 +54,43 @@ public class DepartmentService {
 		Optional<TbUser> optTbUser = tbUserRepository.findOne(Example.of(exampleTbUser));
 
 		if (optTbUser.isPresent()) {
-			TbDepartment exampleTbDepartment = new TbDepartment();
-			exampleTbDepartment.setTbdName(requestModel.getTbDepartment().getTbdName());
-			Optional<TbDepartment> optTbDepartment = tbDepartmentRepository.findOne(Example.of(exampleTbDepartment));
-			
-			if (optTbDepartment.isPresent()) {
-				responseModel.setHttpStatus(HttpStatus.ALREADY_REPORTED);
+			if (requestModel.getTbDepartment().getTbdUuid().equals("0")) {
+				TbDepartment exampleTbDepartment = new TbDepartment();
+				exampleTbDepartment.setTbdName(requestModel.getTbDepartment().getTbdName());
+				Optional<TbDepartment> optTbDepartment = tbDepartmentRepository.findOne(Example.of(exampleTbDepartment));
+				
+				if (optTbDepartment.isPresent()) {
+					responseModel.setHttpStatus(HttpStatus.ALREADY_REPORTED);
+				} else {
+					TbDepartment tbDepartment = new TbDepartment();
+					tbDepartment = requestModel.getTbDepartment();
+					tbDepartment.setTbdCreateId(optTbUser.get().getTbuId());
+					tbDepartment.setTbdCreateDate(new Date());
+					tbDepartment.setTbdStatus(TbDepartmentRepository.Active);
+					tbDepartment.setTbdUuid(new Uid().generateString(5));
+					tbDepartment = tbDepartmentRepository.save(tbDepartment);
+	
+					responseModel.setTbDepartment(tbDepartment);
+					responseModel.setHttpStatus(HttpStatus.OK);
+				}
 			} else {
-				TbDepartment tbDepartment = new TbDepartment();
-				tbDepartment = requestModel.getTbDepartment();
-				tbDepartment.setTbdCreateId(optTbUser.get().getTbuId());
-				tbDepartment.setTbdCreateDate(new Date());
-				tbDepartment.setTbdStatus(TbDepartmentRepository.Active);
-				tbDepartment.setTbdUuid(new Uid().generateString(5));
-				tbDepartment = tbDepartmentRepository.save(tbDepartment);
-
-				responseModel.setTbDepartment(tbDepartment);
-				responseModel.setHttpStatus(HttpStatus.OK);
+				TbDepartment exampleTbDepartment = new TbDepartment();
+				exampleTbDepartment.setTbdUuid(requestModel.getTbDepartment().getTbdUuid());
+				Optional<TbDepartment> optTbDepartment = tbDepartmentRepository.findOne(Example.of(exampleTbDepartment));
+				
+				if (optTbDepartment.isPresent()) {
+					TbDepartment tbDepartment = optTbDepartment.get();
+					tbDepartment.setTbdUpdateId(optTbUser.get().getTbuId());
+					tbDepartment.setTbdUpdateDate(new Date());
+					tbDepartment.setTbdName(requestModel.getTbDepartment().getTbdName());
+					tbDepartment.setTbdStatus(requestModel.getTbDepartment().getTbdStatus());
+					tbDepartment = tbDepartmentRepository.save(tbDepartment);
+	
+					responseModel.setTbDepartment(tbDepartment);
+					responseModel.setHttpStatus(HttpStatus.OK);
+				} else {
+					responseModel.setHttpStatus(HttpStatus.NOT_FOUND);
+				}
 			}
 		} else {
 			responseModel.setHttpStatus(HttpStatus.UNAUTHORIZED);

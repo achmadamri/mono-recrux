@@ -21,7 +21,7 @@
                                         <td>{{tbDepartment.tbdName}}</td>
                                         <td>{{tbDepartment.tbdStatus}}</td>
                                         <td class="td-actions">
-                                            <i class="material-icons" title="View" style="cursor: pointer;">visibility</i>
+                                            <i class="material-icons" title="View" style="cursor: pointer;" [routerLink]="['/departments', tbDepartment.tbdUuid]">visibility</i>
                                             <i class="material-icons" title="Deactivate" style="cursor: pointer;">close</i>
                                         </td>
                                     </tr>

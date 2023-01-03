@@ -6,6 +6,7 @@ import { PostAddDepartmentRequest } from 'app/services/department/postadddepartm
 import { PostAddDepartmentResponse } from 'app/services/department/postadddepartmentresponse';
 import { GetDepartmentRequest } from 'app/services/department/getdepartmentrequest';
 import { GetDepartmentResponse } from 'app/services/department/getdepartmentresponse';
+import { Util } from 'app/util';
 
 @Component({
   selector: 'app-departments-detail',
@@ -14,14 +15,14 @@ import { GetDepartmentResponse } from 'app/services/department/getdepartmentresp
 export class DepartmentsDetailComponent implements OnInit {
   searchForm = false;
   clicked = false;
+  util: Util = new Util();
   length = 100;
   pageSize = 5;
   pageIndex = 0;
   pageSizeOptions: number[] = [5, 10, 25, 100];
   pageEvent: PageEvent;
   pageDisabled: boolean = false;
-  btnUpdate: boolean = false;
-  btnSave: boolean = false;
+  saveUpdate: string = '';
   postAddDepartmentRequest: PostAddDepartmentRequest = new PostAddDepartmentRequest();
   postAddDepartmentResponse: PostAddDepartmentResponse = new PostAddDepartmentResponse();
   getDepartmentRequest: GetDepartmentRequest = new GetDepartmentRequest();
@@ -31,9 +32,9 @@ export class DepartmentsDetailComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      this.postAddDepartmentRequest.tbDepartment.tbdUuid = params.get('tbdUuid') == null ? '' : params.get('tbdUuid');
+      this.postAddDepartmentRequest.tbDepartment.tbdUuid = params.get('tbdUuid');
 
-      if (this.postAddDepartmentRequest.tbDepartment.tbdUuid ) {
+      if (this.postAddDepartmentRequest.tbDepartment.tbdUuid != '0') {
         this.departmentService.getDepartment(this.postAddDepartmentRequest.tbDepartment.tbdUuid)
         .subscribe(
           successResponse => {
@@ -48,11 +49,9 @@ export class DepartmentsDetailComponent implements OnInit {
           }
         );
 
-        this.btnUpdate = true;
-        this.btnSave = false;
+        this.saveUpdate = 'Update';
       } else {
-        this.btnUpdate = false;
-        this.btnSave = true;
+        this.saveUpdate = 'Save';
       }
     });
   }
@@ -76,34 +75,20 @@ export class DepartmentsDetailComponent implements OnInit {
     
   }
 
-  update() {
+  saveupdate() {
+    this.clicked = !this.clicked;
+
     this.departmentService.postAddDepartment(this.postAddDepartmentRequest)
     .subscribe(
       successResponse => {
         this.clicked = !this.clicked;
-
-        this.postAddDepartmentResponse = successResponse;   
+        this.postAddDepartmentResponse = successResponse;
+        this.util.showNotification('info', 'top', 'center', successResponse.message);
       },
       errorResponse => {
         this.clicked = !this.clicked;
-        
         this.postAddDepartmentResponse = new PostAddDepartmentResponse();
-      }
-    );
-  }
-
-  save() {
-    this.departmentService.postAddDepartment(this.postAddDepartmentRequest)
-    .subscribe(
-      successResponse => {
-        this.clicked = !this.clicked;
-
-        this.postAddDepartmentResponse = successResponse;   
-      },
-      errorResponse => {
-        this.clicked = !this.clicked;
-        
-        this.postAddDepartmentResponse = new PostAddDepartmentResponse();
+        this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
       }
     );
   }
