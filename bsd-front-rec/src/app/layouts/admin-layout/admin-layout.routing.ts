@@ -72,6 +72,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'register', component: RegisterComponent },
     { path: 'confirmation', component: ConfirmationComponent },
     { path: 'departments', component: DepartmentsComponent, canActivate: [AuthGuard] },
-    { path: 'departments/:tbdId', component: DepartmentsDetailComponent, canActivate: [AuthGuard] },
+    { path: 'departments/:tbdUuid', component: DepartmentsDetailComponent, canActivate: [AuthGuard] },
     { path: 'logout', component: LogoutComponent },
 ];

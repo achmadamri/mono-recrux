@@ -11,20 +11,21 @@
                             <div class="row">
                                 <div class="col-md-12">
                                   <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="Name" type="text">
+                                    <input matInput placeholder="Name" type="text" [(ngModel)]="postAddDepartmentRequest.tbDepartment.tbdName">
                                   </mat-form-field>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <mat-radio-group aria-label="Status" name="tbpType">
+                                    <mat-radio-group aria-label="Status" name="tbpType" [(ngModel)]="postAddDepartmentRequest.tbDepartment.tbdStatus" name="tbpType">
                                         <mat-radio-button value="active">Active</mat-radio-button>
                                         &nbsp;
                                         <mat-radio-button value="not active">Not Active</mat-radio-button>
                                     </mat-radio-group>
                                 </div>
                             </div>
-                            <button mat-raised-button type="submit" class="btn btn-danger pull-right">Update</button>
+                            <button mat-raised-button type="submit" class="btn btn-danger pull-right" *ngIf="btnUpdate" (click)="update();">Update</button>
+                            <button mat-raised-button type="submit" class="btn btn-danger pull-right" *ngIf="btnSave" (click)="save();">Save</button>
                             <div class="clearfix"></div>
                         </form>
                     </div>

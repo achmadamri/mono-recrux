@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
+import org.springframework.http.HttpStatus;
+
 public class ResponseModel {
 	
 	public ResponseModel(RequestModel requestModel) {
@@ -39,6 +41,16 @@ public class ResponseModel {
 	private String error;
 	
 	private String message;
+
+	private HttpStatus httpStatus;
+
+	public HttpStatus getHttpStatus() {
+		return httpStatus;
+	}
+
+	public void setHttpStatus(HttpStatus httpStatus) {
+		this.httpStatus = httpStatus;
+	}
 	
 	public String getRequestId() {
 		return requestId;

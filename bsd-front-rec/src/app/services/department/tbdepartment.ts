@@ -7,5 +7,5 @@ export class TbDepartment {
 	tbdUpdateDate: string;
 	tbdUpdateId: number;
 	tbuCreateIdc: number;
-	tbdUuid: number;
+	tbdUuid: string;
 }

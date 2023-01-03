@@ -1,5 +1,6 @@
 package com.api.rec.departments.service;
 
+import java.util.Date;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.api.rec.departments.db.entity.TbDepartment;
@@ -18,7 +20,12 @@ import com.api.rec.departments.db.repository.TbDepartmentRepository;
 import com.api.rec.departments.db.repository.TbUserRepository;
 import com.api.rec.departments.model.department.GetDepartmentListRequestModel;
 import com.api.rec.departments.model.department.GetDepartmentListResponseModel;
+import com.api.rec.departments.model.department.GetDepartmentRequestModel;
+import com.api.rec.departments.model.department.GetDepartmentResponseModel;
+import com.api.rec.departments.model.department.PostAddDepartmentRequestModel;
+import com.api.rec.departments.model.department.PostAddDepartmentResponseModel;
 import com.api.rec.departments.util.TokenUtil;
+import com.api.rec.departments.util.Uid;
 
 @Service
 public class DepartmentService {
@@ -35,6 +42,71 @@ public class DepartmentService {
 
 	@Autowired
 	private TbDepartmentRepository tbDepartmentRepository;
+
+	public PostAddDepartmentResponseModel postAddDepartment(PostAddDepartmentRequestModel requestModel) throws Exception {
+		PostAddDepartmentResponseModel responseModel = new PostAddDepartmentResponseModel(requestModel);
+		
+		tokenUtil.claims(requestModel);
+		
+		TbUser exampleTbUser = new TbUser();
+		exampleTbUser.setTbuEmail(requestModel.getEmail());
+		exampleTbUser.setTbuStatus(TbUserRepository.Active);
+		Optional<TbUser> optTbUser = tbUserRepository.findOne(Example.of(exampleTbUser));
+
+		if (optTbUser.isPresent()) {
+			TbDepartment exampleTbDepartment = new TbDepartment();
+			exampleTbDepartment.setTbdName(requestModel.getTbDepartment().getTbdName());
+			Optional<TbDepartment> optTbDepartment = tbDepartmentRepository.findOne(Example.of(exampleTbDepartment));
+			
+			if (optTbDepartment.isPresent()) {
+				responseModel.setHttpStatus(HttpStatus.ALREADY_REPORTED);
+			} else {
+				TbDepartment tbDepartment = new TbDepartment();
+				tbDepartment = requestModel.getTbDepartment();
+				tbDepartment.setTbdCreateId(optTbUser.get().getTbuId());
+				tbDepartment.setTbdCreateDate(new Date());
+				tbDepartment.setTbdStatus(TbDepartmentRepository.Active);
+				tbDepartment.setTbdUuid(new Uid().generateString(5));
+				tbDepartment = tbDepartmentRepository.save(tbDepartment);
+
+				responseModel.setTbDepartment(tbDepartment);
+				responseModel.setHttpStatus(HttpStatus.OK);
+			}
+		} else {
+			responseModel.setHttpStatus(HttpStatus.UNAUTHORIZED);
+		}
+		
+		return responseModel;
+	}
+
+	public GetDepartmentResponseModel getDepartment(String tbdUuid, GetDepartmentRequestModel requestModel) throws Exception {
+		GetDepartmentResponseModel responseModel = new GetDepartmentResponseModel(requestModel);
+		
+		tokenUtil.claims(requestModel);
+		
+		TbUser exampleTbUser = new TbUser();
+		exampleTbUser.setTbuEmail(requestModel.getEmail());
+		exampleTbUser.setTbuStatus(TbUserRepository.Active);
+		Optional<TbUser> optTbUser = tbUserRepository.findOne(Example.of(exampleTbUser));
+		
+		if (optTbUser.isPresent()) {
+			TbDepartment exampleTbDepartment = new TbDepartment();
+			exampleTbDepartment.setTbdUuid(tbdUuid);
+			exampleTbDepartment.setTbdCreateId(optTbUser.get().getTbuId());
+			Optional<TbDepartment> optTbDepartment = tbDepartmentRepository.findOne(Example.of(exampleTbDepartment));
+			
+			if (optTbDepartment.isPresent()) {
+				responseModel.setTbDepartment(optTbDepartment.get());
+				responseModel.setHttpStatus(HttpStatus.OK);
+			} else {
+				responseModel.setHttpStatus(HttpStatus.NOT_FOUND);
+			}
+		} else {
+			responseModel.setHttpStatus(HttpStatus.UNAUTHORIZED);
+		}
+		
+		return responseModel;
+	}
 
 	public GetDepartmentListResponseModel getDepartmentList(String tbdName, String tbdStatus, String length, String pageSize, String pageIndex, GetDepartmentListRequestModel requestModel) throws Exception {
 		GetDepartmentListResponseModel responseModel = new GetDepartmentListResponseModel(requestModel);
@@ -56,16 +128,13 @@ public class DepartmentService {
 			
 			if (pgTbDepartment.toList().size() > 0) {
 				responseModel.setLstTbDepartment(pgTbDepartment.toList());				
-				responseModel.setLength(tbDepartmentRepository.count(Example.of(exampleTbDepartment)));				
-				responseModel.setStatus("200");				
-				responseModel.setMessage(env.getProperty("service.department.getdepartmentlist.200"));
+				responseModel.setLength(tbDepartmentRepository.count(Example.of(exampleTbDepartment)));
+				responseModel.setHttpStatus(HttpStatus.OK);
 			} else {
-				responseModel.setStatus("404");				
-				responseModel.setMessage(env.getProperty("service.department.getdepartmentlist.404"));
+				responseModel.setHttpStatus(HttpStatus.NOT_FOUND);
 			}
 		} else {
-			responseModel.setStatus("401");			
-			responseModel.setMessage(env.getProperty("service.department.getdepartmentlist.401"));
+			responseModel.setHttpStatus(HttpStatus.UNAUTHORIZED);
 		}
 		
 		return responseModel;
