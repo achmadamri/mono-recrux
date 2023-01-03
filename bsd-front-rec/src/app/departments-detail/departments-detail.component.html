@@ -4,7 +4,7 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header card-header-danger">
-                        <h4 class="card-title">Department Information Technology</h4>
+                        <h4 class="card-title">Department {{postAddDepartmentRequest.tbDepartment.tbdName}}</h4>
                     </div>
                     <div class="card-body">
                         <form>
@@ -15,7 +15,7 @@
                                   </mat-form-field>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" *ngIf="saveUpdate == 'Update'">
                                 <div class="col-md-12">
                                     <mat-radio-group aria-label="Status" name="tbpType" [(ngModel)]="postAddDepartmentRequest.tbDepartment.tbdStatus" name="tbpType">
                                         <mat-radio-button value="active">Active</mat-radio-button>

@@ -65,9 +65,10 @@ public class DepartmentService {
 					TbDepartment tbDepartment = new TbDepartment();
 					tbDepartment = requestModel.getTbDepartment();
 					tbDepartment.setTbdCreateId(optTbUser.get().getTbuId());
+					tbDepartment.setTbdCreateIdc(optTbUser.get().getTbuCreateIdc());
 					tbDepartment.setTbdCreateDate(new Date());
 					tbDepartment.setTbdStatus(TbDepartmentRepository.Active);
-					tbDepartment.setTbdUuid(new Uid().generateString(5));
+					tbDepartment.setTbdUuid(new Uid().generateString(5).toUpperCase());
 					tbDepartment = tbDepartmentRepository.save(tbDepartment);
 	
 					responseModel.setTbDepartment(tbDepartment);
