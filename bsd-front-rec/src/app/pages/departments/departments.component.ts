@@ -11,7 +11,7 @@ import { GetDepartmentRequest } from 'app/services/department/getdepartmentreque
 import { GetDepartmentResponse } from 'app/services/department/getdepartmentresponse';
 
 @Component({
-  selector: 'app-departments',
+  selector: 'app-pages-departments',
   templateUrl: './departments.component.html'
 })
 export class DepartmentsComponent implements OnInit {

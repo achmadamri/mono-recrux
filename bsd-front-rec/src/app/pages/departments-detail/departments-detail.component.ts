@@ -9,7 +9,7 @@ import { GetDepartmentResponse } from 'app/services/department/getdepartmentresp
 import { Util } from 'app/util';
 
 @Component({
-  selector: 'app-departments-detail',
+  selector: 'app-pages-departments-detail',
   templateUrl: './departments-detail.component.html'
 })
 export class DepartmentsDetailComponent implements OnInit {

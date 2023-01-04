@@ -8,7 +8,7 @@
             "^/apiauth": ""
         }
     
-    },    
+    },
     "/apidepartments": {
         "target": "http://localhost:2082",
         "secure": false,
@@ -18,7 +18,7 @@
             "^/apidepartments": ""
         }
     
-    },    
+    },
     "/apimember": {
         "target": "http://localhost:2081",
         "secure": false,

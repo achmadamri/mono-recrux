@@ -13,8 +13,8 @@ import { AuthGuard } from 'app/auth.guard';
 import { LogoutComponent } from 'app/logout/logout.component';
 import { RegisterComponent } from 'app/register/register.component';
 import { ConfirmationComponent } from 'app/confirmation/confirmation.component';
-import { DepartmentsComponent } from 'app/departments/departments.component';
-import { DepartmentsDetailComponent } from 'app/departments-detail/departments-detail.component';
+import { DepartmentsComponent } from 'app/pages/departments/departments.component';
+import { DepartmentsDetailComponent } from 'app/pages/departments-detail/departments-detail.component';
 
 export const AdminLayoutRoutes: Routes = [
     // {
