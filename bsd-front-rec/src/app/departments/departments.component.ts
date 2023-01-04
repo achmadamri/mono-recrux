@@ -5,6 +5,10 @@ import { Util } from 'app/util';
 import { GetDepartmentListRequest } from 'app/services/department/getdepartmentlistrequest';
 import { GetDepartmentListResponse } from 'app/services/department/getDepartmentlistresponse';
 import { DepartmentService } from 'app/services/department/department.service';
+import { PostAddDepartmentRequest } from 'app/services/department/postadddepartmentrequest';
+import { PostAddDepartmentResponse } from 'app/services/department/postadddepartmentresponse';
+import { GetDepartmentRequest } from 'app/services/department/getdepartmentrequest';
+import { GetDepartmentResponse } from 'app/services/department/getdepartmentresponse';
 
 @Component({
   selector: 'app-departments',
@@ -22,6 +26,10 @@ export class DepartmentsComponent implements OnInit {
   util: Util = new Util();
   getDepartmentListRequest: GetDepartmentListRequest = new GetDepartmentListRequest();
   getDepartmentListResponse: GetDepartmentListResponse = new GetDepartmentListResponse();
+  postAddDepartmentRequest: PostAddDepartmentRequest = new PostAddDepartmentRequest();
+  postAddDepartmentResponse: PostAddDepartmentResponse = new PostAddDepartmentResponse();
+  getDepartmentRequest: GetDepartmentRequest = new GetDepartmentRequest();
+  getDepartmentResponse: GetDepartmentResponse = new GetDepartmentResponse();
 
   constructor(private router: Router, private departmentService: DepartmentService) { }
 
@@ -32,13 +40,13 @@ export class DepartmentsComponent implements OnInit {
   getDepartmentList(pageEvent: PageEvent) {
     this.clicked = !this.clicked;
 
+    this.pageEvent = pageEvent;
+
     this.departmentService.getDepartmentList(this.getDepartmentListRequest.tbDepartment.tbdName, this.getDepartmentListRequest.tbDepartment.tbdStatus, pageEvent != null ? pageEvent.length : this.length, pageEvent != null ? pageEvent.pageSize : this.pageSize, pageEvent != null ? pageEvent.pageIndex : this.pageIndex)
       .subscribe(
         successResponse => {
           this.clicked = !this.clicked;
-
           this.getDepartmentListResponse = successResponse;
-
           this.length = this.getDepartmentListResponse.length;
 
           if (pageEvent != null) {
@@ -49,10 +57,9 @@ export class DepartmentsComponent implements OnInit {
         },
         errorResponse => {
           this.length = 0;
-
           this.clicked = !this.clicked;
-          
           this.getDepartmentListResponse = new GetDepartmentListResponse();
+          this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
         }
       );
   }
@@ -63,6 +70,50 @@ export class DepartmentsComponent implements OnInit {
 
   add() {
     this.router.navigate(['/departments/0']);
+  }
+
+  edit(tbdUuid: string) {
+    this.router.navigate(['/departments/' + tbdUuid]);
+  }
+
+  nonActive(tbdUuid: string) {
+    this.clicked = !this.clicked;
+
+    this.departmentService.getDepartment(tbdUuid)
+    .subscribe(
+      successResponse => {
+        this.getDepartmentResponse = successResponse;
+
+        if (this.getDepartmentResponse.tbDepartment.tbdStatus == 'active') {
+          this.getDepartmentResponse.tbDepartment.tbdStatus = 'not active';
+        } else {
+          this.getDepartmentResponse.tbDepartment.tbdStatus = 'active';
+        }
+
+        this.postAddDepartmentRequest.tbDepartment = this.getDepartmentResponse.tbDepartment;
+
+        this.departmentService.postAddDepartment(this.postAddDepartmentRequest)
+        .subscribe(
+          successResponse => {
+            this.clicked = !this.clicked;
+            this.postAddDepartmentResponse = successResponse;
+            this.util.showNotification('info', 'top', 'center', successResponse.message);
+
+            this.getDepartmentList(this.pageEvent);
+          },
+          errorResponse => {
+            this.clicked = !this.clicked;
+            this.postAddDepartmentResponse = new PostAddDepartmentResponse();
+            this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
+          }
+        );
+      },
+      errorResponse => {
+        this.clicked = !this.clicked;
+        this.getDepartmentResponse = new GetDepartmentResponse();
+        this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
+      }
+    );
   }
 
   filter() {

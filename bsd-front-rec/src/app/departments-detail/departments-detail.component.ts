@@ -46,6 +46,7 @@ export class DepartmentsDetailComponent implements OnInit {
           },
           errorResponse => {            
             this.getDepartmentResponse = new GetDepartmentResponse();
+            this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
           }
         );
 
