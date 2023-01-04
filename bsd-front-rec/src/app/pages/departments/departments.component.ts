@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { PageEvent } from '@angular/material/paginator';
 import { Util } from 'app/util';
 import { GetDepartmentListRequest } from 'app/services/department/getdepartmentlistrequest';
-import { GetDepartmentListResponse } from 'app/services/department/getDepartmentlistresponse';
+import { GetDepartmentListResponse } from 'app/services/department/getdepartmentlistresponse';
 import { DepartmentService } from 'app/services/department/department.service';
 import { PostAddDepartmentRequest } from 'app/services/department/postadddepartmentrequest';
 import { PostAddDepartmentResponse } from 'app/services/department/postadddepartmentresponse';

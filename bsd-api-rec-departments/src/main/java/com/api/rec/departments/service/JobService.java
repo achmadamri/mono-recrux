@@ -100,7 +100,7 @@ public class JobService {
 		return responseModel;
 	}
 
-	public GetJobResponseModel getJob(String tbdUuid, GetJobRequestModel requestModel) throws Exception {
+	public GetJobResponseModel getJob(String tbjUuid, GetJobRequestModel requestModel) throws Exception {
 		GetJobResponseModel responseModel = new GetJobResponseModel(requestModel);
 		
 		tokenUtil.claims(requestModel);
@@ -112,7 +112,7 @@ public class JobService {
 		
 		if (optTbUser.isPresent()) {
 			TbJob exampleTbJob = new TbJob();
-			exampleTbJob.setTbjUuid(tbdUuid);
+			exampleTbJob.setTbjUuid(tbjUuid);
 			exampleTbJob.setTbjCreateId(optTbUser.get().getTbuId());
 			Optional<TbJob> optTbJob = tbJobRepository.findOne(Example.of(exampleTbJob));
 			
@@ -129,7 +129,7 @@ public class JobService {
 		return responseModel;
 	}
 
-	public GetJobListResponseModel getJobList(String tbdName, String tbdStatus, String length, String pageSize, String pageIndex, GetJobListRequestModel requestModel) throws Exception {
+	public GetJobListResponseModel getJobList(String tbjName, String tbjStatus, String length, String pageSize, String pageIndex, GetJobListRequestModel requestModel) throws Exception {
 		GetJobListResponseModel responseModel = new GetJobListResponseModel(requestModel);
 		
 		tokenUtil.claims(requestModel);
@@ -142,10 +142,10 @@ public class JobService {
 		if (optTbUser.isPresent()) {
 			TbJob exampleTbJob = new TbJob();
 			exampleTbJob.setTbjCreateIdc(optTbUser.get().getTbuCreateIdc());
-			if (!tbdName.equals("")) exampleTbJob.setTbjName(tbdName);
-			if (!tbdStatus.equals("")) exampleTbJob.setTbjStatus(tbdStatus);
+			if (!tbjName.equals("")) exampleTbJob.setTbjName(tbjName);
+			if (!tbjStatus.equals("")) exampleTbJob.setTbjStatus(tbjStatus);
 
-			Page<TbJob> pgTbJob = tbJobRepository.findAll(Example.of(exampleTbJob), PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbdId").ascending()));
+			Page<TbJob> pgTbJob = tbJobRepository.findAll(Example.of(exampleTbJob), PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbjId").ascending()));
 			
 			if (pgTbJob.toList().size() > 0) {
 				responseModel.setLstTbJob(pgTbJob.toList());				

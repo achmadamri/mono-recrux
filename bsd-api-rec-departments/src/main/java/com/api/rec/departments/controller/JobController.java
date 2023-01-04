@@ -53,7 +53,7 @@ public class JobController {
 	}
 
 	@GetMapping("/getjoblist")
-	public HttpEntity<?> getJobList(@RequestParam String tbdName, @RequestParam String tbdStatus, @RequestParam String length, @RequestParam String pageSize, @RequestParam String pageIndex, @RequestParam String email, @RequestParam String token, @RequestParam String requestId, @RequestParam String requestDate) throws Exception {
+	public HttpEntity<?> getJobList(@RequestParam String tbjName, @RequestParam String tbjStatus, @RequestParam String length, @RequestParam String pageSize, @RequestParam String pageIndex, @RequestParam String email, @RequestParam String token, @RequestParam String requestId, @RequestParam String requestDate) throws Exception {
 		GetJobListRequestModel requestModel = new GetJobListRequestModel();
 		requestModel.setEmail(email);
 		requestModel.setToken(token);
@@ -63,7 +63,7 @@ public class JobController {
 		String fid = new Uid().generateString(20);
 		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
 		
-		GetJobListResponseModel responseModel = jobService.getJobList(tbdName, tbdStatus, length, pageSize, pageIndex, requestModel);
+		GetJobListResponseModel responseModel = jobService.getJobList(tbjName, tbjStatus, length, pageSize, pageIndex, requestModel);
 		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
 
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
@@ -73,7 +73,7 @@ public class JobController {
 	}
 
 	@GetMapping("/getjob")
-	public HttpEntity<?> getJob(@RequestParam String tbdUuid, @RequestParam String email, @RequestParam String token, @RequestParam String requestId, @RequestParam String requestDate) throws Exception {
+	public HttpEntity<?> getJob(@RequestParam String tbjUuid, @RequestParam String email, @RequestParam String token, @RequestParam String requestId, @RequestParam String requestDate) throws Exception {
 		GetJobRequestModel requestModel = new GetJobRequestModel();
 		requestModel.setEmail(email);
 		requestModel.setToken(token);
@@ -83,7 +83,7 @@ public class JobController {
 		String fid = new Uid().generateString(20);
 		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
 		
-		GetJobResponseModel responseModel = jobService.getJob(tbdUuid, requestModel);
+		GetJobResponseModel responseModel = jobService.getJob(tbjUuid, requestModel);
 		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
 		
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());

@@ -15,6 +15,7 @@ import { RegisterComponent } from 'app/register/register.component';
 import { ConfirmationComponent } from 'app/confirmation/confirmation.component';
 import { DepartmentsComponent } from 'app/pages/departments/departments.component';
 import { DepartmentsDetailComponent } from 'app/pages/departments-detail/departments-detail.component';
+import { JobsComponent } from 'app/pages/jobs/jobs.component';
 
 export const AdminLayoutRoutes: Routes = [
     // {
@@ -73,5 +74,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'confirmation', component: ConfirmationComponent },
     { path: 'departments', component: DepartmentsComponent, canActivate: [AuthGuard] },
     { path: 'departments/:tbdUuid', component: DepartmentsDetailComponent, canActivate: [AuthGuard] },
+    { path: 'jobs', component: JobsComponent, canActivate: [AuthGuard] },
     { path: 'logout', component: LogoutComponent },
 ];

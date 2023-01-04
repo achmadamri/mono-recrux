@@ -26,6 +26,7 @@ import { DepartmentsDetailComponent } from 'app/pages/departments-detail/departm
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { JobsComponent } from 'app/pages/jobs/jobs.component';
 
 @NgModule({
   imports: [
@@ -49,6 +50,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     LoginComponent,
     RegisterComponent,
     DepartmentsComponent,
+    JobsComponent,
     DepartmentsDetailComponent,
     ConfirmationComponent,
     LogoutComponent,

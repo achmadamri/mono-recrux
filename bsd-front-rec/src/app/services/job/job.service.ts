@@ -32,7 +32,7 @@ export class JobService {
       .set('tbjStatus', tbjStatus  == null ? '' : tbjStatus)
       ;
 
-    return this.httpClient.get<GetJobListResponse>(`${this.apiUrl}/getdepartmentlist`, { headers, params });
+    return this.httpClient.get<GetJobListResponse>(`${this.apiUrl}/getjoblist`, { headers, params });
   }
 
   postAddJob(postAddJobRequest: PostAddJobRequest): Observable<PostAddJobResponse> {
@@ -44,7 +44,7 @@ export class JobService {
     postAddJobRequest.requestId = this.util.randomString(10);
     postAddJobRequest.requestDate = ((new Date(Date.now() - ((new Date()).getTimezoneOffset() * 60000))).toISOString().slice(0, -1)) + '000';
 
-    return this.httpClient.post<PostAddJobResponse>(`${this.apiUrl}/postadddepartment`, postAddJobRequest, { headers });
+    return this.httpClient.post<PostAddJobResponse>(`${this.apiUrl}/postaddjob`, postAddJobRequest, { headers });
   }
 
   getJob(tbjUuid: string): Observable<GetJobResponse> {
@@ -59,6 +59,6 @@ export class JobService {
       .set('tbjUuid', tbjUuid)
       ;
 
-    return this.httpClient.get<GetJobResponse>(`${this.apiUrl}/getdepartment`, { headers, params });
+    return this.httpClient.get<GetJobResponse>(`${this.apiUrl}/getjob`, { headers, params });
   }
 }

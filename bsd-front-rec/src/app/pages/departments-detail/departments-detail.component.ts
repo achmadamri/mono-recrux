@@ -7,6 +7,9 @@ import { PostAddDepartmentResponse } from 'app/services/department/postadddepart
 import { GetDepartmentRequest } from 'app/services/department/getdepartmentrequest';
 import { GetDepartmentResponse } from 'app/services/department/getdepartmentresponse';
 import { Util } from 'app/util';
+import { GetJobListRequest } from 'app/services/job/getjoblistrequest';
+import { GetJobListResponse } from 'app/services/job/getjoblistresponse';
+import { JobService } from 'app/services/job/job.service';
 
 @Component({
   selector: 'app-pages-departments-detail',
@@ -27,8 +30,10 @@ export class DepartmentsDetailComponent implements OnInit {
   postAddDepartmentResponse: PostAddDepartmentResponse = new PostAddDepartmentResponse();
   getDepartmentRequest: GetDepartmentRequest = new GetDepartmentRequest();
   getDepartmentResponse: GetDepartmentResponse = new GetDepartmentResponse();
+  getJobListRequest: GetJobListRequest = new GetJobListRequest();
+  getJobListResponse: GetJobListResponse = new GetJobListResponse();
 
-  constructor(private route: ActivatedRoute, private router: Router, private departmentService: DepartmentService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private departmentService: DepartmentService, private jobService: JobService) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
@@ -51,13 +56,43 @@ export class DepartmentsDetailComponent implements OnInit {
         );
 
         this.saveUpdate = 'Update';
+
+        this.getJobList(null);
       } else {
         this.saveUpdate = 'Save';
       }
     });
   }
 
-  getPage(pageEvent: PageEvent) {    
+  getJobList(pageEvent: PageEvent) {
+    this.clicked = !this.clicked;
+
+    this.pageEvent = pageEvent;
+
+    this.jobService.getJobList(this.getJobListRequest.tbJob.tbjName, this.getJobListRequest.tbJob.tbjStatus, pageEvent != null ? pageEvent.length : this.length, pageEvent != null ? pageEvent.pageSize : this.pageSize, pageEvent != null ? pageEvent.pageIndex : this.pageIndex)
+      .subscribe(
+        successResponse => {
+          this.clicked = !this.clicked;
+          this.getJobListResponse = successResponse;
+          this.length = this.getJobListResponse.length;
+
+          if (pageEvent != null) {
+            this.length = pageEvent.length;
+            this.pageSize = pageEvent.pageSize;
+            this.pageIndex = pageEvent.pageIndex;
+          }          
+        },
+        errorResponse => {
+          this.length = 0;
+          this.clicked = !this.clicked;
+          this.getJobListResponse = new GetJobListResponse();
+          this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
+        }
+      );
+  }
+
+  getPage(pageEvent: PageEvent) {
+    this.getJobList(pageEvent);
   }
 
   back() {
