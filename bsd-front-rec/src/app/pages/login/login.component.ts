@@ -22,7 +22,11 @@ export class LoginComponent implements OnInit {
   userGetRequest: UserGetRequest = new UserGetRequest();
   userGetResponse: UserGetResponse = new UserGetResponse();
 
-  constructor(private router: Router, private authService: AuthService, private userService: UserService) { }
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private userService: UserService
+  ) { }
 
   ngOnInit() {
   }

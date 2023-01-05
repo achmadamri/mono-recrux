@@ -2,9 +2,9 @@ export class TbDepartmentJob {
 	tbdjId: number;
 	tbdjCreateDate: string;
 	tbdjCreateId: number;
-	tbuCreateIdc: number;
-	tbdUpdateDate: string;
-	tbdUpdateId: number;
+	tbdjCreateIdc: number;
+	tbdjUpdateDate: string;
+	tbdjUpdateId: number;
 	tbdjStatus: string;
 	tbdjUuid: string;
 	tbdId: number;

@@ -10,6 +10,8 @@ import { Util } from 'app/util';
 import { GetJobDepartmentListRequest } from 'app/services/job/getjobdepartmentlistrequest';
 import { GetJobDepartmentListResponse } from 'app/services/job/getjobdepartmentlistresponse';
 import { JobService } from 'app/services/job/job.service';
+import { PostAddDepartmentJobRequest } from 'app/services/department/postadddepartmentjobrequest';
+import { PostAddDepartmentJobResponse } from 'app/services/department/postadddepartmentjobresponse';
 
 @Component({
   selector: 'app-pages-departments-detail',
@@ -32,8 +34,15 @@ export class DepartmentsDetailComponent implements OnInit {
   getDepartmentResponse: GetDepartmentResponse = new GetDepartmentResponse();
   getJobDepartmentListRequest: GetJobDepartmentListRequest = new GetJobDepartmentListRequest();
   getJobDepartmentListResponse: GetJobDepartmentListResponse = new GetJobDepartmentListResponse();
+  postAddDepartmentJobRequest: PostAddDepartmentJobRequest = new PostAddDepartmentJobRequest();
+  postAddDepartmentJobResponse: PostAddDepartmentJobResponse = new PostAddDepartmentJobResponse();
 
-  constructor(private route: ActivatedRoute, private router: Router, private departmentService: DepartmentService, private jobService: JobService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private departmentService: DepartmentService,
+    private jobService: JobService
+  ) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
@@ -123,6 +132,38 @@ export class DepartmentsDetailComponent implements OnInit {
         this.clicked = !this.clicked;
         this.postAddDepartmentResponse = successResponse;
         this.util.showNotification('info', 'top', 'center', successResponse.message);
+      },
+      errorResponse => {
+        this.clicked = !this.clicked;
+        this.postAddDepartmentResponse = new PostAddDepartmentResponse();
+        this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
+      }
+    );
+  }
+
+  setUnset(tbdUuid: string, tbjUuid: string, tbdjUuid: string, tbdjStatus: string) {
+    this.clicked = !this.clicked;
+
+    if (tbdUuid == undefined) {
+      this.postAddDepartmentJobRequest.tbDepartment.tbdUuid = this.postAddDepartmentRequest.tbDepartment.tbdUuid;
+    } else {
+      this.postAddDepartmentJobRequest.tbDepartment.tbdUuid = tbdUuid;
+    }
+        
+    this.postAddDepartmentJobRequest.tbJob.tbjUuid = tbjUuid;
+    this.postAddDepartmentJobRequest.tbDepartmentJob.tbdjUuid = tbdjUuid;
+    this.postAddDepartmentJobRequest.tbDepartmentJob.tbdjStatus = tbdjStatus;
+
+    console.log(this.postAddDepartmentJobRequest);
+
+    this.departmentService.postAddDepartmentJob(this.postAddDepartmentJobRequest)
+    .subscribe(
+      successResponse => {
+        this.clicked = !this.clicked;
+        this.postAddDepartmentJobResponse = successResponse;
+        this.util.showNotification('info', 'top', 'center', successResponse.message);
+
+        this.getJobDepartmentList(this.pageEvent);
       },
       errorResponse => {
         this.clicked = !this.clicked;

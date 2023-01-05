@@ -31,7 +31,10 @@ export class JobsComponent implements OnInit {
   getJobRequest: GetJobRequest = new GetJobRequest();
   getJobResponse: GetJobResponse = new GetJobResponse();
 
-  constructor(private router: Router, private jobService: JobService) { }
+  constructor(
+    private router: Router,
+    private jobService: JobService
+  ) { }
 
   ngOnInit() {
     this.getJobList(null);

@@ -31,7 +31,10 @@ export class DepartmentsComponent implements OnInit {
   getDepartmentRequest: GetDepartmentRequest = new GetDepartmentRequest();
   getDepartmentResponse: GetDepartmentResponse = new GetDepartmentResponse();
 
-  constructor(private router: Router, private departmentService: DepartmentService) { }
+  constructor(
+    private router: Router,
+    private departmentService: DepartmentService
+  ) { }
 
   ngOnInit() {
     this.getDepartmentList(null);

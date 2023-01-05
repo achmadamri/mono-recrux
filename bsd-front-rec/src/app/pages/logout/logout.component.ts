@@ -9,7 +9,9 @@ import { Router } from '@angular/router';
 export class LogoutComponent implements OnInit {
   util: Util = new Util();
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.util.logout();

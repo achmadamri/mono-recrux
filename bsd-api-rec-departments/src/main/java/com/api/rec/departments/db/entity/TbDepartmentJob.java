@@ -17,6 +17,7 @@ public class TbDepartmentJob implements Serializable {
 
 	@Id
 	@Column(name="tbdj_id")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer tbdjId;
 
 	@Column(name="tbd_id")

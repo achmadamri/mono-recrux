@@ -25,6 +25,14 @@ public interface ViewJobDepartmentRepository extends JpaRepository<ViewJobDepart
 		"    tbj.tbj_name as tbj_name, " +
 		"    tbj.tbj_status as tbj_status, " +
 		"    tbj.tbj_uuid as tbj_uuid, " +
+		"    tbdj.tbdj_id, " +
+		"    tbdj.tbdj_create_date as tbdj_create_date, " +
+		"    tbdj.tbdj_create_id as tbdj_create_id, " +
+		"    tbdj.tbdj_create_idc as tbdj_create_idc, " +
+		"    tbdj.tbdj_update_date as tbdj_update_date, " +
+		"    tbdj.tbdj_update_id as tbdj_update_id, " +
+		"    tbdj.tbdj_status as tbdj_status, " +
+		"    tbdj.tbdj_uuid as tbdj_uuid, " +
 		"    tbd.tbd_id as tbd_id, " +
 		"    tbd.tbd_create_date as tbd_create_date, " +
 		"    tbd.tbd_create_id as tbd_create_id, " +

@@ -18,7 +18,8 @@ export class ConfirmationComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private userService: UserService) { }
+    private userService: UserService
+  ) { }
 
   ngOnInit() {
     let uuid: string;

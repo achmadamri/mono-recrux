@@ -8,6 +8,14 @@ export class ViewJobDepartment {
 	tbdUpdateDate: string;
 	tbdUpdateId: number;
 	tbdUuid: string;
+	tbdjId: number;
+	tbdjCreateDate: string;
+	tbdjCreateId: number;
+	tbdjCreateIdc: number;
+	tbdjUpdateDate: string;
+	tbdjUpdateId: number;
+	tbdjStatus: string;
+	tbdjUuid: string;
 	tbjCreateDate: string;
 	tbjCreateId: number;
 	tbjCreateIdc: number;

@@ -85,6 +85,7 @@ public class JobService {
 			} else {
 				TbJob exampleTbJob = new TbJob();
 				exampleTbJob.setTbjUuid(requestModel.getTbJob().getTbjUuid());
+				exampleTbJob.setTbjCreateIdc(optTbUser.get().getTbuCreateIdc());
 				Optional<TbJob> optTbJob = tbJobRepository.findOne(Example.of(exampleTbJob));
 				
 				if (optTbJob.isPresent()) {

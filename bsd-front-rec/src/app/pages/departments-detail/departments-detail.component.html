@@ -53,8 +53,8 @@
                                         <td>{{viewJobDepartment.tbjStatus}}</td>
                                         <td class="td-actions">
                                             <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(viewJobDepartment.tbjUuid);"><mat-icon>pageview</mat-icon></button>
-                                            <button mat-icon-button title="Set" [disabled]="clicked" (click)="setUnset(viewJobDepartment.tbjUuid);" *ngIf="viewJobDepartment.tbdId == undefined"><mat-icon>check</mat-icon></button>
-                                            <button mat-icon-button title="Unset" [disabled]="clicked" (click)="setUnset(viewJobDepartment.tbjUuid);" *ngIf="viewJobDepartment.tbdId != undefined"><mat-icon>close</mat-icon></button>
+                                            <button mat-icon-button title="Set" [disabled]="clicked" (click)="setUnset(viewJobDepartment.tbdUuid, viewJobDepartment.tbjUuid, viewJobDepartment.tbdjUuid, 'active');" *ngIf="viewJobDepartment.tbdjStatus == undefined || viewJobDepartment.tbdjStatus == 'not active'"><mat-icon>check</mat-icon></button>
+                                            <button mat-icon-button title="Unset" [disabled]="clicked" (click)="setUnset(viewJobDepartment.tbdUuid, viewJobDepartment.tbjUuid, viewJobDepartment.tbdjUuid, 'not active');" *ngIf="viewJobDepartment.tbdjStatus == 'active'"><mat-icon>close</mat-icon></button>
                                         </td>
                                     </tr>
                                 </tbody>
