@@ -52,7 +52,7 @@
                                         <td>{{viewJobDepartment.tbjUuid}}</td>
                                         <td>{{viewJobDepartment.tbjName}}</td>
                                         <td>{{viewJobDepartment.tbjStatus}}</td>
-                                        <td>{{viewJobDepartment.tbdjStatus == undefined ? '-' : viewJobDepartment.tbdjStatus}}</td>
+                                        <td>{{viewJobDepartment.tbdjStatus == undefined ? 'not active' : viewJobDepartment.tbdjStatus}}</td>
                                         <td class="td-actions">
                                             <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(viewJobDepartment.tbjUuid);"><mat-icon>pageview</mat-icon></button>
                                             <button mat-icon-button title="Set" [disabled]="clicked" (click)="setUnset(viewJobDepartment.tbdUuid, viewJobDepartment.tbjUuid, viewJobDepartment.tbdjUuid, 'active');" *ngIf="viewJobDepartment.tbdjStatus == undefined || viewJobDepartment.tbdjStatus == 'not active'"><mat-icon>check</mat-icon></button>
