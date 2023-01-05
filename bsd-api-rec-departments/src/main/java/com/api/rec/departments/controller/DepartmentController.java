@@ -19,6 +19,8 @@ import com.api.rec.departments.model.department.GetDepartmentListRequestModel;
 import com.api.rec.departments.model.department.GetDepartmentListResponseModel;
 import com.api.rec.departments.model.department.GetDepartmentRequestModel;
 import com.api.rec.departments.model.department.GetDepartmentResponseModel;
+import com.api.rec.departments.model.department.PostAddDepartmentJobRequestModel;
+import com.api.rec.departments.model.department.PostAddDepartmentJobResponseModel;
 import com.api.rec.departments.model.department.PostAddDepartmentRequestModel;
 import com.api.rec.departments.model.department.PostAddDepartmentResponseModel;
 import com.api.rec.departments.service.DepartmentService;
@@ -37,6 +39,20 @@ public class DepartmentController {
 
 	@Autowired
 	private DepartmentService departmentService;
+
+	@PostMapping("/postadddepartmentjob")
+	public HttpEntity<?> postAddDepartmentJob(@Valid @RequestBody PostAddDepartmentJobRequestModel requestModel) throws Exception {		
+		String fid = new Uid().generateString(20);
+		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
+		
+		PostAddDepartmentJobResponseModel responseModel = departmentService.postAddDepartmentJob(requestModel);
+		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
+		
+		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
+		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
+
+		return responseEntity;
+	}
 
 	@PostMapping("/postadddepartment")
 	public HttpEntity<?> postAddDepartment(@Valid @RequestBody PostAddDepartmentRequestModel requestModel) throws Exception {		

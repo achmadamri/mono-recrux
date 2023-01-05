@@ -15,13 +15,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.api.rec.departments.db.entity.TbDepartment;
+import com.api.rec.departments.db.entity.TbDepartmentJob;
 import com.api.rec.departments.db.entity.TbUser;
+import com.api.rec.departments.db.repository.TbDepartmentJobRepository;
 import com.api.rec.departments.db.repository.TbDepartmentRepository;
 import com.api.rec.departments.db.repository.TbUserRepository;
 import com.api.rec.departments.model.department.GetDepartmentListRequestModel;
 import com.api.rec.departments.model.department.GetDepartmentListResponseModel;
 import com.api.rec.departments.model.department.GetDepartmentRequestModel;
 import com.api.rec.departments.model.department.GetDepartmentResponseModel;
+import com.api.rec.departments.model.department.PostAddDepartmentJobRequestModel;
+import com.api.rec.departments.model.department.PostAddDepartmentJobResponseModel;
 import com.api.rec.departments.model.department.PostAddDepartmentRequestModel;
 import com.api.rec.departments.model.department.PostAddDepartmentResponseModel;
 import com.api.rec.departments.util.TokenUtil;
@@ -42,6 +46,9 @@ public class DepartmentService {
 
 	@Autowired
 	private TbDepartmentRepository tbDepartmentRepository;
+
+	@Autowired
+	private TbDepartmentJobRepository tbDepartmentJobRepository;
 
 	public PostAddDepartmentResponseModel postAddDepartment(PostAddDepartmentRequestModel requestModel) throws Exception {
 		PostAddDepartmentResponseModel responseModel = new PostAddDepartmentResponseModel(requestModel);
@@ -88,6 +95,62 @@ public class DepartmentService {
 					tbDepartment = tbDepartmentRepository.save(tbDepartment);
 	
 					responseModel.setTbDepartment(tbDepartment);
+					responseModel.setHttpStatus(HttpStatus.OK);
+				} else {
+					responseModel.setHttpStatus(HttpStatus.NOT_FOUND);
+				}
+			}
+		} else {
+			responseModel.setHttpStatus(HttpStatus.UNAUTHORIZED);
+		}
+		
+		return responseModel;
+	}
+
+	public PostAddDepartmentJobResponseModel postAddDepartmentJob(PostAddDepartmentJobRequestModel requestModel) throws Exception {
+		PostAddDepartmentJobResponseModel responseModel = new PostAddDepartmentJobResponseModel(requestModel);
+		
+		tokenUtil.claims(requestModel);
+		
+		TbUser exampleTbUser = new TbUser();
+		exampleTbUser.setTbuEmail(requestModel.getEmail());
+		exampleTbUser.setTbuStatus(TbUserRepository.Active);
+		Optional<TbUser> optTbUser = tbUserRepository.findOne(Example.of(exampleTbUser));
+
+		if (optTbUser.isPresent()) {
+			if (requestModel.getTbDepartmentJob().getTbdjUuid().equals("0")) {
+				TbDepartmentJob exampleTbDepartmentJob = new TbDepartmentJob();
+				exampleTbDepartmentJob.setTbdjUuid(requestModel.getTbDepartmentJob().getTbdjUuid());
+				Optional<TbDepartmentJob> optTbDepartmentJob = tbDepartmentJobRepository.findOne(Example.of(exampleTbDepartmentJob));
+				
+				if (optTbDepartmentJob.isPresent()) {
+					responseModel.setHttpStatus(HttpStatus.ALREADY_REPORTED);
+				} else {
+					TbDepartmentJob tbDepartmentJob = new TbDepartmentJob();
+					tbDepartmentJob = requestModel.getTbDepartmentJob();
+					tbDepartmentJob.setTbdjCreateId(optTbUser.get().getTbuId());
+					tbDepartmentJob.setTbdjCreateIdc(optTbUser.get().getTbuCreateIdc());
+					tbDepartmentJob.setTbdjCreateDate(new Date());
+					tbDepartmentJob.setTbdjStatus(TbDepartmentJobRepository.Active);
+					tbDepartmentJob.setTbdjUuid(new Uid().generateString(5).toUpperCase());
+					tbDepartmentJob = tbDepartmentJobRepository.save(tbDepartmentJob);
+	
+					responseModel.setTbDepartmentJob(tbDepartmentJob);
+					responseModel.setHttpStatus(HttpStatus.OK);
+				}
+			} else {
+				TbDepartmentJob exampleTbDepartmentJob = new TbDepartmentJob();
+				exampleTbDepartmentJob.setTbdjUuid(requestModel.getTbDepartmentJob().getTbdjUuid());
+				Optional<TbDepartmentJob> optTbDepartmentJob = tbDepartmentJobRepository.findOne(Example.of(exampleTbDepartmentJob));
+				
+				if (optTbDepartmentJob.isPresent()) {
+					TbDepartmentJob tbDepartmentJob = optTbDepartmentJob.get();
+					tbDepartmentJob.setTbdjUpdateId(optTbUser.get().getTbuId());
+					tbDepartmentJob.setTbdjUpdateDate(new Date());
+					tbDepartmentJob.setTbdjStatus(requestModel.getTbDepartmentJob().getTbdjStatus());
+					tbDepartmentJob = tbDepartmentJobRepository.save(tbDepartmentJob);
+	
+					responseModel.setTbDepartmentJob(tbDepartmentJob);
 					responseModel.setHttpStatus(HttpStatus.OK);
 				} else {
 					responseModel.setHttpStatus(HttpStatus.NOT_FOUND);

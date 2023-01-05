@@ -42,14 +42,17 @@ public class TbDepartmentJob implements Serializable {
 	@Column(name="tbj_id")
 	private Integer tbjId;
 
-	@Column(name="tbjt_status")
-	private String tbjtStatus;
+	@Column(name="tbdj_status")
+	private String tbdjStatus;
+
+	@Column(name="tbdj_uuid")
+	private String tbdjUuid;
 
 	public TbDepartmentJob() {
 	}
 
 	public Integer getTbdjId() {
-		return this.tbdjId;
+		return tbdjId;
 	}
 
 	public void setTbdjId(Integer tbdjId) {
@@ -57,7 +60,7 @@ public class TbDepartmentJob implements Serializable {
 	}
 
 	public Integer getTbdId() {
-		return this.tbdId;
+		return tbdId;
 	}
 
 	public void setTbdId(Integer tbdId) {
@@ -65,7 +68,7 @@ public class TbDepartmentJob implements Serializable {
 	}
 
 	public Date getTbdjCreateDate() {
-		return this.tbdjCreateDate;
+		return tbdjCreateDate;
 	}
 
 	public void setTbdjCreateDate(Date tbdjCreateDate) {
@@ -73,7 +76,7 @@ public class TbDepartmentJob implements Serializable {
 	}
 
 	public Integer getTbdjCreateId() {
-		return this.tbdjCreateId;
+		return tbdjCreateId;
 	}
 
 	public void setTbdjCreateId(Integer tbdjCreateId) {
@@ -81,7 +84,7 @@ public class TbDepartmentJob implements Serializable {
 	}
 
 	public Integer getTbdjCreateIdc() {
-		return this.tbdjCreateIdc;
+		return tbdjCreateIdc;
 	}
 
 	public void setTbdjCreateIdc(Integer tbdjCreateIdc) {
@@ -89,7 +92,7 @@ public class TbDepartmentJob implements Serializable {
 	}
 
 	public Date getTbdjUpdateDate() {
-		return this.tbdjUpdateDate;
+		return tbdjUpdateDate;
 	}
 
 	public void setTbdjUpdateDate(Date tbdjUpdateDate) {
@@ -97,7 +100,7 @@ public class TbDepartmentJob implements Serializable {
 	}
 
 	public Integer getTbdjUpdateId() {
-		return this.tbdjUpdateId;
+		return tbdjUpdateId;
 	}
 
 	public void setTbdjUpdateId(Integer tbdjUpdateId) {
@@ -105,19 +108,27 @@ public class TbDepartmentJob implements Serializable {
 	}
 
 	public Integer getTbjId() {
-		return this.tbjId;
+		return tbjId;
 	}
 
 	public void setTbjId(Integer tbjId) {
 		this.tbjId = tbjId;
 	}
 
-	public String getTbjtStatus() {
-		return this.tbjtStatus;
+	public String getTbdjStatus() {
+		return tbdjStatus;
 	}
 
-	public void setTbjtStatus(String tbjtStatus) {
-		this.tbjtStatus = tbjtStatus;
+	public void setTbdjStatus(String tbdjStatus) {
+		this.tbdjStatus = tbdjStatus;
+	}
+
+	public String getTbdjUuid() {
+		return tbdjUuid;
+	}
+
+	public void setTbdjUuid(String tbdjUuid) {
+		this.tbdjUuid = tbdjUuid;
 	}
 
 }
