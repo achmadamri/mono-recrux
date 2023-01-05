@@ -59,8 +59,6 @@ export class DepartmentsDetailComponent implements OnInit {
             this.postAddDepartmentRequest.tbDepartment.tbdName = this.getDepartmentResponse.tbDepartment.tbdName;
             this.postAddDepartmentRequest.tbDepartment.tbdStatus = this.getDepartmentResponse.tbDepartment.tbdStatus;
 
-            console.log(this.postAddDepartmentRequest);
-
             this.getJobDepartmentList(null);
           },
           errorResponse => {            
@@ -116,11 +114,12 @@ export class DepartmentsDetailComponent implements OnInit {
   }
 
   search() {
-    
+    this.getJobDepartmentList(null);
   }
 
   clear() {
-    
+    this.getJobDepartmentListRequest.viewJobDepartment.tbjName = '';
+    this.getJobDepartmentListRequest.viewJobDepartment.tbjStatus = '';
   }
 
   saveupdate() {
@@ -154,8 +153,6 @@ export class DepartmentsDetailComponent implements OnInit {
     this.postAddDepartmentJobRequest.tbJob.tbjUuid = tbjUuid;
     this.postAddDepartmentJobRequest.tbDepartmentJob.tbdjUuid = tbdjUuid;
     this.postAddDepartmentJobRequest.tbDepartmentJob.tbdjStatus = tbdjStatus;
-
-    console.log(this.postAddDepartmentJobRequest);
 
     this.departmentService.postAddDepartmentJob(this.postAddDepartmentJobRequest)
     .subscribe(

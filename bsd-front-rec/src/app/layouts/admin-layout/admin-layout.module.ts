@@ -28,6 +28,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { JobsComponent } from 'app/pages/jobs/jobs.component';
 import { MatIconModule } from '@angular/material/icon';
+import { JobsDetailComponent } from 'app/pages/jobs-detail/jobs-detail.component';
 
 @NgModule({
   imports: [
@@ -54,6 +55,7 @@ import { MatIconModule } from '@angular/material/icon';
     DepartmentsComponent,
     JobsComponent,
     DepartmentsDetailComponent,
+    JobsDetailComponent,
     ConfirmationComponent,
     LogoutComponent,
     TableListComponent,
