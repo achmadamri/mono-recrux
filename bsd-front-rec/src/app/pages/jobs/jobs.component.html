@@ -23,7 +23,7 @@
                                         <td>{{tbJob.tbjName}}</td>
                                         <td>{{tbJob.tbjStatus}}</td>
                                         <td class="td-actions">
-                                            <i class="material-icons" title="View" style="cursor: pointer;" (click)="edit(tbJob.tbjUuid);">visibility</i>
+                                            <i class="material-icons" title="View" style="cursor: pointer;" (click)="edit(tbJob.tbjUuid);">pageview</i>
                                             <i class="material-icons" title="Activate" style="cursor: pointer;" (click)="nonActive(tbJob.tbjUuid);" *ngIf="tbJob.tbjStatus == 'not active'">check</i>
                                             <i class="material-icons" title="Deactivate" style="cursor: pointer;" (click)="nonActive(tbJob.tbjUuid);" *ngIf="tbJob.tbjStatus == 'active'">close</i>
                                         </td>

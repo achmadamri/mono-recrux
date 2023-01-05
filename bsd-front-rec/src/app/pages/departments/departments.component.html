@@ -23,7 +23,7 @@
                                         <td>{{tbDepartment.tbdName}}</td>
                                         <td>{{tbDepartment.tbdStatus}}</td>
                                         <td class="td-actions">
-                                            <i class="material-icons" title="View" style="cursor: pointer;" (click)="edit(tbDepartment.tbdUuid);">visibility</i>
+                                            <i class="material-icons" title="View" style="cursor: pointer;" (click)="edit(tbDepartment.tbdUuid);">pageview</i>
                                             <i class="material-icons" title="Activate" style="cursor: pointer;" (click)="nonActive(tbDepartment.tbdUuid);" *ngIf="tbDepartment.tbdStatus == 'not active'">check</i>
                                             <i class="material-icons" title="Deactivate" style="cursor: pointer;" (click)="nonActive(tbDepartment.tbdUuid);" *ngIf="tbDepartment.tbdStatus == 'active'">close</i>
                                         </td>
