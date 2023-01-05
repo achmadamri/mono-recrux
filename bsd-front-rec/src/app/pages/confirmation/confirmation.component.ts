@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../services/user/user.service';
-import { UserConfirmationRequest } from '../services/user/userconfirmationrequest';
-import { UserConfirmationResponse } from '../services/user/userconfirmationresponse';
+import { UserService } from '../../services/user/user.service';
+import { UserConfirmationRequest } from '../../services/user/userconfirmationrequest';
+import { UserConfirmationResponse } from '../../services/user/userconfirmationresponse';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { Util } from '../util';
+import { Util } from '../../util';
 
 @Component({
   selector: 'app-confirmation',

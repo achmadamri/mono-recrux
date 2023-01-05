@@ -52,9 +52,9 @@
                                         <td>{{viewJobDepartment.tbjName}}</td>
                                         <td>{{viewJobDepartment.tbjStatus}}</td>
                                         <td class="td-actions">
-                                            <i class="material-icons" title="View" style="cursor: pointer;" (click)="edit(viewJobDepartment.tbjUuid);">pageview</i>
-                                            <i class="material-icons" title="Set" style="cursor: pointer;" (click)="setUnset(viewJobDepartment.tbjUuid);" *ngIf="viewJobDepartment.tbdId == undefined">check</i>
-                                            <i class="material-icons" title="Unset" style="cursor: pointer;" (click)="setUnset(viewJobDepartment.tbjUuid);" *ngIf="viewJobDepartment.tbdId != undefined">close</i>
+                                            <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(viewJobDepartment.tbjUuid);"><mat-icon>pageview</mat-icon></button>
+                                            <button mat-icon-button title="Set" [disabled]="clicked" (click)="setUnset(viewJobDepartment.tbjUuid);" *ngIf="viewJobDepartment.tbdId == undefined"><mat-icon>check</mat-icon></button>
+                                            <button mat-icon-button title="Unset" [disabled]="clicked" (click)="setUnset(viewJobDepartment.tbjUuid);" *ngIf="viewJobDepartment.tbdId != undefined"><mat-icon>close</mat-icon></button>
                                         </td>
                                     </tr>
                                 </tbody>

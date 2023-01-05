@@ -17,16 +17,17 @@ import {MatRippleModule} from '@angular/material/core';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSelectModule} from '@angular/material/select';
-import { LoginComponent } from 'app/login/login.component';
-import { LogoutComponent } from 'app/logout/logout.component';
-import { RegisterComponent } from 'app/register/register.component';
-import { ConfirmationComponent } from 'app/confirmation/confirmation.component';
+import { LoginComponent } from 'app/pages/login/login.component';
+import { LogoutComponent } from 'app/pages/logout/logout.component';
+import { RegisterComponent } from 'app/pages/register/register.component';
+import { ConfirmationComponent } from 'app/pages/confirmation/confirmation.component';
 import { DepartmentsComponent } from 'app/pages/departments/departments.component';
 import { DepartmentsDetailComponent } from 'app/pages/departments-detail/departments-detail.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { JobsComponent } from 'app/pages/jobs/jobs.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   imports: [
@@ -43,6 +44,7 @@ import { JobsComponent } from 'app/pages/jobs/jobs.component';
     MatPaginatorModule,
     MatRadioModule,
     MatCheckboxModule,
+    MatIconModule,
   ],
   declarations: [
     DashboardComponent,
