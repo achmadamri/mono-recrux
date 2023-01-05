@@ -6,6 +6,7 @@ import { GetJobListResponse } from './getjoblistresponse';
 import { PostAddJobRequest } from './postaddjobrequest';
 import { PostAddJobResponse } from './postaddjobresponse';
 import { GetJobResponse } from './getjobresponse';
+import { GetJobDepartmentListResponse } from './getjobdepartmentlistresponse';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,26 @@ export class JobService {
   apiUrl = isDevMode() ? '/apidepartments/job' : 'https://domain.com/2082/job';
 
   constructor(private httpClient: HttpClient) { }
+  
+  getJobDepartmentList(tbdId: number, tbjName: string, tbjStatus: string, length: number, pageSize: number, pageIndex: number): Observable<GetJobDepartmentListResponse> {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json');
+
+    const params = new HttpParams()
+      .set('requestId', this.util.randomString(10))
+      .set('requestDate', ((new Date(Date.now() - ((new Date()).getTimezoneOffset() * 60000))).toISOString().slice(0, -1)) + '000')
+      .set('email', localStorage.getItem('email'))
+      .set('token', localStorage.getItem('token'))
+      .set('length', length.toString())
+      .set('pageSize', pageSize.toString())
+      .set('pageIndex', pageIndex.toString())
+      .set('tbdId', tbdId)
+      .set('tbjName', tbjName == null ? '' : tbjName)
+      .set('tbjStatus', tbjStatus  == null ? '' : tbjStatus)
+      ;
+
+    return this.httpClient.get<GetJobDepartmentListResponse>(`${this.apiUrl}/getjobdepartmentlist`, { headers, params });
+  }
   
   getJobList(tbjName: string, tbjStatus: string, length: number, pageSize: number, pageIndex: number): Observable<GetJobListResponse> {
     const headers = new HttpHeaders()

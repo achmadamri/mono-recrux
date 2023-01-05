@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.rec.departments.model.job.PostAddJobResponseModel;
+import com.api.rec.departments.model.job.GetJobDepartmentListRequestModel;
+import com.api.rec.departments.model.job.GetJobDepartmentListResponseModel;
 import com.api.rec.departments.model.job.GetJobListRequestModel;
 import com.api.rec.departments.model.job.GetJobListResponseModel;
 import com.api.rec.departments.model.job.GetJobRequestModel;
@@ -64,6 +66,26 @@ public class JobController {
 		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
 		
 		GetJobListResponseModel responseModel = jobService.getJobList(tbjName, tbjStatus, length, pageSize, pageIndex, requestModel);
+		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
+
+		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
+		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
+
+		return responseEntity;
+	}
+
+	@GetMapping("/getjobdepartmentlist")
+	public HttpEntity<?> getJobDepartmentList(@RequestParam Integer tbdId, @RequestParam String tbjName, @RequestParam String tbjStatus, @RequestParam String length, @RequestParam String pageSize, @RequestParam String pageIndex, @RequestParam String email, @RequestParam String token, @RequestParam String requestId, @RequestParam String requestDate) throws Exception {
+		GetJobDepartmentListRequestModel requestModel = new GetJobDepartmentListRequestModel();
+		requestModel.setEmail(email);
+		requestModel.setToken(token);
+		requestModel.setRequestId(requestId);
+		requestModel.setRequestDate(requestDate);
+		
+		String fid = new Uid().generateString(20);
+		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
+		
+		GetJobDepartmentListResponseModel responseModel = jobService.getJobDepartmentList(tbdId, tbjName, tbjStatus, length, pageSize, pageIndex, requestModel);
 		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
 
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());

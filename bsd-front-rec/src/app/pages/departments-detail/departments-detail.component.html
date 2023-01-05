@@ -46,15 +46,15 @@
                                     <th>Action</th>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let tbJob of getJobListResponse.lstTbJob; let i=index;">
+                                    <tr *ngFor="let viewJobDepartment of getJobDepartmentListResponse.lstViewJobDepartment; let i=index;">
                                         <td>{{i + 1 + (pageSize * pageIndex)}}</td>
-                                        <td>{{tbJob.tbjUuid}}</td>
-                                        <td>{{tbJob.tbjName}}</td>
-                                        <td>{{tbJob.tbjStatus}}</td>
+                                        <td>{{viewJobDepartment.tbjUuid}}</td>
+                                        <td>{{viewJobDepartment.tbjName}}</td>
+                                        <td>{{viewJobDepartment.tbjStatus}}</td>
                                         <td class="td-actions">
-                                            <i class="material-icons" title="View" style="cursor: pointer;" (click)="edit(tbJob.tbjUuid);">visibility</i>
-                                            <i class="material-icons" title="Activate" style="cursor: pointer;" (click)="nonActive(tbJob.tbjUuid);" *ngIf="tbJob.tbjStatus == 'not active'">check</i>
-                                            <i class="material-icons" title="Deactivate" style="cursor: pointer;" (click)="nonActive(tbJob.tbjUuid);" *ngIf="tbJob.tbjStatus == 'active'">close</i>
+                                            <i class="material-icons" title="View" style="cursor: pointer;" (click)="edit(viewJobDepartment.tbjUuid);">visibility</i>
+                                            <i class="material-icons" title="Activate" style="cursor: pointer;" (click)="nonActive(viewJobDepartment.tbjUuid);" *ngIf="viewJobDepartment.tbjStatus == 'not active'">check</i>
+                                            <i class="material-icons" title="Deactivate" style="cursor: pointer;" (click)="nonActive(viewJobDepartment.tbjUuid);" *ngIf="viewJobDepartment.tbjStatus == 'active'">close</i>
                                         </td>
                                     </tr>
                                 </tbody>

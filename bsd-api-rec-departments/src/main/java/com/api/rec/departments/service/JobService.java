@@ -1,6 +1,7 @@
 package com.api.rec.departments.service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -16,8 +17,12 @@ import org.springframework.stereotype.Service;
 
 import com.api.rec.departments.db.entity.TbJob;
 import com.api.rec.departments.db.entity.TbUser;
+import com.api.rec.departments.db.entity.ViewJobDepartment;
 import com.api.rec.departments.db.repository.TbJobRepository;
 import com.api.rec.departments.db.repository.TbUserRepository;
+import com.api.rec.departments.db.repository.ViewJobDepartmentRepository;
+import com.api.rec.departments.model.job.GetJobDepartmentListRequestModel;
+import com.api.rec.departments.model.job.GetJobDepartmentListResponseModel;
 import com.api.rec.departments.model.job.GetJobListRequestModel;
 import com.api.rec.departments.model.job.GetJobListResponseModel;
 import com.api.rec.departments.model.job.GetJobRequestModel;
@@ -42,6 +47,9 @@ public class JobService {
 
 	@Autowired
 	private TbJobRepository tbJobRepository;
+
+	@Autowired
+	private ViewJobDepartmentRepository viewJobDepartmentRepository;
 
 	public PostAddJobResponseModel postAddJob(PostAddJobRequestModel requestModel) throws Exception {
 		PostAddJobResponseModel responseModel = new PostAddJobResponseModel(requestModel);
@@ -150,6 +158,33 @@ public class JobService {
 			if (pgTbJob.toList().size() > 0) {
 				responseModel.setLstTbJob(pgTbJob.toList());				
 				responseModel.setLength(tbJobRepository.count(Example.of(exampleTbJob)));
+				responseModel.setHttpStatus(HttpStatus.OK);
+			} else {
+				responseModel.setHttpStatus(HttpStatus.NOT_FOUND);
+			}
+		} else {
+			responseModel.setHttpStatus(HttpStatus.UNAUTHORIZED);
+		}
+		
+		return responseModel;
+	}
+
+	public GetJobDepartmentListResponseModel getJobDepartmentList(Integer tbdId, String tbjName, String tbjStatus, String length, String pageSize, String pageIndex, GetJobDepartmentListRequestModel requestModel) throws Exception {
+		GetJobDepartmentListResponseModel responseModel = new GetJobDepartmentListResponseModel(requestModel);
+		
+		tokenUtil.claims(requestModel);
+		
+		TbUser exampleTbUser = new TbUser();
+		exampleTbUser.setTbuEmail(requestModel.getEmail());
+		exampleTbUser.setTbuStatus(TbUserRepository.Active);
+		Optional<TbUser> optTbUser = tbUserRepository.findOne(Example.of(exampleTbUser));
+		
+		if (optTbUser.isPresent()) {
+			List<ViewJobDepartment> lstViewJobDepartment = viewJobDepartmentRepository.findByTbdId(optTbUser.get().getTbuCreateIdc(), tbdId, tbjName, PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbj_id", "tbd_id").ascending()));
+			
+			if (lstViewJobDepartment.size() > 0) {
+				responseModel.setLstViewJobDepartment(lstViewJobDepartment);				
+				responseModel.setLength(viewJobDepartmentRepository.countByTbdId(optTbUser.get().getTbuCreateIdc(), tbjName, tbdId));
 				responseModel.setHttpStatus(HttpStatus.OK);
 			} else {
 				responseModel.setHttpStatus(HttpStatus.NOT_FOUND);
