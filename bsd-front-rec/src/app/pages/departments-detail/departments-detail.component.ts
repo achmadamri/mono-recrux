@@ -132,6 +132,7 @@ export class DepartmentsDetailComponent implements OnInit {
         this.clicked = !this.clicked;
         this.postAddDepartmentResponse = successResponse;
         this.util.showNotification('info', 'top', 'center', successResponse.message);
+        this.router.navigate(['/departments' + '/' + this.postAddDepartmentResponse.tbDepartment.tbdUuid]);
       },
       errorResponse => {
         this.clicked = !this.clicked;
