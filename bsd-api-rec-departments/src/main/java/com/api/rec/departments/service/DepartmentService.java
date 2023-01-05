@@ -67,24 +67,28 @@ public class DepartmentService {
 
 		if (optTbUser.isPresent()) {
 			if (requestModel.getTbDepartment().getTbdUuid().equals("0")) {
-				TbDepartment exampleTbDepartment = new TbDepartment();
-				exampleTbDepartment.setTbdName(requestModel.getTbDepartment().getTbdName());
-				Optional<TbDepartment> optTbDepartment = tbDepartmentRepository.findOne(Example.of(exampleTbDepartment));
-				
-				if (optTbDepartment.isPresent()) {
-					responseModel.setHttpStatus(HttpStatus.ALREADY_REPORTED);
+				if (requestModel.getTbDepartment().getTbdName() != null) {
+					TbDepartment exampleTbDepartment = new TbDepartment();
+					exampleTbDepartment.setTbdName(requestModel.getTbDepartment().getTbdName());
+					Optional<TbDepartment> optTbDepartment = tbDepartmentRepository.findOne(Example.of(exampleTbDepartment));
+					
+					if (optTbDepartment.isPresent()) {
+						responseModel.setHttpStatus(HttpStatus.ALREADY_REPORTED);
+					} else {
+						TbDepartment tbDepartment = new TbDepartment();
+						tbDepartment = requestModel.getTbDepartment();
+						tbDepartment.setTbdCreateId(optTbUser.get().getTbuId());
+						tbDepartment.setTbdCreateIdc(optTbUser.get().getTbuCreateIdc());
+						tbDepartment.setTbdCreateDate(new Date());
+						tbDepartment.setTbdStatus(TbDepartmentRepository.Active);
+						tbDepartment.setTbdUuid(new Uid().generateString(5).toUpperCase());
+						tbDepartment = tbDepartmentRepository.save(tbDepartment);
+		
+						responseModel.setTbDepartment(tbDepartment);
+						responseModel.setHttpStatus(HttpStatus.OK);
+					}
 				} else {
-					TbDepartment tbDepartment = new TbDepartment();
-					tbDepartment = requestModel.getTbDepartment();
-					tbDepartment.setTbdCreateId(optTbUser.get().getTbuId());
-					tbDepartment.setTbdCreateIdc(optTbUser.get().getTbuCreateIdc());
-					tbDepartment.setTbdCreateDate(new Date());
-					tbDepartment.setTbdStatus(TbDepartmentRepository.Active);
-					tbDepartment.setTbdUuid(new Uid().generateString(5).toUpperCase());
-					tbDepartment = tbDepartmentRepository.save(tbDepartment);
-	
-					responseModel.setTbDepartment(tbDepartment);
-					responseModel.setHttpStatus(HttpStatus.OK);
+					responseModel.setHttpStatus(HttpStatus.BAD_REQUEST);
 				}
 			} else {
 				TbDepartment exampleTbDepartment = new TbDepartment();
