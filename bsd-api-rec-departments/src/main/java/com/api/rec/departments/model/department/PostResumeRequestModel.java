@@ -1,14 +1,9 @@
 package com.api.rec.departments.model.department;
 
 import com.api.rec.departments.db.entity.TbDepartment;
-import com.api.rec.departments.model.ResponseModel;
+import com.api.rec.departments.model.RequestModel;
 
-public class PostCVResponseModel extends ResponseModel {
-
-	public PostCVResponseModel(PostCVRequestModel requestModel) {
-		super(requestModel);
-	}
-
+public class PostResumeRequestModel extends RequestModel {
 	private TbDepartment tbDepartment;
 
 	public TbDepartment getTbDepartment() {

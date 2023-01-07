@@ -2,8 +2,11 @@ package com.api.rec.departments.service;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Optional;
@@ -17,7 +20,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.affinda.api.client.AffindaAPI;
 import com.affinda.api.client.AffindaAPIBuilder;
@@ -39,12 +46,15 @@ import com.api.rec.departments.model.department.PostAddDepartmentJobRequestModel
 import com.api.rec.departments.model.department.PostAddDepartmentJobResponseModel;
 import com.api.rec.departments.model.department.PostAddDepartmentRequestModel;
 import com.api.rec.departments.model.department.PostAddDepartmentResponseModel;
-import com.api.rec.departments.model.department.PostCVRequestModel;
-import com.api.rec.departments.model.department.PostCVResponseModel;
+import com.api.rec.departments.model.department.PostResumeRequestModel;
+import com.api.rec.departments.model.department.PostResumeResponseModel;
 import com.api.rec.departments.util.TokenUtil;
 import com.api.rec.departments.util.Uid;
 import com.azure.core.credential.TokenCredential;
 import com.azure.core.exception.HttpResponseException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import reactor.core.publisher.Flux;
 
@@ -132,26 +142,42 @@ public class DepartmentService {
 		return responseModel;
 	}
 
-	public PostCVResponseModel postCV(PostCVRequestModel requestModel) throws Exception {
-		PostCVResponseModel responseModel = new PostCVResponseModel(requestModel);
+	public PostResumeResponseModel postResume(PostResumeRequestModel requestModel, MultipartFile file) throws Exception {
+		PostResumeResponseModel responseModel = new PostResumeResponseModel(requestModel);
 		
-		String apiKey = "240b289c0a80f4763af8e9b174205c4437f4a4a6";
-        TokenCredential credential;
-        credential = new AffindaTokenCredential(apiKey);
-        AffindaAPI client = new AffindaAPIBuilder().credential(credential).buildClient();
-        try {
-            Flux<ByteBuffer> file = Flux.just(ByteBuffer.wrap(Files.readAllBytes(Paths.get("cv.pdf"))));
-            ResumeRequestBody body = new ResumeRequestBody().setFile(file);
-            LinkedHashMap linkedHashMap = (LinkedHashMap<String, Object>) client.createResume(body);
+		// tokenUtil.claims(requestModel);
+		
+		// TbUser exampleTbUser = new TbUser();
+		// exampleTbUser.setTbuEmail(requestModel.getEmail());
+		// exampleTbUser.setTbuStatus(TbUserRepository.Active);
+		// Optional<TbUser> optTbUser = tbUserRepository.findOne(Example.of(exampleTbUser));
 
-			log.info(linkedHashMap.get("meta").toString());
+		// if (optTbUser.isPresent()) {
+			String fileName = responseModel.getResponseId() + "-" + StringUtils.cleanPath(file.getOriginalFilename());
+			Files.copy(file.getInputStream(), Paths.get(env.getProperty("file.upload.dir") + fileName), StandardCopyOption.REPLACE_EXISTING);
+			
+			String apiKey = env.getProperty("key.affinda");
+			TokenCredential credential = new AffindaTokenCredential(apiKey);
+			AffindaAPI client = new AffindaAPIBuilder().credential(credential).buildClient();
+			Flux<ByteBuffer> flux = Flux.just(ByteBuffer.wrap(file.getBytes()));
+			ResumeRequestBody body = new ResumeRequestBody().setFile(flux);
+
+			LinkedHashMap data = (LinkedHashMap<String, Object>) client.createResume(body);
+
+			// log.info(createResumeData.get("meta").toString());
+
+			// LinkedHashMap data = (LinkedHashMap<String, Object>) client.getResume("bblizqjj", "hr-xml");
+
+			ObjectMapper objectMapper = new ObjectMapper();
+			Gson gson = new Gson();
+			JsonObject jsonObject = gson.fromJson(objectMapper.writeValueAsString(data), JsonObject.class);
+
+			log.info(jsonObject.toString());
 
 			responseModel.setHttpStatus(HttpStatus.OK);
-        } catch (HttpResponseException e) {
-            System.out.println(e.getMessage());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+		// } else {
+		// 	responseModel.setHttpStatus(HttpStatus.UNAUTHORIZED);
+		// }
 		
 		return responseModel;
 	}

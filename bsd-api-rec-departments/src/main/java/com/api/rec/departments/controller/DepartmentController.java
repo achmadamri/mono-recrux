@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.api.rec.departments.model.department.GetDepartmentListRequestModel;
 import com.api.rec.departments.model.department.GetDepartmentListResponseModel;
@@ -23,8 +25,8 @@ import com.api.rec.departments.model.department.PostAddDepartmentJobRequestModel
 import com.api.rec.departments.model.department.PostAddDepartmentJobResponseModel;
 import com.api.rec.departments.model.department.PostAddDepartmentRequestModel;
 import com.api.rec.departments.model.department.PostAddDepartmentResponseModel;
-import com.api.rec.departments.model.department.PostCVRequestModel;
-import com.api.rec.departments.model.department.PostCVResponseModel;
+import com.api.rec.departments.model.department.PostResumeRequestModel;
+import com.api.rec.departments.model.department.PostResumeResponseModel;
 import com.api.rec.departments.service.DepartmentService;
 import com.api.rec.departments.util.Uid;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -110,12 +112,12 @@ public class DepartmentController {
 		return responseEntity;
 	}
 
-	@PostMapping("/postcv")
-	public HttpEntity<?> postCV(@Valid @RequestBody PostCVRequestModel requestModel) throws Exception {		
+	@PostMapping("/postresume")
+	public HttpEntity<?> postResume(PostResumeRequestModel requestModel, @RequestParam("file") MultipartFile file) throws Exception {		
 		String fid = new Uid().generateString(20);
 		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
 		
-		PostCVResponseModel responseModel = departmentService.postCV(requestModel);
+		PostResumeResponseModel responseModel = departmentService.postResume(requestModel, file);
 		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
 		
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
