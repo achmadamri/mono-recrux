@@ -1,6 +1,11 @@
 package com.api.rec.departments.service;
 
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -14,6 +19,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.affinda.api.client.AffindaAPI;
+import com.affinda.api.client.AffindaAPIBuilder;
+import com.affinda.api.client.AffindaTokenCredential;
+import com.affinda.api.client.models.ResumeRequestBody;
 import com.api.rec.departments.db.entity.TbDepartment;
 import com.api.rec.departments.db.entity.TbDepartmentJob;
 import com.api.rec.departments.db.entity.TbJob;
@@ -30,8 +39,14 @@ import com.api.rec.departments.model.department.PostAddDepartmentJobRequestModel
 import com.api.rec.departments.model.department.PostAddDepartmentJobResponseModel;
 import com.api.rec.departments.model.department.PostAddDepartmentRequestModel;
 import com.api.rec.departments.model.department.PostAddDepartmentResponseModel;
+import com.api.rec.departments.model.department.PostCVRequestModel;
+import com.api.rec.departments.model.department.PostCVResponseModel;
 import com.api.rec.departments.util.TokenUtil;
 import com.api.rec.departments.util.Uid;
+import com.azure.core.credential.TokenCredential;
+import com.azure.core.exception.HttpResponseException;
+
+import reactor.core.publisher.Flux;
 
 @Service
 public class DepartmentService {
@@ -113,6 +128,30 @@ public class DepartmentService {
 		} else {
 			responseModel.setHttpStatus(HttpStatus.UNAUTHORIZED);
 		}
+		
+		return responseModel;
+	}
+
+	public PostCVResponseModel postCV(PostCVRequestModel requestModel) throws Exception {
+		PostCVResponseModel responseModel = new PostCVResponseModel(requestModel);
+		
+		String apiKey = "240b289c0a80f4763af8e9b174205c4437f4a4a6";
+        TokenCredential credential;
+        credential = new AffindaTokenCredential(apiKey);
+        AffindaAPI client = new AffindaAPIBuilder().credential(credential).buildClient();
+        try {
+            Flux<ByteBuffer> file = Flux.just(ByteBuffer.wrap(Files.readAllBytes(Paths.get("cv.pdf"))));
+            ResumeRequestBody body = new ResumeRequestBody().setFile(file);
+            LinkedHashMap linkedHashMap = (LinkedHashMap<String, Object>) client.createResume(body);
+
+			log.info(linkedHashMap.get("meta").toString());
+
+			responseModel.setHttpStatus(HttpStatus.OK);
+        } catch (HttpResponseException e) {
+            System.out.println(e.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 		
 		return responseModel;
 	}

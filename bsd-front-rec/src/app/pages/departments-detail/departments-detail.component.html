@@ -46,7 +46,7 @@
                                     <th>Assigned</th>
                                     <th>Action</th>
                                 </thead>
-                                <tbody>
+                                <tbody *ngIf="getJobDepartmentListResponse.lstViewJobDepartment[0].tbjUuid != undefined">
                                     <tr *ngFor="let viewJobDepartment of getJobDepartmentListResponse.lstViewJobDepartment; let i=index;">
                                         <td>{{i + 1 + (pageSize * pageIndex)}}</td>
                                         <td>{{viewJobDepartment.tbjUuid}}</td>
@@ -61,7 +61,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="getPage($event)" [disabled]="clicked"></mat-paginator>
+                            <mat-paginator *ngIf="getJobDepartmentListResponse.lstViewJobDepartment[0].tbjUuid != undefined" [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="getPage($event)" [disabled]="clicked"></mat-paginator>
                             <button mat-raised-button type="submit" class="btn btn-danger pull-right" [disabled]="clicked" (click)="back();">Back</button>
                             <input type="button" class="btn btn-danger pull-right" value="Filter" [disabled]="clicked" (click)="filter();"/>
                         </div>

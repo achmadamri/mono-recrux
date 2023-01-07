@@ -16,7 +16,7 @@
                                     <th>Status</th>
                                     <th>Action</th>
                                 </thead>
-                                <tbody>
+                                <tbody *ngIf="getJobListResponse.lstTbJob[0].tbjUuid != undefined">
                                     <tr *ngFor="let tbJob of getJobListResponse.lstTbJob; let i=index;">
                                         <td>{{i + 1 + (pageSize * pageIndex)}}</td>
                                         <td>{{tbJob.tbjUuid}}</td>
@@ -30,7 +30,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="getPage($event)" [disabled]="clicked"></mat-paginator>
+                            <mat-paginator *ngIf="getJobListResponse.lstTbJob[0].tbjUuid != undefined" [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="getPage($event)" [disabled]="clicked"></mat-paginator>
                             <input type="button" class="btn btn-danger pull-right" value="Add" [disabled]="clicked" (click)="add();"/>
                             <input type="button" class="btn btn-danger pull-right" value="Filter" [disabled]="clicked" (click)="filter();"/>
                         </div>                                                

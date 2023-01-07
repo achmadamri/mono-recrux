@@ -16,7 +16,7 @@
                                     <th>Status</th>
                                     <th>Action</th>
                                 </thead>
-                                <tbody>
+                                <tbody *ngIf="getDepartmentListResponse.lstTbDepartment[0].tbdUuid != undefined">
                                     <tr *ngFor="let tbDepartment of getDepartmentListResponse.lstTbDepartment; let i=index;">
                                         <td>{{i + 1 + (pageSize * pageIndex)}}</td>
                                         <td>{{tbDepartment.tbdUuid}}</td>
@@ -30,7 +30,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="getPage($event)" [disabled]="clicked"></mat-paginator>
+                            <mat-paginator *ngIf="getDepartmentListResponse.lstTbDepartment[0].tbdUuid != undefined" [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="getPage($event)" [disabled]="clicked"></mat-paginator>
                             <input type="button" class="btn btn-danger pull-right" value="Add" [disabled]="clicked" (click)="add();"/>
                             <input type="button" class="btn btn-danger pull-right" value="Filter" [disabled]="clicked" (click)="filter();"/>
                         </div>                                                

@@ -1,0 +1,337 @@
+2023-01-06 20:22:43.176 [restartedMain] INFO  com.api.rec.departments.Application:55 - Starting Application on LAPTOP-01 with PID 15364 (started by Achmad Amri in C:\Users\Achmad Amri\git\mono-recrux)
+2023-01-06 20:22:43.185 [restartedMain] INFO  com.api.rec.departments.Application:651 - No active profile set, falling back to default profiles: default
+2023-01-06 20:22:43.291 [restartedMain] INFO  o.s.b.d.restart.ChangeableUrls:225 - The Class-Path manifest attribute in C:\Users\Achmad Amri\.m2\repository\org\glassfish\jaxb\jaxb-runtime\2.3.2\jaxb-runtime-2.3.2.jar referenced one or more files that do not exist: file:/C:/Users/Achmad%20Amri/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.xml.bind-api-2.3.2.jar,file:/C:/Users/Achmad%20Amri/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/txw2-2.3.2.jar,file:/C:/Users/Achmad%20Amri/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/istack-commons-runtime-3.0.8.jar,file:/C:/Users/Achmad%20Amri/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/stax-ex-1.8.1.jar,file:/C:/Users/Achmad%20Amri/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/FastInfoset-1.2.16.jar,file:/C:/Users/Achmad%20Amri/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.activation-api-1.2.1.jar
+2023-01-06 20:22:43.294 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor:225 - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-01-06 20:22:43.296 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor:225 - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-01-06 20:22:45.431 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate:126 - Bootstrapping Spring Data repositories in DEFAULT mode.
+2023-01-06 20:22:45.792 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate:182 - Finished Spring Data repository scanning in 341ms. Found 9 repository interfaces.
+2023-01-06 20:22:46.430 [restartedMain] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:330 - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-01-06 20:22:46.831 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-01-06 20:22:46.948 [restartedMain] INFO  org.hibernate.Version:46 - HHH000412: Hibernate Core {5.4.6.Final}
+2023-01-06 20:22:47.229 [restartedMain] INFO  o.h.annotations.common.Version:49 - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2023-01-06 20:22:47.418 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource:110 - HikariPool-1 - Starting...
+2023-01-06 20:22:47.437 [restartedMain] WARN  c.z.hikari.util.DriverDataSource:70 - Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
+2023-01-06 20:22:47.700 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource:123 - HikariPool-1 - Start completed.
+2023-01-06 20:22:47.744 [restartedMain] INFO  org.hibernate.dialect.Dialect:172 - HHH000400: Using dialect: org.hibernate.dialect.MySQL55Dialect
+2023-01-06 20:22:49.163 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator:52 - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-01-06 20:22:49.309 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean:416 - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-01-06 20:22:50.077 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer:92 - Tomcat initialized with port(s): 2442 (https) 2082 (http)
+2023-01-06 20:22:50.129 [restartedMain] INFO  o.a.catalina.core.StandardService:173 - Starting service [Tomcat]
+2023-01-06 20:22:50.130 [restartedMain] INFO  o.a.catalina.core.StandardEngine:173 - Starting Servlet engine: [Apache Tomcat/9.0.27]
+2023-01-06 20:22:50.319 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/]:173 - Initializing Spring embedded WebApplicationContext
+2023-01-06 20:22:50.320 [restartedMain] INFO  o.s.web.context.ContextLoader:284 - Root WebApplicationContext: initialization completed in 7022 ms
+2023-01-06 20:22:50.765 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer:57 - LiveReload server is running on port 35729
+2023-01-06 20:22:51.449 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration:220 - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-01-06 20:22:51.803 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver:58 - Exposing 2 endpoint(s) beneath base path '/actuator'
+2023-01-06 20:22:51.951 [restartedMain] INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping:69 - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2023-01-06 20:22:52.048 [restartedMain] WARN  o.s.b.a.j.JacksonAutoConfiguration$JodaDateTimeJacksonConfiguration:122 - Auto-configuration of Jackson's Joda-Time integration is deprecated in favor of using java.time (JSR-310).
+2023-01-06 20:22:52.133 [restartedMain] INFO  o.s.s.c.ThreadPoolTaskExecutor:171 - Initializing ExecutorService 'applicationTaskExecutor'
+2023-01-06 20:22:52.754 [restartedMain] INFO  s.d.s.w.p.DocumentationPluginsBootstrapper:160 - Context refreshed
+2023-01-06 20:22:52.806 [restartedMain] INFO  s.d.s.w.p.DocumentationPluginsBootstrapper:163 - Found 1 custom documentation plugin(s)
+2023-01-06 20:22:52.874 [restartedMain] INFO  s.d.s.w.s.ApiListingReferenceScanner:41 - Scanning for api listing references
+2023-01-06 20:22:53.125 [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator:40 - Generating unique operation named: handleUsingGET_1
+2023-01-06 20:22:53.139 [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator:40 - Generating unique operation named: handleUsingGET_2
+2023-01-06 20:22:53.708 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer:204 - Tomcat started on port(s): 2442 (https) 2082 (http) with context path ''
+2023-01-06 20:22:53.713 [restartedMain] INFO  com.api.rec.departments.Application:61 - Started Application in 11.093 seconds (JVM running for 12.612)
+2023-01-06 20:22:53.722 [restartedMain] INFO  com.api.rec.departments.Application:58 - trying to set salt
+2023-01-06 20:22:53.903 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : admin@mail.com
+2023-01-06 20:22:53.913 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic1@mail.com
+2023-01-06 20:22:53.915 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic2@mail.com
+2023-01-06 20:22:53.916 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic3@mail.com
+2023-01-06 20:22:53.916 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic4@mail.com
+2023-01-06 20:22:53.917 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic6@mail.com
+2023-01-06 20:22:53.918 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic7@mail.com
+2023-01-06 20:22:53.918 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic8@mail.com
+2023-01-06 20:22:53.919 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic9@mail.com
+2023-01-06 20:22:53.920 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic10@mail.com
+2023-01-06 20:22:53.920 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic11@mail.com
+2023-01-06 20:22:53.921 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic12@mail.com
+2023-01-06 20:22:53.922 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic13@mail.com
+2023-01-06 20:22:53.923 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic14@mail.com
+2023-01-06 20:22:53.924 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : achmad.amri@gmail.com
+2023-01-06 20:22:53.924 [restartedMain] INFO  com.api.rec.departments.Application:67 - set salt done
+2023-01-06 20:22:54.509 [RMI TCP Connection(3)-127.0.0.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/]:173 - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-01-06 20:22:54.511 [RMI TCP Connection(3)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet:525 - Initializing Servlet 'dispatcherServlet'
+2023-01-06 20:22:54.521 [RMI TCP Connection(3)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet:547 - Completed initialization in 9 ms
+2023-01-06 20:23:11.975 [SpringContextShutdownHook] INFO  o.s.s.c.ThreadPoolTaskExecutor:208 - Shutting down ExecutorService 'applicationTaskExecutor'
+2023-01-06 20:23:11.984 [SpringContextShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean:598 - Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-01-06 20:23:11.990 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource:350 - HikariPool-1 - Shutdown initiated...
+2023-01-06 20:23:12.011 [SpringContextShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource:352 - HikariPool-1 - Shutdown completed.
+2023-01-06 20:23:19.299 [restartedMain] INFO  com.api.rec.departments.Application:55 - Starting Application on LAPTOP-01 with PID 20076 (started by Achmad Amri in C:\Users\Achmad Amri\git\mono-recrux)
+2023-01-06 20:23:19.317 [restartedMain] INFO  com.api.rec.departments.Application:651 - No active profile set, falling back to default profiles: default
+2023-01-06 20:23:19.396 [restartedMain] INFO  o.s.b.d.restart.ChangeableUrls:225 - The Class-Path manifest attribute in C:\Users\Achmad Amri\.m2\repository\org\glassfish\jaxb\jaxb-runtime\2.3.2\jaxb-runtime-2.3.2.jar referenced one or more files that do not exist: file:/C:/Users/Achmad%20Amri/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.xml.bind-api-2.3.2.jar,file:/C:/Users/Achmad%20Amri/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/txw2-2.3.2.jar,file:/C:/Users/Achmad%20Amri/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/istack-commons-runtime-3.0.8.jar,file:/C:/Users/Achmad%20Amri/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/stax-ex-1.8.1.jar,file:/C:/Users/Achmad%20Amri/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/FastInfoset-1.2.16.jar,file:/C:/Users/Achmad%20Amri/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.activation-api-1.2.1.jar
+2023-01-06 20:23:19.409 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor:225 - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-01-06 20:23:19.410 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor:225 - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-01-06 20:23:21.067 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate:126 - Bootstrapping Spring Data repositories in DEFAULT mode.
+2023-01-06 20:23:21.422 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate:182 - Finished Spring Data repository scanning in 324ms. Found 9 repository interfaces.
+2023-01-06 20:23:22.028 [restartedMain] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:330 - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-01-06 20:23:22.436 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-01-06 20:23:22.558 [restartedMain] INFO  org.hibernate.Version:46 - HHH000412: Hibernate Core {5.4.6.Final}
+2023-01-06 20:23:22.785 [restartedMain] INFO  o.h.annotations.common.Version:49 - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2023-01-06 20:23:22.947 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource:110 - HikariPool-1 - Starting...
+2023-01-06 20:23:22.965 [restartedMain] WARN  c.z.hikari.util.DriverDataSource:70 - Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
+2023-01-06 20:23:23.185 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource:123 - HikariPool-1 - Start completed.
+2023-01-06 20:23:23.243 [restartedMain] INFO  org.hibernate.dialect.Dialect:172 - HHH000400: Using dialect: org.hibernate.dialect.MySQL55Dialect
+2023-01-06 20:23:24.517 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator:52 - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-01-06 20:23:24.661 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean:416 - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-01-06 20:23:25.353 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer:92 - Tomcat initialized with port(s): 2442 (https) 2082 (http)
+2023-01-06 20:23:25.404 [restartedMain] INFO  o.a.catalina.core.StandardService:173 - Starting service [Tomcat]
+2023-01-06 20:23:25.406 [restartedMain] INFO  o.a.catalina.core.StandardEngine:173 - Starting Servlet engine: [Apache Tomcat/9.0.27]
+2023-01-06 20:23:25.602 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/]:173 - Initializing Spring embedded WebApplicationContext
+2023-01-06 20:23:25.613 [restartedMain] INFO  o.s.web.context.ContextLoader:284 - Root WebApplicationContext: initialization completed in 6202 ms
+2023-01-06 20:23:26.011 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer:57 - LiveReload server is running on port 35729
+2023-01-06 20:23:26.675 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration:220 - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-01-06 20:23:27.021 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver:58 - Exposing 2 endpoint(s) beneath base path '/actuator'
+2023-01-06 20:23:27.155 [restartedMain] INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping:69 - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2023-01-06 20:23:27.253 [restartedMain] WARN  o.s.b.a.j.JacksonAutoConfiguration$JodaDateTimeJacksonConfiguration:122 - Auto-configuration of Jackson's Joda-Time integration is deprecated in favor of using java.time (JSR-310).
+2023-01-06 20:23:27.333 [restartedMain] INFO  o.s.s.c.ThreadPoolTaskExecutor:171 - Initializing ExecutorService 'applicationTaskExecutor'
+2023-01-06 20:23:27.822 [restartedMain] INFO  s.d.s.w.p.DocumentationPluginsBootstrapper:160 - Context refreshed
+2023-01-06 20:23:27.878 [restartedMain] INFO  s.d.s.w.p.DocumentationPluginsBootstrapper:163 - Found 1 custom documentation plugin(s)
+2023-01-06 20:23:27.947 [restartedMain] INFO  s.d.s.w.s.ApiListingReferenceScanner:41 - Scanning for api listing references
+2023-01-06 20:23:28.222 [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator:40 - Generating unique operation named: handleUsingGET_1
+2023-01-06 20:23:28.236 [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator:40 - Generating unique operation named: handleUsingGET_2
+2023-01-06 20:23:28.863 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer:204 - Tomcat started on port(s): 2442 (https) 2082 (http) with context path ''
+2023-01-06 20:23:28.877 [restartedMain] INFO  com.api.rec.departments.Application:61 - Started Application in 10.1 seconds (JVM running for 11.747)
+2023-01-06 20:23:28.891 [restartedMain] INFO  com.api.rec.departments.Application:58 - trying to set salt
+2023-01-06 20:23:29.051 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : admin@mail.com
+2023-01-06 20:23:29.062 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic1@mail.com
+2023-01-06 20:23:29.063 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic2@mail.com
+2023-01-06 20:23:29.064 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic3@mail.com
+2023-01-06 20:23:29.065 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic4@mail.com
+2023-01-06 20:23:29.066 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic6@mail.com
+2023-01-06 20:23:29.067 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic7@mail.com
+2023-01-06 20:23:29.068 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic8@mail.com
+2023-01-06 20:23:29.069 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic9@mail.com
+2023-01-06 20:23:29.071 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic10@mail.com
+2023-01-06 20:23:29.071 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic11@mail.com
+2023-01-06 20:23:29.072 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic12@mail.com
+2023-01-06 20:23:29.073 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic13@mail.com
+2023-01-06 20:23:29.074 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic14@mail.com
+2023-01-06 20:23:29.075 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : achmad.amri@gmail.com
+2023-01-06 20:23:29.076 [restartedMain] INFO  com.api.rec.departments.Application:67 - set salt done
+2023-01-06 20:23:29.146 [restartedMain] INFO  c.a.c.i.jackson.JacksonVersion:222 - Package versions: jackson-annotations=2.10.0, jackson-core=2.10.0, jackson-databind=2.10.0, jackson-dataformat-xml=2.10.0, jackson-datatype-jsr310=2.10.0, azure-core=1.27.0, Troubleshooting version conflicts: https://aka.ms/azsdk/java/dependency/troubleshoot
+2023-01-06 20:23:29.164 [restartedMain] ERROR c.a.c.i.http.HttpClientProviders:506 - A request was made to load the default HttpClient provider but one could not be found on the classpath. If you are using a dependency manager, consider including a dependency on azure-core-http-netty or azure-core-http-okhttp. Depending on your existing dependencies, you have the choice of Netty or OkHttp implementations. Additionally, refer to https://aka.ms/azsdk/java/docs/custom-httpclient to learn about writing your own implementation.
+2023-01-06 20:23:29.179 [restartedMain] ERROR o.s.boot.SpringApplication:826 - Application run failed
+java.lang.IllegalStateException: A request was made to load the default HttpClient provider but one could not be found on the classpath. If you are using a dependency manager, consider including a dependency on azure-core-http-netty or azure-core-http-okhttp. Depending on your existing dependencies, you have the choice of Netty or OkHttp implementations. Additionally, refer to https://aka.ms/azsdk/java/docs/custom-httpclient to learn about writing your own implementation.
+	at com.azure.core.implementation.http.HttpClientProviders.createInstance(HttpClientProviders.java:60)
+	at com.azure.core.http.HttpClient.createDefault(HttpClient.java:50)
+	at com.azure.core.http.HttpClient.createDefault(HttpClient.java:40)
+	at com.azure.core.http.HttpPipelineBuilder.build(HttpPipelineBuilder.java:73)
+	at com.affinda.api.client.AffindaAPIBuilder.createHttpPipeline(AffindaAPIBuilder.java:278)
+	at com.affinda.api.client.AffindaAPIBuilder.buildClient(AffindaAPIBuilder.java:222)
+	at com.api.rec.departments.Application.init(Application.java:71)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.context.event.ApplicationListenerMethodAdapter.doInvoke(ApplicationListenerMethodAdapter.java:300)
+	at org.springframework.context.event.ApplicationListenerMethodAdapter.processEvent(ApplicationListenerMethodAdapter.java:190)
+	at org.springframework.context.event.ApplicationListenerMethodAdapter.onApplicationEvent(ApplicationListenerMethodAdapter.java:153)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.doInvokeListener(SimpleApplicationEventMulticaster.java:172)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.invokeListener(SimpleApplicationEventMulticaster.java:165)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:139)
+	at org.springframework.context.support.AbstractApplicationContext.publishEvent(AbstractApplicationContext.java:403)
+	at org.springframework.context.support.AbstractApplicationContext.publishEvent(AbstractApplicationContext.java:360)
+	at org.springframework.boot.context.event.EventPublishingRunListener.running(EventPublishingRunListener.java:103)
+	at org.springframework.boot.SpringApplicationRunListeners.running(SpringApplicationRunListeners.java:77)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:330)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1215)
+	at com.api.rec.departments.Application.main(Application.java:40)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+2023-01-06 20:23:29.196 [restartedMain] INFO  o.s.s.c.ThreadPoolTaskExecutor:208 - Shutting down ExecutorService 'applicationTaskExecutor'
+2023-01-06 20:23:29.207 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean:598 - Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-01-06 20:23:29.214 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource:350 - HikariPool-1 - Shutdown initiated...
+2023-01-06 20:23:29.237 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource:352 - HikariPool-1 - Shutdown completed.
+2023-01-06 20:24:58.961 [restartedMain] INFO  com.api.rec.departments.Application:55 - Starting Application on LAPTOP-01 with PID 19752 (started by Achmad Amri in C:\Users\Achmad Amri\git\mono-recrux)
+2023-01-06 20:24:58.978 [restartedMain] INFO  com.api.rec.departments.Application:651 - No active profile set, falling back to default profiles: default
+2023-01-06 20:24:59.062 [restartedMain] INFO  o.s.b.d.restart.ChangeableUrls:225 - The Class-Path manifest attribute in C:\Users\Achmad Amri\.m2\repository\org\glassfish\jaxb\jaxb-runtime\2.3.2\jaxb-runtime-2.3.2.jar referenced one or more files that do not exist: file:/C:/Users/Achmad%20Amri/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.xml.bind-api-2.3.2.jar,file:/C:/Users/Achmad%20Amri/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/txw2-2.3.2.jar,file:/C:/Users/Achmad%20Amri/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/istack-commons-runtime-3.0.8.jar,file:/C:/Users/Achmad%20Amri/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/stax-ex-1.8.1.jar,file:/C:/Users/Achmad%20Amri/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/FastInfoset-1.2.16.jar,file:/C:/Users/Achmad%20Amri/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.activation-api-1.2.1.jar
+2023-01-06 20:24:59.074 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor:225 - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-01-06 20:24:59.075 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor:225 - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-01-06 20:25:00.880 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate:126 - Bootstrapping Spring Data repositories in DEFAULT mode.
+2023-01-06 20:25:01.242 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate:182 - Finished Spring Data repository scanning in 334ms. Found 9 repository interfaces.
+2023-01-06 20:25:01.845 [restartedMain] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:330 - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-01-06 20:25:02.242 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-01-06 20:25:02.363 [restartedMain] INFO  org.hibernate.Version:46 - HHH000412: Hibernate Core {5.4.6.Final}
+2023-01-06 20:25:02.588 [restartedMain] INFO  o.h.annotations.common.Version:49 - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2023-01-06 20:25:02.750 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource:110 - HikariPool-1 - Starting...
+2023-01-06 20:25:02.767 [restartedMain] WARN  c.z.hikari.util.DriverDataSource:70 - Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
+2023-01-06 20:25:02.997 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource:123 - HikariPool-1 - Start completed.
+2023-01-06 20:25:03.040 [restartedMain] INFO  org.hibernate.dialect.Dialect:172 - HHH000400: Using dialect: org.hibernate.dialect.MySQL55Dialect
+2023-01-06 20:25:04.378 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator:52 - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-01-06 20:25:04.523 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean:416 - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-01-06 20:25:05.296 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer:92 - Tomcat initialized with port(s): 2442 (https) 2082 (http)
+2023-01-06 20:25:05.343 [restartedMain] INFO  o.a.catalina.core.StandardService:173 - Starting service [Tomcat]
+2023-01-06 20:25:05.344 [restartedMain] INFO  o.a.catalina.core.StandardEngine:173 - Starting Servlet engine: [Apache Tomcat/9.0.27]
+2023-01-06 20:25:05.552 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/]:173 - Initializing Spring embedded WebApplicationContext
+2023-01-06 20:25:05.563 [restartedMain] INFO  o.s.web.context.ContextLoader:284 - Root WebApplicationContext: initialization completed in 6486 ms
+2023-01-06 20:25:05.950 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer:57 - LiveReload server is running on port 35729
+2023-01-06 20:25:06.585 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration:220 - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-01-06 20:25:06.957 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver:58 - Exposing 2 endpoint(s) beneath base path '/actuator'
+2023-01-06 20:25:07.114 [restartedMain] INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping:69 - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2023-01-06 20:25:07.219 [restartedMain] WARN  o.s.b.a.j.JacksonAutoConfiguration$JodaDateTimeJacksonConfiguration:122 - Auto-configuration of Jackson's Joda-Time integration is deprecated in favor of using java.time (JSR-310).
+2023-01-06 20:25:07.304 [restartedMain] INFO  o.s.s.c.ThreadPoolTaskExecutor:171 - Initializing ExecutorService 'applicationTaskExecutor'
+2023-01-06 20:25:07.837 [restartedMain] INFO  s.d.s.w.p.DocumentationPluginsBootstrapper:160 - Context refreshed
+2023-01-06 20:25:07.893 [restartedMain] INFO  s.d.s.w.p.DocumentationPluginsBootstrapper:163 - Found 1 custom documentation plugin(s)
+2023-01-06 20:25:07.952 [restartedMain] INFO  s.d.s.w.s.ApiListingReferenceScanner:41 - Scanning for api listing references
+2023-01-06 20:25:08.245 [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator:40 - Generating unique operation named: handleUsingGET_1
+2023-01-06 20:25:08.259 [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator:40 - Generating unique operation named: handleUsingGET_2
+2023-01-06 20:25:08.831 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer:204 - Tomcat started on port(s): 2442 (https) 2082 (http) with context path ''
+2023-01-06 20:25:08.848 [restartedMain] INFO  com.api.rec.departments.Application:61 - Started Application in 10.448 seconds (JVM running for 12.01)
+2023-01-06 20:25:08.858 [restartedMain] INFO  com.api.rec.departments.Application:58 - trying to set salt
+2023-01-06 20:25:09.013 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : admin@mail.com
+2023-01-06 20:25:09.023 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic1@mail.com
+2023-01-06 20:25:09.024 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic2@mail.com
+2023-01-06 20:25:09.025 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic3@mail.com
+2023-01-06 20:25:09.026 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic4@mail.com
+2023-01-06 20:25:09.027 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic6@mail.com
+2023-01-06 20:25:09.028 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic7@mail.com
+2023-01-06 20:25:09.029 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic8@mail.com
+2023-01-06 20:25:09.030 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic9@mail.com
+2023-01-06 20:25:09.030 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic10@mail.com
+2023-01-06 20:25:09.031 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic11@mail.com
+2023-01-06 20:25:09.032 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic12@mail.com
+2023-01-06 20:25:09.032 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic13@mail.com
+2023-01-06 20:25:09.033 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic14@mail.com
+2023-01-06 20:25:09.034 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : achmad.amri@gmail.com
+2023-01-06 20:25:09.035 [restartedMain] INFO  com.api.rec.departments.Application:67 - set salt done
+2023-01-06 20:25:09.109 [restartedMain] INFO  c.a.c.i.jackson.JacksonVersion:222 - Package versions: jackson-annotations=2.10.0, jackson-core=2.10.0, jackson-databind=2.10.0, jackson-dataformat-xml=2.10.0, jackson-datatype-jsr310=2.10.0, azure-core=1.27.0, Troubleshooting version conflicts: https://aka.ms/azsdk/java/dependency/troubleshoot
+2023-01-06 20:25:09.131 [restartedMain] ERROR c.a.c.i.http.HttpClientProviders:506 - A request was made to load the default HttpClient provider but one could not be found on the classpath. If you are using a dependency manager, consider including a dependency on azure-core-http-netty or azure-core-http-okhttp. Depending on your existing dependencies, you have the choice of Netty or OkHttp implementations. Additionally, refer to https://aka.ms/azsdk/java/docs/custom-httpclient to learn about writing your own implementation.
+2023-01-06 20:25:09.147 [restartedMain] ERROR o.s.boot.SpringApplication:826 - Application run failed
+java.lang.IllegalStateException: A request was made to load the default HttpClient provider but one could not be found on the classpath. If you are using a dependency manager, consider including a dependency on azure-core-http-netty or azure-core-http-okhttp. Depending on your existing dependencies, you have the choice of Netty or OkHttp implementations. Additionally, refer to https://aka.ms/azsdk/java/docs/custom-httpclient to learn about writing your own implementation.
+	at com.azure.core.implementation.http.HttpClientProviders.createInstance(HttpClientProviders.java:60)
+	at com.azure.core.http.HttpClient.createDefault(HttpClient.java:50)
+	at com.azure.core.http.HttpClient.createDefault(HttpClient.java:40)
+	at com.azure.core.http.HttpPipelineBuilder.build(HttpPipelineBuilder.java:73)
+	at com.affinda.api.client.AffindaAPIBuilder.createHttpPipeline(AffindaAPIBuilder.java:278)
+	at com.affinda.api.client.AffindaAPIBuilder.buildClient(AffindaAPIBuilder.java:222)
+	at com.api.rec.departments.Application.init(Application.java:71)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.context.event.ApplicationListenerMethodAdapter.doInvoke(ApplicationListenerMethodAdapter.java:300)
+	at org.springframework.context.event.ApplicationListenerMethodAdapter.processEvent(ApplicationListenerMethodAdapter.java:190)
+	at org.springframework.context.event.ApplicationListenerMethodAdapter.onApplicationEvent(ApplicationListenerMethodAdapter.java:153)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.doInvokeListener(SimpleApplicationEventMulticaster.java:172)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.invokeListener(SimpleApplicationEventMulticaster.java:165)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:139)
+	at org.springframework.context.support.AbstractApplicationContext.publishEvent(AbstractApplicationContext.java:403)
+	at org.springframework.context.support.AbstractApplicationContext.publishEvent(AbstractApplicationContext.java:360)
+	at org.springframework.boot.context.event.EventPublishingRunListener.running(EventPublishingRunListener.java:103)
+	at org.springframework.boot.SpringApplicationRunListeners.running(SpringApplicationRunListeners.java:77)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:330)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1215)
+	at com.api.rec.departments.Application.main(Application.java:40)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+2023-01-06 20:25:09.165 [restartedMain] INFO  o.s.s.c.ThreadPoolTaskExecutor:208 - Shutting down ExecutorService 'applicationTaskExecutor'
+2023-01-06 20:25:09.176 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean:598 - Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-01-06 20:25:09.186 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource:350 - HikariPool-1 - Shutdown initiated...
+2023-01-06 20:25:09.216 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource:352 - HikariPool-1 - Shutdown completed.
+2023-01-06 20:28:07.764 [restartedMain] INFO  com.api.rec.departments.Application:55 - Starting Application on LAPTOP-01 with PID 19428 (started by Achmad Amri in C:\Users\Achmad Amri\git\mono-recrux)
+2023-01-06 20:28:07.780 [restartedMain] INFO  com.api.rec.departments.Application:651 - No active profile set, falling back to default profiles: default
+2023-01-06 20:28:07.855 [restartedMain] INFO  o.s.b.d.restart.ChangeableUrls:225 - The Class-Path manifest attribute in C:\Users\Achmad Amri\.m2\repository\org\glassfish\jaxb\jaxb-runtime\2.3.2\jaxb-runtime-2.3.2.jar referenced one or more files that do not exist: file:/C:/Users/Achmad%20Amri/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.xml.bind-api-2.3.2.jar,file:/C:/Users/Achmad%20Amri/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/txw2-2.3.2.jar,file:/C:/Users/Achmad%20Amri/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/istack-commons-runtime-3.0.8.jar,file:/C:/Users/Achmad%20Amri/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/stax-ex-1.8.1.jar,file:/C:/Users/Achmad%20Amri/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/FastInfoset-1.2.16.jar,file:/C:/Users/Achmad%20Amri/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.activation-api-1.2.1.jar
+2023-01-06 20:28:07.858 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor:225 - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-01-06 20:28:07.859 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor:225 - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-01-06 20:28:09.863 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate:126 - Bootstrapping Spring Data repositories in DEFAULT mode.
+2023-01-06 20:28:10.210 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate:182 - Finished Spring Data repository scanning in 317ms. Found 9 repository interfaces.
+2023-01-06 20:28:10.782 [restartedMain] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:330 - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-01-06 20:28:11.157 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-01-06 20:28:11.269 [restartedMain] INFO  org.hibernate.Version:46 - HHH000412: Hibernate Core {5.4.6.Final}
+2023-01-06 20:28:11.506 [restartedMain] INFO  o.h.annotations.common.Version:49 - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2023-01-06 20:28:11.666 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource:110 - HikariPool-1 - Starting...
+2023-01-06 20:28:11.683 [restartedMain] WARN  c.z.hikari.util.DriverDataSource:70 - Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
+2023-01-06 20:28:11.917 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource:123 - HikariPool-1 - Start completed.
+2023-01-06 20:28:11.962 [restartedMain] INFO  org.hibernate.dialect.Dialect:172 - HHH000400: Using dialect: org.hibernate.dialect.MySQL55Dialect
+2023-01-06 20:28:13.222 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator:52 - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-01-06 20:28:13.363 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean:416 - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-01-06 20:28:14.212 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer:92 - Tomcat initialized with port(s): 2442 (https) 2082 (http)
+2023-01-06 20:28:14.261 [restartedMain] INFO  o.a.catalina.core.StandardService:173 - Starting service [Tomcat]
+2023-01-06 20:28:14.262 [restartedMain] INFO  o.a.catalina.core.StandardEngine:173 - Starting Servlet engine: [Apache Tomcat/9.0.27]
+2023-01-06 20:28:14.472 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/]:173 - Initializing Spring embedded WebApplicationContext
+2023-01-06 20:28:14.483 [restartedMain] INFO  o.s.web.context.ContextLoader:284 - Root WebApplicationContext: initialization completed in 6623 ms
+2023-01-06 20:28:14.950 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer:57 - LiveReload server is running on port 35729
+2023-01-06 20:28:15.650 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration:220 - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-01-06 20:28:15.987 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver:58 - Exposing 2 endpoint(s) beneath base path '/actuator'
+2023-01-06 20:28:16.134 [restartedMain] INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping:69 - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2023-01-06 20:28:16.226 [restartedMain] WARN  o.s.b.a.j.JacksonAutoConfiguration$JodaDateTimeJacksonConfiguration:122 - Auto-configuration of Jackson's Joda-Time integration is deprecated in favor of using java.time (JSR-310).
+2023-01-06 20:28:16.309 [restartedMain] INFO  o.s.s.c.ThreadPoolTaskExecutor:171 - Initializing ExecutorService 'applicationTaskExecutor'
+2023-01-06 20:28:16.798 [restartedMain] INFO  s.d.s.w.p.DocumentationPluginsBootstrapper:160 - Context refreshed
+2023-01-06 20:28:16.846 [restartedMain] INFO  s.d.s.w.p.DocumentationPluginsBootstrapper:163 - Found 1 custom documentation plugin(s)
+2023-01-06 20:28:16.916 [restartedMain] INFO  s.d.s.w.s.ApiListingReferenceScanner:41 - Scanning for api listing references
+2023-01-06 20:28:17.189 [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator:40 - Generating unique operation named: handleUsingGET_1
+2023-01-06 20:28:17.202 [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator:40 - Generating unique operation named: handleUsingGET_2
+2023-01-06 20:28:17.747 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer:204 - Tomcat started on port(s): 2442 (https) 2082 (http) with context path ''
+2023-01-06 20:28:17.762 [restartedMain] INFO  com.api.rec.departments.Application:61 - Started Application in 10.521 seconds (JVM running for 12.032)
+2023-01-06 20:28:17.771 [restartedMain] INFO  com.api.rec.departments.Application:58 - trying to set salt
+2023-01-06 20:28:17.920 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : admin@mail.com
+2023-01-06 20:28:17.931 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic1@mail.com
+2023-01-06 20:28:17.932 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic2@mail.com
+2023-01-06 20:28:17.933 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic3@mail.com
+2023-01-06 20:28:17.934 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic4@mail.com
+2023-01-06 20:28:17.934 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic6@mail.com
+2023-01-06 20:28:17.935 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic7@mail.com
+2023-01-06 20:28:17.937 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic8@mail.com
+2023-01-06 20:28:17.938 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic9@mail.com
+2023-01-06 20:28:17.938 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic10@mail.com
+2023-01-06 20:28:17.938 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic11@mail.com
+2023-01-06 20:28:17.938 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic12@mail.com
+2023-01-06 20:28:17.939 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic13@mail.com
+2023-01-06 20:28:17.939 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : pic14@mail.com
+2023-01-06 20:28:17.940 [restartedMain] INFO  com.api.rec.departments.Application:63 - set salt for : achmad.amri@gmail.com
+2023-01-06 20:28:17.941 [restartedMain] INFO  com.api.rec.departments.Application:67 - set salt done
+2023-01-06 20:28:18.011 [restartedMain] INFO  c.a.c.i.jackson.JacksonVersion:222 - Package versions: jackson-annotations=2.10.0, jackson-core=2.10.0, jackson-databind=2.10.0, jackson-dataformat-xml=2.10.0, jackson-datatype-jsr310=2.10.0, azure-core=1.27.0, Troubleshooting version conflicts: https://aka.ms/azsdk/java/dependency/troubleshoot
+2023-01-06 20:28:18.154 [restartedMain] ERROR o.s.boot.SpringApplication:826 - Application run failed
+java.lang.reflect.UndeclaredThrowableException: Failed to invoke event listener method
+HandlerMethod details: 
+Bean [com.api.rec.departments.Application$$EnhancerBySpringCGLIB$$17fbde73]
+Method [public void com.api.rec.departments.Application.init()]
+Resolved arguments: 
+
+	at org.springframework.context.event.ApplicationListenerMethodAdapter.doInvoke(ApplicationListenerMethodAdapter.java:317)
+	at org.springframework.context.event.ApplicationListenerMethodAdapter.processEvent(ApplicationListenerMethodAdapter.java:190)
+	at org.springframework.context.event.ApplicationListenerMethodAdapter.onApplicationEvent(ApplicationListenerMethodAdapter.java:153)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.doInvokeListener(SimpleApplicationEventMulticaster.java:172)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.invokeListener(SimpleApplicationEventMulticaster.java:165)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:139)
+	at org.springframework.context.support.AbstractApplicationContext.publishEvent(AbstractApplicationContext.java:403)
+	at org.springframework.context.support.AbstractApplicationContext.publishEvent(AbstractApplicationContext.java:360)
+	at org.springframework.boot.context.event.EventPublishingRunListener.running(EventPublishingRunListener.java:103)
+	at org.springframework.boot.SpringApplicationRunListeners.running(SpringApplicationRunListeners.java:77)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:330)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1215)
+	at com.api.rec.departments.Application.main(Application.java:40)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: java.lang.NoClassDefFoundError: reactor/util/context/ContextView
+	at com.affinda.api.client.AffindaAPI.<init>(AffindaAPI.java:128)
+	at com.affinda.api.client.AffindaAPIBuilder.buildClient(AffindaAPIBuilder.java:230)
+	at com.api.rec.departments.Application.init(Application.java:71)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.context.event.ApplicationListenerMethodAdapter.doInvoke(ApplicationListenerMethodAdapter.java:300)
+	... 18 common frames omitted
+Caused by: java.lang.ClassNotFoundException: reactor.util.context.ContextView
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:581)
+	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:178)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:521)
+	... 26 common frames omitted
+2023-01-06 20:28:18.187 [restartedMain] INFO  o.s.s.c.ThreadPoolTaskExecutor:208 - Shutting down ExecutorService 'applicationTaskExecutor'
+2023-01-06 20:28:18.200 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean:598 - Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-01-06 20:28:18.209 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource:350 - HikariPool-1 - Shutdown initiated...
+2023-01-06 20:28:18.230 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource:352 - HikariPool-1 - Shutdown completed.
