@@ -125,6 +125,7 @@ export class DepartmentsComponent implements OnInit {
 
   search() {
     this.getDepartmentList(null);
+    this.searchForm = !this.searchForm;
   }
 
   clear() {

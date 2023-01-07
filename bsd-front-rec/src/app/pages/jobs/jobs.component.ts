@@ -125,6 +125,7 @@ export class JobsComponent implements OnInit {
 
   search() {
     this.getJobList(null);
+    this.searchForm = !this.searchForm;
   }
 
   clear() {

@@ -115,6 +115,7 @@ export class DepartmentsDetailComponent implements OnInit {
 
   search() {
     this.getJobDepartmentList(null);
+    this.searchForm = !this.searchForm;
   }
 
   clear() {
