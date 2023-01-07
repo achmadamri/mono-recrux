@@ -16,47 +16,48 @@ public class TbResume implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="tbr_id")
-	private int tbrId;
+	private Integer tbrId;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="tbr_create_date")
 	private Date tbrCreateDate;
 
 	@Column(name="tbr_create_id")
-	private int tbrCreateId;
+	private Integer tbrCreateId;
 
 	@Column(name="tbr_create_idc")
-	private int tbrCreateIdc;
+	private Integer tbrCreateIdc;
 
 	@Lob
-	@Column(columnDefinition = "LONGTEXT", name="tbr_data_certifications")
-	private Object tbrDataCertifications;
+	@Column(columnDefinition = "text", name="tbr_data_certifications")
+	private String tbrDataCertifications;
 	
 	@Column(name="tbr_data_date_of_birth")
 	private String tbrDataDateOfBirth;
 
 	@Lob
-	@Column(columnDefinition = "LONGTEXT", name="tbr_data_education")
-	private Object tbrDataEducation;
+	@Column(columnDefinition = "text", name="tbr_data_education")
+	private String tbrDataEducation;
 
 	@Lob
-	@Column(columnDefinition = "LONGTEXT", name="tbr_data_emails")
-	private Object tbrDataEmails;
+	@Column(columnDefinition = "text", name="tbr_data_emails")
+	private String tbrDataEmails;
 
 	@Column(name="tbr_data_head_shot")
 	private String tbrDataHeadShot;
 
 	@Column(name="tbr_data_is_resume_probability")
-	private int tbrDataIsResumeProbability;
+	private Integer tbrDataIsResumeProbability;
 
 	@Lob
-	@Column(name="tbr_data_language_codes")
+	@Column(columnDefinition = "text", name="tbr_data_language_codes")
 	private String tbrDataLanguageCodes;
 
 	@Lob
-	@Column(columnDefinition = "LONGTEXT", name="tbr_data_languages")
-	private Object tbrDataLanguages;
+	@Column(columnDefinition = "text", name="tbr_data_languages")
+	private String tbrDataLanguages;
 
 	@Column(name="tbr_data_linkedin")
 	private String tbrDataLinkedin;
@@ -110,43 +111,43 @@ public class TbResume implements Serializable {
 	private String tbrDataObjective;
 
 	@Lob
-	@Column(name="tbr_data_phone_numbers")
+	@Column(columnDefinition = "text", name="tbr_data_phone_numbers")
 	private String tbrDataPhoneNumbers;
 
 	@Column(name="tbr_data_profession")
 	private String tbrDataProfession;
 
 	@Lob
-	@Column(columnDefinition = "LONGTEXT", name="tbr_data_publications")
-	private Object tbrDataPublications;
+	@Column(columnDefinition = "text", name="tbr_data_publications")
+	private String tbrDataPublications;
 
 	@Column(name="tbr_data_raw_text")
 	private String tbrDataRawText;
 
 	@Lob
-	@Column(columnDefinition = "LONGTEXT", name="tbr_data_referees")
-	private Object tbrDataReferees;
+	@Column(columnDefinition = "text", name="tbr_data_referees")
+	private String tbrDataReferees;
 
 	@Lob
-	@Column(columnDefinition = "LONGTEXT", name="tbr_data_sections")
-	private Object tbrDataSections;
+	@Column(columnDefinition = "text", name="tbr_data_sections")
+	private String tbrDataSections;
 
 	@Lob
-	@Column(columnDefinition = "LONGTEXT", name="tbr_data_skills")
-	private Object tbrDataSkills;
+	@Column(columnDefinition = "text", name="tbr_data_skills")
+	private String tbrDataSkills;
 
 	@Column(name="tbr_data_summary")
 	private String tbrDataSummary;
 
 	@Column(name="tbr_data_total_years_experience")
-	private int tbrDataTotalYearsExperience;
+	private Integer tbrDataTotalYearsExperience;
 
 	@Lob
-	@Column(columnDefinition = "LONGTEXT", name="tbr_data_websites")
-	private Object tbrDataWebsites;
+	@Column(columnDefinition = "text", name="tbr_data_websites")
+	private String tbrDataWebsites;
 
 	@Lob
-	@Column(name="tbr_data_work_experience")
+	@Column(columnDefinition = "text", name="tbr_data_work_experience")
 	private String tbrDataWorkExperience;
 
 	@Column(name="tbr_error_error_code")
@@ -156,14 +157,14 @@ public class TbResume implements Serializable {
 	private String tbrErrorErrorDetail;
 
 	@Lob
-	@Column(name="tbr_meta_child_documents")
+	@Column(columnDefinition = "text", name="tbr_meta_child_documents")
 	private String tbrMetaChildDocuments;
 
 	@Column(name="tbr_meta_expiry_time")
 	private String tbrMetaExpiryTime;
 
 	@Column(name="tbr_meta_failed")
-	private int tbrMetaFailed;
+	private Integer tbrMetaFailed;
 
 	@Column(name="tbr_meta_file_name")
 	private String tbrMetaFileName;
@@ -172,17 +173,17 @@ public class TbResume implements Serializable {
 	private String tbrMetaIdentifier;
 
 	@Column(name="tbr_meta_is_verified")
-	private int tbrMetaIsVerified;
+	private Integer tbrMetaIsVerified;
 
 	@Column(name="tbr_meta_language")
 	private String tbrMetaLanguage;
 
 	@Column(name="tbr_meta_ocr_confidence")
-	private double tbrMetaOcrConfidence;
+	private Double tbrMetaOcrConfidence;
 
 	@Lob
-	@Column(columnDefinition = "LONGTEXT", name="tbr_meta_pages")
-	private Object tbrMetaPages;
+	@Column(columnDefinition = "text", name="tbr_meta_pages")
+	private String tbrMetaPages;
 
 	@Column(name="tbr_meta_parent_document_identifier")
 	private String tbrMetaParentDocumentIdentifier;
@@ -191,7 +192,7 @@ public class TbResume implements Serializable {
 	private String tbrMetaPdf;
 
 	@Column(name="tbr_meta_ready")
-	private int tbrMetaReady;
+	private Integer tbrMetaReady;
 
 	@Column(name="tbr_meta_ready_dt")
 	private String tbrMetaReadyDt;
@@ -204,16 +205,22 @@ public class TbResume implements Serializable {
 	private Date tbrUpdateDate;
 
 	@Column(name="tbr_update_id")
-	private int tbrUpdateId;
+	private Integer tbrUpdateId;
+
+	@Column(name="tbr_status")
+	private String tbrStatus;
+
+	@Column(name="tbr_uuid")
+	private String tbrUuid;
 
 	public TbResume() {
 	}
 
-	public int getTbrId() {
+	public Integer getTbrId() {
 		return tbrId;
 	}
 
-	public void setTbrId(int tbrId) {
+	public void setTbrId(Integer tbrId) {
 		this.tbrId = tbrId;
 	}
 
@@ -225,27 +232,27 @@ public class TbResume implements Serializable {
 		this.tbrCreateDate = tbrCreateDate;
 	}
 
-	public int getTbrCreateId() {
+	public Integer getTbrCreateId() {
 		return tbrCreateId;
 	}
 
-	public void setTbrCreateId(int tbrCreateId) {
+	public void setTbrCreateId(Integer tbrCreateId) {
 		this.tbrCreateId = tbrCreateId;
 	}
 
-	public int getTbrCreateIdc() {
+	public Integer getTbrCreateIdc() {
 		return tbrCreateIdc;
 	}
 
-	public void setTbrCreateIdc(int tbrCreateIdc) {
+	public void setTbrCreateIdc(Integer tbrCreateIdc) {
 		this.tbrCreateIdc = tbrCreateIdc;
 	}
 
-	public Object getTbrDataCertifications() {
+	public String getTbrDataCertifications() {
 		return tbrDataCertifications;
 	}
 
-	public void setTbrDataCertifications(Object tbrDataCertifications) {
+	public void setTbrDataCertifications(String tbrDataCertifications) {
 		this.tbrDataCertifications = tbrDataCertifications;
 	}
 
@@ -257,19 +264,19 @@ public class TbResume implements Serializable {
 		this.tbrDataDateOfBirth = tbrDataDateOfBirth;
 	}
 
-	public Object getTbrDataEducation() {
+	public String getTbrDataEducation() {
 		return tbrDataEducation;
 	}
 
-	public void setTbrDataEducation(Object tbrDataEducation) {
+	public void setTbrDataEducation(String tbrDataEducation) {
 		this.tbrDataEducation = tbrDataEducation;
 	}
 
-	public Object getTbrDataEmails() {
+	public String getTbrDataEmails() {
 		return tbrDataEmails;
 	}
 
-	public void setTbrDataEmails(Object tbrDataEmails) {
+	public void setTbrDataEmails(String tbrDataEmails) {
 		this.tbrDataEmails = tbrDataEmails;
 	}
 
@@ -281,11 +288,11 @@ public class TbResume implements Serializable {
 		this.tbrDataHeadShot = tbrDataHeadShot;
 	}
 
-	public int getTbrDataIsResumeProbability() {
+	public Integer getTbrDataIsResumeProbability() {
 		return tbrDataIsResumeProbability;
 	}
 
-	public void setTbrDataIsResumeProbability(int tbrDataIsResumeProbability) {
+	public void setTbrDataIsResumeProbability(Integer tbrDataIsResumeProbability) {
 		this.tbrDataIsResumeProbability = tbrDataIsResumeProbability;
 	}
 
@@ -297,11 +304,11 @@ public class TbResume implements Serializable {
 		this.tbrDataLanguageCodes = tbrDataLanguageCodes;
 	}
 
-	public Object getTbrDataLanguages() {
+	public String getTbrDataLanguages() {
 		return tbrDataLanguages;
 	}
 
-	public void setTbrDataLanguages(Object tbrDataLanguages) {
+	public void setTbrDataLanguages(String tbrDataLanguages) {
 		this.tbrDataLanguages = tbrDataLanguages;
 	}
 
@@ -457,11 +464,11 @@ public class TbResume implements Serializable {
 		this.tbrDataProfession = tbrDataProfession;
 	}
 
-	public Object getTbrDataPublications() {
+	public String getTbrDataPublications() {
 		return tbrDataPublications;
 	}
 
-	public void setTbrDataPublications(Object tbrDataPublications) {
+	public void setTbrDataPublications(String tbrDataPublications) {
 		this.tbrDataPublications = tbrDataPublications;
 	}
 
@@ -473,27 +480,27 @@ public class TbResume implements Serializable {
 		this.tbrDataRawText = tbrDataRawText;
 	}
 
-	public Object getTbrDataReferees() {
+	public String getTbrDataReferees() {
 		return tbrDataReferees;
 	}
 
-	public void setTbrDataReferees(Object tbrDataReferees) {
+	public void setTbrDataReferees(String tbrDataReferees) {
 		this.tbrDataReferees = tbrDataReferees;
 	}
 
-	public Object getTbrDataSections() {
+	public String getTbrDataSections() {
 		return tbrDataSections;
 	}
 
-	public void setTbrDataSections(Object tbrDataSections) {
+	public void setTbrDataSections(String tbrDataSections) {
 		this.tbrDataSections = tbrDataSections;
 	}
 
-	public Object getTbrDataSkills() {
+	public String getTbrDataSkills() {
 		return tbrDataSkills;
 	}
 
-	public void setTbrDataSkills(Object tbrDataSkills) {
+	public void setTbrDataSkills(String tbrDataSkills) {
 		this.tbrDataSkills = tbrDataSkills;
 	}
 
@@ -505,19 +512,19 @@ public class TbResume implements Serializable {
 		this.tbrDataSummary = tbrDataSummary;
 	}
 
-	public int getTbrDataTotalYearsExperience() {
+	public Integer getTbrDataTotalYearsExperience() {
 		return tbrDataTotalYearsExperience;
 	}
 
-	public void setTbrDataTotalYearsExperience(int tbrDataTotalYearsExperience) {
+	public void setTbrDataTotalYearsExperience(Integer tbrDataTotalYearsExperience) {
 		this.tbrDataTotalYearsExperience = tbrDataTotalYearsExperience;
 	}
 
-	public Object getTbrDataWebsites() {
+	public String getTbrDataWebsites() {
 		return tbrDataWebsites;
 	}
 
-	public void setTbrDataWebsites(Object tbrDataWebsites) {
+	public void setTbrDataWebsites(String tbrDataWebsites) {
 		this.tbrDataWebsites = tbrDataWebsites;
 	}
 
@@ -561,11 +568,11 @@ public class TbResume implements Serializable {
 		this.tbrMetaExpiryTime = tbrMetaExpiryTime;
 	}
 
-	public int getTbrMetaFailed() {
+	public Integer getTbrMetaFailed() {
 		return tbrMetaFailed;
 	}
 
-	public void setTbrMetaFailed(int tbrMetaFailed) {
+	public void setTbrMetaFailed(Integer tbrMetaFailed) {
 		this.tbrMetaFailed = tbrMetaFailed;
 	}
 
@@ -585,11 +592,11 @@ public class TbResume implements Serializable {
 		this.tbrMetaIdentifier = tbrMetaIdentifier;
 	}
 
-	public int getTbrMetaIsVerified() {
+	public Integer getTbrMetaIsVerified() {
 		return tbrMetaIsVerified;
 	}
 
-	public void setTbrMetaIsVerified(int tbrMetaIsVerified) {
+	public void setTbrMetaIsVerified(Integer tbrMetaIsVerified) {
 		this.tbrMetaIsVerified = tbrMetaIsVerified;
 	}
 
@@ -601,19 +608,19 @@ public class TbResume implements Serializable {
 		this.tbrMetaLanguage = tbrMetaLanguage;
 	}
 
-	public double getTbrMetaOcrConfidence() {
+	public Double getTbrMetaOcrConfidence() {
 		return tbrMetaOcrConfidence;
 	}
 
-	public void setTbrMetaOcrConfidence(double tbrMetaOcrConfidence) {
+	public void setTbrMetaOcrConfidence(Double tbrMetaOcrConfidence) {
 		this.tbrMetaOcrConfidence = tbrMetaOcrConfidence;
 	}
 
-	public Object getTbrMetaPages() {
+	public String getTbrMetaPages() {
 		return tbrMetaPages;
 	}
 
-	public void setTbrMetaPages(Object tbrMetaPages) {
+	public void setTbrMetaPages(String tbrMetaPages) {
 		this.tbrMetaPages = tbrMetaPages;
 	}
 
@@ -633,11 +640,11 @@ public class TbResume implements Serializable {
 		this.tbrMetaPdf = tbrMetaPdf;
 	}
 
-	public int getTbrMetaReady() {
+	public Integer getTbrMetaReady() {
 		return tbrMetaReady;
 	}
 
-	public void setTbrMetaReady(int tbrMetaReady) {
+	public void setTbrMetaReady(Integer tbrMetaReady) {
 		this.tbrMetaReady = tbrMetaReady;
 	}
 
@@ -665,12 +672,28 @@ public class TbResume implements Serializable {
 		this.tbrUpdateDate = tbrUpdateDate;
 	}
 
-	public int getTbrUpdateId() {
+	public Integer getTbrUpdateId() {
 		return tbrUpdateId;
 	}
 
-	public void setTbrUpdateId(int tbrUpdateId) {
+	public void setTbrUpdateId(Integer tbrUpdateId) {
 		this.tbrUpdateId = tbrUpdateId;
+	}
+
+	public String getTbrStatus() {
+		return tbrStatus;
+	}
+
+	public void setTbrStatus(String tbrStatus) {
+		this.tbrStatus = tbrStatus;
+	}
+
+	public String getTbrUuid() {
+		return tbrUuid;
+	}
+
+	public void setTbrUuid(String tbrUuid) {
+		this.tbrUuid = tbrUuid;
 	}
 
 }

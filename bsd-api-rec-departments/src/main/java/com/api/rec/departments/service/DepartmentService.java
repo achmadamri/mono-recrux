@@ -7,6 +7,7 @@ import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Optional;
@@ -33,10 +34,12 @@ import com.affinda.api.client.models.ResumeRequestBody;
 import com.api.rec.departments.db.entity.TbDepartment;
 import com.api.rec.departments.db.entity.TbDepartmentJob;
 import com.api.rec.departments.db.entity.TbJob;
+import com.api.rec.departments.db.entity.TbResume;
 import com.api.rec.departments.db.entity.TbUser;
 import com.api.rec.departments.db.repository.TbDepartmentJobRepository;
 import com.api.rec.departments.db.repository.TbDepartmentRepository;
 import com.api.rec.departments.db.repository.TbJobRepository;
+import com.api.rec.departments.db.repository.TbResumeRepository;
 import com.api.rec.departments.db.repository.TbUserRepository;
 import com.api.rec.departments.model.department.GetDepartmentListRequestModel;
 import com.api.rec.departments.model.department.GetDepartmentListResponseModel;
@@ -79,6 +82,9 @@ public class DepartmentService {
 
 	@Autowired
 	private TbJobRepository tbJobRepository;
+
+	@Autowired
+	private TbResumeRepository tbResumeRepository;
 
 	public PostAddDepartmentResponseModel postAddDepartment(PostAddDepartmentRequestModel requestModel) throws Exception {
 		PostAddDepartmentResponseModel responseModel = new PostAddDepartmentResponseModel(requestModel);
@@ -162,17 +168,76 @@ public class DepartmentService {
 			Flux<ByteBuffer> flux = Flux.just(ByteBuffer.wrap(file.getBytes()));
 			ResumeRequestBody body = new ResumeRequestBody().setFile(flux);
 
-			LinkedHashMap data = (LinkedHashMap<String, Object>) client.createResume(body);
+			LinkedHashMap createResume = (LinkedHashMap) client.createResume(body);
+			LinkedHashMap data = (LinkedHashMap) createResume.get("data");
+			LinkedHashMap dataName = (LinkedHashMap) data.get("name");
+			LinkedHashMap dataLocation = (LinkedHashMap) data.get("location");
+			ArrayList dataEducation = (ArrayList) data.get("education");
+			ArrayList dataWorkExperience = (ArrayList) data.get("workExperience");
+			ArrayList dataSkills = (ArrayList) data.get("skills");
+			ArrayList dataReferees = (ArrayList) data.get("referees");
+			LinkedHashMap meta = (LinkedHashMap) createResume.get("meta");
 
-			// log.info(createResumeData.get("meta").toString());
+			TbResume tbResume = new TbResume();
+			// tbResume.setTbrCreateId(optTbUser.get().getTbuId());
+			tbResume.setTbrCreateDate(new Date());
+			// tbResume.setTbrCreateIdc(optTbUser.get().getTbuCreateIdc());
+			tbResume.setTbrStatus(TbResumeRepository.Active);
+			tbResume.setTbrUuid(new Uid().generateString(5).toUpperCase());
+			
+			tbResume.setTbrDataNameRaw((String) dataName.get("raw"));
+			tbResume.setTbrDataNameFirst((String) dataName.get("first"));
+			tbResume.setTbrDataNameLast((String) dataName.get("last"));
+			tbResume.setTbrDataNameMiddle((String) dataName.get("middle"));
+			tbResume.setTbrDataNameTitle((String) dataName.get("title"));
+			
+			tbResume.setTbrDataPhoneNumbers(((ArrayList) data.get("phoneNumbers")).toString());
+			tbResume.setTbrDataWebsites(((ArrayList) data.get("websites")).toString());
+			tbResume.setTbrDataEmails(((ArrayList) data.get("emails")).toString());
+			tbResume.setTbrDataDateOfBirth((String) data.get("dateOfBirth"));
+			
+			tbResume.setTbrDataLocationFormatted((String) dataLocation.get("formatted"));
+			tbResume.setTbrDataLocationPostalCode((String) dataLocation.get("postalCode"));
+			tbResume.setTbrDataLocationState((String) dataLocation.get("state"));
+			tbResume.setTbrDataLocationCountry((String) dataLocation.get("country"));
+			tbResume.setTbrDataLocationCountryCode((String) dataLocation.get("countryCode"));
+			tbResume.setTbrDataLocationRawInput((String) dataLocation.get("rawInput"));
+			tbResume.setTbrDataLocationStreetNumber((String) dataLocation.get("streetNumber"));
+			tbResume.setTbrDataLocationStreet((String) dataLocation.get("street"));
+			tbResume.setTbrDataLocationApartmentNumber((String) dataLocation.get("apartmentNumber"));
+			tbResume.setTbrDataLocationCity((String) dataLocation.get("city"));
+			
+			tbResume.setTbrDataObjective((String) data.get("objective"));
+			tbResume.setTbrDataLanguages(((ArrayList) data.get("languages")).toString());
+			// tbResume.setTbrDataLanguageCodes(((ArrayList) data.get("languageCodes")).toString());
+			
+			tbResume.setTbrDataSummary((String) data.get("summary"));
+			tbResume.setTbrDataTotalYearsExperience((Integer) data.get("totalYearsExperience"));
+			// tbResume.setTbrDataHeadShot((String) data.get("headShot"));
+			tbResume.setTbrDataEducation(dataEducation.toString());
+			tbResume.setTbrDataProfession((String) data.get("profession"));
+			tbResume.setTbrDataLinkedin((String) data.get("linkedin"));
+			tbResume.setTbrDataWorkExperience(dataWorkExperience.toString());
+			tbResume.setTbrDataSkills(dataSkills.toString());
+			tbResume.setTbrDataCertifications(((ArrayList) data.get("certifications")).toString());
+			tbResume.setTbrDataPublications(((ArrayList) data.get("publications")).toString());
+			tbResume.setTbrDataReferees(dataReferees.toString());
+			tbResume.setTbrDataIsResumeProbability((Integer) data.get("isResumeProbability"));
+			// tbResume.setTbrDataRawText((String) data.get("rawText"));
 
-			// LinkedHashMap data = (LinkedHashMap<String, Object>) client.getResume("bblizqjj", "hr-xml");
+			tbResume.setTbrMetaIdentifier((String) meta.get("identifier"));
+			tbResume.setTbrMetaFileName((String) meta.get("fileName"));
+			tbResume.setTbrMetaReady((boolean) meta.get("ready") == true ? 1 : 0);
+			tbResume.setTbrMetaReadyDt((String) meta.get("readyDt"));
+			tbResume.setTbrMetaFailed((boolean) meta.get("failed") == true ? 1 : 0);
+			tbResume.setTbrMetaExpiryTime((String) meta.get("expiryTime"));
+			tbResume.setTbrMetaLanguage((String) meta.get("language"));
+			// tbResume.setTbrMetaPdf((String) meta.get("pdf"));
+			tbResume.setTbrMetaIsVerified((boolean) meta.get("isVerified") == true ? 1 : 0);
+			tbResume.setTbrMetaReviewUrl((String) meta.get("reviewUrl"));
+			tbResume.setTbrMetaOcrConfidence((Double) meta.get("ocrConfidence"));
 
-			ObjectMapper objectMapper = new ObjectMapper();
-			Gson gson = new Gson();
-			JsonObject jsonObject = gson.fromJson(objectMapper.writeValueAsString(data), JsonObject.class);
-
-			log.info(jsonObject.toString());
+			tbResumeRepository.save(tbResume);
 
 			responseModel.setHttpStatus(HttpStatus.OK);
 		// } else {
