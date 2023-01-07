@@ -62,7 +62,7 @@ CREATE TABLE `tb_department` (
   `tbd_status` varchar(20) DEFAULT NULL,
   `tbd_uuid` varchar(5) DEFAULT NULL,
   PRIMARY KEY (`tbd_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -71,7 +71,7 @@ CREATE TABLE `tb_department` (
 
 LOCK TABLES `tb_department` WRITE;
 /*!40000 ALTER TABLE `tb_department` DISABLE KEYS */;
-INSERT INTO `tb_department` VALUES (1,NULL,28,1,'2023-01-05 05:21:14',28,'Human Resources','active','26EYH'),(2,NULL,28,1,'2023-01-04 13:55:46',28,'Product and Development','active','9IFU7'),(3,NULL,28,1,NULL,NULL,'Sales and Marketing','active','6H74K'),(4,NULL,28,1,'2023-01-05 07:17:52',28,'Information Technology','active','7KJU8'),(5,'2023-01-03 09:11:23',28,1,'2023-01-05 07:56:34',28,'RnD','active','4LO6G'),(7,'2023-01-03 15:39:43',28,1,'2023-01-04 08:32:57',28,'CEO Office','active','0AWNA'),(8,'2023-01-03 15:42:56',28,1,'2023-01-04 09:35:43',28,'Blockchain','active','1WV47'),(9,'2023-01-03 15:43:28',28,1,'2023-01-04 08:33:25',28,'Data Science','active','Q1ITU');
+INSERT INTO `tb_department` VALUES (1,NULL,28,1,'2023-01-05 16:58:06',28,'Human Resources','active','26EYH'),(2,NULL,28,1,'2023-01-04 13:55:46',28,'Product and Development','active','9IFU7'),(3,NULL,28,1,'2023-01-05 13:42:42',28,'Sales and Marketing','active','6H74K'),(4,NULL,28,1,'2023-01-05 07:17:52',28,'Information Technology','active','7KJU8'),(5,'2023-01-03 09:11:23',28,1,'2023-01-05 07:56:34',28,'RnD','active','4LO6G'),(7,'2023-01-03 15:39:43',28,1,'2023-01-05 13:25:46',28,'CEO Office','active','0AWNA'),(8,'2023-01-03 15:42:56',28,1,'2023-01-04 09:35:43',28,'Blockchain','active','1WV47'),(9,'2023-01-03 15:43:28',28,1,'2023-01-04 08:33:25',28,'Data Science','active','Q1ITU'),(10,'2023-01-05 13:26:04',28,1,NULL,NULL,'BOD','active','1DSMX'),(11,'2023-01-05 13:28:10',28,1,NULL,NULL,'Legal','active','YOODH');
 /*!40000 ALTER TABLE `tb_department` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -94,7 +94,7 @@ CREATE TABLE `tb_department_job` (
   `tbj_id` int(11) DEFAULT NULL,
   `tbdj_uuid` varchar(5) DEFAULT NULL,
   PRIMARY KEY (`tbdj_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -103,7 +103,7 @@ CREATE TABLE `tb_department_job` (
 
 LOCK TABLES `tb_department_job` WRITE;
 /*!40000 ALTER TABLE `tb_department_job` DISABLE KEYS */;
-INSERT INTO `tb_department_job` VALUES (1,'2023-01-05 12:01:37',28,1,'2023-01-05 12:01:46',28,'active',1,1,'H8T6D'),(2,'2023-01-05 12:01:48',28,1,'2023-01-05 12:04:18',28,'active',1,3,'UP7E2'),(3,'2023-01-05 12:02:17',28,1,NULL,NULL,'active',2,4,'91I92'),(4,'2023-01-05 12:02:20',28,1,NULL,NULL,'active',2,5,'BMMEP'),(5,'2023-01-05 12:02:52',28,1,NULL,NULL,'active',3,3,'KRLB4'),(6,'2023-01-05 12:02:58',28,1,NULL,NULL,'active',5,5,'5N3AY'),(7,'2023-01-05 12:03:17',28,1,NULL,NULL,'active',4,3,'Y6184'),(8,'2023-01-05 12:03:24',28,1,'2023-01-05 12:03:30',28,'active',5,3,'1WKT1');
+INSERT INTO `tb_department_job` VALUES (1,'2023-01-05 12:01:37',28,1,'2023-01-05 16:05:52',28,'assigned',1,1,'H8T6D'),(2,'2023-01-05 12:01:48',28,1,'2023-01-05 12:04:18',28,'assigned',1,3,'UP7E2'),(3,'2023-01-05 12:02:17',28,1,NULL,NULL,'assigned',2,4,'91I92'),(4,'2023-01-05 12:02:20',28,1,NULL,NULL,'assigned',2,5,'BMMEP'),(5,'2023-01-05 12:02:52',28,1,NULL,NULL,'assigned',3,3,'KRLB4'),(6,'2023-01-05 12:02:58',28,1,NULL,NULL,'assigned',5,5,'5N3AY'),(7,'2023-01-05 12:03:17',28,1,NULL,NULL,'assigned',4,3,'Y6184'),(8,'2023-01-05 12:03:24',28,1,'2023-01-05 13:25:05',28,'assigned',5,3,'1WKT1'),(9,'2023-01-05 13:21:10',28,1,'2023-01-05 13:21:12',28,'assigned',1,2,'PF3BI'),(10,'2023-01-05 13:25:28',28,1,NULL,NULL,'assigned',7,1,'OCM9E'),(11,'2023-01-05 13:41:30',28,1,'2023-01-05 13:41:33',28,'assigned',5,1,'5757N');
 /*!40000 ALTER TABLE `tb_department_job` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -163,7 +163,7 @@ CREATE TABLE `tb_job` (
 
 LOCK TABLES `tb_job` WRITE;
 /*!40000 ALTER TABLE `tb_job` DISABLE KEYS */;
-INSERT INTO `tb_job` VALUES (1,NULL,NULL,1,NULL,NULL,'Software Engineer','active','8HU6O'),(2,NULL,NULL,1,NULL,NULL,'QA Engineer','active','9LK76'),(3,NULL,NULL,1,NULL,NULL,'Product Owner','active','HASD6'),(4,NULL,NULL,1,NULL,NULL,'HR Manager','active','17G6Y'),(5,NULL,NULL,1,NULL,NULL,'HR Staff','active','A87JH'),(6,NULL,NULL,1,NULL,NULL,'CEO','active','G67HJ');
+INSERT INTO `tb_job` VALUES (1,NULL,NULL,1,'2023-01-05 16:33:56',28,'Software Engineer','active','8HU6O'),(2,NULL,NULL,1,'2023-01-05 16:08:53',28,'QA Engineer','active','9LK76'),(3,NULL,NULL,1,'2023-01-05 16:08:54',28,'Product Owner','active','HASD6'),(4,NULL,NULL,1,'2023-01-05 16:08:56',28,'HR Manager','active','17G6Y'),(5,NULL,NULL,1,'2023-01-05 16:51:02',28,'HR Staff','active','A87JH'),(6,NULL,NULL,1,'2023-01-05 16:51:10',28,'CEO','active','G67HJ');
 /*!40000 ALTER TABLE `tb_job` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -224,6 +224,88 @@ CREATE TABLE `tb_job_team` (
 LOCK TABLES `tb_job_team` WRITE;
 /*!40000 ALTER TABLE `tb_job_team` DISABLE KEYS */;
 /*!40000 ALTER TABLE `tb_job_team` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_resume`
+--
+
+DROP TABLE IF EXISTS `tb_resume`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tb_resume` (
+  `tbr_id` int(11) NOT NULL AUTO_INCREMENT,
+  `tbr_create_date` datetime DEFAULT NULL,
+  `tbr_create_id` int(11) DEFAULT NULL,
+  `tbr_create_idc` int(11) DEFAULT NULL,
+  `tbr_update_date` datetime DEFAULT NULL,
+  `tbr_update_id` int(11) DEFAULT NULL,
+  `tbr_data_name_raw` varchar(500) DEFAULT NULL,
+  `tbr_data_name_first` varchar(500) DEFAULT NULL,
+  `tbr_data_name_last` varchar(500) DEFAULT NULL,
+  `tbr_data_name_middle` varchar(500) DEFAULT NULL,
+  `tbr_data_name_title` varchar(500) DEFAULT NULL,
+  `tbr_data_phone_numbers` text DEFAULT NULL,
+  `tbr_data_websites` text DEFAULT NULL,
+  `tbr_data_emails` text DEFAULT NULL,
+  `tbr_data_date_of_birth` varchar(500) DEFAULT NULL,
+  `tbr_data_location_formatted` varchar(500) DEFAULT NULL,
+  `tbr_data_location_postal_code` varchar(500) DEFAULT NULL,
+  `tbr_data_location_state` varchar(500) DEFAULT NULL,
+  `tbr_data_location_country` varchar(500) DEFAULT NULL,
+  `tbr_data_location_country_code` varchar(500) DEFAULT NULL,
+  `tbr_data_location_raw_input` varchar(500) DEFAULT NULL,
+  `tbr_data_location_street_number` varchar(500) DEFAULT NULL,
+  `tbr_data_location_street` varchar(500) DEFAULT NULL,
+  `tbr_data_location_apartment_number` varchar(500) DEFAULT NULL,
+  `tbr_data_location_city` varchar(500) DEFAULT NULL,
+  `tbr_data_objective` varchar(500) DEFAULT NULL,
+  `tbr_data_languages` text DEFAULT NULL,
+  `tbr_data_language_codes` text DEFAULT NULL,
+  `tbr_data_summary` varchar(500) DEFAULT NULL,
+  `tbr_data_total_years_experience` int(11) DEFAULT NULL,
+  `tbr_data_head_shot` varchar(500) DEFAULT NULL,
+  `tbr_data_education` text DEFAULT NULL,
+  `tbr_data_profession` varchar(500) DEFAULT NULL,
+  `tbr_data_linkedin` varchar(500) DEFAULT NULL,
+  `tbr_data_work_experience` text DEFAULT NULL,
+  `tbr_data_skills` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `tbr_data_certifications` text DEFAULT NULL,
+  `tbr_data_publications` text DEFAULT NULL,
+  `tbr_data_referees` text DEFAULT NULL,
+  `tbr_data_sections` text DEFAULT NULL,
+  `tbr_data_is_resume_probability` int(11) DEFAULT NULL,
+  `tbr_data_raw_text` varchar(500) DEFAULT NULL,
+  `tbr_meta_identifier` varchar(500) DEFAULT NULL,
+  `tbr_meta_file_name` varchar(500) DEFAULT NULL,
+  `tbr_meta_ready` int(11) DEFAULT NULL,
+  `tbr_meta_ready_dt` varchar(500) DEFAULT NULL,
+  `tbr_meta_failed` int(11) DEFAULT NULL,
+  `tbr_meta_expiry_time` varchar(500) DEFAULT NULL,
+  `tbr_meta_language` varchar(500) DEFAULT NULL,
+  `tbr_meta_pdf` varchar(500) DEFAULT NULL,
+  `tbr_meta_parent_document_identifier` varchar(500) DEFAULT NULL,
+  `tbr_meta_child_documents` text DEFAULT NULL,
+  `tbr_meta_pages` text DEFAULT NULL,
+  `tbr_meta_is_verified` int(11) DEFAULT NULL,
+  `tbr_meta_review_url` varchar(500) DEFAULT NULL,
+  `tbr_meta_ocr_confidence` double DEFAULT NULL,
+  `tbr_error_error_code` varchar(500) DEFAULT NULL,
+  `tbr_error_error_detail` varchar(500) DEFAULT NULL,
+  `tbr_status` varchar(20) DEFAULT NULL,
+  `tbr_uuid` varchar(5) DEFAULT NULL,
+  PRIMARY KEY (`tbr_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_resume`
+--
+
+LOCK TABLES `tb_resume` WRITE;
+/*!40000 ALTER TABLE `tb_resume` DISABLE KEYS */;
+INSERT INTO `tb_resume` VALUES (1,'2023-01-07 11:50:23',NULL,NULL,NULL,NULL,'ACHMAD AMRI AYUBUH ANSYORI','Achmad','Ansyori','Amri Ayubuh','','[+6281380782318]','[]','[]','1981-08-19','127 c, Jl. Kayuringin Jaya No.13, RT.001/RW.017, Kayuringin Jaya, Kec. Bekasi Sel., Kota Bks, Jawa Barat 17144, Indonesia','17144','Jawa Barat','Indonesia','ID','Jl. Gunung Gede V No 127 C. Rt.04/Rw.13 Kayuringin Jaya. Bekasi - Jawa Barat.','13','Jalan Kayuringin Jaya','127 c',NULL,'','[English]',NULL,'',12,NULL,'[{id=8563966, organization=Fakultas Ilmu Komputer Universitas Gunadarma, accreditation={education=Manajemen Informatika,, educationLevel=null, inputStr=Manajemen Informatika,, matchStr=}, grade=null, location=null, dates={startDate=null, completionDate=2006-01-01, isCurrent=false}}, {id=8563967, organization=Teknik Informatika, MDP, accreditation={educationLevel=null, inputStr=, matchStr=}, grade=null, location={formatted=Palembang, Palembang City, South Sumatra, Indonesia, streetNumber=null, street=null, apartmentNumber=null, city=Palembang, postalCode=null, state=South Sumatra, country=Indonesia, rawInput=Palembang,, countryCode=ID}, dates={startDate=null, completionDate=2000-01-01, isCurrent=false}}, {id=8563968, organization=PALEMBANG, accreditation={education=SMAN 10, educationLevel=null, inputStr=SMAN 10, matchStr=}, grade=null, location=null, dates={startDate=null, completionDate=1999-01-01, isCurrent=false}}, {id=8563969, organization=PALEMBANG, accreditation={education=SMPN 1, educationLevel=null, inputStr=SMPN 1, matchStr=}, grade=null, location=null, dates={startDate=null, completionDate=1993-01-01, isCurrent=false}}]','Senior Platform Developer',NULL,'[{id=15975529, jobTitle=Founder, Director, eCommerce Implementation Consultant, organization=PT. BTECHNO SOLUSI DIGITAL, location=null, dates={startDate=2021-06-01, endDate=2023-01-07, monthsInPosition=19, isCurrent=true}, jobDescription=Project based consultant on various projects from private and government owned company : PT Rajawali Berdikari Indonesia Attendance Application PT. Tiga Global Sejahtera Distribution Management System https://dms.id-trec.com PT Kustodian Sentral Efek Indonesia (KSEI) Revamp GUI for S-Invest Latest technology and/or Methodology that were deployed: Vaadin Angular , occupation={jobTitle=Founder, Director, eCommerce Implementation Consultant, jobTitleNormalized=null, classification=null, managementLevel=null}}, {id=15975530, jobTitle=Senior Manager Platform Development, organization=PT. Sumber Trijaya Lestari (alfacart.com), location=null, dates={startDate=2016-01-01, endDate=2021-03-01, monthsInPosition=62, isCurrent=false}, jobDescription=direct report to VP / Head of IT Managing and mentoring development team in all activities from assessment, pre development strategy, development phase, deployment rollout, and post deployment. Leading development team to delivery ecommerce microservices based applications for both frontend and backend. Technology and/or Methodology that were deployed: Ubuntu Desktop, Ubuntu Server, Centos, Microsoft Windows, Microsoft Project, Microsoft Power point, Microsoft Word, Php, J2EE, Oracle Service Bus, Oracle Database, PostgreSQL Database, MySQL Database, Magento Enterprise, SOLR, Java JAX-WS, Java JAX-RS, Google Web Toolkit, Apache Tomcat, Oracle Weblogic, Code Igniter, Bootstrap, SVN, JIRA, Confluence, Google Cloud Platform, Amazon Web Services, MongoDB, Redis, Kubernetes, Kafka, Confluent, Spring Boot, Machine Learning (Weka, Rapidminer). , occupation={jobTitle=Senior Manager Platform Development, jobTitleNormalized=Platform Development Manager, classification=null, managementLevel=Mid}}, {id=15975531, jobTitle=Senior Manager Backend Developer, organization=PT. XL Planet (elevenia.co.id), location=null, dates={startDate=2014-01-01, endDate=2015-12-01, monthsInPosition=23, isCurrent=false}, jobDescription=Having responsibilities for giving assessment of possibilities, options, and schedule for task and giving directions, strategies, and guidance to team for completing the task based on team load and team capacity. Technology and/or Methodology that were deployed: Microsoft Power point, Microsoft Word, J2EE, Oracle Database, SQL Developer, Apache Tomcat, Oracle Weblogic. , occupation={jobTitle=Senior Manager Backend Developer, jobTitleNormalized=Drupal Backend Developer, classification={socCode=2134, title=Programmers and software development professionals , minorGroup=Information Technology Professionals, subMajorGroup=SCIENCE, RESEARCH, ENGINEERING AND TECHNOLOGY PROFESSIONALS, majorGroup=PROFESSIONAL OCCUPATIONS}, managementLevel=Low}}, {id=15975532, jobTitle=Technical Consultant, organization=PT Mitra Integrasi Informatika, location=null, dates={startDate=2010-11-01, endDate=2013-12-01, monthsInPosition=37, isCurrent=false}, jobDescription=Extending, design and deliver KPEI Middleware, as a backbone for KPEI day to day operational process. Design phase: Gathering requirement and coordinate with multiple application vendors to provide SOA design. Create Project Plan, High Level Requirement, Business Proposal, and Document Design. Deliver phase: In charge with weekly Progress Meeting to update user with the latest condition of project, also with risks and issues arise within accomplished week. Deliver service according with business specification. Support phase: Give assessment with any Change Request, if exists. Bug fixing. Technology and/or Methodology that were deployed: Microsoft Word, Microsoft Project, Microsoft Excel, C++, J2EE, Oracle Database, MySQL Database, SQL Developer, Toad for MySQL, Apache Tomcat, Oracle Weblogic, Oracle SOA Suite. , occupation={jobTitle=Technical Consultant, jobTitleNormalized=Technical Consultant, classification={socCode=2139, title=Information technology professionals n.e.c., minorGroup=Information Technology Professionals, subMajorGroup=SCIENCE, RESEARCH, ENGINEERING AND TECHNOLOGY PROFESSIONALS, majorGroup=PROFESSIONAL OCCUPATIONS}, managementLevel=Low}}]','[{id=86061465, emsiId=KS126PF6PJY1N0ZX5R0P, name=MongoDB, lastUsed=2021-03-01, numberOfMonths=62, type=hard_skill, sources=[{section=WorkExperience, position=1, workExperienceId=15975530}]}, {id=86061467, emsiId=KS1261Z68KSKR1X31KS3, name=Machine Learning, lastUsed=2021-03-01, numberOfMonths=62, type=hard_skill, sources=[{section=WorkExperience, position=1, workExperienceId=15975530}]}, {id=86061469, emsiId=KS123KG6DL8N3D5ZW036, name=Java Platform Enterprise Edition (J2EE), lastUsed=2021-03-01, numberOfMonths=122, type=hard_skill, sources=[{section=WorkExperience, position=1, workExperienceId=15975530}, {section=WorkExperience, position=2, workExperienceId=15975531}, {section=WorkExperience, position=3, workExperienceId=15975532}]}, {id=86061470, emsiId=KSJF3PBD3995K6E0OF1Z, name=Kubernetes, lastUsed=2021-03-01, numberOfMonths=62, type=hard_skill, sources=[{section=WorkExperience, position=1, workExperienceId=15975530}]}, {id=86061472, emsiId=KS4420H75G906GRK0QJZ, name=Web Services, lastUsed=2021-03-01, numberOfMonths=62, type=hard_skill, sources=[{section=WorkExperience, position=1, workExperienceId=15975530}]}, {id=86061473, emsiId=KSFS12Z1D00MRUX8Z7E8, name=Magento, lastUsed=2021-03-01, numberOfMonths=62, type=hard_skill, sources=[{section=WorkExperience, position=1, workExperienceId=15975530}]}, {id=86061474, emsiId=KS4421N62QZJ2NZ9QJY7, name=Weka, lastUsed=2021-03-01, numberOfMonths=62, type=hard_skill, sources=[{section=WorkExperience, position=1, workExperienceId=15975530}]}, {id=86061475, emsiId=KS121KB68PWHRPJCJKQJ, name=CentOS, lastUsed=2021-03-01, numberOfMonths=62, type=hard_skill, sources=[{section=WorkExperience, position=1, workExperienceId=15975530}]}, {id=86061476, emsiId=ES6D557B9D5BE598FD74, name=Spring Boot, lastUsed=2021-03-01, numberOfMonths=62, type=hard_skill, sources=[{section=WorkExperience, position=1, workExperienceId=15975530}]}, {id=86061477, emsiId=KS120H6772VQ0MQ5RLVD, name=Angular (Web Framework), lastUsed=2023-01-07, numberOfMonths=19, type=hard_skill, sources=[{section=WorkExperience, position=0, workExperienceId=15975529}]}, {id=86061479, emsiId=KS1200H6XYN1CR0G5NZ0, name=Microsoft Excel, lastUsed=2013-12-01, numberOfMonths=37, type=soft_skill, sources=[{section=WorkExperience, position=3, workExperienceId=15975532}]}, {id=86061480, emsiId=KS120265WKHSMJ6HYX8P, name=Microsoft Windows, lastUsed=2021-03-01, numberOfMonths=62, type=soft_skill, sources=[{section=WorkExperience, position=1, workExperienceId=15975530}]}, {id=86061481, emsiId=KS1200C5XQWW78VQ5ZYL, name=PHP (Scripting Language), lastUsed=2021-03-01, numberOfMonths=62, type=hard_skill, sources=[{section=Training/Certifications, position=null, workExperienceId=null}, {section=WorkExperience, position=1, workExperienceId=15975530}]}, {id=86061482, emsiId=KS120076FGP5WGWYMP0F, name=Java (Programming Language), lastUsed=2021-03-01, numberOfMonths=62, type=hard_skill, sources=[{section=WorkExperience, position=1, workExperienceId=15975530}]}, {id=86061483, emsiId=KSZX7YZWNR5IDR1I2VMZ, name=Microservices, lastUsed=2021-03-01, numberOfMonths=62, type=hard_skill, sources=[{section=WorkExperience, position=1, workExperienceId=15975530}]}, {id=86061484, emsiId=KS120QQ6ZN003B8B7FK1, name=JIRA, lastUsed=2021-03-01, numberOfMonths=62, type=hard_skill, sources=[{section=WorkExperience, position=1, workExperienceId=15975530}]}, {id=86061485, emsiId=KS120JM6ZKSY0Q8PJ7WT, name=Apache Tomcat, lastUsed=2021-03-01, numberOfMonths=122, type=hard_skill, sources=[{section=WorkExperience, position=1, workExperienceId=15975530}, {section=WorkExperience, position=2, workExperienceId=15975531}, {section=WorkExperience, position=3, workExperienceId=15975532}]}, {id=86061486, emsiId=KS7G3YQ62YJG4LX9QFZT, name=Google Cloud, lastUsed=2021-03-01, numberOfMonths=62, type=hard_skill, sources=[{section=WorkExperience, position=1, workExperienceId=15975530}]}, {id=86061487, emsiId=KS126J46GGVZB8BGGXSY, name=Microsoft Project, lastUsed=2021-03-01, numberOfMonths=99, type=hard_skill, sources=[{section=WorkExperience, position=1, workExperienceId=15975530}, {section=WorkExperience, position=3, workExperienceId=15975532}]}, {id=86061488, emsiId=KS1214R5XG4X4PY7LGY6, name=Bootstrap (Front-End Framework), lastUsed=2021-03-01, numberOfMonths=62, type=hard_skill, sources=[{section=WorkExperience, position=1, workExperienceId=15975530}]}, {id=86061491, emsiId=KS1218W78FGVPVP2KXPX, name=Management, lastUsed=2023-01-07, numberOfMonths=19, type=soft_skill, sources=[{section=WorkExperience, position=0, workExperienceId=15975529}]}, {id=86061492, emsiId=KS440W865GC4VRBW6LJP, name=SQL (Programming Language), lastUsed=2021-03-01, numberOfMonths=122, type=hard_skill, sources=[{section=Training/Certifications, position=null, workExperienceId=null}, {section=WorkExperience, position=1, workExperienceId=15975530}, {section=WorkExperience, position=2, workExperienceId=15975531}, {section=WorkExperience, position=3, workExperienceId=15975532}]}, {id=86061494, emsiId=KSN97GEUHPNGNAQFDCGY, name=Apache Kafka, lastUsed=2021-03-01, numberOfMonths=62, type=hard_skill, sources=[{section=WorkExperience, position=1, workExperienceId=15975530}]}, {id=86061495, emsiId=KS1200365FTR9X0M96T9, name=Microsoft Word, lastUsed=2021-03-01, numberOfMonths=122, type=soft_skill, sources=[{section=WorkExperience, position=1, workExperienceId=15975530}, {section=WorkExperience, position=2, workExperienceId=15975531}, {section=WorkExperience, position=3, workExperienceId=15975532}]}, {id=86061496, emsiId=KS120FG6YP8PQYYNQY9B, name=Amazon Web Services, lastUsed=2021-03-01, numberOfMonths=62, type=hard_skill, sources=[{section=WorkExperience, position=1, workExperienceId=15975530}]}, {id=86061497, emsiId=KS441Q56Y88HLXDMHM4Y, name=Vaadin, lastUsed=2023-01-07, numberOfMonths=19, type=hard_skill, sources=[{section=WorkExperience, position=0, workExperienceId=15975529}]}, {id=86061498, emsiId=KS126QY605N7YVHFYCTW, name=MySQL, lastUsed=2021-03-01, numberOfMonths=99, type=hard_skill, sources=[{section=Training/Certifications, position=null, workExperienceId=null}, {section=WorkExperience, position=1, workExperienceId=15975530}, {section=WorkExperience, position=3, workExperienceId=15975532}]}, {id=86061499, emsiId=KS441S66KZY7LM20RKYN, name=Software Versioning, lastUsed=2021-03-01, numberOfMonths=62, type=hard_skill, sources=[{section=WorkExperience, position=1, workExperienceId=15975530}]}, {id=86061466, emsiId=KS128D367HP9RPXPGSM7, name=RapidMiner, lastUsed=2021-03-01, numberOfMonths=62, type=hard_skill, sources=[{section=WorkExperience, position=1, workExperienceId=15975530}]}, {id=86061468, emsiId=KSIJ33GROZ22YMYACXRW, name=JAX-WS, lastUsed=2021-03-01, numberOfMonths=62, type=hard_skill, sources=[{section=WorkExperience, position=1, workExperienceId=15975530}]}, {id=86061471, emsiId=KS128G66RG96FZNHFCXY, name=Redis, lastUsed=2021-03-01, numberOfMonths=62, type=hard_skill, sources=[{section=WorkExperience, position=1, workExperienceId=15975530}]}, {id=86061478, emsiId=ESC7869CF7378283E0AA, name=Google Cloud Platform (GCP), lastUsed=2021-03-01, numberOfMonths=62, type=hard_skill, sources=[{section=WorkExperience, position=1, workExperienceId=15975530}]}, {id=86061489, emsiId=KS1QEK3F0I7319NUW1TJ, name=Oracle Service Bus, lastUsed=2021-03-01, numberOfMonths=62, type=hard_skill, sources=[{section=WorkExperience, position=1, workExperienceId=15975530}]}, {id=86061490, emsiId=KS123GK5WYFRJ4L20YK2, name=Middleware, lastUsed=2013-12-01, numberOfMonths=37, type=hard_skill, sources=[{section=WorkExperience, position=3, workExperienceId=15975532}]}, {id=86061493, emsiId=KS121T56Q1CL65W06BJ5, name=Change Request, lastUsed=2013-12-01, numberOfMonths=37, type=hard_skill, sources=[{section=WorkExperience, position=3, workExperienceId=15975532}]}, {id=86061500, emsiId=KS121CF62WFJ19GK02H7, name=Ubuntu (Operating System), lastUsed=2021-03-01, numberOfMonths=62, type=hard_skill, sources=[{section=WorkExperience, position=1, workExperienceId=15975530}]}, {id=86061501, emsiId=KSCWA6GA1Q87T9ASI1UL, name=Rajawali, lastUsed=2023-01-07, numberOfMonths=19, type=hard_skill, sources=[{section=WorkExperience, position=0, workExperienceId=15975529}]}, {id=86061502, emsiId=KS125TB6YR6236RKM563, name=PostgreSQL, lastUsed=2021-03-01, numberOfMonths=62, type=hard_skill, sources=[{section=WorkExperience, position=1, workExperienceId=15975530}]}]','[]','[]','[]',NULL,99,NULL,'nDxLzzjZ','e4ebfa03-da4f-4c5e-94ab-db8ddf459cf7',1,'2023-01-07T11:50:22.296739Z',0,NULL,'en',NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,'active','AUZOW');
+/*!40000 ALTER TABLE `tb_resume` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -339,4 +421,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-01-05 19:05:03
+-- Dump completed on 2023-01-07 18:52:17
