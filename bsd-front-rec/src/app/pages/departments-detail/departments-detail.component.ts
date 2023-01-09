@@ -171,5 +171,9 @@ export class DepartmentsDetailComponent implements OnInit {
       }
     );
   }
+  
+  edit(tbjUuid: string) {
+    this.router.navigate(['/jobs/' + tbjUuid]);
+  }
 
 }
