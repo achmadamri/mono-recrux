@@ -79,7 +79,7 @@ export class DepartmentsDetailComponent implements OnInit {
 
     this.pageEvent = pageEvent;
 
-    this.jobService.getJobDepartmentList(this.postAddDepartmentRequest.tbDepartment.tbdId, this.getJobDepartmentListRequest.viewJobDepartment.tbjName, this.getJobDepartmentListRequest.viewJobDepartment.tbjStatus, pageEvent != null ? pageEvent.length : this.length, pageEvent != null ? pageEvent.pageSize : this.pageSize, pageEvent != null ? pageEvent.pageIndex : this.pageIndex)
+    this.jobService.getJobDepartmentList(this.postAddDepartmentRequest.tbDepartment.tbdId, this.getJobDepartmentListRequest.viewJobDepartment.tbjName, this.getJobDepartmentListRequest.viewJobDepartment.tbdjStatus, pageEvent != null ? pageEvent.length : this.length, pageEvent != null ? pageEvent.pageSize : this.pageSize, pageEvent != null ? pageEvent.pageIndex : this.pageIndex)
       .subscribe(
         successResponse => {
           this.clicked = !this.clicked;
@@ -120,7 +120,7 @@ export class DepartmentsDetailComponent implements OnInit {
 
   clear() {
     this.getJobDepartmentListRequest.viewJobDepartment.tbjName = '';
-    this.getJobDepartmentListRequest.viewJobDepartment.tbjStatus = '';
+    this.getJobDepartmentListRequest.viewJobDepartment.tbdjStatus = '';
   }
 
   saveupdate() {

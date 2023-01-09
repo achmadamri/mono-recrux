@@ -42,20 +42,22 @@ public interface ViewJobDepartmentRepository extends JpaRepository<ViewJobDepart
 		"    tbd.tbd_name as tbd_name, " +
 		"    tbd.tbd_status as tbd_status, " +
 		"    tbd.tbd_uuid as tbd_uuid " +
-		"from (select * from tb_job where tbj_create_idc = :tbjCreateIdc and tbj_status = :tbjStatus and tbj_name like %:tbjName%) tbj " +
+		"from (select * from tb_job where tbj_create_idc = :tbjCreateIdc and tbj_name like %:tbjName%) tbj " +
 		"left join tb_department_job tbdj on tbdj.tbdj_create_idc = tbj.tbj_create_idc and tbdj.tbj_id = tbj.tbj_id and tbdj.tbd_id = :tbdId " +
-		"left join tb_department tbd on tbd.tbd_id = tbdj.tbd_id"
+		"left join tb_department tbd on tbd.tbd_id = tbdj.tbd_id " +
+		"where case when :tbdjStatus = 'not assigned' then tbdj.tbdj_status = :tbdjStatus or tbdj.tbdj_status is null else tbdj.tbdj_status = :tbdjStatus end"
 		, nativeQuery = true)
-	List<ViewJobDepartment> findByTbdId(Integer tbjCreateIdc, Integer tbdId, String tbjName, String tbjStatus, Pageable pageable);
+	List<ViewJobDepartment> findByTbdId(Integer tbjCreateIdc, Integer tbdId, String tbjName, String tbdjStatus, Pageable pageable);
 
 	@Query(
 		value = 
 		"select count(0) " +
-		"from (select * from tb_job where tbj_create_idc = :tbjCreateIdc and tbj_status = :tbjStatus and tbj_name like %:tbjName%) tbj " +
+		"from (select * from tb_job where tbj_create_idc = :tbjCreateIdc and tbj_name like %:tbjName%) tbj " +
 		"left join tb_department_job tbdj on tbdj.tbdj_create_idc = tbj.tbj_create_idc and tbdj.tbj_id = tbj.tbj_id and tbdj.tbd_id = :tbdId " +
-		"left join tb_department tbd on tbd.tbd_id = tbdj.tbd_id"
+		"left join tb_department tbd on tbd.tbd_id = tbdj.tbd_id " +
+		"where case when :tbdjStatus = 'not assigned' then tbdj.tbdj_status = :tbdjStatus or tbdj.tbdj_status is null else tbdj.tbdj_status = :tbdjStatus end"
 		, nativeQuery = true)
-	Long countByTbdId(Integer tbjCreateIdc, String tbjName, String tbjStatus, Integer tbdId);
+	Long countByTbdId(Integer tbjCreateIdc, String tbjName, String tbdjStatus, Integer tbdId);
 
 	@Query(
 		value = 

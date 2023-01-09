@@ -75,7 +75,7 @@ public class JobController {
 	}
 
 	@GetMapping("/getjobdepartmentlist")
-	public HttpEntity<?> getJobDepartmentList(@RequestParam Integer tbdId, @RequestParam String tbjName, @RequestParam String tbjStatus, @RequestParam String length, @RequestParam String pageSize, @RequestParam String pageIndex, @RequestParam String email, @RequestParam String token, @RequestParam String requestId, @RequestParam String requestDate) throws Exception {
+	public HttpEntity<?> getJobDepartmentList(@RequestParam Integer tbdId, @RequestParam String tbjName, @RequestParam String tbdjStatus, @RequestParam String length, @RequestParam String pageSize, @RequestParam String pageIndex, @RequestParam String email, @RequestParam String token, @RequestParam String requestId, @RequestParam String requestDate) throws Exception {
 		GetJobDepartmentListRequestModel requestModel = new GetJobDepartmentListRequestModel();
 		requestModel.setEmail(email);
 		requestModel.setToken(token);
@@ -85,7 +85,7 @@ public class JobController {
 		String fid = new Uid().generateString(20);
 		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
 		
-		GetJobDepartmentListResponseModel responseModel = jobService.getJobDepartmentList(tbdId, tbjName, tbjStatus, length, pageSize, pageIndex, requestModel);
+		GetJobDepartmentListResponseModel responseModel = jobService.getJobDepartmentList(tbdId, tbjName, tbdjStatus, length, pageSize, pageIndex, requestModel);
 		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
 
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());

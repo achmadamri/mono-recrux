@@ -17,7 +17,7 @@ export class JobService {
 
   constructor(private httpClient: HttpClient) { }
   
-  getJobDepartmentList(tbdId: number, tbjName: string, tbjStatus: string, length: number, pageSize: number, pageIndex: number): Observable<GetJobDepartmentListResponse> {
+  getJobDepartmentList(tbdId: number, tbjName: string, tbdjStatus: string, length: number, pageSize: number, pageIndex: number): Observable<GetJobDepartmentListResponse> {
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json');
 
@@ -31,7 +31,7 @@ export class JobService {
       .set('pageIndex', pageIndex.toString())
       .set('tbdId', tbdId)
       .set('tbjName', tbjName == null ? '' : tbjName)
-      .set('tbjStatus', tbjStatus  == null ? '' : tbjStatus)
+      .set('tbdjStatus', tbdjStatus  == null ? '' : tbdjStatus)
       ;
 
     return this.httpClient.get<GetJobDepartmentListResponse>(`${this.apiUrl}/getjobdepartmentlist`, { headers, params });

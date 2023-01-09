@@ -174,7 +174,7 @@ public class JobService {
 		return responseModel;
 	}
 
-	public GetJobDepartmentListResponseModel getJobDepartmentList(Integer tbdId, String tbjName, String tbjStatus, String length, String pageSize, String pageIndex, GetJobDepartmentListRequestModel requestModel) throws Exception {
+	public GetJobDepartmentListResponseModel getJobDepartmentList(Integer tbdId, String tbjName, String tbdjStatus, String length, String pageSize, String pageIndex, GetJobDepartmentListRequestModel requestModel) throws Exception {
 		GetJobDepartmentListResponseModel responseModel = new GetJobDepartmentListResponseModel(requestModel);
 		
 		tokenUtil.claims(requestModel);
@@ -186,21 +186,21 @@ public class JobService {
 		
 		if (optTbUser.isPresent()) {
 			List<ViewJobDepartment> lstViewJobDepartment = 
-			tbjStatus.equals("")
+			tbdjStatus.equals("")
 			?
 			viewJobDepartmentRepository.findByTbdId(optTbUser.get().getTbuCreateIdc(), tbdId, tbjName, PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbj_id", "tbd_id").ascending()))
 			:
-			viewJobDepartmentRepository.findByTbdId(optTbUser.get().getTbuCreateIdc(), tbdId, tbjName, tbjStatus, PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbj_id", "tbd_id").ascending()));
+			viewJobDepartmentRepository.findByTbdId(optTbUser.get().getTbuCreateIdc(), tbdId, tbjName, tbdjStatus, PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbj_id", "tbd_id").ascending()));
 
 
 			if (lstViewJobDepartment.size() > 0) {
 				responseModel.setLstViewJobDepartment(lstViewJobDepartment);				
 				responseModel.setLength(
-					tbjStatus.equals("")
+					tbdjStatus.equals("")
 					?
 					viewJobDepartmentRepository.countByTbdId(optTbUser.get().getTbuCreateIdc(), tbjName, tbdId)
 					:
-					viewJobDepartmentRepository.countByTbdId(optTbUser.get().getTbuCreateIdc(), tbjName, tbjStatus, tbdId)
+					viewJobDepartmentRepository.countByTbdId(optTbUser.get().getTbuCreateIdc(), tbjName, tbdjStatus, tbdId)
 				);
 				responseModel.setHttpStatus(HttpStatus.OK);
 			} else {
