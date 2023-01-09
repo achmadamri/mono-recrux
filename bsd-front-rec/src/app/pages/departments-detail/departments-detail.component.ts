@@ -24,8 +24,9 @@ export class DepartmentsDetailComponent implements OnInit {
   length = 100;
   pageSize = 5;
   pageIndex = 0;
+  previousPageIndex = 0;
   pageSizeOptions: number[] = [5, 10, 25, 100];
-  pageEvent: PageEvent;
+  pageEvent: PageEvent = new PageEvent();
   pageDisabled: boolean = false;
   saveUpdate: string = '';
   postAddDepartmentRequest: PostAddDepartmentRequest = new PostAddDepartmentRequest();
@@ -45,6 +46,15 @@ export class DepartmentsDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    if (localStorage.getItem('departments-detail.pageEvent') != null) {
+      this.pageEvent = JSON.parse(localStorage.getItem('departments-detail.pageEvent'));    
+    } else {
+      this.pageEvent.length = this.length;
+      this.pageEvent.pageSize = this.pageSize;
+      this.pageEvent.pageIndex = this.pageIndex;
+      this.pageEvent.previousPageIndex = this.previousPageIndex;
+    }
+
     this.route.paramMap.subscribe(params => {
       this.postAddDepartmentRequest.tbDepartment.tbdUuid = params.get('tbdUuid');
 
@@ -59,7 +69,7 @@ export class DepartmentsDetailComponent implements OnInit {
             this.postAddDepartmentRequest.tbDepartment.tbdName = this.getDepartmentResponse.tbDepartment.tbdName;
             this.postAddDepartmentRequest.tbDepartment.tbdStatus = this.getDepartmentResponse.tbDepartment.tbdStatus;
 
-            this.getJobDepartmentList(null);
+            this.getJobDepartmentList(this.pageEvent);
           },
           errorResponse => {            
             this.getDepartmentResponse = new GetDepartmentResponse();
@@ -79,18 +89,17 @@ export class DepartmentsDetailComponent implements OnInit {
 
     this.pageEvent = pageEvent;
 
-    this.jobService.getJobDepartmentList(this.postAddDepartmentRequest.tbDepartment.tbdId, this.getJobDepartmentListRequest.viewJobDepartment.tbjName, this.getJobDepartmentListRequest.viewJobDepartment.tbdjStatus, pageEvent != null ? pageEvent.length : this.length, pageEvent != null ? pageEvent.pageSize : this.pageSize, pageEvent != null ? pageEvent.pageIndex : this.pageIndex)
+    localStorage.setItem('departments-detail.pageEvent', JSON.stringify(pageEvent));
+
+    this.jobService.getJobDepartmentList(this.postAddDepartmentRequest.tbDepartment.tbdId, this.getJobDepartmentListRequest.viewJobDepartment.tbjName, this.getJobDepartmentListRequest.viewJobDepartment.tbdjStatus, pageEvent.length, pageEvent.pageSize, pageEvent.pageIndex)
       .subscribe(
         successResponse => {
           this.clicked = !this.clicked;
           this.getJobDepartmentListResponse = successResponse;
           this.length = this.getJobDepartmentListResponse.length;
-
-          if (pageEvent != null) {
-            this.length = pageEvent.length;
-            this.pageSize = pageEvent.pageSize;
-            this.pageIndex = pageEvent.pageIndex;
-          }          
+          this.pageSize = pageEvent.pageSize;
+          this.pageIndex = pageEvent.pageIndex;
+          this.previousPageIndex = pageEvent.previousPageIndex;   
         },
         errorResponse => {
           this.length = 0;

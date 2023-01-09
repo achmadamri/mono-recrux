@@ -20,8 +20,9 @@ export class DepartmentsComponent implements OnInit {
   length = 100;
   pageSize = 5;
   pageIndex = 0;
+  previousPageIndex = 0;
   pageSizeOptions: number[] = [5, 10, 25, 100];
-  pageEvent: PageEvent;
+  pageEvent: PageEvent = new PageEvent();
   pageDisabled: boolean = false;
   util: Util = new Util();
   getDepartmentListRequest: GetDepartmentListRequest = new GetDepartmentListRequest();
@@ -37,7 +38,16 @@ export class DepartmentsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getDepartmentList(null);
+    if (localStorage.getItem('departments.pageEvent') != null) {
+      this.pageEvent = JSON.parse(localStorage.getItem('departments.pageEvent'));
+    } else {
+      this.pageEvent.length = this.length;
+      this.pageEvent.pageSize = this.pageSize;
+      this.pageEvent.pageIndex = this.pageIndex;
+      this.pageEvent.previousPageIndex = this.previousPageIndex;
+    }
+
+    this.getDepartmentList(this.pageEvent);
   }
 
   getDepartmentList(pageEvent: PageEvent) {
@@ -45,18 +55,17 @@ export class DepartmentsComponent implements OnInit {
 
     this.pageEvent = pageEvent;
 
-    this.departmentService.getDepartmentList(this.getDepartmentListRequest.tbDepartment.tbdName, this.getDepartmentListRequest.tbDepartment.tbdStatus, pageEvent != null ? pageEvent.length : this.length, pageEvent != null ? pageEvent.pageSize : this.pageSize, pageEvent != null ? pageEvent.pageIndex : this.pageIndex)
+    localStorage.setItem('departments.pageEvent', JSON.stringify(pageEvent));
+
+    this.departmentService.getDepartmentList(this.getDepartmentListRequest.tbDepartment.tbdName, this.getDepartmentListRequest.tbDepartment.tbdStatus, pageEvent.length, pageEvent.pageSize, pageEvent.pageIndex)
       .subscribe(
         successResponse => {
           this.clicked = !this.clicked;
           this.getDepartmentListResponse = successResponse;
           this.length = this.getDepartmentListResponse.length;
-
-          if (pageEvent != null) {
-            this.length = pageEvent.length;
-            this.pageSize = pageEvent.pageSize;
-            this.pageIndex = pageEvent.pageIndex;
-          }          
+          this.pageSize = pageEvent.pageSize;
+          this.pageIndex = pageEvent.pageIndex;
+          this.previousPageIndex = pageEvent.previousPageIndex;
         },
         errorResponse => {
           this.length = 0;

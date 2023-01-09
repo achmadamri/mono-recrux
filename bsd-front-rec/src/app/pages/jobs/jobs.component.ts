@@ -20,8 +20,9 @@ export class JobsComponent implements OnInit {
   length = 100;
   pageSize = 5;
   pageIndex = 0;
+  previousPageIndex = 0;
   pageSizeOptions: number[] = [5, 10, 25, 100];
-  pageEvent: PageEvent;
+  pageEvent: PageEvent = new PageEvent();
   pageDisabled: boolean = false;
   util: Util = new Util();
   getJobListRequest: GetJobListRequest = new GetJobListRequest();
@@ -37,7 +38,16 @@ export class JobsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getJobList(null);
+    if (localStorage.getItem('jobs.pageEvent') != null) {
+      this.pageEvent = JSON.parse(localStorage.getItem('jobs.pageEvent'));
+    } else {
+      this.pageEvent.length = this.length;
+      this.pageEvent.pageSize = this.pageSize;
+      this.pageEvent.pageIndex = this.pageIndex;
+      this.pageEvent.previousPageIndex = this.previousPageIndex;
+    }
+
+    this.getJobList(this.pageEvent);
   }
 
   getJobList(pageEvent: PageEvent) {
@@ -45,18 +55,17 @@ export class JobsComponent implements OnInit {
 
     this.pageEvent = pageEvent;
 
-    this.jobService.getJobList(this.getJobListRequest.tbJob.tbjName, this.getJobListRequest.tbJob.tbjStatus, pageEvent != null ? pageEvent.length : this.length, pageEvent != null ? pageEvent.pageSize : this.pageSize, pageEvent != null ? pageEvent.pageIndex : this.pageIndex)
+    localStorage.setItem('jobs.pageEvent', JSON.stringify(pageEvent));
+
+    this.jobService.getJobList(this.getJobListRequest.tbJob.tbjName, this.getJobListRequest.tbJob.tbjStatus, pageEvent.length, pageEvent.pageSize, pageEvent.pageIndex)
       .subscribe(
         successResponse => {
           this.clicked = !this.clicked;
           this.getJobListResponse = successResponse;
           this.length = this.getJobListResponse.length;
-
-          if (pageEvent != null) {
-            this.length = pageEvent.length;
-            this.pageSize = pageEvent.pageSize;
-            this.pageIndex = pageEvent.pageIndex;
-          }          
+          this.pageSize = pageEvent.pageSize;
+          this.pageIndex = pageEvent.pageIndex;
+          this.previousPageIndex = pageEvent.previousPageIndex;     
         },
         errorResponse => {
           this.length = 0;

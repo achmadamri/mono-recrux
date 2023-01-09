@@ -19,8 +19,9 @@ export class JobsDetailComponent implements OnInit {
   length = 100;
   pageSize = 5;
   pageIndex = 0;
+  previousPageIndex = 0;
   pageSizeOptions: number[] = [5, 10, 25, 100];
-  pageEvent: PageEvent;
+  pageEvent: PageEvent = new PageEvent();
   pageDisabled: boolean = false;
   saveUpdate: string = '';
   postAddJobRequest: PostAddJobRequest = new PostAddJobRequest();
@@ -35,6 +36,15 @@ export class JobsDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    if (localStorage.getItem('jobs-detail.pageEvent') != null) {
+      this.pageEvent = JSON.parse(localStorage.getItem('jobs-detail.pageEvent'));
+    } else {
+      this.pageEvent.length = this.length;
+      this.pageEvent.pageSize = this.pageSize;
+      this.pageEvent.pageIndex = this.pageIndex;
+      this.pageEvent.previousPageIndex = this.previousPageIndex;
+    }
+
     this.route.paramMap.subscribe(params => {
       this.postAddJobRequest.tbJob.tbjUuid = params.get('tbjUuid');
 
