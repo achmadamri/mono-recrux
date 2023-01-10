@@ -7,6 +7,7 @@ import { PostAddJobResponse } from 'app/services/job/postaddjobresponse';
 import { GetJobRequest } from 'app/services/job/getjobrequest';
 import { GetJobResponse } from 'app/services/job/getjobresponse';
 import { Util } from 'app/util';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-pages-jobs-detail',
@@ -29,11 +30,53 @@ export class JobsDetailComponent implements OnInit {
   getJobRequest: GetJobRequest = new GetJobRequest();
   getJobResponse: GetJobResponse = new GetJobResponse();
 
+  public uploadForm: FormGroup;
+  public uploadProgress = 0;
+  public uploading = false;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private jobService: JobService
-  ) { }
+    private jobService: JobService,
+    private formBuilder: FormBuilder
+  ) {
+    this.uploadForm = this.formBuilder.group({
+      file: [null, [Validators.required]],
+    });    
+  }
+
+  public onSubmit() {
+    // start the file upload process
+    this.uploading = true;
+    this.uploadFile(this.uploadForm.value.file)
+      .then(() => {
+        // reset the form and progress bar when the upload is complete
+        this.uploadForm.reset();
+        this.uploadProgress = 0;
+        this.uploading = false;
+      })
+      .catch(() => {
+        // handle any errors that may occur during the upload process
+        this.uploading = false;
+      });
+  }
+
+  private async uploadFile(file: File) {
+    // implement the file upload logic here
+    // you can use an HTTP library like HttpClient to make a POST request to an API endpoint with the file as the request body
+    // you can update the uploadProgress property to reflect the progress of the upload
+  }
+
+  private getErrorMessage() {
+    if (this.formControl.hasError('required')) {
+      return 'You must select a file';
+    }
+    return '';
+  }
+
+  private get formControl() {
+    return this.uploadForm.get('file');
+  }
 
   ngOnInit() {
     if (localStorage.getItem('jobs-detail.pageEvent') != null) {
