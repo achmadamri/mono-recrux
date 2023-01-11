@@ -150,27 +150,4 @@ export class JobsDetailComponent implements OnInit {
     }
   }
 
-  // uploadFile(files: FileList) {
-  //   // Get the first selected file
-  //   const file = files.item(0);
-  
-  //   // Create a new FormData object to send the file to the server
-  //   const formData = new FormData();
-  //   formData.append('file', file);
-  
-  //   // Use the Angular HttpClient to send the file to the server
-  //   this.http.post('/department/uploadresume', formData, {
-  //     reportProgress: true,
-  //     observe: 'events'
-  //   }).subscribe(event => {
-  //     if (event.type === HttpEventType.UploadProgress) {
-  //       // Update the progress bar value
-  //       this.uploadPercentage = Math.round(100 * event.loaded / event.total);
-  //     } else if (event instanceof HttpResponse) {
-  //       // Handle the upload success
-  //       console.log('Upload success: ', event);
-  //     }
-  //   });
-  // }
-
 }
