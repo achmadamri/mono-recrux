@@ -1,5 +1,8 @@
 package com.api.rec.departments.service;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +17,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.api.rec.departments.db.entity.TbJob;
 import com.api.rec.departments.db.entity.TbUser;
@@ -29,6 +34,8 @@ import com.api.rec.departments.model.job.GetJobRequestModel;
 import com.api.rec.departments.model.job.GetJobResponseModel;
 import com.api.rec.departments.model.job.PostAddJobRequestModel;
 import com.api.rec.departments.model.job.PostAddJobResponseModel;
+import com.api.rec.departments.model.job.PostUploadResumeRequestModel;
+import com.api.rec.departments.model.job.PostUploadResumeResponseModel;
 import com.api.rec.departments.util.TokenUtil;
 import com.api.rec.departments.util.Uid;
 
@@ -50,6 +57,29 @@ public class JobService {
 
 	@Autowired
 	private ViewJobDepartmentRepository viewJobDepartmentRepository;
+	
+	public PostUploadResumeResponseModel postUploadResume(PostUploadResumeRequestModel requestModel, MultipartFile file) throws Exception {
+		PostUploadResumeResponseModel responseModel = new PostUploadResumeResponseModel(requestModel);
+
+		tokenUtil.claims(requestModel);
+		
+		TbUser exampleTbUser = new TbUser();
+		exampleTbUser.setTbuEmail(requestModel.getEmail());
+		exampleTbUser.setTbuStatus(TbUserRepository.Active);
+		Optional<TbUser> optTbUser = tbUserRepository.findOne(Example.of(exampleTbUser));
+		
+		if (optTbUser.isPresent()) {
+			String fileName = responseModel.getResponseId() + "-" + StringUtils.cleanPath(file.getOriginalFilename());
+			Files.copy(file.getInputStream(), Paths.get(env.getProperty("file.upload.dir") + fileName), StandardCopyOption.REPLACE_EXISTING);
+
+			responseModel.setFileName(fileName);
+			responseModel.setHttpStatus(HttpStatus.OK);
+		} else {
+			responseModel.setHttpStatus(HttpStatus.UNAUTHORIZED);
+		}
+
+		return responseModel;
+	}
 
 	public PostAddJobResponseModel postAddJob(PostAddJobRequestModel requestModel) throws Exception {
 		PostAddJobResponseModel responseModel = new PostAddJobResponseModel(requestModel);

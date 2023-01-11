@@ -11,12 +11,13 @@ import { IconsComponent } from '../../icons/icons.component';
 import { MapsComponent } from '../../maps/maps.component';
 import { NotificationsComponent } from '../../notifications/notifications.component';
 import { UpgradeComponent } from '../../upgrade/upgrade.component';
-import {MatButtonModule} from '@angular/material/button';
-import {MatInputModule} from '@angular/material/input';
-import {MatRippleModule} from '@angular/material/core';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatTooltipModule} from '@angular/material/tooltip';
-import {MatSelectModule} from '@angular/material/select';
+import { MatButtonModule} from '@angular/material/button';
+import { MatInputModule} from '@angular/material/input';
+import { MatRippleModule} from '@angular/material/core';
+import { MatFormFieldModule} from '@angular/material/form-field';
+import { MatTooltipModule} from '@angular/material/tooltip';
+import { MatSelectModule} from '@angular/material/select';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { LoginComponent } from 'app/pages/login/login.component';
 import { LogoutComponent } from 'app/pages/logout/logout.component';
 import { RegisterComponent } from 'app/pages/register/register.component';
@@ -46,6 +47,7 @@ import { JobsDetailComponent } from 'app/pages/jobs-detail/jobs-detail.component
     MatRadioModule,
     MatCheckboxModule,
     MatIconModule,
+    MatProgressBarModule
   ],
   declarations: [
     DashboardComponent,

@@ -45,6 +45,7 @@ public class DepartmentController {
 	private DepartmentService departmentService;
 
 	@PostMapping("/postadddepartmentjob")
+	@Transactional
 	public HttpEntity<?> postAddDepartmentJob(@Valid @RequestBody PostAddDepartmentJobRequestModel requestModel) throws Exception {		
 		String fid = new Uid().generateString(20);
 		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
@@ -59,6 +60,7 @@ public class DepartmentController {
 	}
 
 	@PostMapping("/postadddepartment")
+	@Transactional
 	public HttpEntity<?> postAddDepartment(@Valid @RequestBody PostAddDepartmentRequestModel requestModel) throws Exception {		
 		String fid = new Uid().generateString(20);
 		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
@@ -113,6 +115,7 @@ public class DepartmentController {
 	}
 
 	@PostMapping("/postresume")
+	@Transactional
 	public HttpEntity<?> postResume(PostResumeRequestModel requestModel, @RequestParam("file") MultipartFile file) throws Exception {		
 		String fid = new Uid().generateString(20);
 		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));

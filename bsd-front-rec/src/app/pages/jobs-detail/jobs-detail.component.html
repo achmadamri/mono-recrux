@@ -31,5 +31,27 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">Resume for {{postAddJobRequest.tbJob.tbjName}}</h4>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="row">
+                              <div class="col-md-12">
+                                <input type="file" (change)="onFileChanged($event)"/>
+                                <mat-progress-bar mode="determinate" [value]="uploadPercentage"></mat-progress-bar>
+                              </div>
+                            </div>
+                            <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked" (click)="upload();">Upload</button>
+                            <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked" (click)="back();">Back</button>
+                            <div class="clearfix"></div>              
+                          </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,8 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.api.rec.departments.model.job.PostAddJobResponseModel;
+import com.api.rec.departments.model.job.PostUploadResumeRequestModel;
+import com.api.rec.departments.model.job.PostUploadResumeResponseModel;
 import com.api.rec.departments.model.job.GetJobDepartmentListRequestModel;
 import com.api.rec.departments.model.job.GetJobDepartmentListResponseModel;
 import com.api.rec.departments.model.job.GetJobListRequestModel;
@@ -39,8 +43,24 @@ public class JobController {
 
 	@Autowired
 	private JobService jobService;
+	
+	@PostMapping("/postuploadresume")
+	@Transactional
+	public HttpEntity<?> postUploadResume(PostUploadResumeRequestModel requestModel, @RequestParam("file") MultipartFile file) throws Exception {
+		String fid = new Uid().generateString(20);
+		log.info("[fid:" + fid + "] requestModel : " + file.toString());
+		
+		PostUploadResumeResponseModel responseModel = jobService.postUploadResume(requestModel, file);
+		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
+		
+		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
+		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
+
+		return responseEntity;
+	}
 
 	@PostMapping("/postaddjob")
+	@Transactional
 	public HttpEntity<?> postAddJob(@Valid @RequestBody PostAddJobRequestModel requestModel) throws Exception {		
 		String fid = new Uid().generateString(20);
 		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));

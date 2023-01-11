@@ -7,7 +7,9 @@ import { PostAddJobResponse } from 'app/services/job/postaddjobresponse';
 import { GetJobRequest } from 'app/services/job/getjobrequest';
 import { GetJobResponse } from 'app/services/job/getjobresponse';
 import { Util } from 'app/util';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpClient, HttpEventType, HttpResponse } from '@angular/common/http';
+import { PostUploadResumeRequest } from 'app/services/job/postuploadresumerequest';
+import { PostUploadResumeResponse } from 'app/services/job/postuploadresumeresponse';
 
 @Component({
   selector: 'app-pages-jobs-detail',
@@ -29,54 +31,16 @@ export class JobsDetailComponent implements OnInit {
   postAddJobResponse: PostAddJobResponse = new PostAddJobResponse();
   getJobRequest: GetJobRequest = new GetJobRequest();
   getJobResponse: GetJobResponse = new GetJobResponse();
-
-  public uploadForm: FormGroup;
-  public uploadProgress = 0;
-  public uploading = false;
+  selectedFile: File;
+  postUploadResumeRequest: PostUploadResumeRequest = new PostUploadResumeRequest();
+  postUploadResumeResponse: PostUploadResumeResponse = new PostUploadResumeResponse();
+  uploadPercentage = 0;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private jobService: JobService,
-    private formBuilder: FormBuilder
-  ) {
-    this.uploadForm = this.formBuilder.group({
-      file: [null, [Validators.required]],
-    });    
-  }
-
-  public onSubmit() {
-    // start the file upload process
-    this.uploading = true;
-    this.uploadFile(this.uploadForm.value.file)
-      .then(() => {
-        // reset the form and progress bar when the upload is complete
-        this.uploadForm.reset();
-        this.uploadProgress = 0;
-        this.uploading = false;
-      })
-      .catch(() => {
-        // handle any errors that may occur during the upload process
-        this.uploading = false;
-      });
-  }
-
-  private async uploadFile(file: File) {
-    // implement the file upload logic here
-    // you can use an HTTP library like HttpClient to make a POST request to an API endpoint with the file as the request body
-    // you can update the uploadProgress property to reflect the progress of the upload
-  }
-
-  private getErrorMessage() {
-    if (this.formControl.hasError('required')) {
-      return 'You must select a file';
-    }
-    return '';
-  }
-
-  private get formControl() {
-    return this.uploadForm.get('file');
-  }
+    private jobService: JobService
+  ) { }
 
   ngOnInit() {
     if (localStorage.getItem('jobs-detail.pageEvent') != null) {
@@ -149,5 +113,64 @@ export class JobsDetailComponent implements OnInit {
       }
     );
   }
+
+  onFileChanged(event) {
+    this.selectedFile = event.target.files[0];
+  }
+
+  upload() {
+    this.clicked = !this.clicked;
+
+    if (this.selectedFile == null) {
+      this.clicked = !this.clicked;
+      this.util.showNotification('info', 'top', 'center', 'No file selected');      
+    } else {
+      const reader = new FileReader();
+      reader.readAsDataURL(this.selectedFile);  
+      this.util.showNotification('info', 'top', 'center', 'Uploading ' + this.selectedFile.name);
+  
+      this.jobService.postUploadResume(this.postUploadResumeRequest, this.selectedFile)
+        .subscribe(
+          successResponse => {
+            if (successResponse.type === HttpEventType.UploadProgress) {
+              this.uploadPercentage = Math.round(100 * successResponse.loaded / successResponse.total);
+            } else if (successResponse.type === HttpEventType.Response) {
+                this.clicked = !this.clicked;
+                this.uploadPercentage = 0;
+                this.postUploadResumeResponse = successResponse.body;
+                this.util.showNotification('info', 'top', 'center', this.postUploadResumeResponse.message);
+            }
+          },
+          errorResponse => {            
+            this.clicked = !this.clicked;
+            this.postUploadResumeResponse = new PostUploadResumeResponse();
+            this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
+          }
+        );
+    }
+  }
+
+  // uploadFile(files: FileList) {
+  //   // Get the first selected file
+  //   const file = files.item(0);
+  
+  //   // Create a new FormData object to send the file to the server
+  //   const formData = new FormData();
+  //   formData.append('file', file);
+  
+  //   // Use the Angular HttpClient to send the file to the server
+  //   this.http.post('/department/uploadresume', formData, {
+  //     reportProgress: true,
+  //     observe: 'events'
+  //   }).subscribe(event => {
+  //     if (event.type === HttpEventType.UploadProgress) {
+  //       // Update the progress bar value
+  //       this.uploadPercentage = Math.round(100 * event.loaded / event.total);
+  //     } else if (event instanceof HttpResponse) {
+  //       // Handle the upload success
+  //       console.log('Upload success: ', event);
+  //     }
+  //   });
+  // }
 
 }
