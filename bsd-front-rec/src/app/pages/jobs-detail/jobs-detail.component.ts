@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PageEvent } from '@angular/material/paginator';
 import { JobService } from 'app/services/job/job.service';
@@ -16,6 +16,7 @@ import { PostUploadResumeResponse } from 'app/services/job/postuploadresumerespo
   templateUrl: './jobs-detail.component.html'
 })
 export class JobsDetailComponent implements OnInit {
+  @ViewChild('fileInput', { static: false }) fileInput;
   searchForm = false;
   clicked = false;
   util: Util = new Util();
@@ -137,6 +138,7 @@ export class JobsDetailComponent implements OnInit {
             } else if (successResponse.type === HttpEventType.Response) {
                 this.clicked = !this.clicked;
                 this.uploadPercentage = 0;
+                this.fileInput.nativeElement.value = '';
                 this.postUploadResumeResponse = successResponse.body;
                 this.util.showNotification('info', 'top', 'center', this.postUploadResumeResponse.message);
             }
@@ -144,7 +146,13 @@ export class JobsDetailComponent implements OnInit {
           errorResponse => {            
             this.clicked = !this.clicked;
             this.postUploadResumeResponse = new PostUploadResumeResponse();
-            this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
+            if (errorResponse.status == 0) {
+              this.util.showNotification('danger', 'top', 'center', errorResponse.statusText);
+            } else {
+              this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);              
+            }
+            this.uploadPercentage = 0;
+            this.fileInput.nativeElement.value = '';
           }
         );
     }

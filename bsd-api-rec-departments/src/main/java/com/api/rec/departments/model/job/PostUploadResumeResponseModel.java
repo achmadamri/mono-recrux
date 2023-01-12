@@ -9,6 +9,8 @@ public class PostUploadResumeResponseModel extends ResponseModel {
 	}
 	
 	private String fileName;
+	
+	private String fileNameOri;
 
 	public String getFileName() {
 		return fileName;
@@ -16,5 +18,13 @@ public class PostUploadResumeResponseModel extends ResponseModel {
 
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+
+	public String getFileNameOri() {
+		return fileNameOri;
+	}
+
+	public void setFileNameOri(String fileNameOri) {
+		this.fileNameOri = fileNameOri;
 	}
 }

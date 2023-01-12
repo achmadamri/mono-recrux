@@ -69,10 +69,12 @@ public class JobService {
 		Optional<TbUser> optTbUser = tbUserRepository.findOne(Example.of(exampleTbUser));
 		
 		if (optTbUser.isPresent()) {
+			String fileNameOri = StringUtils.cleanPath(file.getOriginalFilename());
 			String fileName = responseModel.getResponseId() + "-" + StringUtils.cleanPath(file.getOriginalFilename());
 			Files.copy(file.getInputStream(), Paths.get(env.getProperty("file.upload.dir") + fileName), StandardCopyOption.REPLACE_EXISTING);
 
 			responseModel.setFileName(fileName);
+			responseModel.setFileNameOri(fileNameOri);
 			responseModel.setHttpStatus(HttpStatus.OK);
 		} else {
 			responseModel.setHttpStatus(HttpStatus.UNAUTHORIZED);

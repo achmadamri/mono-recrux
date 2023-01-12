@@ -41,8 +41,9 @@
                         <form>
                             <div class="row">
                               <div class="col-md-12">
-                                <input type="file" (change)="onFileChanged($event)"/>
+                                <input type="file" #fileInput (change)="onFileChanged($event)"/>
                                 <mat-progress-bar mode="determinate" [value]="uploadPercentage"></mat-progress-bar>
+                                {{uploadPercentage}}%
                               </div>
                             </div>
                             <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked" (click)="upload();">Upload</button>
