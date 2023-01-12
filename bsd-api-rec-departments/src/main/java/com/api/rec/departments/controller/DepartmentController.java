@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.api.rec.departments.model.department.GetDepartmentListRequestModel;
 import com.api.rec.departments.model.department.GetDepartmentListResponseModel;
@@ -25,8 +24,6 @@ import com.api.rec.departments.model.department.PostAddDepartmentJobRequestModel
 import com.api.rec.departments.model.department.PostAddDepartmentJobResponseModel;
 import com.api.rec.departments.model.department.PostAddDepartmentRequestModel;
 import com.api.rec.departments.model.department.PostAddDepartmentResponseModel;
-import com.api.rec.departments.model.department.PostResumeRequestModel;
-import com.api.rec.departments.model.department.PostResumeResponseModel;
 import com.api.rec.departments.service.DepartmentService;
 import com.api.rec.departments.util.Uid;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,7 +33,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RequestMapping("/department")
 public class DepartmentController {
 
-	private Logger log = LoggerFactory.getLogger(UserController.class);
+	private Logger log = LoggerFactory.getLogger(DepartmentController.class);
 	
 	@Autowired
 	private ObjectMapper objectMapper = new ObjectMapper();
@@ -106,21 +103,6 @@ public class DepartmentController {
 		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
 		
 		GetDepartmentResponseModel responseModel = departmentService.getDepartment(tbdUuid, requestModel);
-		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
-		
-		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
-		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
-
-		return responseEntity;
-	}
-
-	@PostMapping("/postresume")
-	@Transactional
-	public HttpEntity<?> postResume(PostResumeRequestModel requestModel, @RequestParam("file") MultipartFile file) throws Exception {		
-		String fid = new Uid().generateString(20);
-		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
-		
-		PostResumeResponseModel responseModel = departmentService.postResume(requestModel, file);
 		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
 		
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());

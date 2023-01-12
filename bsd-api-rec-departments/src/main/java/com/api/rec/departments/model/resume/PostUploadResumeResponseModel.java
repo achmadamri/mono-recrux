@@ -1,4 +1,4 @@
-package com.api.rec.departments.model.job;
+package com.api.rec.departments.model.resume;
 
 import com.api.rec.departments.model.ResponseModel;
 

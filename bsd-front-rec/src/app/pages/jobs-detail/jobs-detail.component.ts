@@ -10,6 +10,7 @@ import { Util } from 'app/util';
 import { HttpClient, HttpEventType, HttpResponse } from '@angular/common/http';
 import { PostUploadResumeRequest } from 'app/services/job/postuploadresumerequest';
 import { PostUploadResumeResponse } from 'app/services/job/postuploadresumeresponse';
+import { ResumeService } from 'app/services/resume/resume.service';
 
 @Component({
   selector: 'app-pages-jobs-detail',
@@ -43,7 +44,8 @@ export class JobsDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private jobService: JobService
+    private jobService: JobService,
+    private resumeService: ResumeService
   ) { }
 
   ngOnInit() {
@@ -129,7 +131,7 @@ export class JobsDetailComponent implements OnInit {
       this.totalFiles = Array(new String());
       this.totalUploadNumber = this.selectedFiles.length;
       for (const file of this.selectedFiles) {
-        this.jobService.postUploadResume(this.postUploadResumeRequest, file)
+        this.resumeService.postUploadResume(this.postUploadResumeRequest, file)
           .subscribe(
             successResponse => {
               if (successResponse.type === HttpEventType.UploadProgress) {

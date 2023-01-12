@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.api.rec.departments.model.department.PostResumeRequestModel;
+import com.api.rec.departments.model.department.PostResumeResponseModel;
 import com.api.rec.departments.model.job.GetJobDepartmentListRequestModel;
 import com.api.rec.departments.model.job.GetJobDepartmentListResponseModel;
 import com.api.rec.departments.model.job.GetJobListRequestModel;
@@ -24,22 +27,54 @@ import com.api.rec.departments.model.job.GetJobRequestModel;
 import com.api.rec.departments.model.job.GetJobResponseModel;
 import com.api.rec.departments.model.job.PostAddJobRequestModel;
 import com.api.rec.departments.model.job.PostAddJobResponseModel;
-import com.api.rec.departments.service.JobService;
+import com.api.rec.departments.model.resume.PostUploadResumeRequestModel;
+import com.api.rec.departments.model.resume.PostUploadResumeResponseModel;
+import com.api.rec.departments.service.ResumeService;
 import com.api.rec.departments.util.Uid;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/job")
-public class JobController {
+@RequestMapping("/resume")
+public class ResumeController {
 
-	private Logger log = LoggerFactory.getLogger(JobController.class);
+	private Logger log = LoggerFactory.getLogger(ResumeController.class);
 	
 	@Autowired
 	private ObjectMapper objectMapper = new ObjectMapper();
 
 	@Autowired
-	private JobService jobService;
+	private ResumeService resumeService;
+
+	@PostMapping("/postresume")
+	@Transactional
+	public HttpEntity<?> postResume(PostResumeRequestModel requestModel, @RequestParam("file") MultipartFile file) throws Exception {		
+		String fid = new Uid().generateString(20);
+		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
+		
+		PostResumeResponseModel responseModel = resumeService.postResume(requestModel, file);
+		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
+		
+		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
+		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
+
+		return responseEntity;
+	}
+	
+	@PostMapping("/postuploadresume")
+	@Transactional
+	public HttpEntity<?> postUploadResume(PostUploadResumeRequestModel requestModel, @RequestParam("file") MultipartFile file) throws Exception {
+		String fid = new Uid().generateString(20);
+		log.info("[fid:" + fid + "] requestModel : " + file.toString());
+		
+		PostUploadResumeResponseModel responseModel = resumeService.postUploadResume(requestModel, file);
+		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
+		
+		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
+		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
+
+		return responseEntity;
+	}
 
 	@PostMapping("/postaddjob")
 	@Transactional
@@ -47,7 +82,7 @@ public class JobController {
 		String fid = new Uid().generateString(20);
 		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
 		
-		PostAddJobResponseModel responseModel = jobService.postAddJob(requestModel);
+		PostAddJobResponseModel responseModel = resumeService.postAddJob(requestModel);
 		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
 		
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
@@ -67,7 +102,7 @@ public class JobController {
 		String fid = new Uid().generateString(20);
 		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
 		
-		GetJobListResponseModel responseModel = jobService.getJobList(tbjName, tbjStatus, length, pageSize, pageIndex, requestModel);
+		GetJobListResponseModel responseModel = resumeService.getJobList(tbjName, tbjStatus, length, pageSize, pageIndex, requestModel);
 		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
 
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
@@ -87,7 +122,7 @@ public class JobController {
 		String fid = new Uid().generateString(20);
 		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
 		
-		GetJobDepartmentListResponseModel responseModel = jobService.getJobDepartmentList(tbdId, tbjName, tbdjStatus, length, pageSize, pageIndex, requestModel);
+		GetJobDepartmentListResponseModel responseModel = resumeService.getJobDepartmentList(tbdId, tbjName, tbdjStatus, length, pageSize, pageIndex, requestModel);
 		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
 
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
@@ -107,7 +142,7 @@ public class JobController {
 		String fid = new Uid().generateString(20);
 		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
 		
-		GetJobResponseModel responseModel = jobService.getJob(tbjUuid, requestModel);
+		GetJobResponseModel responseModel = resumeService.getJob(tbjUuid, requestModel);
 		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
 		
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
