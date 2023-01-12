@@ -54,7 +54,7 @@
                                     </mat-radio-group>
                                 </div>
                             </div>
-                            <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked" (click)="search();">Search</button>
+                            <button mat-raised-button type="submit" class="btn btn-danger pull-right" [disabled]="clicked" (click)="search();">Search</button>
                             <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked" (click)="clear();">Clear</button>
                             <div class="clearfix"></div>
                         </form>
@@ -86,8 +86,8 @@
                                 </tbody>
                             </table>
                             <mat-paginator *ngIf="getJobDepartmentListResponse.lstViewJobDepartment[0].tbjUuid != undefined" [length]="length" [pageSize]="pageSize" [pageIndex]="pageIndex" [previousPageIndex]="previousPageIndex" [pageSizeOptions]="pageSizeOptions" (page)="getPage($event)" [disabled]="clicked"></mat-paginator>
-                            <button mat-raised-button type="submit" class="btn btn-danger pull-right" [disabled]="clicked" (click)="back();">Back</button>
-                            <input type="button" class="btn btn-danger pull-right" value="Filter" [disabled]="clicked" (click)="filter();"/>
+                            <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked" (click)="filter();">Filter</button>
+                            <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked" (click)="back();">Back</button>
                         </div>
                     </div>                    
                 </div>

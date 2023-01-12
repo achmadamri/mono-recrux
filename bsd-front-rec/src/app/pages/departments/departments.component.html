@@ -25,7 +25,7 @@
                                     </mat-radio-group>
                                 </div>
                             </div>
-                            <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked" (click)="search();">Search</button>
+                            <button mat-raised-button type="submit" class="btn btn-danger pull-right" [disabled]="clicked" (click)="search();">Search</button>
                             <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked" (click)="clear();">Clear</button>
                             <div class="clearfix"></div>
                         </form>
@@ -55,8 +55,8 @@
                                 </tbody>
                             </table>
                             <mat-paginator *ngIf="getDepartmentListResponse.lstTbDepartment[0].tbdUuid != undefined" [length]="length" [pageSize]="pageSize" [pageIndex]="pageIndex" [previousPageIndex]="previousPageIndex" [pageSizeOptions]="pageSizeOptions" (page)="getPage($event)" [disabled]="clicked"></mat-paginator>
-                            <input type="button" class="btn btn-danger pull-right" value="Add" [disabled]="clicked" (click)="add();"/>
-                            <input type="button" class="btn btn-danger pull-right" value="Filter" [disabled]="clicked" (click)="filter();"/>
+                            <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked" (click)="filter();">Filter</button>
+                            <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked" (click)="add();">Add</button>
                         </div>                                                
                     </div>                                    
                 </div>
