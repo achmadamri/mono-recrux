@@ -46,19 +46,19 @@ export class JobsComponent implements OnInit {
   getJobList(pageEvent: PageEvent) {
     this.clicked = !this.clicked;
 
-    this.pageEvent = pageEvent;
+    if (pageEvent != null) this.pageEvent = pageEvent;
 
-    localStorage.setItem('jobs.pageEvent', JSON.stringify(pageEvent));
+    localStorage.setItem('jobs.pageEvent', JSON.stringify(this.pageEvent));
 
-    this.jobService.getJobList(this.getJobListRequest.tbJob.tbjName, this.getJobListRequest.tbJob.tbjStatus, pageEvent.length, pageEvent.pageSize, pageEvent.pageIndex)
+    this.jobService.getJobList(this.getJobListRequest.tbJob.tbjName, this.getJobListRequest.tbJob.tbjStatus, this.pageEvent.length, this.pageEvent.pageSize, this.pageEvent.pageIndex)
       .subscribe(
         successResponse => {
           this.clicked = !this.clicked;
           this.getJobListResponse = successResponse;
           this.length = this.getJobListResponse.length;
-          this.pageSize = pageEvent.pageSize;
-          this.pageIndex = pageEvent.pageIndex;
-          this.previousPageIndex = pageEvent.previousPageIndex;     
+          this.pageSize = this.pageEvent.pageSize;
+          this.pageIndex = this.pageEvent.pageIndex;
+          this.previousPageIndex = this.pageEvent.previousPageIndex;     
         },
         errorResponse => {
           this.length = 0;

@@ -80,19 +80,19 @@ export class DepartmentsDetailComponent implements OnInit {
   getJobDepartmentList(pageEvent: PageEvent) {
     this.clicked = !this.clicked;
 
-    this.pageEvent = pageEvent;
+    if (pageEvent != null) this.pageEvent = pageEvent;
 
-    localStorage.setItem('departments-detail.pageEvent', JSON.stringify(pageEvent));
+    localStorage.setItem('departments-detail.pageEvent', JSON.stringify(this.pageEvent));
 
-    this.jobService.getJobDepartmentList(this.postAddDepartmentRequest.tbDepartment.tbdId, this.getJobDepartmentListRequest.viewJobDepartment.tbjName, this.getJobDepartmentListRequest.viewJobDepartment.tbdjStatus, pageEvent.length, pageEvent.pageSize, pageEvent.pageIndex)
+    this.jobService.getJobDepartmentList(this.postAddDepartmentRequest.tbDepartment.tbdId, this.getJobDepartmentListRequest.viewJobDepartment.tbjName, this.getJobDepartmentListRequest.viewJobDepartment.tbdjStatus, this.pageEvent.length, this.pageEvent.pageSize, this.pageEvent.pageIndex)
       .subscribe(
         successResponse => {
           this.clicked = !this.clicked;
           this.getJobDepartmentListResponse = successResponse;
           this.length = this.getJobDepartmentListResponse.length;
-          this.pageSize = pageEvent.pageSize;
-          this.pageIndex = pageEvent.pageIndex;
-          this.previousPageIndex = pageEvent.previousPageIndex;   
+          this.pageSize = this.pageEvent.pageSize;
+          this.pageIndex = this.pageEvent.pageIndex;
+          this.previousPageIndex = this.pageEvent.previousPageIndex;   
         },
         errorResponse => {
           this.length = 0;

@@ -46,19 +46,19 @@ export class DepartmentsComponent implements OnInit {
   getDepartmentList(pageEvent: PageEvent) {
     this.clicked = !this.clicked;
 
-    this.pageEvent = pageEvent;
+    if (pageEvent != null) this.pageEvent = pageEvent;
 
-    localStorage.setItem('departments.pageEvent', JSON.stringify(pageEvent));
+    localStorage.setItem('departments.pageEvent', JSON.stringify(this.pageEvent));
 
-    this.departmentService.getDepartmentList(this.getDepartmentListRequest.tbDepartment.tbdName, this.getDepartmentListRequest.tbDepartment.tbdStatus, pageEvent.length, pageEvent.pageSize, pageEvent.pageIndex)
+    this.departmentService.getDepartmentList(this.getDepartmentListRequest.tbDepartment.tbdName, this.getDepartmentListRequest.tbDepartment.tbdStatus, this.pageEvent.length, this.pageEvent.pageSize, this.pageEvent.pageIndex)
       .subscribe(
         successResponse => {
           this.clicked = !this.clicked;
           this.getDepartmentListResponse = successResponse;
           this.length = this.getDepartmentListResponse.length;
-          this.pageSize = pageEvent.pageSize;
-          this.pageIndex = pageEvent.pageIndex;
-          this.previousPageIndex = pageEvent.previousPageIndex;
+          this.pageSize = this.pageEvent.pageSize;
+          this.pageIndex = this.pageEvent.pageIndex;
+          this.previousPageIndex = this.pageEvent.previousPageIndex;
         },
         errorResponse => {
           this.length = 0;
