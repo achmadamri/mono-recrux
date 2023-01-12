@@ -52,11 +52,16 @@
                                 <form>
                                     <div class="row">
                                         <div class="col-md-12">
-                                        <input type="file" #fileInput (change)="onFileChanged($event)" multiple/>
-                                        <mat-progress-bar mode="determinate" [value]="uploadPercentage"></mat-progress-bar>
-                                        {{uploadPercentage}}%
-                                        <br/>
-                                        {{totalUpload}} file(s) uploaded
+                                            <input type="file" #fileInput (change)="onFileChanged($event)" multiple/>
+                                            <mat-progress-bar mode="determinate" [value]="uploadPercentage"></mat-progress-bar>
+                                            {{uploadPercentage}}%
+                                            <br/>
+                                            {{totalUpload}} file(s) uploaded
+                                            <div *ngIf="totalFiles != undefined">
+                                                <div *ngFor="let file of totalFiles">                                                    
+                                                    {{file}}
+                                                </div>
+                                            </div>                                            
                                         </div>
                                     </div>
                                     <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked" (click)="upload();">Upload</button>

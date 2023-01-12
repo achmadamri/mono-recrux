@@ -37,6 +37,7 @@ export class JobsDetailComponent implements OnInit {
   postUploadResumeResponse: PostUploadResumeResponse = new PostUploadResumeResponse();
   uploadPercentage = 0;
   totalUpload = 0;
+  totalFiles: String[] = Array(new String());
 
   constructor(
     private route: ActivatedRoute,
@@ -124,6 +125,7 @@ export class JobsDetailComponent implements OnInit {
     } else {
       this.util.showNotification('info', 'top', 'center', 'Uploading ' + this.selectedFiles.length + ' files');
       this.totalUpload = 0;
+      this.totalFiles = Array(new String());
       for (const file of this.selectedFiles) {
         this.jobService.postUploadResume(this.postUploadResumeRequest, file)
           .subscribe(
@@ -132,6 +134,7 @@ export class JobsDetailComponent implements OnInit {
                 this.uploadPercentage = Math.round(100 * successResponse.loaded / successResponse.total);
               } else if (successResponse.type === HttpEventType.Response) {
                 this.totalUpload++;
+                this.totalFiles.push(successResponse.body.fileNameOri + ' - ' + successResponse.body.message);
 
                 this.postUploadResumeResponse = successResponse.body;
                 this.util.showNotification('info', 'top', 'center', this.postUploadResumeResponse.message);
@@ -140,6 +143,8 @@ export class JobsDetailComponent implements OnInit {
                   this.clicked = !this.clicked;
                   this.selectedFiles = [];
                   this.fileInput.nativeElement.value = '';
+
+                  console.log(this.totalFiles);
                 }
               }
             },

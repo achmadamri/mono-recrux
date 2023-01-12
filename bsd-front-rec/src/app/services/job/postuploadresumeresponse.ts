@@ -7,4 +7,5 @@ export class PostUploadResumeResponse {
     error: string;
     message: string;
     fileName: string;
+    fileNameOri: string;
 }
