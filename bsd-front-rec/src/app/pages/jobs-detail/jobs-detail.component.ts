@@ -38,6 +38,7 @@ export class JobsDetailComponent implements OnInit {
   uploadPercentage = 0;
   totalUpload = 0;
   totalFiles: String[] = Array(new String());
+  totalUploadNumber = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -126,6 +127,7 @@ export class JobsDetailComponent implements OnInit {
       this.util.showNotification('info', 'top', 'center', 'Uploading ' + this.selectedFiles.length + ' files');
       this.totalUpload = 0;
       this.totalFiles = Array(new String());
+      this.totalUploadNumber = this.selectedFiles.length;
       for (const file of this.selectedFiles) {
         this.jobService.postUploadResume(this.postUploadResumeRequest, file)
           .subscribe(
@@ -134,17 +136,15 @@ export class JobsDetailComponent implements OnInit {
                 this.uploadPercentage = Math.round(100 * successResponse.loaded / successResponse.total);
               } else if (successResponse.type === HttpEventType.Response) {
                 this.totalUpload++;
-                this.totalFiles.push(successResponse.body.fileNameOri + ' - ' + successResponse.body.message);
+                this.totalFiles.push(successResponse.body.fileNameOri);
 
                 this.postUploadResumeResponse = successResponse.body;
-                this.util.showNotification('info', 'top', 'center', this.postUploadResumeResponse.message);
+                this.util.showNotification('info', 'top', 'center', this.postUploadResumeResponse.fileNameOri + ' - ' + this.postUploadResumeResponse.message);
 
                 if (this.totalUpload == this.selectedFiles.length) {
                   this.clicked = !this.clicked;
                   this.selectedFiles = [];
                   this.fileInput.nativeElement.value = '';
-
-                  console.log(this.totalFiles);
                 }
               }
             },

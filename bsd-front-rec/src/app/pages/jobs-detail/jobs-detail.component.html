@@ -57,7 +57,7 @@
                                             <mat-progress-bar mode="determinate" [value]="uploadPercentage"></mat-progress-bar>
                                             {{uploadPercentage}}%
                                             <br/>
-                                            {{totalUpload}} file(s) uploaded
+                                            {{totalUpload}} / {{totalUploadNumber}} file(s) uploaded
                                             <div *ngIf="totalFiles != undefined">
                                                 <div *ngFor="let file of totalFiles">                                                    
                                                     {{file}}
