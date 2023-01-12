@@ -38,14 +38,7 @@ export class DepartmentsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if (localStorage.getItem('departments.pageEvent') != null) {
-      this.pageEvent = JSON.parse(localStorage.getItem('departments.pageEvent'));
-    } else {
-      this.pageEvent.length = this.length;
-      this.pageEvent.pageSize = this.pageSize;
-      this.pageEvent.pageIndex = this.pageIndex;
-      this.pageEvent.previousPageIndex = this.previousPageIndex;
-    }
+    this.pageEvent = this.util.cachePaginator('departments.pageEvent');
 
     this.getDepartmentList(this.pageEvent);
   }

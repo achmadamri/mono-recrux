@@ -54,7 +54,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <mat-paginator *ngIf="getJobListResponse.lstTbJob[0].tbjUuid != undefined" [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" [previousPageIndex]="previousPageIndex" (page)="getPage($event)" [disabled]="clicked"></mat-paginator>
+                            <mat-paginator *ngIf="getJobListResponse.lstTbJob[0].tbjUuid != undefined" [length]="length" [pageSize]="pageSize" [pageIndex]="pageIndex" [previousPageIndex]="previousPageIndex" [pageSizeOptions]="pageSizeOptions" (page)="getPage($event)" [disabled]="clicked"></mat-paginator>
                             <input type="button" class="btn btn-danger pull-right" value="Add" [disabled]="clicked" (click)="add();"/>
                             <input type="button" class="btn btn-danger pull-right" value="Filter" [disabled]="clicked" (click)="filter();"/>
                         </div>                                                

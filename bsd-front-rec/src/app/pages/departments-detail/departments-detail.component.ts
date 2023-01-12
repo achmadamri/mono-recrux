@@ -46,14 +46,7 @@ export class DepartmentsDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if (localStorage.getItem('departments-detail.pageEvent') != null) {
-      this.pageEvent = JSON.parse(localStorage.getItem('departments-detail.pageEvent'));    
-    } else {
-      this.pageEvent.length = this.length;
-      this.pageEvent.pageSize = this.pageSize;
-      this.pageEvent.pageIndex = this.pageIndex;
-      this.pageEvent.previousPageIndex = this.previousPageIndex;
-    }
+    this.pageEvent = this.util.cachePaginator('departments-detail.pageEvent');
 
     this.route.paramMap.subscribe(params => {
       this.postAddDepartmentRequest.tbDepartment.tbdUuid = params.get('tbdUuid');

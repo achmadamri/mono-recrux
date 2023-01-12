@@ -38,14 +38,7 @@ export class JobsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if (localStorage.getItem('jobs.pageEvent') != null) {
-      this.pageEvent = JSON.parse(localStorage.getItem('jobs.pageEvent'));
-    } else {
-      this.pageEvent.length = this.length;
-      this.pageEvent.pageSize = this.pageSize;
-      this.pageEvent.pageIndex = this.pageIndex;
-      this.pageEvent.previousPageIndex = this.previousPageIndex;
-    }
+    this.pageEvent = this.util.cachePaginator('jobs.pageEvent');
 
     this.getJobList(this.pageEvent);
   }

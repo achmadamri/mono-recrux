@@ -44,14 +44,7 @@ export class JobsDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if (localStorage.getItem('jobs-detail.pageEvent') != null) {
-      this.pageEvent = JSON.parse(localStorage.getItem('jobs-detail.pageEvent'));
-    } else {
-      this.pageEvent.length = this.length;
-      this.pageEvent.pageSize = this.pageSize;
-      this.pageEvent.pageIndex = this.pageIndex;
-      this.pageEvent.previousPageIndex = this.previousPageIndex;
-    }
+    this.pageEvent = this.util.cachePaginator('jobs-detail.pageEvent');    
 
     this.route.paramMap.subscribe(params => {
       this.postAddJobRequest.tbJob.tbjUuid = params.get('tbjUuid');

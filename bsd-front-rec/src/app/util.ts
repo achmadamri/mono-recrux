@@ -2,12 +2,26 @@ import { Injectable } from '@angular/core';
 import { AuthGenerateResponse } from './services/auth/authgenerateresponse';
 import * as moment from 'moment';
 import { UserGetResponse } from './services/user/usergetresponse';
+import { PageEvent } from '@angular/material/paginator';
 
 declare let $: any;
 
 @Injectable({ providedIn: 'root' })
 export class Util {
     constructor() { }
+
+    cachePaginator(name: string): PageEvent {
+      let pageEvent: PageEvent = new PageEvent();
+      if (localStorage.getItem(name) != null) {
+        pageEvent = JSON.parse(localStorage.getItem(name));    
+      } else {
+        pageEvent.length = 100;
+        pageEvent.pageSize = 5;
+        pageEvent.pageIndex = 0;
+        pageEvent.previousPageIndex = 0;
+      }
+      return pageEvent;
+    }
 
     randomString(length: number): string {
       let outString = '';
