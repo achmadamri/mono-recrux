@@ -18,15 +18,19 @@ import org.springframework.stereotype.Service;
 import com.api.rec.departments.db.entity.TbJob;
 import com.api.rec.departments.db.entity.TbUser;
 import com.api.rec.departments.db.entity.ViewJobDepartment;
+import com.api.rec.departments.db.entity.ViewJobResume;
 import com.api.rec.departments.db.repository.TbJobRepository;
 import com.api.rec.departments.db.repository.TbUserRepository;
 import com.api.rec.departments.db.repository.ViewJobDepartmentRepository;
+import com.api.rec.departments.db.repository.ViewJobResumeRepository;
 import com.api.rec.departments.model.job.GetJobDepartmentListRequestModel;
 import com.api.rec.departments.model.job.GetJobDepartmentListResponseModel;
 import com.api.rec.departments.model.job.GetJobListRequestModel;
 import com.api.rec.departments.model.job.GetJobListResponseModel;
 import com.api.rec.departments.model.job.GetJobRequestModel;
 import com.api.rec.departments.model.job.GetJobResponseModel;
+import com.api.rec.departments.model.job.GetJobResumeListRequestModel;
+import com.api.rec.departments.model.job.GetJobResumeListResponseModel;
 import com.api.rec.departments.model.job.PostAddJobRequestModel;
 import com.api.rec.departments.model.job.PostAddJobResponseModel;
 import com.api.rec.departments.util.TokenUtil;
@@ -50,6 +54,9 @@ public class JobService {
 
 	@Autowired
 	private ViewJobDepartmentRepository viewJobDepartmentRepository;
+
+	@Autowired
+	private ViewJobResumeRepository viewJobResumeRepository;
 
 	public PostAddJobResponseModel postAddJob(PostAddJobRequestModel requestModel) throws Exception {
 		PostAddJobResponseModel responseModel = new PostAddJobResponseModel(requestModel);
@@ -202,6 +209,39 @@ public class JobService {
 					:
 					viewJobDepartmentRepository.countByTbdId(optTbUser.get().getTbuCreateIdc(), tbjName, tbdjStatus, tbdId)
 				);
+				responseModel.setHttpStatus(HttpStatus.OK);
+			} else {
+				responseModel.setHttpStatus(HttpStatus.NOT_FOUND);
+			}
+		} else {
+			responseModel.setHttpStatus(HttpStatus.UNAUTHORIZED);
+		}
+		
+		return responseModel;
+	}
+
+	public GetJobResumeListResponseModel getJobResumeList(Integer tbjId, String tbrDataNameRaw, String tbrStatus, String length, String pageSize, String pageIndex, GetJobResumeListRequestModel requestModel) throws Exception {
+		GetJobResumeListResponseModel responseModel = new GetJobResumeListResponseModel(requestModel);
+		
+		tokenUtil.claims(requestModel);
+		
+		TbUser exampleTbUser = new TbUser();
+		exampleTbUser.setTbuEmail(requestModel.getEmail());
+		exampleTbUser.setTbuStatus(TbUserRepository.Active);
+		Optional<TbUser> optTbUser = tbUserRepository.findOne(Example.of(exampleTbUser));
+		
+		if (optTbUser.isPresent()) {
+			ViewJobResume exampleViewJobResume = new ViewJobResume();
+			exampleViewJobResume.setTbjId(tbjId);
+			exampleViewJobResume.setTbjCreateIdc(optTbUser.get().getTbuCreateIdc());
+			if (!tbrDataNameRaw.equals("")) exampleViewJobResume.setTbrDataNameRaw(tbrDataNameRaw);
+			if (!tbrStatus.equals("")) exampleViewJobResume.setTbrStatus(tbrStatus);
+
+			Page<ViewJobResume> pgViewJobResume = viewJobResumeRepository.findAll(Example.of(exampleViewJobResume), PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbrId").ascending()));
+			
+			if (pgViewJobResume.toList().size() > 0) {
+				responseModel.setLstViewJobResume(pgViewJobResume.toList());				
+				responseModel.setLength(viewJobResumeRepository.count(Example.of(exampleViewJobResume)));
 				responseModel.setHttpStatus(HttpStatus.OK);
 			} else {
 				responseModel.setHttpStatus(HttpStatus.NOT_FOUND);

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { GetJobDepartmentListResponse } from './getjobdepartmentlistresponse';
 import { GetJobListResponse } from './getjoblistresponse';
 import { GetJobResponse } from './getjobresponse';
+import { GetJobResumeListResponse } from './getjobresumelistresponse';
 import { PostAddJobRequest } from './postaddjobrequest';
 import { PostAddJobResponse } from './postaddjobresponse';
 
@@ -16,6 +17,26 @@ export class JobService {
   apiUrl = isDevMode() ? '/apidepartments/job' : 'https://domain.com/2082/job';
 
   constructor(private httpClient: HttpClient) { }
+
+  getJobResumeList(tbjId: number, tbrDataNameRaw: string, tbrStatus: string, length: number, pageSize: number, pageIndex: number): Observable<GetJobResumeListResponse> {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json');
+
+    const params = new HttpParams()
+      .set('requestId', this.util.randomString(10))
+      .set('requestDate', ((new Date(Date.now() - ((new Date()).getTimezoneOffset() * 60000))).toISOString().slice(0, -1)) + '000')
+      .set('email', localStorage.getItem('email'))
+      .set('token', localStorage.getItem('token'))
+      .set('length', length.toString())
+      .set('pageSize', pageSize.toString())
+      .set('pageIndex', pageIndex.toString())
+      .set('tbjId', tbjId)
+      .set('tbrDataNameRaw', tbrDataNameRaw == null ? '' : tbrDataNameRaw)
+      .set('tbrStatus', tbrStatus  == null ? '' : tbrStatus)
+      ;
+
+    return this.httpClient.get<GetJobResumeListResponse>(`${this.apiUrl}/getjobresumelist`, { headers, params });
+  }
   
   getJobDepartmentList(tbdId: number, tbjName: string, tbdjStatus: string, length: number, pageSize: number, pageIndex: number): Observable<GetJobDepartmentListResponse> {
     const headers = new HttpHeaders()

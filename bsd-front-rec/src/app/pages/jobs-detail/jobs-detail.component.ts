@@ -1,16 +1,22 @@
+import { HttpEventType } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { PageEvent } from '@angular/material/paginator';
+import { ActivatedRoute, Router } from '@angular/router';
+import { PostAddDepartmentJobRequest } from 'app/services/department/postadddepartmentjobrequest';
+import { PostAddDepartmentJobResponse } from 'app/services/department/postadddepartmentjobresponse';
+import { GetJobDepartmentListRequest } from 'app/services/job/getjobdepartmentlistrequest';
+import { GetJobDepartmentListResponse } from 'app/services/job/getjobdepartmentlistresponse';
+import { GetJobRequest } from 'app/services/job/getjobrequest';
+import { GetJobResponse } from 'app/services/job/getjobresponse';
+import { GetJobResumeListRequest } from 'app/services/job/getjobresumelistrequest';
+import { GetJobResumeListResponse } from 'app/services/job/getjobresumelistresponse';
 import { JobService } from 'app/services/job/job.service';
 import { PostAddJobRequest } from 'app/services/job/postaddjobrequest';
 import { PostAddJobResponse } from 'app/services/job/postaddjobresponse';
-import { GetJobRequest } from 'app/services/job/getjobrequest';
-import { GetJobResponse } from 'app/services/job/getjobresponse';
-import { Util } from 'app/util';
-import { HttpClient, HttpEventType, HttpResponse } from '@angular/common/http';
 import { PostUploadResumeRequest } from 'app/services/job/postuploadresumerequest';
 import { PostUploadResumeResponse } from 'app/services/job/postuploadresumeresponse';
 import { ResumeService } from 'app/services/resume/resume.service';
+import { Util } from 'app/util';
 
 @Component({
   selector: 'app-pages-jobs-detail',
@@ -39,7 +45,9 @@ export class JobsDetailComponent implements OnInit {
   uploadPercentage = 0;
   totalUpload = 0;
   totalFiles: String[] = Array(new String());
-  totalUploadNumber = 0;
+  totalUploadNumber = 0;  
+  getJobResumeListRequest: GetJobResumeListRequest = new GetJobResumeListRequest();
+  getJobResumeListResponse: GetJobResumeListResponse = new GetJobResumeListResponse();
 
   constructor(
     private route: ActivatedRoute,
@@ -64,6 +72,8 @@ export class JobsDetailComponent implements OnInit {
               this.postAddJobRequest.tbJob.tbjUuid = this.getJobResponse.tbJob.tbjUuid;
               this.postAddJobRequest.tbJob.tbjName = this.getJobResponse.tbJob.tbjName;
               this.postAddJobRequest.tbJob.tbjStatus = this.getJobResponse.tbJob.tbjStatus;
+
+              this.getJobResumeList(this.pageEvent);
             },
             errorResponse => {
               this.getJobResponse = new GetJobResponse();
@@ -76,22 +86,6 @@ export class JobsDetailComponent implements OnInit {
         this.saveUpdate = 'Save';
       }
     });
-  }
-
-  back() {
-    this.router.navigate(['/jobs']);
-  }
-
-  filter() {
-    this.searchForm = !this.searchForm;
-  }
-
-  search() {
-
-  }
-
-  clear() {
-
   }
 
   saveupdate() {
@@ -164,6 +158,54 @@ export class JobsDetailComponent implements OnInit {
           );
       }
     }
+  }
+
+  getPage(pageEvent: PageEvent) {
+    this.getJobResumeList(pageEvent);
+  }
+
+  back() {
+    this.router.navigate(['/jobs']);
+  }
+
+  filter() {
+    this.searchForm = !this.searchForm;
+  }
+
+  search() {
+    this.getJobResumeList(null);
+    this.searchForm = !this.searchForm;
+  }
+
+  clear() {
+    this.getJobResumeListRequest.viewJobResume.tbrDataNameRaw = '';
+    this.getJobResumeListRequest.viewJobResume.tbrStatus = '';
+  }
+
+  getJobResumeList(pageEvent: PageEvent) {
+    this.clicked = !this.clicked;
+
+    if (pageEvent != null) this.pageEvent = pageEvent;
+
+    localStorage.setItem('jobs-detail.pageEvent', JSON.stringify(this.pageEvent));
+
+    this.jobService.getJobResumeList(this.postAddJobRequest.tbJob.tbjId, this.getJobResumeListRequest.viewJobResume.tbrDataNameRaw, this.getJobResumeListRequest.viewJobResume.tbrStatus, this.pageEvent.length, this.pageEvent.pageSize, this.pageEvent.pageIndex)
+      .subscribe(
+        successResponse => {
+          this.clicked = !this.clicked;
+          this.getJobResumeListResponse = successResponse;
+          this.length = this.getJobResumeListResponse.length;
+          this.pageSize = this.pageEvent.pageSize;
+          this.pageIndex = this.pageEvent.pageIndex;
+          this.previousPageIndex = this.pageEvent.previousPageIndex;   
+        },
+        errorResponse => {
+          this.length = 0;
+          this.clicked = !this.clicked;
+          this.getJobResumeListResponse = new GetJobResumeListResponse();
+          this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
+        }
+      );
   }
 
 }

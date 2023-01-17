@@ -22,6 +22,8 @@ import com.api.rec.departments.model.job.GetJobListRequestModel;
 import com.api.rec.departments.model.job.GetJobListResponseModel;
 import com.api.rec.departments.model.job.GetJobRequestModel;
 import com.api.rec.departments.model.job.GetJobResponseModel;
+import com.api.rec.departments.model.job.GetJobResumeListRequestModel;
+import com.api.rec.departments.model.job.GetJobResumeListResponseModel;
 import com.api.rec.departments.model.job.PostAddJobRequestModel;
 import com.api.rec.departments.model.job.PostAddJobResponseModel;
 import com.api.rec.departments.service.JobService;
@@ -88,6 +90,26 @@ public class JobController {
 		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
 		
 		GetJobDepartmentListResponseModel responseModel = jobService.getJobDepartmentList(tbdId, tbjName, tbdjStatus, length, pageSize, pageIndex, requestModel);
+		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
+
+		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
+		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
+
+		return responseEntity;
+	}
+
+	@GetMapping("/getjobresumelist")
+	public HttpEntity<?> getJobResumeList(@RequestParam Integer tbjId, @RequestParam String tbrDataNameRaw, @RequestParam String tbrStatus, @RequestParam String length, @RequestParam String pageSize, @RequestParam String pageIndex, @RequestParam String email, @RequestParam String token, @RequestParam String requestId, @RequestParam String requestDate) throws Exception {
+		GetJobResumeListRequestModel requestModel = new GetJobResumeListRequestModel();
+		requestModel.setEmail(email);
+		requestModel.setToken(token);
+		requestModel.setRequestId(requestId);
+		requestModel.setRequestDate(requestDate);
+		
+		String fid = new Uid().generateString(20);
+		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
+		
+		GetJobResumeListResponseModel responseModel = jobService.getJobResumeList(tbjId, tbrDataNameRaw, tbrStatus, length, pageSize, pageIndex, requestModel);
 		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
 
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
