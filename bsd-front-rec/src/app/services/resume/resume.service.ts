@@ -14,7 +14,7 @@ export class ResumeService {
 
   constructor(private httpClient: HttpClient) { }
 
-  postUploadResume(PostUploadResumeRequest: PostUploadResumeRequest, selectedFile: File): Observable<HttpEvent<PostUploadResumeResponse>> {
+  postUploadResume(tbjUuid: string, selectedFile: File): Observable<HttpEvent<PostUploadResumeResponse>> {
     const headers = new HttpHeaders()
       .set('asd', 'asd');
 
@@ -22,7 +22,9 @@ export class ResumeService {
       .set('requestId', this.util.randomString(10))
       .set('requestDate', ((new Date(Date.now() - ((new Date()).getTimezoneOffset() * 60000))).toISOString().slice(0, -1)) + '000')
       .set('email', localStorage.getItem('email'))
-      .set('token', localStorage.getItem('token'));
+      .set('token', localStorage.getItem('token'))
+      .set('tbjUuid', tbjUuid)
+      ;
 
     const formData = new FormData();
     formData.append('file', selectedFile, selectedFile.name);

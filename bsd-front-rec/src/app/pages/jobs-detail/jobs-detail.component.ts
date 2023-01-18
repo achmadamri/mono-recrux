@@ -125,7 +125,7 @@ export class JobsDetailComponent implements OnInit {
       this.totalFiles = Array(new String());
       this.totalUploadNumber = this.selectedFiles.length;
       for (const file of this.selectedFiles) {
-        this.resumeService.postUploadResume(this.postUploadResumeRequest, file)
+        this.resumeService.postUploadResume(this.postAddJobRequest.tbJob.tbjUuid, file)
           .subscribe(
             successResponse => {
               if (successResponse.type === HttpEventType.UploadProgress) {
@@ -136,6 +136,8 @@ export class JobsDetailComponent implements OnInit {
 
                 this.postUploadResumeResponse = successResponse.body;
                 this.util.showNotification('info', 'top', 'center', this.postUploadResumeResponse.fileNameOri + ' - ' + this.postUploadResumeResponse.message);
+
+                this.getJobResumeList(this.pageEvent);
 
                 if (this.totalUpload == this.selectedFiles.length) {
                   this.clicked = !this.clicked;

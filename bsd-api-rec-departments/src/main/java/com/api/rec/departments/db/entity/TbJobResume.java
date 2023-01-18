@@ -16,7 +16,8 @@ public class TbJobResume implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="tbjr_id")
+	@Column(name="tbjr_id")	
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer tbjrId;
 
 	@Column(name="tbj_id")

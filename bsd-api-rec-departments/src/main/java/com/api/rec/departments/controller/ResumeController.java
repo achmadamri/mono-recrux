@@ -1,5 +1,7 @@
 package com.api.rec.departments.controller;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,7 +37,7 @@ public class ResumeController {
 	
 	@PostMapping("/postuploadresume")
 	@Transactional
-	public HttpEntity<?> postUploadResume(PostUploadResumeRequestModel requestModel, @RequestParam("file") MultipartFile file) throws Exception {
+	public HttpEntity<?> postUploadResume(PostUploadResumeRequestModel requestModel, @Valid @RequestParam("file") MultipartFile file) throws Exception {
 		String fid = new Uid().generateString(20);
 		log.info("[fid:" + fid + "] requestModel : " + file.toString());
 		
