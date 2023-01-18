@@ -83,7 +83,7 @@ public class ResumeService {
 		tbResume.setTbrCreateDate(new Date());
 		tbResume.setTbrCreateIdc(tbUser.getTbuCreateIdc());
 		tbResume.setTbrStatus(TbResumeRepository.Active);
-		tbResume.setTbrUuid(new Uid().generateString(5).toUpperCase());
+		tbResume.setTbrUuid(new Uid().generateString(5));
 
 		if (dataName != null) {
 			tbResume.setTbrDataNameRaw((String) dataName.get("raw"));
@@ -184,7 +184,7 @@ public class ResumeService {
 				tbJobResume.setTbjrCreateIdc(optTbUser.get().getTbuCreateIdc());
 				tbJobResume.setTbjrCreateDate(new Date());
 				tbJobResume.setTbjrStatus(TbJobResumeRepository.Assigned);
-				tbJobResume.setTbjrUuid(new Uid().generateString(5).toUpperCase());
+				tbJobResume.setTbjrUuid(new Uid().generateString(5));
 				tbJobResume.setTbjId(optTbJob.get().getTbjId());
 				tbJobResume.setTbrId(tbResume.getTbrId());
 				tbJobResumeRepository.save(tbJobResume);

@@ -84,7 +84,7 @@ public class JobService {
 						tbJob.setTbjCreateIdc(optTbUser.get().getTbuCreateIdc());
 						tbJob.setTbjCreateDate(new Date());
 						tbJob.setTbjStatus(TbJobRepository.Active);
-						tbJob.setTbjUuid(new Uid().generateString(5).toUpperCase());
+						tbJob.setTbjUuid(new Uid().generateString(5));
 						tbJob = tbJobRepository.save(tbJob);
 		
 						responseModel.setTbJob(tbJob);

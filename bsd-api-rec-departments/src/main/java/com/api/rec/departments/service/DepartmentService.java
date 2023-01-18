@@ -81,7 +81,7 @@ public class DepartmentService {
 						tbDepartment.setTbdCreateIdc(optTbUser.get().getTbuCreateIdc());
 						tbDepartment.setTbdCreateDate(new Date());
 						tbDepartment.setTbdStatus(TbDepartmentRepository.Active);
-						tbDepartment.setTbdUuid(new Uid().generateString(5).toUpperCase());
+						tbDepartment.setTbdUuid(new Uid().generateString(5));
 						tbDepartment = tbDepartmentRepository.save(tbDepartment);
 		
 						responseModel.setTbDepartment(tbDepartment);
@@ -146,7 +146,7 @@ public class DepartmentService {
 				tbDepartmentJob.setTbdjStatus(TbDepartmentJobRepository.Active);
 				tbDepartmentJob.setTbdId(optTbDepartment.get().getTbdId());
 				tbDepartmentJob.setTbjId(optTbJob.get().getTbjId());
-				tbDepartmentJob.setTbdjUuid(new Uid().generateString(5).toUpperCase());
+				tbDepartmentJob.setTbdjUuid(new Uid().generateString(5));
 				tbDepartmentJobRepository.save(tbDepartmentJob);
 
 				responseModel.setTbDepartmentJob(tbDepartmentJob);
