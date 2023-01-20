@@ -26,6 +26,8 @@ import com.api.rec.departments.model.job.GetJobResumeListRequestModel;
 import com.api.rec.departments.model.job.GetJobResumeListResponseModel;
 import com.api.rec.departments.model.job.PostAddJobRequestModel;
 import com.api.rec.departments.model.job.PostAddJobResponseModel;
+import com.api.rec.departments.model.job.PostAddJobResumeRequestModel;
+import com.api.rec.departments.model.job.PostAddJobResumeResponseModel;
 import com.api.rec.departments.service.JobService;
 import com.api.rec.departments.util.Uid;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -42,6 +44,21 @@ public class JobController {
 
 	@Autowired
 	private JobService jobService;
+
+	@PostMapping("/postaddjobresume")
+	@Transactional
+	public HttpEntity<?> postAddJobResume(@Valid @RequestBody PostAddJobResumeRequestModel requestModel) throws Exception {		
+		String fid = new Uid().generateString(20);
+		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
+		
+		PostAddJobResumeResponseModel responseModel = jobService.postAddJobResume(requestModel);
+		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
+		
+		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
+		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
+
+		return responseEntity;
+	}
 
 	@PostMapping("/postaddjob")
 	@Transactional

@@ -16,10 +16,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.api.rec.departments.db.entity.TbJob;
+import com.api.rec.departments.db.entity.TbJobResume;
+import com.api.rec.departments.db.entity.TbResume;
 import com.api.rec.departments.db.entity.TbUser;
 import com.api.rec.departments.db.entity.ViewJobDepartment;
 import com.api.rec.departments.db.entity.ViewJobResume;
 import com.api.rec.departments.db.repository.TbJobRepository;
+import com.api.rec.departments.db.repository.TbJobResumeRepository;
+import com.api.rec.departments.db.repository.TbResumeRepository;
 import com.api.rec.departments.db.repository.TbUserRepository;
 import com.api.rec.departments.db.repository.ViewJobDepartmentRepository;
 import com.api.rec.departments.db.repository.ViewJobResumeRepository;
@@ -33,6 +37,8 @@ import com.api.rec.departments.model.job.GetJobResumeListRequestModel;
 import com.api.rec.departments.model.job.GetJobResumeListResponseModel;
 import com.api.rec.departments.model.job.PostAddJobRequestModel;
 import com.api.rec.departments.model.job.PostAddJobResponseModel;
+import com.api.rec.departments.model.job.PostAddJobResumeRequestModel;
+import com.api.rec.departments.model.job.PostAddJobResumeResponseModel;
 import com.api.rec.departments.util.TokenUtil;
 import com.api.rec.departments.util.Uid;
 
@@ -57,6 +63,82 @@ public class JobService {
 
 	@Autowired
 	private ViewJobResumeRepository viewJobResumeRepository;
+
+	@Autowired
+	private TbResumeRepository tbResumeRepository;
+
+	@Autowired
+	private TbJobResumeRepository tbJobResumeRepository;
+
+	public PostAddJobResumeResponseModel postAddJobResume(PostAddJobResumeRequestModel requestModel) throws Exception {
+		PostAddJobResumeResponseModel responseModel = new PostAddJobResumeResponseModel(requestModel);
+		
+		tokenUtil.claims(requestModel);
+		
+		TbUser exampleTbUser = new TbUser();
+		exampleTbUser.setTbuEmail(requestModel.getEmail());
+		exampleTbUser.setTbuStatus(TbUserRepository.Active);
+		Optional<TbUser> optTbUser = tbUserRepository.findOne(Example.of(exampleTbUser));
+
+		if (optTbUser.isPresent()) {
+			if (requestModel.getTbJobResume().getTbjrUuid() == null) {
+				TbJob exampleTbJob = new TbJob();
+				exampleTbJob.setTbjUuid(requestModel.getTbJob().getTbjUuid());
+				exampleTbJob.setTbjCreateIdc(optTbUser.get().getTbuCreateIdc());
+				Optional<TbJob> optTbJob = tbJobRepository.findOne(Example.of(exampleTbJob));
+
+				TbResume exampleTbResume = new TbResume();
+				exampleTbResume.setTbrUuid(requestModel.getTbResume().getTbrUuid());
+				exampleTbResume.setTbrCreateIdc(optTbUser.get().getTbuCreateIdc());
+				Optional<TbResume> optTbResume = tbResumeRepository.findOne(Example.of(exampleTbResume));
+
+				TbJobResume tbJobResume = new TbJobResume();
+				tbJobResume.setTbjrCreateId(optTbUser.get().getTbuId());
+				tbJobResume.setTbjrCreateDate(new Date());
+				tbJobResume.setTbjrCreateIdc(optTbUser.get().getTbuCreateIdc());
+				tbJobResume.setTbjrStatus(TbJobResumeRepository.Assigned);
+				tbJobResume.setTbrId(optTbResume.get().getTbrId());
+				tbJobResume.setTbjId(optTbJob.get().getTbjId());
+				tbJobResume.setTbjrUuid(new Uid().generateString(5));
+				tbJobResumeRepository.save(tbJobResume);
+
+				responseModel.setTbJobResume(tbJobResume);
+				responseModel.setHttpStatus(HttpStatus.OK);
+			} else {
+				TbJob exampleTbJob = new TbJob();
+				exampleTbJob.setTbjUuid(requestModel.getTbJob().getTbjUuid());
+				exampleTbJob.setTbjCreateIdc(optTbUser.get().getTbuCreateIdc());
+				Optional<TbJob> optTbJob = tbJobRepository.findOne(Example.of(exampleTbJob));
+
+				TbResume exampleTbResume = new TbResume();
+				exampleTbResume.setTbrUuid(requestModel.getTbResume().getTbrUuid());
+				exampleTbResume.setTbrCreateIdc(optTbUser.get().getTbuCreateIdc());
+				Optional<TbResume> optTbResume = tbResumeRepository.findOne(Example.of(exampleTbResume));
+
+				TbJobResume exampleTbJobResume = new TbJobResume();
+				exampleTbJobResume.setTbjrUuid(requestModel.getTbJobResume().getTbjrUuid());
+				exampleTbJobResume.setTbjrCreateIdc(optTbUser.get().getTbuCreateIdc());
+				Optional<TbJobResume> optTbJobResume = tbJobResumeRepository.findOne(Example.of(exampleTbJobResume));
+
+				if (optTbJob.isPresent() && optTbResume.isPresent() && optTbJobResume.isPresent()) {
+					TbJobResume tbJobResume = optTbJobResume.get();
+					tbJobResume.setTbjrUpdateId(optTbUser.get().getTbuId());
+					tbJobResume.setTbjrUpdateDate(new Date());
+					tbJobResume.setTbjrStatus(requestModel.getTbJobResume().getTbjrStatus());
+					tbJobResume = tbJobResumeRepository.save(tbJobResume);
+
+					responseModel.setTbJobResume(tbJobResume);
+					responseModel.setHttpStatus(HttpStatus.OK);
+				} else {
+					responseModel.setHttpStatus(HttpStatus.NOT_FOUND);
+				}
+			}
+		} else {
+			responseModel.setHttpStatus(HttpStatus.UNAUTHORIZED);
+		}
+		
+		return responseModel;
+	}
 
 	public PostAddJobResponseModel postAddJob(PostAddJobRequestModel requestModel) throws Exception {
 		PostAddJobResponseModel responseModel = new PostAddJobResponseModel(requestModel);
