@@ -105,18 +105,18 @@ export class JobsDetailComponent implements OnInit {
     this.postAddJobResumeRequest.tbJobResume.tbjrUuid = tbjrUuid;
     this.postAddJobResumeRequest.tbJobResume.tbjrStatus = tbjrStatus;
 
-    this.departmentService.postAddJobResume(this.postAddJobResumeRequest)
+    this.jobService.postAddJobResume(this.postAddJobResumeRequest)
     .subscribe(
       successResponse => {
         this.clicked = !this.clicked;
         this.postAddJobResumeResponse = successResponse;
         this.util.showNotification('info', 'top', 'center', successResponse.message);
 
-        this.getJobDepartmentList(this.pageEvent);
+        this.getJobResumeList(this.pageEvent);
       },
       errorResponse => {
         this.clicked = !this.clicked;
-        this.postAddDepartmentResponse = new PostAddDepartmentResponse();
+        this.postAddJobResumeResponse = new PostAddJobResumeResponse();
         this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
       }
     );

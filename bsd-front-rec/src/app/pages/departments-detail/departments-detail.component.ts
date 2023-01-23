@@ -168,7 +168,7 @@ export class DepartmentsDetailComponent implements OnInit {
       },
       errorResponse => {
         this.clicked = !this.clicked;
-        this.postAddDepartmentResponse = new PostAddDepartmentResponse();
+        this.postAddDepartmentJobResponse = new PostAddDepartmentJobResponse();
         this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
       }
     );

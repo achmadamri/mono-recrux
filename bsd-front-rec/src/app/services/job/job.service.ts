@@ -2,7 +2,6 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable, isDevMode } from '@angular/core';
 import { Util } from 'app/util';
 import { Observable } from 'rxjs';
-import { PostAddDepartmentJobResponse } from '../department/postadddepartmentjobresponse';
 import { GetJobDepartmentListResponse } from './getjobdepartmentlistresponse';
 import { GetJobListResponse } from './getjoblistresponse';
 import { GetJobResponse } from './getjobresponse';
@@ -10,6 +9,7 @@ import { GetJobResumeListResponse } from './getjobresumelistresponse';
 import { PostAddJobRequest } from './postaddjobrequest';
 import { PostAddJobResponse } from './postaddjobresponse';
 import { PostAddJobResumeRequest } from './postaddjobresumerequest';
+import { PostAddJobResumeResponse } from './postaddjobresumeresponse';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,7 @@ export class JobService {
 
   constructor(private httpClient: HttpClient) { }
 
-  postAddJobResume(postAddJobResumeRequest: PostAddJobResumeRequest): Observable<PostAddDepartmentJobResponse> {
+  postAddJobResume(postAddJobResumeRequest: PostAddJobResumeRequest): Observable<PostAddJobResumeResponse> {
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json');
 
@@ -29,7 +29,7 @@ export class JobService {
     postAddJobResumeRequest.requestId = this.util.randomString(10);
     postAddJobResumeRequest.requestDate = ((new Date(Date.now() - ((new Date()).getTimezoneOffset() * 60000))).toISOString().slice(0, -1)) + '000';
 
-    return this.httpClient.post<PostAddDepartmentJobResponse>(`${this.apiUrl}/postaddjobresume`, postAddJobResumeRequest, { headers });
+    return this.httpClient.post<PostAddJobResumeResponse>(`${this.apiUrl}/postaddjobresume`, postAddJobResumeRequest, { headers });
   }
 
   getJobResumeList(tbjId: number, tbrDataNameRaw: string, tbrStatus: string, length: number, pageSize: number, pageIndex: number): Observable<GetJobResumeListResponse> {
