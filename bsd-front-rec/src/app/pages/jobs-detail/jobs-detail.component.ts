@@ -13,6 +13,8 @@ import { GetJobResumeListResponse } from 'app/services/job/getjobresumelistrespo
 import { JobService } from 'app/services/job/job.service';
 import { PostAddJobRequest } from 'app/services/job/postaddjobrequest';
 import { PostAddJobResponse } from 'app/services/job/postaddjobresponse';
+import { PostAddJobResumeRequest } from 'app/services/job/postaddjobresumerequest';
+import { PostAddJobResumeResponse } from 'app/services/job/postaddjobresumeresponse';
 import { PostUploadResumeRequest } from 'app/services/job/postuploadresumerequest';
 import { PostUploadResumeResponse } from 'app/services/job/postuploadresumeresponse';
 import { ResumeService } from 'app/services/resume/resume.service';
@@ -48,6 +50,8 @@ export class JobsDetailComponent implements OnInit {
   totalUploadNumber = 0;  
   getJobResumeListRequest: GetJobResumeListRequest = new GetJobResumeListRequest();
   getJobResumeListResponse: GetJobResumeListResponse = new GetJobResumeListResponse();
+  postAddJobResumeRequest: PostAddJobResumeRequest = new PostAddJobResumeRequest();
+  postAddJobResumeResponse: PostAddJobResumeResponse = new PostAddJobResumeResponse();
 
   constructor(
     private route: ActivatedRoute,
@@ -86,6 +90,36 @@ export class JobsDetailComponent implements OnInit {
         this.saveUpdate = 'Save';
       }
     });
+  }
+
+  setUnset(tbjUuid: string, tbrUuid: string, tbjrUuid: string, tbjrStatus: string) {
+    this.clicked = !this.clicked;
+
+    if (tbjUuid == undefined) {
+      this.postAddJobResumeRequest.tbJob.tbjUuid = this.postAddJobRequest.tbJob.tbjUuid;
+    } else {
+      this.postAddJobResumeRequest.tbJob.tbjUuid = tbjUuid;
+    }
+        
+    this.postAddJobResumeRequest.tbResume.tbrUuid = tbrUuid;
+    this.postAddJobResumeRequest.tbJobResume.tbjrUuid = tbjrUuid;
+    this.postAddJobResumeRequest.tbJobResume.tbjrStatus = tbjrStatus;
+
+    this.departmentService.postAddJobResume(this.postAddJobResumeRequest)
+    .subscribe(
+      successResponse => {
+        this.clicked = !this.clicked;
+        this.postAddJobResumeResponse = successResponse;
+        this.util.showNotification('info', 'top', 'center', successResponse.message);
+
+        this.getJobDepartmentList(this.pageEvent);
+      },
+      errorResponse => {
+        this.clicked = !this.clicked;
+        this.postAddDepartmentResponse = new PostAddDepartmentResponse();
+        this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
+      }
+    );
   }
 
   saveupdate() {
