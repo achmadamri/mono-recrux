@@ -74,51 +74,51 @@ export class ResumesComponent implements OnInit {
   }
 
   add() {
-    this.router.navigate(['/resume/0']);
+    this.router.navigate(['/resumes/0']);
   }
 
-  edit(tbjUuid: string) {
-    this.router.navigate(['/resume/' + tbjUuid]);
+  edit(tbrUuid: string) {
+    this.router.navigate(['/resumes/' + tbrUuid]);
   }
 
   nonActive(tbjUuid: string) {
-    // this.clicked = !this.clicked;
+    this.clicked = !this.clicked;
 
-    // this.resumeService.getResume(tbjUuid)
-    // .subscribe(
-    //   successResponse => {
-    //     this.getResumeResponse = successResponse;
+    this.resumeService.getResume(tbjUuid)
+    .subscribe(
+      successResponse => {
+        this.getResumeResponse = successResponse;
 
-    //     if (this.getResumeResponse.tbResume.tbjStatus == 'active') {
-    //       this.getResumeResponse.tbResume.tbjStatus = 'not active';
-    //     } else {
-    //       this.getResumeResponse.tbResume.tbjStatus = 'active';
-    //     }
+        if (this.getResumeResponse.tbResume.tbrStatus == 'active') {
+          this.getResumeResponse.tbResume.tbrStatus = 'not active';
+        } else {
+          this.getResumeResponse.tbResume.tbrStatus = 'active';
+        }
 
-    //     this.postAddResumeRequest.tbResume = this.getResumeResponse.tbResume;
+        this.postAddResumeRequest.tbResume = this.getResumeResponse.tbResume;
 
-    //     this.ResumeService.postAddResume(this.postAddResumeRequest)
-    //     .subscribe(
-    //       successResponse => {
-    //         this.clicked = !this.clicked;
-    //         this.postAddResumeResponse = successResponse;
-    //         this.util.showNotification('info', 'top', 'center', successResponse.message);
+        this.resumeService.postAddResume(this.postAddResumeRequest)
+        .subscribe(
+          successResponse => {
+            this.clicked = !this.clicked;
+            this.postAddResumeResponse = successResponse;
+            this.util.showNotification('info', 'top', 'center', successResponse.message);
 
-    //         this.getResumeList(this.pageEvent);
-    //       },
-    //       errorResponse => {
-    //         this.clicked = !this.clicked;
-    //         this.postAddResumeResponse = new PostAddResumeResponse();
-    //         this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
-    //       }
-    //     );
-    //   },
-    //   errorResponse => {
-    //     this.clicked = !this.clicked;
-    //     this.getResumeResponse = new GetResumeResponse();
-    //     this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
-    //   }
-    // );
+            this.getResumeList(this.pageEvent);
+          },
+          errorResponse => {
+            this.clicked = !this.clicked;
+            this.postAddResumeResponse = new PostAddResumeResponse();
+            this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
+          }
+        );
+      },
+      errorResponse => {
+        this.clicked = !this.clicked;
+        this.getResumeResponse = new GetResumeResponse();
+        this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
+      }
+    );
   }
 
   filter() {

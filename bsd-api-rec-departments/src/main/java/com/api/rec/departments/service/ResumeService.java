@@ -36,6 +36,10 @@ import com.api.rec.departments.db.repository.TbResumeRepository;
 import com.api.rec.departments.db.repository.TbUserRepository;
 import com.api.rec.departments.model.resume.GetResumeListRequestModel;
 import com.api.rec.departments.model.resume.GetResumeListResponseModel;
+import com.api.rec.departments.model.resume.GetResumeRequestModel;
+import com.api.rec.departments.model.resume.GetResumeResponseModel;
+import com.api.rec.departments.model.resume.PostAddResumeRequestModel;
+import com.api.rec.departments.model.resume.PostAddResumeResponseModel;
 import com.api.rec.departments.model.resume.PostUploadResumeRequestModel;
 import com.api.rec.departments.model.resume.PostUploadResumeResponseModel;
 import com.api.rec.departments.util.TokenUtil;
@@ -229,6 +233,97 @@ public class ResumeService {
 			if (pgTbResume.toList().size() > 0) {
 				responseModel.setLstTbResume(pgTbResume.toList());				
 				responseModel.setLength(tbResumeRepository.count(Example.of(exampleTbResume)));
+				responseModel.setHttpStatus(HttpStatus.OK);
+			} else {
+				responseModel.setHttpStatus(HttpStatus.NOT_FOUND);
+			}
+		} else {
+			responseModel.setHttpStatus(HttpStatus.UNAUTHORIZED);
+		}
+		
+		return responseModel;
+	}
+	
+	public PostAddResumeResponseModel postAddResume(PostAddResumeRequestModel requestModel) throws Exception {
+		PostAddResumeResponseModel responseModel = new PostAddResumeResponseModel(requestModel);
+		
+		tokenUtil.claims(requestModel);
+		
+		TbUser exampleTbUser = new TbUser();
+		exampleTbUser.setTbuEmail(requestModel.getEmail());
+		exampleTbUser.setTbuStatus(TbUserRepository.Active);
+		Optional<TbUser> optTbUser = tbUserRepository.findOne(Example.of(exampleTbUser));
+
+		if (optTbUser.isPresent()) {
+			if (requestModel.getTbResume().getTbrUuid().equals("0")) {
+				if (requestModel.getTbResume().getTbrDataNameRaw() != null) {
+					TbResume exampleTbResume = new TbResume();
+					exampleTbResume.setTbrDataNameRaw(requestModel.getTbResume().getTbrDataNameRaw());
+					Optional<TbResume> optTbResume = tbResumeRepository.findOne(Example.of(exampleTbResume));
+					
+					if (optTbResume.isPresent()) {
+						responseModel.setHttpStatus(HttpStatus.ALREADY_REPORTED);
+					} else {
+						TbResume tbResume = new TbResume();
+						tbResume = requestModel.getTbResume();
+						tbResume.setTbrCreateId(optTbUser.get().getTbuId());
+						tbResume.setTbrCreateIdc(optTbUser.get().getTbuCreateIdc());
+						tbResume.setTbrCreateDate(new Date());
+						tbResume.setTbrStatus(TbResumeRepository.Active);
+						tbResume.setTbrUuid(new Uid().generateString(5));
+						tbResume = tbResumeRepository.save(tbResume);
+		
+						responseModel.setTbResume(tbResume);
+						responseModel.setHttpStatus(HttpStatus.OK);
+					}
+				} else {
+					responseModel.setHttpStatus(HttpStatus.BAD_REQUEST);
+				}				
+			} else {
+				TbResume exampleTbResume = new TbResume();
+				exampleTbResume.setTbrUuid(requestModel.getTbResume().getTbrUuid());
+				exampleTbResume.setTbrCreateIdc(optTbUser.get().getTbuCreateIdc());
+				Optional<TbResume> optTbResume = tbResumeRepository.findOne(Example.of(exampleTbResume));
+				
+				if (optTbResume.isPresent()) {
+					TbResume tbResume = optTbResume.get();
+					tbResume.setTbrUpdateId(optTbUser.get().getTbuId());
+					tbResume.setTbrUpdateDate(new Date());
+					tbResume.setTbrDataNameRaw(requestModel.getTbResume().getTbrDataNameRaw());
+					tbResume.setTbrStatus(requestModel.getTbResume().getTbrStatus());
+					tbResume = tbResumeRepository.save(tbResume);
+	
+					responseModel.setTbResume(tbResume);
+					responseModel.setHttpStatus(HttpStatus.OK);
+				} else {
+					responseModel.setHttpStatus(HttpStatus.NOT_FOUND);
+				}
+			}
+		} else {
+			responseModel.setHttpStatus(HttpStatus.UNAUTHORIZED);
+		}
+		
+		return responseModel;
+	}
+
+	public GetResumeResponseModel getResume(String tbjUuid, GetResumeRequestModel requestModel) throws Exception {
+		GetResumeResponseModel responseModel = new GetResumeResponseModel(requestModel);
+		
+		tokenUtil.claims(requestModel);
+		
+		TbUser exampleTbUser = new TbUser();
+		exampleTbUser.setTbuEmail(requestModel.getEmail());
+		exampleTbUser.setTbuStatus(TbUserRepository.Active);
+		Optional<TbUser> optTbUser = tbUserRepository.findOne(Example.of(exampleTbUser));
+		
+		if (optTbUser.isPresent()) {
+			TbResume exampleTbResume = new TbResume();
+			exampleTbResume.setTbrUuid(tbjUuid);
+			exampleTbResume.setTbrCreateId(optTbUser.get().getTbuCreateId());
+			Optional<TbResume> optTbResume = tbResumeRepository.findOne(Example.of(exampleTbResume));
+			
+			if (optTbResume.isPresent()) {
+				responseModel.setTbResume(optTbResume.get());
 				responseModel.setHttpStatus(HttpStatus.OK);
 			} else {
 				responseModel.setHttpStatus(HttpStatus.NOT_FOUND);

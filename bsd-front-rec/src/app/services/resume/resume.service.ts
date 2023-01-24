@@ -3,6 +3,9 @@ import { Injectable, isDevMode } from '@angular/core';
 import { Util } from 'app/util';
 import { Observable } from 'rxjs';
 import { GetResumeListResponse } from './getresumelistresponse';
+import { GetResumeResponse } from './getresumeresponse';
+import { PostAddResumeRequest } from './postaddresumerequest';
+import { PostAddResumeResponse } from './postaddresumeresponse';
 import { PostUploadResumeRequest } from './postuploadresumerequest';
 import { PostUploadResumeResponse } from './postuploadresumeresponse';
 
@@ -50,5 +53,32 @@ export class ResumeService {
       ;
 
     return this.httpClient.get<GetResumeListResponse>(`${this.apiUrl}/getresumelist`, { headers, params });
+  }
+
+  postAddResume(postAddResumeRequest: PostAddResumeRequest): Observable<PostAddResumeResponse> {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json');
+
+    postAddResumeRequest.email = localStorage.getItem('email');
+    postAddResumeRequest.token = localStorage.getItem('token');
+    postAddResumeRequest.requestId = this.util.randomString(10);
+    postAddResumeRequest.requestDate = ((new Date(Date.now() - ((new Date()).getTimezoneOffset() * 60000))).toISOString().slice(0, -1)) + '000';
+
+    return this.httpClient.post<PostAddResumeResponse>(`${this.apiUrl}/postaddresume`, postAddResumeRequest, { headers });
+  }
+  
+  getResume(tbjUuid: string): Observable<GetResumeResponse> {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json');
+
+    const params = new HttpParams()
+      .set('requestId', this.util.randomString(10))
+      .set('requestDate', ((new Date(Date.now() - ((new Date()).getTimezoneOffset() * 60000))).toISOString().slice(0, -1)) + '000')
+      .set('email', localStorage.getItem('email'))
+      .set('token', localStorage.getItem('token'))
+      .set('tbjUuid', tbjUuid)
+      ;
+
+    return this.httpClient.get<GetResumeResponse>(`${this.apiUrl}/getresume`, { headers, params });
   }
 }
