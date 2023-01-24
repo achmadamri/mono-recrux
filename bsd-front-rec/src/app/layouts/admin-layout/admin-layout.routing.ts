@@ -17,6 +17,7 @@ import { DepartmentsComponent } from 'app/pages/departments/departments.componen
 import { DepartmentsDetailComponent } from 'app/pages/departments-detail/departments-detail.component';
 import { JobsComponent } from 'app/pages/jobs/jobs.component';
 import { JobsDetailComponent } from 'app/pages/jobs-detail/jobs-detail.component';
+import { ResumeComponent } from 'app/pages/resume/resume.component';
 
 export const AdminLayoutRoutes: Routes = [
     // {
@@ -77,5 +78,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'departments/:tbdUuid', component: DepartmentsDetailComponent, canActivate: [AuthGuard] },
     { path: 'jobs', component: JobsComponent, canActivate: [AuthGuard] },
     { path: 'jobs/:tbjUuid', component: JobsDetailComponent, canActivate: [AuthGuard] },
-    { path: 'logout', component: LogoutComponent },
+    { path: 'resume/:tbrUuid', component: ResumeComponent, canActivate: [AuthGuard] },
+    { path: 'logout', component: LogoutComponent },    
 ];

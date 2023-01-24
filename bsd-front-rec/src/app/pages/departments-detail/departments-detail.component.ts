@@ -12,6 +12,7 @@ import { GetJobDepartmentListResponse } from 'app/services/job/getjobdepartmentl
 import { JobService } from 'app/services/job/job.service';
 import { PostAddDepartmentJobRequest } from 'app/services/department/postadddepartmentjobrequest';
 import { PostAddDepartmentJobResponse } from 'app/services/department/postadddepartmentjobresponse';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-pages-departments-detail',
@@ -39,6 +40,7 @@ export class DepartmentsDetailComponent implements OnInit {
   postAddDepartmentJobResponse: PostAddDepartmentJobResponse = new PostAddDepartmentJobResponse();
 
   constructor(
+    private location: Location,
     private route: ActivatedRoute,
     private router: Router,
     private departmentService: DepartmentService,
@@ -108,7 +110,7 @@ export class DepartmentsDetailComponent implements OnInit {
   }
 
   back() {
-    this.router.navigate(['/departments']);
+    this.location.back();
   }
 
   filter() {

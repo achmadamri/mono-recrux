@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { HttpEventType } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
@@ -54,6 +55,7 @@ export class JobsDetailComponent implements OnInit {
   postAddJobResumeResponse: PostAddJobResumeResponse = new PostAddJobResumeResponse();
 
   constructor(
+    private location: Location,
     private route: ActivatedRoute,
     private router: Router,
     private jobService: JobService,
@@ -201,7 +203,7 @@ export class JobsDetailComponent implements OnInit {
   }
 
   back() {
-    this.router.navigate(['/jobs']);
+    this.location.back();
   }
 
   filter() {
@@ -242,6 +244,10 @@ export class JobsDetailComponent implements OnInit {
           this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
         }
       );
+  }
+
+  edit(tbrUuid: string) {
+    this.router.navigate(['/resume/' + tbrUuid]);
   }
 
 }

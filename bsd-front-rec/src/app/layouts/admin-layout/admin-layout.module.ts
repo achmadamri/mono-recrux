@@ -30,6 +30,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { JobsComponent } from 'app/pages/jobs/jobs.component';
 import { MatIconModule } from '@angular/material/icon';
 import { JobsDetailComponent } from 'app/pages/jobs-detail/jobs-detail.component';
+import { ResumeComponent } from 'app/pages/resume/resume.component';
 
 @NgModule({
   imports: [
@@ -54,6 +55,7 @@ import { JobsDetailComponent } from 'app/pages/jobs-detail/jobs-detail.component
     UserProfileComponent,
     LoginComponent,
     RegisterComponent,
+    ResumeComponent,
     DepartmentsComponent,
     JobsComponent,
     DepartmentsDetailComponent,
