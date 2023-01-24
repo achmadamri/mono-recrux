@@ -81,30 +81,7 @@ public class JobService {
 		Optional<TbUser> optTbUser = tbUserRepository.findOne(Example.of(exampleTbUser));
 
 		if (optTbUser.isPresent()) {
-			if (requestModel.getTbJobResume().getTbjrUuid() == null) {
-				TbJob exampleTbJob = new TbJob();
-				exampleTbJob.setTbjUuid(requestModel.getTbJob().getTbjUuid());
-				exampleTbJob.setTbjCreateIdc(optTbUser.get().getTbuCreateIdc());
-				Optional<TbJob> optTbJob = tbJobRepository.findOne(Example.of(exampleTbJob));
-
-				TbResume exampleTbResume = new TbResume();
-				exampleTbResume.setTbrUuid(requestModel.getTbResume().getTbrUuid());
-				exampleTbResume.setTbrCreateIdc(optTbUser.get().getTbuCreateIdc());
-				Optional<TbResume> optTbResume = tbResumeRepository.findOne(Example.of(exampleTbResume));
-
-				TbJobResume tbJobResume = new TbJobResume();
-				tbJobResume.setTbjrCreateId(optTbUser.get().getTbuId());
-				tbJobResume.setTbjrCreateDate(new Date());
-				tbJobResume.setTbjrCreateIdc(optTbUser.get().getTbuCreateIdc());
-				tbJobResume.setTbjrStatus(TbJobResumeRepository.Assigned);
-				tbJobResume.setTbrId(optTbResume.get().getTbrId());
-				tbJobResume.setTbjId(optTbJob.get().getTbjId());
-				tbJobResume.setTbjrUuid(new Uid().generateString(5));
-				tbJobResumeRepository.save(tbJobResume);
-
-				responseModel.setTbJobResume(tbJobResume);
-				responseModel.setHttpStatus(HttpStatus.OK);
-			} else {
+			if (requestModel.getTbJobResume().getTbjrUuid() != null) {
 				TbJob exampleTbJob = new TbJob();
 				exampleTbJob.setTbjUuid(requestModel.getTbJob().getTbjUuid());
 				exampleTbJob.setTbjCreateIdc(optTbUser.get().getTbuCreateIdc());
@@ -132,6 +109,8 @@ public class JobService {
 				} else {
 					responseModel.setHttpStatus(HttpStatus.NOT_FOUND);
 				}
+			} else {
+				responseModel.setHttpStatus(HttpStatus.NOT_FOUND);
 			}
 		} else {
 			responseModel.setHttpStatus(HttpStatus.UNAUTHORIZED);

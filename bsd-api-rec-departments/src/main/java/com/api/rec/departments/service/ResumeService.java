@@ -177,7 +177,7 @@ public class ResumeService {
 				String fileName = responseModel.getResponseId() + "-" + StringUtils.cleanPath(file.getOriginalFilename());
 				Files.copy(file.getInputStream(), Paths.get(env.getProperty("file.upload.dir") + fileName), StandardCopyOption.REPLACE_EXISTING);
 	
-				TbResume tbResume = affindaCreateResume(exampleTbUser, file);
+				TbResume tbResume = affindaCreateResume(optTbUser.get(), file);
 
 				TbJobResume tbJobResume = new TbJobResume();
 				tbJobResume.setTbjrCreateId(optTbUser.get().getTbuId());
