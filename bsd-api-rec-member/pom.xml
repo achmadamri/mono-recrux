@@ -19,6 +19,12 @@
 	</properties>
 
 	<dependencies>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -38,12 +44,6 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.social</groupId>
-			<artifactId>spring-social-twitter</artifactId>
-			<version>1.1.0.RELEASE</version>
 		</dependency>
 
 		<dependency>

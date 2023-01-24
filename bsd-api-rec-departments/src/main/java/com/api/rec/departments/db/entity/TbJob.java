@@ -49,6 +49,12 @@ public class TbJob implements Serializable {
 	@Column(name="tbj_update_id")
 	private Integer tbjUpdateId;
 
+	@Column(name="tbj_create_idc")
+	private Integer tbjCreateIdc;
+
+	@Column(name="tbj_uuid")
+	private String tbjUuid;
+
 	public TbJob() {
 	}
 
@@ -106,6 +112,22 @@ public class TbJob implements Serializable {
 
 	public void setTbjUpdateId(Integer tbjUpdateId) {
 		this.tbjUpdateId = tbjUpdateId;
+	}
+
+	public Integer getTbjCreateIdc() {
+		return tbjCreateIdc;
+	}
+
+	public void setTbjCreateIdc(Integer tbjCreateIdc) {
+		this.tbjCreateIdc = tbjCreateIdc;
+	}
+
+	public String getTbjUuid() {
+		return tbjUuid;
+	}
+
+	public void setTbjUuid(String tbjUuid) {
+		this.tbjUuid = tbjUuid;
 	}
 
 }

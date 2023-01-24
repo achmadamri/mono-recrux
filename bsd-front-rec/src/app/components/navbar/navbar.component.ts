@@ -16,6 +16,7 @@ export class NavbarComponent implements OnInit {
     mobile_menu_visible: any = 0;
     private toggleButton: any;
     private sidebarVisible: boolean;
+    sidebarMiniVisible: boolean;
 
     constructor(location: Location,  private element: ElementRef, private router: Router) {
       this.location = location;
@@ -23,6 +24,7 @@ export class NavbarComponent implements OnInit {
     }
 
     ngOnInit(){
+      this.sidebarMiniVisible = true;        
       this.listTitles = ROUTES.filter(listTitle => listTitle);
       const navbar: HTMLElement = this.element.nativeElement;
       this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
@@ -53,6 +55,15 @@ export class NavbarComponent implements OnInit {
         this.sidebarVisible = false;
         body.classList.remove('nav-open');
     };
+    sidebarMiniToggle() {
+        this.sidebarMiniVisible = !this.sidebarMiniVisible;
+        const body = document.getElementsByTagName('body')[0];
+        if (body.classList.contains('sidebar-mini')) {
+            body.classList.remove('sidebar-mini');
+        } else {
+            body.classList.add('sidebar-mini');
+        }
+    }
     sidebarToggle() {
         // const toggleButton = this.toggleButton;
         // const body = document.getElementsByTagName('body')[0];
@@ -126,6 +137,8 @@ export class NavbarComponent implements OnInit {
       var normTitle = titlee.replace('#','').replace('/','').replace('-',' ');
 
       if (normTitle.match(/departments.*/)) return "Departments";
+      if (normTitle.match(/jobs.*/)) return "Jobs";
+      if (normTitle.match(/resumes.*/)) return "Resumes";
 
       return 'Dashboard';
     }

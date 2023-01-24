@@ -3,6 +3,8 @@ package com.api.rec.departments.service;
 import java.util.Date;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,8 @@ import com.api.rec.departments.util.TokenUtil;
 
 @Service
 public class TokenService {
+
+	private Logger log = LoggerFactory.getLogger(TokenService.class);
 
 	private TokenUtil tokenUtil = new TokenUtil();
 	

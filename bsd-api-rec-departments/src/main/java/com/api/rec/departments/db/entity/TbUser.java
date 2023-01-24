@@ -76,6 +76,9 @@ public class TbUser implements Serializable {
 	@Column(name="tbu_expired")
 	private Date tbuExpired;
 
+	@Column(name="tbu_create_idc")
+	private Integer tbuCreateIdc;
+
 	public TbUser() {
 	}
 
@@ -205,6 +208,14 @@ public class TbUser implements Serializable {
 
 	public void setTbuExpired(Date tbuExpired) {
 		this.tbuExpired = tbuExpired;
+	}
+
+	public Integer getTbuCreateIdc() {
+		return tbuCreateIdc;
+	}
+
+	public void setTbuCreateIdc(Integer tbuCreateIdc) {
+		this.tbuCreateIdc = tbuCreateIdc;
 	}
 
 }

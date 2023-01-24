@@ -11,21 +11,27 @@ import { IconsComponent } from '../../icons/icons.component';
 import { MapsComponent } from '../../maps/maps.component';
 import { NotificationsComponent } from '../../notifications/notifications.component';
 import { UpgradeComponent } from '../../upgrade/upgrade.component';
-import {MatButtonModule} from '@angular/material/button';
-import {MatInputModule} from '@angular/material/input';
-import {MatRippleModule} from '@angular/material/core';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatTooltipModule} from '@angular/material/tooltip';
-import {MatSelectModule} from '@angular/material/select';
-import { LoginComponent } from 'app/login/login.component';
-import { LogoutComponent } from 'app/logout/logout.component';
-import { RegisterComponent } from 'app/register/register.component';
-import { ConfirmationComponent } from 'app/confirmation/confirmation.component';
-import { DepartmentsComponent } from 'app/departments/departments.component';
-import { DepartmentsDetailComponent } from 'app/departments-detail/departments-detail.component';
+import { MatButtonModule} from '@angular/material/button';
+import { MatInputModule} from '@angular/material/input';
+import { MatRippleModule} from '@angular/material/core';
+import { MatFormFieldModule} from '@angular/material/form-field';
+import { MatTooltipModule} from '@angular/material/tooltip';
+import { MatSelectModule} from '@angular/material/select';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { LoginComponent } from 'app/pages/login/login.component';
+import { LogoutComponent } from 'app/pages/logout/logout.component';
+import { RegisterComponent } from 'app/pages/register/register.component';
+import { ConfirmationComponent } from 'app/pages/confirmation/confirmation.component';
+import { DepartmentsComponent } from 'app/pages/departments/departments.component';
+import { DepartmentsDetailComponent } from 'app/pages/departments-detail/departments-detail.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { JobsComponent } from 'app/pages/jobs/jobs.component';
+import { MatIconModule } from '@angular/material/icon';
+import { JobsDetailComponent } from 'app/pages/jobs-detail/jobs-detail.component';
+import { ResumesDetailComponent } from 'app/pages/resumes-detail/resumes-detail.component';
+import { ResumesComponent } from 'app/pages/resumes/resumes.component';
 
 @NgModule({
   imports: [
@@ -42,14 +48,20 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatPaginatorModule,
     MatRadioModule,
     MatCheckboxModule,
+    MatIconModule,
+    MatProgressBarModule
   ],
   declarations: [
     DashboardComponent,
     UserProfileComponent,
     LoginComponent,
     RegisterComponent,
+    ResumesComponent,
+    ResumesDetailComponent,
     DepartmentsComponent,
+    JobsComponent,
     DepartmentsDetailComponent,
+    JobsDetailComponent,
     ConfirmationComponent,
     LogoutComponent,
     TableListComponent,

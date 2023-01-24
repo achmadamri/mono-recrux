@@ -1,0 +1,32 @@
+{
+    "/apiauth": {
+        "target": "http://localhost:2080",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true,
+        "pathRewrite": {
+            "^/apiauth": ""
+        }
+    
+    },
+    "/apidepartments": {
+        "target": "http://localhost:2082",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true,
+        "pathRewrite": {
+            "^/apidepartments": ""
+        }
+    
+    },
+    "/apimember": {
+        "target": "http://localhost:2081",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true,
+        "pathRewrite": {
+            "^/apimember": ""
+        }
+    
+    }
+}

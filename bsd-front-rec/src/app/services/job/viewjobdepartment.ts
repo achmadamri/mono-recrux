@@ -1,0 +1,29 @@
+export class ViewJobDepartment {
+	tbdCreateDate: string;
+	tbdCreateId: number;
+	tbdCreateIdc: number;
+	tbdId: number;
+	tbdName: string;
+	tbdStatus: string;
+	tbdUpdateDate: string;
+	tbdUpdateId: number;
+	tbdUuid: string;
+	tbdjId: number;
+	tbdjCreateDate: string;
+	tbdjCreateId: number;
+	tbdjCreateIdc: number;
+	tbdjUpdateDate: string;
+	tbdjUpdateId: number;
+	tbdjStatus: string;
+	tbdjUuid: string;
+	tbjCreateDate: string;
+	tbjCreateId: number;
+	tbjCreateIdc: number;
+	tbjId: number;
+	tbjName: string;
+	tbjStatus: string;
+	tbjUpdateDate: string;
+	tbjUpdateId: number;
+	tbjUuid: string;
+	uuid: string;
+}

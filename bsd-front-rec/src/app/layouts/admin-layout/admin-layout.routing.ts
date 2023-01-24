@@ -8,13 +8,17 @@ import { IconsComponent } from '../../icons/icons.component';
 import { MapsComponent } from '../../maps/maps.component';
 import { NotificationsComponent } from '../../notifications/notifications.component';
 import { UpgradeComponent } from '../../upgrade/upgrade.component';
-import { LoginComponent } from 'app/login/login.component';
+import { LoginComponent } from 'app/pages/login/login.component';
 import { AuthGuard } from 'app/auth.guard';
-import { LogoutComponent } from 'app/logout/logout.component';
-import { RegisterComponent } from 'app/register/register.component';
-import { ConfirmationComponent } from 'app/confirmation/confirmation.component';
-import { DepartmentsComponent } from 'app/departments/departments.component';
-import { DepartmentsDetailComponent } from 'app/departments-detail/departments-detail.component';
+import { LogoutComponent } from 'app/pages/logout/logout.component';
+import { RegisterComponent } from 'app/pages/register/register.component';
+import { ConfirmationComponent } from 'app/pages/confirmation/confirmation.component';
+import { DepartmentsComponent } from 'app/pages/departments/departments.component';
+import { DepartmentsDetailComponent } from 'app/pages/departments-detail/departments-detail.component';
+import { JobsComponent } from 'app/pages/jobs/jobs.component';
+import { JobsDetailComponent } from 'app/pages/jobs-detail/jobs-detail.component';
+import { ResumesDetailComponent } from 'app/pages/resumes-detail/resumes-detail.component';
+import { ResumesComponent } from 'app/pages/resumes/resumes.component';
 
 export const AdminLayoutRoutes: Routes = [
     // {
@@ -72,6 +76,10 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'register', component: RegisterComponent },
     { path: 'confirmation', component: ConfirmationComponent },
     { path: 'departments', component: DepartmentsComponent, canActivate: [AuthGuard] },
-    { path: 'departments/:tbdId', component: DepartmentsDetailComponent, canActivate: [AuthGuard] },
-    { path: 'logout', component: LogoutComponent },
+    { path: 'departments/:tbdUuid', component: DepartmentsDetailComponent, canActivate: [AuthGuard] },
+    { path: 'jobs', component: JobsComponent, canActivate: [AuthGuard] },
+    { path: 'jobs/:tbjUuid', component: JobsDetailComponent, canActivate: [AuthGuard] },
+    { path: 'resumes', component: ResumesComponent, canActivate: [AuthGuard] },
+    { path: 'resumes/:tbrUuid', component: ResumesDetailComponent, canActivate: [AuthGuard] },
+    { path: 'logout', component: LogoutComponent },    
 ];
