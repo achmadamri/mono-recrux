@@ -39,10 +39,7 @@ export class ResumesDetailComponent implements OnInit {
           successResponse => {
             this.getResumeResponse = successResponse;
 
-            this.postAddResumeRequest.tbResume.tbrId = this.getResumeResponse.tbResume.tbrId;
-            this.postAddResumeRequest.tbResume.tbrUuid = this.getResumeResponse.tbResume.tbrUuid;
-            this.postAddResumeRequest.tbResume.tbrDataNameRaw = this.getResumeResponse.tbResume.tbrDataNameRaw;
-            this.postAddResumeRequest.tbResume.tbrStatus = this.getResumeResponse.tbResume.tbrStatus;
+            this.postAddResumeRequest.tbResume = this.getResumeResponse.tbResume;
           },
           errorResponse => {            
             this.getResumeResponse = new GetResumeResponse();
@@ -56,7 +53,7 @@ export class ResumesDetailComponent implements OnInit {
     this.location.back();
   }
 
-  save() {
+  update() {
     
   }
 
