@@ -17,14 +17,14 @@ declare interface RouteInfo {
 export const ROUTES: RouteInfo[] = [
     { path: '/dashboard',          title: 'Dashboard',  icon: 'dashboard', class: '' },
     { path: '/user-profile',       title: 'User Profile',  icon:'person', class: '' },
-    { path: '/table-list',         title: 'Table List',  icon:'content_paste', class: '' },
-    { path: '/typography',         title: 'Typography',  icon:'library_books', class: '' },
-    { path: '/icons',              title: 'Icons',  icon:'bubble_chart', class: '' },
-    { path: '/maps',               title: 'Maps',  icon:'location_on', class: '' },
-    { path: '/notifications',      title: 'Notifications',  icon:'notifications', class: '' },
-    { path: '/departments',        title: 'Departments',  icon:'notifications', class: '' },
-    { path: '/jobs',               title: 'Jobs',  icon:'notifications', class: '' },
-    { path: '/resumes',            title: 'Resumes',  icon:'notifications', class: '' },
+    // { path: '/table-list',         title: 'Table List',  icon:'content_paste', class: '' },
+    // { path: '/typography',         title: 'Typography',  icon:'library_books', class: '' },
+    // { path: '/icons',              title: 'Icons',  icon:'bubble_chart', class: '' },
+    // { path: '/maps',               title: 'Maps',  icon:'location_on', class: '' },
+    // { path: '/notifications',      title: 'Notifications',  icon:'notifications', class: '' },
+    { path: '/departments',        title: 'Departments',  icon:'account_balance', class: '' },
+    { path: '/jobs',               title: 'Jobs',  icon:'work', class: '' },
+    { path: '/resumes',            title: 'Resumes',  icon:'account_box', class: '' },
     { path: '/logout',             title: 'Logout',  icon:'exit_to_app', class: '' },
 ];
 
