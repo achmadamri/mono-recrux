@@ -138,6 +138,7 @@ export class NavbarComponent implements OnInit {
 
       if (normTitle.match(/departments.*/)) return "Departments";
       if (normTitle.match(/jobs.*/)) return "Jobs";
+      if (normTitle.match(/resumes.*/)) return "Resumes";
 
       return 'Dashboard';
     }

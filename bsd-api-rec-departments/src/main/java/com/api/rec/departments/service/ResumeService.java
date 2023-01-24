@@ -14,6 +14,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -31,6 +34,8 @@ import com.api.rec.departments.db.repository.TbJobRepository;
 import com.api.rec.departments.db.repository.TbJobResumeRepository;
 import com.api.rec.departments.db.repository.TbResumeRepository;
 import com.api.rec.departments.db.repository.TbUserRepository;
+import com.api.rec.departments.model.resume.GetResumeListRequestModel;
+import com.api.rec.departments.model.resume.GetResumeListResponseModel;
 import com.api.rec.departments.model.resume.PostUploadResumeRequestModel;
 import com.api.rec.departments.model.resume.PostUploadResumeResponseModel;
 import com.api.rec.departments.util.TokenUtil;
@@ -200,6 +205,38 @@ public class ResumeService {
 			responseModel.setHttpStatus(HttpStatus.UNAUTHORIZED);
 		}
 
+		return responseModel;
+	}
+	
+	public GetResumeListResponseModel getResumeList(String tbrDataNameRaw, String tbrStatus, String length, String pageSize, String pageIndex, GetResumeListRequestModel requestModel) throws Exception {
+		GetResumeListResponseModel responseModel = new GetResumeListResponseModel(requestModel);
+		
+		tokenUtil.claims(requestModel);
+		
+		TbUser exampleTbUser = new TbUser();
+		exampleTbUser.setTbuEmail(requestModel.getEmail());
+		exampleTbUser.setTbuStatus(TbUserRepository.Active);
+		Optional<TbUser> optTbUser = tbUserRepository.findOne(Example.of(exampleTbUser));
+		
+		if (optTbUser.isPresent()) {
+			TbResume exampleTbResume = new TbResume();
+			exampleTbResume.setTbrCreateIdc(optTbUser.get().getTbuCreateIdc());
+			if (!tbrDataNameRaw.equals("")) exampleTbResume.setTbrDataNameRaw(tbrDataNameRaw);
+			if (!tbrStatus.equals("")) exampleTbResume.setTbrStatus(tbrStatus);
+
+			Page<TbResume> pgTbResume = tbResumeRepository.findAll(Example.of(exampleTbResume), PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbrId").ascending()));
+			
+			if (pgTbResume.toList().size() > 0) {
+				responseModel.setLstTbResume(pgTbResume.toList());				
+				responseModel.setLength(tbResumeRepository.count(Example.of(exampleTbResume)));
+				responseModel.setHttpStatus(HttpStatus.OK);
+			} else {
+				responseModel.setHttpStatus(HttpStatus.NOT_FOUND);
+			}
+		} else {
+			responseModel.setHttpStatus(HttpStatus.UNAUTHORIZED);
+		}
+		
 		return responseModel;
 	}
 }

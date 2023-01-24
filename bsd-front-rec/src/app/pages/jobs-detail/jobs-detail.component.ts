@@ -247,7 +247,7 @@ export class JobsDetailComponent implements OnInit {
   }
 
   edit(tbrUuid: string) {
-    this.router.navigate(['/resume/' + tbrUuid]);
+    this.router.navigate(['/resumes/' + tbrUuid]);
   }
 
 }

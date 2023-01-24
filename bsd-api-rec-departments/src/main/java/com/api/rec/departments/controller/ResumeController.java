@@ -9,13 +9,15 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.api.rec.departments.model.resume.GetResumeListRequestModel;
+import com.api.rec.departments.model.resume.GetResumeListResponseModel;
 import com.api.rec.departments.model.resume.PostUploadResumeRequestModel;
 import com.api.rec.departments.model.resume.PostUploadResumeResponseModel;
 import com.api.rec.departments.service.ResumeService;
@@ -44,6 +46,26 @@ public class ResumeController {
 		PostUploadResumeResponseModel responseModel = resumeService.postUploadResume(requestModel, file);
 		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
 		
+		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
+		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
+
+		return responseEntity;
+	}
+
+	@GetMapping("/getresumelist")
+	public HttpEntity<?> getResumeList(@RequestParam String tbrDataNameRaw, @RequestParam String tbrStatus, @RequestParam String length, @RequestParam String pageSize, @RequestParam String pageIndex, @RequestParam String email, @RequestParam String token, @RequestParam String requestId, @RequestParam String requestDate) throws Exception {
+		GetResumeListRequestModel requestModel = new GetResumeListRequestModel();
+		requestModel.setEmail(email);
+		requestModel.setToken(token);
+		requestModel.setRequestId(requestId);
+		requestModel.setRequestDate(requestDate);
+		
+		String fid = new Uid().generateString(20);
+		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
+		
+		GetResumeListResponseModel responseModel = resumeService.getResumeList(tbrDataNameRaw, tbrStatus, length, pageSize, pageIndex, requestModel);
+		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
+
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
 		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
 
