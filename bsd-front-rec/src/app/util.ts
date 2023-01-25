@@ -61,6 +61,12 @@ export class Util {
       localStorage.removeItem('user');
       localStorage.removeItem('menu');
       localStorage.removeItem('brand');
+
+      localStorage.removeItem('departments.pageEvent');
+      localStorage.removeItem('departments-detail.pageEvent');
+      localStorage.removeItem('jobs.pageEvent');
+      localStorage.removeItem('jobs-detail.pageEvent');
+      localStorage.removeItem('resume.pageEvent');      
     }
 
     isLoggedIn() {
