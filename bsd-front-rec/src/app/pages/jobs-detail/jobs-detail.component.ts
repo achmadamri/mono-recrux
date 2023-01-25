@@ -225,7 +225,7 @@ export class JobsDetailComponent implements OnInit {
 
     if (pageEvent != null) this.pageEvent = pageEvent;
 
-    localStorage.setItem('jobs-detail.pageEvent', JSON.stringify(this.pageEvent));
+    //localStorage.setItem('jobs-detail.pageEvent', JSON.stringify(this.pageEvent));
 
     this.jobService.getJobResumeList(this.postAddJobRequest.tbJob.tbjId, this.getJobResumeListRequest.viewJobResume.tbrDataNameRaw, this.getJobResumeListRequest.viewJobResume.tbrStatus, this.pageEvent.length, this.pageEvent.pageSize, this.pageEvent.pageIndex)
       .subscribe(
