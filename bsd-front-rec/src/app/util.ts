@@ -10,6 +10,15 @@ declare let $: any;
 export class Util {
     constructor() { }
 
+    cachePaginatorReset(name: string) {
+      let pageEvent: PageEvent = new PageEvent();
+      pageEvent.length = 100;
+      pageEvent.pageSize = 5;
+      pageEvent.pageIndex = 0;
+      pageEvent.previousPageIndex = 0;
+      localStorage.setItem(name, JSON.stringify(pageEvent));
+    }
+
     cachePaginator(name: string): PageEvent {
       let pageEvent: PageEvent = new PageEvent();
       if (localStorage.getItem(name) != null) {
@@ -61,12 +70,6 @@ export class Util {
       localStorage.removeItem('user');
       localStorage.removeItem('menu');
       localStorage.removeItem('brand');
-
-      localStorage.removeItem('departments.pageEvent');
-      localStorage.removeItem('departments-detail.pageEvent');
-      localStorage.removeItem('jobs.pageEvent');
-      localStorage.removeItem('jobs-detail.pageEvent');
-      localStorage.removeItem('resume.pageEvent');      
     }
 
     isLoggedIn() {

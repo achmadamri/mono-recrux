@@ -78,6 +78,7 @@ export class JobsComponent implements OnInit {
   }
 
   edit(tbjUuid: string) {
+    this.util.cachePaginatorReset('jobs-detail.pageEvent');
     this.router.navigate(['/jobs/' + tbjUuid]);
   }
 

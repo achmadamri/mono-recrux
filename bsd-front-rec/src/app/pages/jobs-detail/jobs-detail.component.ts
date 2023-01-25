@@ -178,7 +178,7 @@ export class JobsDetailComponent implements OnInit {
                 if (this.totalUpload == this.selectedFiles.length) {
                   this.clicked = !this.clicked;
                   this.selectedFiles = [];
-                  this.fileInput.nativeElement.value = '';
+                  this.fileInput.nativeElement.value = '';                  
                 }
               }
             },
