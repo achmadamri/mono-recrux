@@ -211,6 +211,7 @@ export class JobsDetailComponent implements OnInit {
   }
 
   search() {
+    this.util.cachePaginatorReset('jobs-detail.pageEvent');
     this.getJobResumeList(null);
     this.searchForm = !this.searchForm;
   }

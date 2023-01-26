@@ -80,7 +80,7 @@ public class ResumeController {
 	}
 
 	@GetMapping("/getjobresumelist")
-	public HttpEntity<?> getJobResumeList(@RequestParam String tbrDataNameRaw, @RequestParam String tbrStatus, @RequestParam String length, @RequestParam String pageSize, @RequestParam String pageIndex, @RequestParam String email, @RequestParam String token, @RequestParam String requestId, @RequestParam String requestDate) throws Exception {
+	public HttpEntity<?> getJobResumeList(@RequestParam String tbjUuid, @RequestParam String tbjName, @RequestParam String tbrUuid, @RequestParam String tbrDataNameRaw, @RequestParam String tbrStatus, @RequestParam String length, @RequestParam String pageSize, @RequestParam String pageIndex, @RequestParam String email, @RequestParam String token, @RequestParam String requestId, @RequestParam String requestDate) throws Exception {
 		GetJobResumeListRequestModel requestModel = new GetJobResumeListRequestModel();
 		requestModel.setEmail(email);
 		requestModel.setToken(token);
@@ -90,7 +90,7 @@ public class ResumeController {
 		String fid = new Uid().generateString(20);
 		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
 		
-		GetJobResumeListResponseModel responseModel = resumeService.getJobResumeList(tbrDataNameRaw, tbrStatus, length, pageSize, pageIndex, requestModel);
+		GetJobResumeListResponseModel responseModel = resumeService.getJobResumeList(tbjUuid, tbjName, tbrUuid, tbrDataNameRaw, tbrStatus, length, pageSize, pageIndex, requestModel);
 		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
 
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());

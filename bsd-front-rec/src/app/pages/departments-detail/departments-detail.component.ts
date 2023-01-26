@@ -118,6 +118,7 @@ export class DepartmentsDetailComponent implements OnInit {
   }
 
   search() {
+    this.util.cachePaginatorReset('departments-detail.pageEvent');
     this.getJobDepartmentList(null);
     this.searchForm = !this.searchForm;
   }

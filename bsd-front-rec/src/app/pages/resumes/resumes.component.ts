@@ -52,7 +52,7 @@ export class ResumesComponent implements OnInit {
 
     localStorage.setItem('resume.pageEvent', JSON.stringify(this.pageEvent));
 
-    this.resumeService.getJobResumeList(this.getJobResumeListRequest.viewJobResume.tbrDataNameRaw, this.getJobResumeListRequest.viewJobResume.tbrStatus, this.pageEvent.length, this.pageEvent.pageSize, this.pageEvent.pageIndex)
+    this.resumeService.getJobResumeList(this.getJobResumeListRequest, this.pageEvent.length, this.pageEvent.pageSize, this.pageEvent.pageIndex)
       .subscribe(
         successResponse => {
           this.clicked = !this.clicked;
@@ -128,11 +128,15 @@ export class ResumesComponent implements OnInit {
   }
 
   search() {
+    this.util.cachePaginatorReset('resume.pageEvent');
     this.getResumeList(null);
     this.searchForm = !this.searchForm;
   }
 
   clear() {
+    this.getJobResumeListRequest.viewJobResume.tbjUuid = '';
+    this.getJobResumeListRequest.viewJobResume.tbjName = '';
+    this.getJobResumeListRequest.viewJobResume.tbrUuid = '';
     this.getJobResumeListRequest.viewJobResume.tbrDataNameRaw = '';
     this.getJobResumeListRequest.viewJobResume.tbrStatus = '';
   }
