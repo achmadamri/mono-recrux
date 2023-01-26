@@ -9,6 +9,8 @@ import { PostAddResumeRequest } from 'app/services/resume/postaddresumerequest';
 import { PostAddResumeResponse } from 'app/services/resume/postaddresumeresponse';
 import { GetResumeRequest } from 'app/services/resume/getresumerequest';
 import { GetResumeResponse } from 'app/services/resume/getresumeresponse';
+import { GetJobResumeListRequest } from 'app/services/job/getjobresumelistrequest';
+import { GetJobResumeListResponse } from 'app/services/job/getjobresumelistresponse';
 
 @Component({
   selector: 'app-pages-resumes',
@@ -25,12 +27,12 @@ export class ResumesComponent implements OnInit {
   pageEvent: PageEvent = new PageEvent();
   pageDisabled: boolean = false;
   util: Util = new Util();
-  getResumeListRequest: GetResumeListRequest = new GetResumeListRequest();
-  getResumeListResponse: GetResumeListResponse = new GetResumeListResponse();
   postAddResumeRequest: PostAddResumeRequest = new PostAddResumeRequest();
   postAddResumeResponse: PostAddResumeResponse = new PostAddResumeResponse();
   getResumeRequest: GetResumeRequest = new GetResumeRequest();
   getResumeResponse: GetResumeResponse = new GetResumeResponse();
+  getJobResumeListRequest: GetJobResumeListRequest = new GetJobResumeListRequest();
+  getJobResumeListResponse: GetJobResumeListResponse = new GetJobResumeListResponse();
 
   constructor(
     private router: Router,
@@ -50,12 +52,12 @@ export class ResumesComponent implements OnInit {
 
     localStorage.setItem('resume.pageEvent', JSON.stringify(this.pageEvent));
 
-    this.resumeService.getResumeList(this.getResumeListRequest.tbResume.tbrDataNameRaw, this.getResumeListRequest.tbResume.tbrStatus, this.pageEvent.length, this.pageEvent.pageSize, this.pageEvent.pageIndex)
+    this.resumeService.getJobResumeList(this.getJobResumeListRequest.viewJobResume.tbrDataNameRaw, this.getJobResumeListRequest.viewJobResume.tbrStatus, this.pageEvent.length, this.pageEvent.pageSize, this.pageEvent.pageIndex)
       .subscribe(
         successResponse => {
           this.clicked = !this.clicked;
-          this.getResumeListResponse = successResponse;
-          this.length = this.getResumeListResponse.length;
+          this.getJobResumeListResponse = successResponse;
+          this.length = this.getJobResumeListResponse.length;
           this.pageSize = this.pageEvent.pageSize;
           this.pageIndex = this.pageEvent.pageIndex;
           this.previousPageIndex = this.pageEvent.previousPageIndex;     
@@ -63,7 +65,7 @@ export class ResumesComponent implements OnInit {
         errorResponse => {
           this.length = 0;
           this.clicked = !this.clicked;
-          this.getResumeListResponse = new GetResumeListResponse();
+          this.getJobResumeListResponse = new GetJobResumeListResponse();
           this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
         }
       );
@@ -131,8 +133,8 @@ export class ResumesComponent implements OnInit {
   }
 
   clear() {
-    this.getResumeListRequest.tbResume.tbrDataNameRaw = '';
-    this.getResumeListRequest.tbResume.tbrStatus = '';
+    this.getJobResumeListRequest.viewJobResume.tbrDataNameRaw = '';
+    this.getJobResumeListRequest.viewJobResume.tbrStatus = '';
   }
 
 }

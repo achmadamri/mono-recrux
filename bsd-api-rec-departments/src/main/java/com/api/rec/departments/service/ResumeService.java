@@ -35,6 +35,7 @@ import com.api.rec.departments.db.entity.TbResumeEducation;
 import com.api.rec.departments.db.entity.TbResumeSkill;
 import com.api.rec.departments.db.entity.TbResumeWorkExperience;
 import com.api.rec.departments.db.entity.TbUser;
+import com.api.rec.departments.db.entity.ViewJobResume;
 import com.api.rec.departments.db.repository.TbJobRepository;
 import com.api.rec.departments.db.repository.TbJobResumeRepository;
 import com.api.rec.departments.db.repository.TbResumeCertificationRepository;
@@ -43,6 +44,9 @@ import com.api.rec.departments.db.repository.TbResumeRepository;
 import com.api.rec.departments.db.repository.TbResumeSkillRepository;
 import com.api.rec.departments.db.repository.TbResumeWorkExperienceRepository;
 import com.api.rec.departments.db.repository.TbUserRepository;
+import com.api.rec.departments.db.repository.ViewJobResumeRepository;
+import com.api.rec.departments.model.job.GetJobResumeListRequestModel;
+import com.api.rec.departments.model.job.GetJobResumeListResponseModel;
 import com.api.rec.departments.model.resume.GetResumeListRequestModel;
 import com.api.rec.departments.model.resume.GetResumeListResponseModel;
 import com.api.rec.departments.model.resume.GetResumeRequestModel;
@@ -94,6 +98,9 @@ public class ResumeService {
 
 	@Autowired
 	private TbResumeCertificationRepository tbResumeCertificationRepository;
+
+	@Autowired
+	private ViewJobResumeRepository viewJobResumeRepository;
 
 	public TbResume affindaCreateResume(TbUser tbUser, MultipartFile file) throws Exception {
 		Gson gson = new Gson();
@@ -353,6 +360,38 @@ public class ResumeService {
 			if (pgTbResume.toList().size() > 0) {
 				responseModel.setLstTbResume(pgTbResume.toList());				
 				responseModel.setLength(tbResumeRepository.count(Example.of(exampleTbResume)));
+				responseModel.setHttpStatus(HttpStatus.OK);
+			} else {
+				responseModel.setHttpStatus(HttpStatus.NOT_FOUND);
+			}
+		} else {
+			responseModel.setHttpStatus(HttpStatus.UNAUTHORIZED);
+		}
+		
+		return responseModel;
+	}
+
+	public GetJobResumeListResponseModel getJobResumeList(String tbrDataNameRaw, String tbrStatus, String length, String pageSize, String pageIndex, GetJobResumeListRequestModel requestModel) throws Exception {
+		GetJobResumeListResponseModel responseModel = new GetJobResumeListResponseModel(requestModel);
+		
+		tokenUtil.claims(requestModel);
+		
+		TbUser exampleTbUser = new TbUser();
+		exampleTbUser.setTbuEmail(requestModel.getEmail());
+		exampleTbUser.setTbuStatus(TbUserRepository.Active);
+		Optional<TbUser> optTbUser = tbUserRepository.findOne(Example.of(exampleTbUser));
+		
+		if (optTbUser.isPresent()) {
+			ViewJobResume exampleViewJobResume = new ViewJobResume();
+			exampleViewJobResume.setTbrCreateIdc(optTbUser.get().getTbuCreateIdc());
+			if (!tbrDataNameRaw.equals("")) exampleViewJobResume.setTbrDataNameRaw(tbrDataNameRaw);
+			if (!tbrStatus.equals("")) exampleViewJobResume.setTbrStatus(tbrStatus);
+
+			Page<ViewJobResume> pgViewJobResume = viewJobResumeRepository.findAll(Example.of(exampleViewJobResume), PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbrId").ascending()));
+			
+			if (pgViewJobResume.toList().size() > 0) {
+				responseModel.setLstViewJobResume(pgViewJobResume.toList());				
+				responseModel.setLength(viewJobResumeRepository.count(Example.of(exampleViewJobResume)));
 				responseModel.setHttpStatus(HttpStatus.OK);
 			} else {
 				responseModel.setHttpStatus(HttpStatus.NOT_FOUND);

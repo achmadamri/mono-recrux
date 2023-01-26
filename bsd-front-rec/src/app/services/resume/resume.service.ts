@@ -2,6 +2,7 @@ import { HttpClient, HttpEvent, HttpHeaders, HttpParams } from '@angular/common/
 import { Injectable, isDevMode } from '@angular/core';
 import { Util } from 'app/util';
 import { Observable } from 'rxjs';
+import { GetJobResumeListResponse } from '../job/getjobresumelistresponse';
 import { GetResumeListResponse } from './getresumelistresponse';
 import { GetResumeResponse } from './getresumeresponse';
 import { PostAddResumeRequest } from './postaddresumerequest';
@@ -53,6 +54,25 @@ export class ResumeService {
       ;
 
     return this.httpClient.get<GetResumeListResponse>(`${this.apiUrl}/getresumelist`, { headers, params });
+  }
+  
+  getJobResumeList(tbrDataNameRaw: string, tbrStatus: string, length: number, pageSize: number, pageIndex: number): Observable<GetJobResumeListResponse> {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json');
+
+    const params = new HttpParams()
+      .set('requestId', this.util.randomString(10))
+      .set('requestDate', ((new Date(Date.now() - ((new Date()).getTimezoneOffset() * 60000))).toISOString().slice(0, -1)) + '000')
+      .set('email', localStorage.getItem('email'))
+      .set('token', localStorage.getItem('token'))
+      .set('length', length.toString())
+      .set('pageSize', pageSize.toString())
+      .set('pageIndex', pageIndex.toString())
+      .set('tbrDataNameRaw', tbrDataNameRaw == null ? '' : tbrDataNameRaw)
+      .set('tbrStatus', tbrStatus  == null ? '' : tbrStatus)
+      ;
+
+    return this.httpClient.get<GetJobResumeListResponse>(`${this.apiUrl}/getjobresumelist`, { headers, params });
   }
 
   postAddResume(postAddResumeRequest: PostAddResumeRequest): Observable<PostAddResumeResponse> {
