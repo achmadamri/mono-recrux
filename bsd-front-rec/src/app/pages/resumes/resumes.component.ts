@@ -128,8 +128,8 @@ export class ResumesComponent implements OnInit {
   }
 
   search() {
-    this.util.cachePaginatorReset('resume.pageEvent');
-    this.getResumeList(null);
+    this.pageEvent.pageIndex = 0;
+    this.getResumeList(this.pageEvent);
     this.searchForm = !this.searchForm;
   }
 

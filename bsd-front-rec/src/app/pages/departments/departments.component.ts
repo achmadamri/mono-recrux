@@ -126,8 +126,8 @@ export class DepartmentsComponent implements OnInit {
   }
 
   search() {
-    this.util.cachePaginatorReset('departments.pageEvent');
-    this.getDepartmentList(null);
+    this.pageEvent.pageIndex = 0;
+    this.getDepartmentList(this.pageEvent);
     this.searchForm = !this.searchForm;
   }
 
