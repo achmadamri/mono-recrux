@@ -48,31 +48,31 @@
                 <ul class="nav nav-tabs" data-tabs="tabs">
                   <li class="nav-item">
                     <a mat-button class="nav-link active" href="#personaldetails" data-toggle="tab">
-                      <i class="material-icons">settings</i> Personal Details
+                      <i class="material-icons">perm_identity</i> Personal Details
                       <div class="ripple-container"></div>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a mat-button class="nav-link" href="#skills" data-toggle="tab">
-                      <i class="material-icons">cloud_upload</i> Skills
+                      <i class="material-icons">extension</i> Skills
                       <div class="ripple-container"></div>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a mat-button class="nav-link" href="#education" data-toggle="tab">
-                      <i class="material-icons">cloud_upload</i> Education
+                      <i class="material-icons">spellcheck</i> Education
                       <div class="ripple-container"></div>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a mat-button class="nav-link" href="#workexperience" data-toggle="tab">
-                      <i class="material-icons">cloud_upload</i> Work Experience
+                      <i class="material-icons">work_outline</i> Work Experience
                       <div class="ripple-container"></div>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a mat-button class="nav-link" href="#certifications" data-toggle="tab">
-                      <i class="material-icons">cloud_upload</i> Certifications
+                      <i class="material-icons">assignment_turned_in</i> Certifications
                       <div class="ripple-container"></div>
                     </a>
                   </li>
@@ -183,9 +183,81 @@
                   <div class="clearfix"></div>
                 </form>
               </div>
-              <div class="tab-pane" id="skills">
+              <div class="tab-pane" id="skills">                
+                <mat-table [dataSource]="getResumeResponse.lstTbResumeSkill" matSort matSortActive="name" matSortDirection="asc" class="table-responsive" style="height:300px;">
+                  <ng-container matColumnDef="No">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;"> No </mat-header-cell>
+                    <mat-cell *matCellDef="let tbResumeSkill; let i = index" style="font-size: 1rem; font-weight: 300;"> {{i + 1 + (pageSize * pageIndex)}} </mat-cell>
+                  </ng-container>                  
+                  <ng-container matColumnDef="Type">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;"> Type </mat-header-cell>
+                    <mat-cell *matCellDef="let tbResumeSkill" style="font-size: 1rem; font-weight: 300;"> {{tbResumeSkill.tbrsType == 'hard_skill' ? 'Hard Skill' : (tbResumeSkill.tbrsType == 'soft_skill' ? 'Soft Skill' : '')}} </mat-cell>
+                  </ng-container>                  
+                  <ng-container matColumnDef="Name">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;"> Name </mat-header-cell>
+                    <mat-cell *matCellDef="let tbResumeSkill" style="font-size: 1rem; font-weight: 300;"> {{tbResumeSkill.tbrsName}} </mat-cell>
+                  </ng-container>                  
+                  <ng-container matColumnDef="Action">
+                    <mat-header-cell *matHeaderCellDef style="font-size: 0.95rem; font-weight: 500; color: #212529;"> Action </mat-header-cell>
+                    <mat-cell *matCellDef="let tbResumeSkill">
+                      <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(tbResumeSkill.tbrsUuid);">
+                        <mat-icon>pageview</mat-icon>
+                      </button>
+                      <button mat-icon-button title="Activate" [disabled]="clicked" (click)="nonActive(tbResumeSkill.tbrsUuid);" *ngIf="tbResumeSkill.tbrsStatus == 'not active'">
+                        <mat-icon>check</mat-icon>
+                      </button>
+                      <button mat-icon-button title="Deactivate" [disabled]="clicked" (click)="nonActive(tbResumeSkill.tbrsUuid);" *ngIf="tbResumeSkill.tbrsStatus == 'active'">
+                        <mat-icon>close</mat-icon>
+                      </button>
+                    </mat-cell>
+                  </ng-container>                  
+                  <mat-header-row *matHeaderRowDef="displayedColumnsSkill; sticky: true"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumnsSkill;"></mat-row>
+                </mat-table>
               </div>
-              <div class="tab-pane active" id="education">
+              <div class="tab-pane" id="education">                
+                <mat-table [dataSource]="getResumeResponse.lstTbResumeEducation" matSort matSortActive="name" matSortDirection="asc" class="table-responsive" style="height:300px;">
+                  <ng-container matColumnDef="No">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">No</mat-header-cell>
+                    <mat-cell *matCellDef="let row; let i = index" style="font-size: 1rem; font-weight: 300;">{{i + 1 + (pageSize * pageIndex)}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="Organization">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">Organization</mat-header-cell>
+                    <mat-cell *matCellDef="let row" style="font-size: 1rem; font-weight: 300;">{{row.tbreOrganization}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="Education">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">Education</mat-header-cell>
+                    <mat-cell *matCellDef="let row" style="font-size: 1rem; font-weight: 300;">{{row.tbreEducation}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="Level">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">Level</mat-header-cell>
+                    <mat-cell *matCellDef="let row" style="font-size: 1rem; font-weight: 300;">{{row.tbreEducationLevel}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="Grade">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">Grade</mat-header-cell>
+                    <mat-cell *matCellDef="let row" style="font-size: 1rem; font-weight: 300;">{{row.tbreGradeValue}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="Location">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">Location</mat-header-cell>
+                    <mat-cell *matCellDef="let row" style="font-size: 1rem; font-weight: 300;">{{row.tbreLocationFormatted}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="Action">
+                    <mat-header-cell *matHeaderCellDef style="font-size: 0.95rem; font-weight: 500; color: #212529;"> Action </mat-header-cell>
+                    <mat-cell *matCellDef="let tbResumeEducation">
+                      <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(tbResumeEducation.tbreUuid);">
+                        <mat-icon>pageview</mat-icon>
+                      </button>
+                      <button mat-icon-button title="Activate" [disabled]="clicked" (click)="nonActive(tbResumeEducation.tbreUuid);" *ngIf="tbResumeEducation.tbreStatus == 'not active'">
+                        <mat-icon>check</mat-icon>
+                      </button>
+                      <button mat-icon-button title="Deactivate" [disabled]="clicked" (click)="nonActive(tbResumeEducation.tbreUuid);" *ngIf="tbResumeEducation.tbreStatus == 'active'">
+                        <mat-icon>close</mat-icon>
+                      </button>
+                    </mat-cell>
+                  </ng-container>                  
+                  <mat-header-row *matHeaderRowDef="displayedColumnsEducation; sticky: true"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumnsEducation;"></mat-row>
+                </mat-table>
               </div>
               <div class="tab-pane" id="workexperience">
               </div>

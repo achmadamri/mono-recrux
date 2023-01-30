@@ -1,3 +1,8 @@
+import { TbResumeCertification } from "./tbresumecertification";
+import { TbResumeEducation } from "./tbresumeeducation";
+import { TbResumeSkill } from "./tbresumeskill";
+import { TbResumeWorkExperience } from "./tbresumeworkexperience";
+
 export class TbResume {
 	tbrId: number;
 	tbrCreateDate: string;
@@ -58,5 +63,5 @@ export class TbResume {
 	tbrErrorErrorCode: string;
 	tbrErrorErrorDetail: string;
 	tbrStatus: string;
-	tbrUuid: string;
+	tbrUuid: string;	
 }

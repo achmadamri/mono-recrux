@@ -32,6 +32,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { JobsDetailComponent } from 'app/pages/jobs-detail/jobs-detail.component';
 import { ResumesDetailComponent } from 'app/pages/resumes-detail/resumes-detail.component';
 import { ResumesComponent } from 'app/pages/resumes/resumes.component';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   imports: [
@@ -49,7 +50,8 @@ import { ResumesComponent } from 'app/pages/resumes/resumes.component';
     MatRadioModule,
     MatCheckboxModule,
     MatIconModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatTableModule,
   ],
   declarations: [
     DashboardComponent,

@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -102,6 +103,18 @@ public class ResumeService {
 
 	@Autowired
 	private ViewJobResumeRepository viewJobResumeRepository;
+
+	@Autowired
+	private TbResumeCertificationRepository tbResumeCertification;
+
+	@Autowired
+	private TbResumeEducationRepository tbResumeEducation;
+
+	@Autowired
+	private TbResumeSkillRepository tbResumeSkill;
+
+	@Autowired
+	private TbResumeWorkExperienceRepository tbResumeWorkExperience;
 
 	public TbResume affindaCreateResume(TbUser tbUser, MultipartFile file) throws Exception {
 		Gson gson = new Gson();
@@ -493,7 +506,32 @@ public class ResumeService {
 			Optional<TbResume> optTbResume = tbResumeRepository.findOne(Example.of(exampleTbResume));					
 			
 			if (optTbResume.isPresent()) {
+				TbResumeCertification exampleTbResumeCertification = new TbResumeCertification();
+				exampleTbResumeCertification.setTbrId(optTbResume.get().getTbrId());
+				exampleTbResumeCertification.setTbrcStatus(TbResumeCertificationRepository.Active);
+				List<TbResumeCertification> tbResumeCertifications = tbResumeCertificationRepository.findAll(Example.of(exampleTbResumeCertification));
+
+				TbResumeEducation exampleTbResumeEducation = new TbResumeEducation();
+				exampleTbResumeEducation.setTbrId(optTbResume.get().getTbrId());
+				exampleTbResumeEducation.setTbreStatus(TbResumeEducationRepository.Active);
+				List<TbResumeEducation> tbResumeEducations = tbResumeEducationRepository.findAll(Example.of(exampleTbResumeEducation));
+
+				TbResumeSkill exampleTbResumeSkill = new TbResumeSkill();
+				exampleTbResumeSkill.setTbrId(optTbResume.get().getTbrId());
+				exampleTbResumeSkill.setTbrsStatus(TbResumeSkillRepository.Active);
+				List<TbResumeSkill> tbResumeSkills = tbResumeSkillRepository.findAll(Example.of(exampleTbResumeSkill), Sort.by(Sort.Direction.ASC, "tbrsType", "tbrsName"));
+
+				TbResumeWorkExperience exampleTbResumeWorkExperience = new TbResumeWorkExperience();
+				exampleTbResumeWorkExperience.setTbrId(optTbResume.get().getTbrId());
+				exampleTbResumeWorkExperience.setTbrweStatus(TbResumeWorkExperienceRepository.Active);
+				List<TbResumeWorkExperience> tbResumeWorkExperiences = tbResumeWorkExperienceRepository.findAll(Example.of(exampleTbResumeWorkExperience));
+
+				responseModel.setLstTbResumeCertification(tbResumeCertifications);
+				responseModel.setLstTbResumeEducation(tbResumeEducations);
+				responseModel.setLstTbResumeSkill(tbResumeSkills);
+				responseModel.setLstTbResumeWorkExperience(tbResumeWorkExperiences);				
 				responseModel.setTbResume(optTbResume.get());
+				
 				responseModel.setHttpStatus(HttpStatus.OK);
 			} else {
 				responseModel.setHttpStatus(HttpStatus.NOT_FOUND);

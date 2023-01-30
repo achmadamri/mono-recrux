@@ -1,0 +1,30 @@
+export class TbResumeEducation {
+    tbreId: number;
+    tbreCreateDate: string;
+    tbreCreateId: number;
+    tbreCreateIdc: number;
+    tbreUpdateDate: string;
+    tbreUpdateId: number;
+    tbrId: number;
+    tbreOrganization: string;
+    tbreEducation: string;
+    tbreEducationLevel: string;
+    tbreInputStr: string;
+    tbreMatchStr: string;
+    tbreGradeRaw: string;
+    tbreGradeValue: string;
+    tbreGradeMetric: string;
+    tbreLocationFormatted: string;
+    tbreLocationCity: string;
+    tbreLocationState: string;
+    tbreLocationCountry: string;
+    tbreLocationRawInput: string;
+    tbreLocationCountryCode: string;
+    tbreLocationLatitude: string;
+    tbreLocationLongitude: string;
+    tbreStartDate: string;
+    tbreCompletionDate: string;
+    tbreIsCurrent: string;
+    tbreStatus: string;
+    tbreUuid: string;
+}
