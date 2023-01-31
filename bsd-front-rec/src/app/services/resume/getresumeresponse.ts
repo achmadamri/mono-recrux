@@ -15,6 +15,7 @@ export class GetResumeResponse {
     tbResume: TbResume = new TbResume();
     lstTbResumeCertification: TbResumeCertification[] = Array(new TbResumeCertification());
 	lstTbResumeEducation: TbResumeEducation[] = Array(new TbResumeEducation());
-	lstTbResumeSkill: TbResumeSkill[] = Array(new TbResumeSkill());
+	lstTbResumeSkillHard: TbResumeSkill[] = Array(new TbResumeSkill());
+	lstTbResumeSkillSoft: TbResumeSkill[] = Array(new TbResumeSkill());
 	lstTbResumeWorkExperience: TbResumeWorkExperience[] = Array(new TbResumeWorkExperience());
 }

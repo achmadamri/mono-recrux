@@ -53,8 +53,8 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a mat-button class="nav-link" href="#skills" data-toggle="tab">
-                      <i class="material-icons">extension</i> Skills
+                    <a mat-button class="nav-link" href="#resume" data-toggle="tab">
+                      <i class="material-icons">insert_drive_file</i> Resume
                       <div class="ripple-container"></div>
                     </a>
                   </li>
@@ -83,140 +83,137 @@
           <div class="card-body">
             <div class="tab-content">
               <div class="tab-pane active" id="personaldetails">
-                <form>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <mat-form-field class="example-full-width">
-                        <input matInput placeholder="Title" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataNameTitle" name="tbrDataNameTitle">
-                      </mat-form-field>
+                <div class="row">
+                  <div class="col-md-8">
+                    <form>
+                      <div class="row">
+                        <div class="col-md-8">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Title" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataNameTitle" name="tbrDataNameTitle">
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Total Experience" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataTotalYearsExperience" name="tbrDataTotalYearsExperience">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Fist Name" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataNameFirst" name="tbrDataNameFirst">
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Middle Name" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataNameMiddle" name="tbrDataNameMiddle">
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Last Name" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataNameLast" name="tbrDataNameLast">
+                          </mat-form-field>
+                        </div>                    
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Date Of Birth" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataDateOfBirth" name="tbrDataDateOfBirth">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Phone Number" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataPhoneNumbers" name="tbrDataPhoneNumbers">
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Email" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataEmails" name="tbrDataEmails">
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Website" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataWebsites" name="tbrDataWebsites">
+                          </mat-form-field>
+                        </div>                    
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Street" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataLocationStreet" name="tbrDataLocationStreet">
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="House Number" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataLocationApartmentNumber" name="tbrDataLocationApartmentNumber">
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="City" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataLocationCity" name="tbrDataLocationCity">
+                          </mat-form-field>
+                        </div>                    
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="State" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataLocationState" name="tbrDataLocationState">
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Country" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataLocationCountry" name="tbrDataLocationCountry">
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Postal Code" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataLocationPostalCode" name="tbrDataLocationPostalCode">
+                          </mat-form-field>
+                        </div>                    
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Language" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataLanguages" name="tbrDataLanguages">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked">Update</button>
+                      <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked" (click)="back();">Back</button>
+                      <div class="clearfix"></div>
+                    </form>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="card">
+                      <div class="card-header card-header-danger">
+                        <h4 class="card-title">Hard Skills</h4>
+                      </div>
+                      <div class="card-body">
+                        <div *ngFor="let tbResumeSkill of getResumeResponse.lstTbResumeSkillHard; let i = index">
+                          <button mat-raised-button type="button" class="btn btn-secondary btn-round pull-left" [disabled]="clicked" style="padding: 6px 12px; text-transform: none;" title="{{tbResumeSkill.tbrsType == 'hard_skill' ? 'Hard Skill' : (tbResumeSkill.tbrsType == 'soft_skill' ? 'Soft Skill' : '')}}">{{tbResumeSkill.tbrsName}}</button>
+                        </div>
+                      </div>
                     </div>
-                    <div class="col-md-4">
-                      <mat-form-field class="example-full-width">
-                        <input matInput placeholder="Total Experience" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataTotalYearsExperience" name="tbrDataTotalYearsExperience">
-                      </mat-form-field>
+                    <div class="card">
+                      <div class="card-header card-header-danger">
+                        <h4 class="card-title">Soft Skills</h4>
+                      </div>
+                      <div class="card-body">
+                        <div *ngFor="let tbResumeSkill of getResumeResponse.lstTbResumeSkillSoft; let i = index">
+                          <button mat-raised-button type="button" class="btn btn-secondary btn-round pull-left" [disabled]="clicked" style="padding: 6px 12px; text-transform: none;" title="{{tbResumeSkill.tbrsType == 'hard_skill' ? 'Hard Skill' : (tbResumeSkill.tbrsType == 'soft_skill' ? 'Soft Skill' : '')}}">{{tbResumeSkill.tbrsName}}</button>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <mat-form-field class="example-full-width">
-                        <input matInput placeholder="Fist Name" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataNameFirst" name="tbrDataNameFirst">
-                      </mat-form-field>
-                    </div>
-                    <div class="col-md-4">
-                      <mat-form-field class="example-full-width">
-                        <input matInput placeholder="Middle Name" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataNameMiddle" name="tbrDataNameMiddle">
-                      </mat-form-field>
-                    </div>
-                    <div class="col-md-4">
-                      <mat-form-field class="example-full-width">
-                        <input matInput placeholder="Last Name" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataNameLast" name="tbrDataNameLast">
-                      </mat-form-field>
-                    </div>                    
-                  </div>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <mat-form-field class="example-full-width">
-                        <input matInput placeholder="Date Of Birth" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataDateOfBirth" name="tbrDataDateOfBirth">
-                      </mat-form-field>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <mat-form-field class="example-full-width">
-                        <input matInput placeholder="Phone Number" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataPhoneNumbers" name="tbrDataPhoneNumbers">
-                      </mat-form-field>
-                    </div>
-                    <div class="col-md-4">
-                      <mat-form-field class="example-full-width">
-                        <input matInput placeholder="Email" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataEmails" name="tbrDataEmails">
-                      </mat-form-field>
-                    </div>
-                    <div class="col-md-4">
-                      <mat-form-field class="example-full-width">
-                        <input matInput placeholder="Website" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataWebsites" name="tbrDataWebsites">
-                      </mat-form-field>
-                    </div>                    
-                  </div>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <mat-form-field class="example-full-width">
-                        <input matInput placeholder="Street" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataLocationStreet" name="tbrDataLocationStreet">
-                      </mat-form-field>
-                    </div>
-                    <div class="col-md-4">
-                      <mat-form-field class="example-full-width">
-                        <input matInput placeholder="House Number" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataLocationApartmentNumber" name="tbrDataLocationApartmentNumber">
-                      </mat-form-field>
-                    </div>
-                    <div class="col-md-4">
-                      <mat-form-field class="example-full-width">
-                        <input matInput placeholder="City" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataLocationCity" name="tbrDataLocationCity">
-                      </mat-form-field>
-                    </div>                    
-                  </div>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <mat-form-field class="example-full-width">
-                        <input matInput placeholder="State" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataLocationState" name="tbrDataLocationState">
-                      </mat-form-field>
-                    </div>
-                    <div class="col-md-4">
-                      <mat-form-field class="example-full-width">
-                        <input matInput placeholder="Country" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataLocationCountry" name="tbrDataLocationCountry">
-                      </mat-form-field>
-                    </div>
-                    <div class="col-md-4">
-                      <mat-form-field class="example-full-width">
-                        <input matInput placeholder="Postal Code" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataLocationPostalCode" name="tbrDataLocationPostalCode">
-                      </mat-form-field>
-                    </div>                    
-                  </div>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <mat-form-field class="example-full-width">
-                        <input matInput placeholder="Language" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataLanguages" name="tbrDataLanguages">
-                      </mat-form-field>
-                    </div>
-                  </div>
-                  <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked">Update</button>
-                  <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked" (click)="back();">Back</button>
-                  <div class="clearfix"></div>
-                </form>
+                </div>               
               </div>
-              <div class="tab-pane" id="skills">                
-                <mat-table [dataSource]="getResumeResponse.lstTbResumeSkill" matSort matSortActive="name" matSortDirection="asc" class="table-responsive" style="height:300px;">
-                  <ng-container matColumnDef="No">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;"> No </mat-header-cell>
-                    <mat-cell *matCellDef="let tbResumeSkill; let i = index" style="font-size: 1rem; font-weight: 300;"> {{i + 1 + (pageSize * pageIndex)}} </mat-cell>
-                  </ng-container>                  
-                  <ng-container matColumnDef="Type">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;"> Type </mat-header-cell>
-                    <mat-cell *matCellDef="let tbResumeSkill" style="font-size: 1rem; font-weight: 300;"> {{tbResumeSkill.tbrsType == 'hard_skill' ? 'Hard Skill' : (tbResumeSkill.tbrsType == 'soft_skill' ? 'Soft Skill' : '')}} </mat-cell>
-                  </ng-container>                  
-                  <ng-container matColumnDef="Name">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;"> Name </mat-header-cell>
-                    <mat-cell *matCellDef="let tbResumeSkill" style="font-size: 1rem; font-weight: 300;"> {{tbResumeSkill.tbrsName}} </mat-cell>
-                  </ng-container>                  
-                  <ng-container matColumnDef="Action">
-                    <mat-header-cell *matHeaderCellDef style="font-size: 0.95rem; font-weight: 500; color: #212529;"> Action </mat-header-cell>
-                    <mat-cell *matCellDef="let tbResumeSkill">
-                      <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(tbResumeSkill.tbrsUuid);">
-                        <mat-icon>pageview</mat-icon>
-                      </button>
-                      <button mat-icon-button title="Activate" [disabled]="clicked" (click)="nonActive(tbResumeSkill.tbrsUuid);" *ngIf="tbResumeSkill.tbrsStatus == 'not active'">
-                        <mat-icon>check</mat-icon>
-                      </button>
-                      <button mat-icon-button title="Deactivate" [disabled]="clicked" (click)="nonActive(tbResumeSkill.tbrsUuid);" *ngIf="tbResumeSkill.tbrsStatus == 'active'">
-                        <mat-icon>close</mat-icon>
-                      </button>
-                    </mat-cell>
-                  </ng-container>                  
-                  <mat-header-row *matHeaderRowDef="displayedColumnsSkill; sticky: true"></mat-header-row>
-                  <mat-row *matRowDef="let row; columns: displayedColumnsSkill;"></mat-row>
-                </mat-table>
+              <div class="tab-pane" id="resume">                
+                pdf here
               </div>
               <div class="tab-pane" id="education">                
-                <mat-table [dataSource]="getResumeResponse.lstTbResumeEducation" matSort matSortActive="name" matSortDirection="asc" class="table-responsive" style="height:300px;">
+                <mat-table [dataSource]="getResumeResponse.lstTbResumeEducation" class="table-responsive" style="height:300px;">
                   <ng-container matColumnDef="No">
                     <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">No</mat-header-cell>
                     <mat-cell *matCellDef="let row; let i = index" style="font-size: 1rem; font-weight: 300;">{{i + 1 + (pageSize * pageIndex)}}</mat-cell>
@@ -254,12 +251,78 @@
                         <mat-icon>close</mat-icon>
                       </button>
                     </mat-cell>
-                  </ng-container>                  
+                  </ng-container>
                   <mat-header-row *matHeaderRowDef="displayedColumnsEducation; sticky: true"></mat-header-row>
-                  <mat-row *matRowDef="let row; columns: displayedColumnsEducation;"></mat-row>
+                  <mat-row *matRowDef="let row; let i = index; columns: displayedColumnsEducation;" [ngClass]="{'highlight': i === hoveredRowIndexEducation}" (mouseenter)="hoveredRowIndexEducation = i" (mouseleave)="hoveredRowIndexEducation = -1"></mat-row>
                 </mat-table>
               </div>
               <div class="tab-pane" id="workexperience">
+                <mat-table [dataSource]="getResumeResponse.lstTbResumeWorkExperience" class="table-responsive" style="height:300px;">
+                  <ng-container matColumnDef="No">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">No</mat-header-cell>
+                    <mat-cell *matCellDef="let row; let i = index" style="font-size: 1rem; font-weight: 300;">{{i + 1 + (pageSize * pageIndex)}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="Title">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">Title</mat-header-cell>
+                    <mat-cell *matCellDef="let row" style="font-size: 1rem; font-weight: 300;">{{row.tbrweJobTitle}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="Title Normalized">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">Title Normalized</mat-header-cell>
+                    <mat-cell *matCellDef="let row" style="font-size: 1rem; font-weight: 300;">{{row.tbrweJobTitleNormalized}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="Organization">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">Organization</mat-header-cell>
+                    <mat-cell *matCellDef="let row" style="font-size: 1rem; font-weight: 300;">{{row.tbrweOrganization}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="Start Date">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">Start Date</mat-header-cell>
+                    <mat-cell *matCellDef="let row" style="font-size: 1rem; font-weight: 300;">{{row.tbrweStartDate | date: 'MM/dd/yyyy'}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="End Date">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">End Date</mat-header-cell>
+                    <mat-cell *matCellDef="let row" style="font-size: 1rem; font-weight: 300;">{{row.tbrweEndDate | date: 'MM/dd/yyyy'}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="Months">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">Months</mat-header-cell>
+                    <mat-cell *matCellDef="let row" style="font-size: 1rem; font-weight: 300;">{{row.tbrweMonthsInPosition}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="Current">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">Current</mat-header-cell>
+                    <mat-cell *matCellDef="let row" style="font-size: 1rem; font-weight: 300;">{{row.tbrweIsCurrent}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="Major">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">Major</mat-header-cell>
+                    <mat-cell *matCellDef="let row" style="font-size: 1rem; font-weight: 300;">{{row.tbrweMajorGroup}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="Sub Major">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">Sub Major</mat-header-cell>
+                    <mat-cell *matCellDef="let row" style="font-size: 1rem; font-weight: 300;">{{row.tbrweSubMajorGroup}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="Minor">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">Minor</mat-header-cell>
+                    <mat-cell *matCellDef="let row" style="font-size: 1rem; font-weight: 300;">{{row.tbrweMinorGroup}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="Level">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">Level</mat-header-cell>
+                    <mat-cell *matCellDef="let row" style="font-size: 1rem; font-weight: 300;">{{row.tbrweManagementLevel}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="Action">
+                    <mat-header-cell *matHeaderCellDef style="font-size: 0.95rem; font-weight: 500; color: #212529;"> Action </mat-header-cell>
+                    <mat-cell *matCellDef="let tbResumeWorkExperience">
+                      <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(tbResumeWorkExperience.tbrweUuid);">
+                        <mat-icon>pageview</mat-icon>
+                      </button>
+                      <button mat-icon-button title="Activate" [disabled]="clicked" (click)="nonActive(tbResumeWorkExperience.tbrweUuid);" *ngIf="tbResumeWorkExperience.tbrweStatus == 'not active'">
+                        <mat-icon>check</mat-icon>
+                      </button>
+                      <button mat-icon-button title="Deactivate" [disabled]="clicked" (click)="nonActive(tbResumeWorkExperience.tbrweUuid);" *ngIf="tbResumeWorkExperience.tbrweStatus == 'active'">
+                        <mat-icon>close</mat-icon>
+                      </button>
+                    </mat-cell>
+                  </ng-container>
+                  <mat-header-row *matHeaderRowDef="displayedColumnsWorkExperience; sticky: true"></mat-header-row>
+                  <mat-row *matRowDef="let row; let i = index; columns: displayedColumnsWorkExperience;" [ngClass]="{'highlight': i === hoveredRowIndexWorkExperience}" (mouseenter)="hoveredRowIndexWorkExperience = i" (mouseleave)="hoveredRowIndexWorkExperience = -1"></mat-row>
+                </mat-table>
               </div>
               <div class="tab-pane" id="certifications">
               </div>

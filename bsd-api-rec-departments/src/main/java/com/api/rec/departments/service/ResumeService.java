@@ -519,7 +519,14 @@ public class ResumeService {
 				TbResumeSkill exampleTbResumeSkill = new TbResumeSkill();
 				exampleTbResumeSkill.setTbrId(optTbResume.get().getTbrId());
 				exampleTbResumeSkill.setTbrsStatus(TbResumeSkillRepository.Active);
-				List<TbResumeSkill> tbResumeSkills = tbResumeSkillRepository.findAll(Example.of(exampleTbResumeSkill), Sort.by(Sort.Direction.ASC, "tbrsType", "tbrsName"));
+				exampleTbResumeSkill.setTbrsType("hard_skill");				
+				List<TbResumeSkill> tbResumeSkillsHard = tbResumeSkillRepository.findAll(Example.of(exampleTbResumeSkill), Sort.by(Sort.Direction.ASC, "tbrsName"));
+
+				exampleTbResumeSkill = new TbResumeSkill();
+				exampleTbResumeSkill.setTbrId(optTbResume.get().getTbrId());
+				exampleTbResumeSkill.setTbrsStatus(TbResumeSkillRepository.Active);
+				exampleTbResumeSkill.setTbrsType("soft_skill");				
+				List<TbResumeSkill> tbResumeSkillsSoft = tbResumeSkillRepository.findAll(Example.of(exampleTbResumeSkill), Sort.by(Sort.Direction.ASC, "tbrsName"));
 
 				TbResumeWorkExperience exampleTbResumeWorkExperience = new TbResumeWorkExperience();
 				exampleTbResumeWorkExperience.setTbrId(optTbResume.get().getTbrId());
@@ -528,7 +535,8 @@ public class ResumeService {
 
 				responseModel.setLstTbResumeCertification(tbResumeCertifications);
 				responseModel.setLstTbResumeEducation(tbResumeEducations);
-				responseModel.setLstTbResumeSkill(tbResumeSkills);
+				responseModel.setLstTbResumeSkillHard(tbResumeSkillsHard);
+				responseModel.setLstTbResumeSkillSoft(tbResumeSkillsSoft);
 				responseModel.setLstTbResumeWorkExperience(tbResumeWorkExperiences);				
 				responseModel.setTbResume(optTbResume.get());
 				

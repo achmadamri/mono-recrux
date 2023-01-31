@@ -29,7 +29,11 @@ export class ResumesDetailComponent implements OnInit {
   getResumeRequest: GetResumeRequest = new GetResumeRequest();
   getResumeResponse: GetResumeResponse = new GetResumeResponse();
   displayedColumnsSkill: string[] = ['No', 'Type', 'Name', 'Action'];
+  hoveredRowIndexSkill = -1;
   displayedColumnsEducation: string[] = ['No', 'Organization', 'Education', 'Level', 'Grade', 'Location', 'Action'];
+  hoveredRowIndexEducation = -1;
+  displayedColumnsWorkExperience: string[] = ['No', 'Title', 'Title Normalized', 'Organization', 'Start Date', 'End Date', 'Months', 'Current', 'Major', 'Sub Major', 'Minor', 'Level', 'Action'];
+  hoveredRowIndexWorkExperience = -1;
 
   constructor(
     private location: Location,

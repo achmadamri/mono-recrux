@@ -17,7 +17,9 @@ public class GetResumeResponseModel extends ResponseModel {
 
 	private TbResume tbResume;
 
-	private List<TbResumeSkill> lstTbResumeSkill;
+	private List<TbResumeSkill> lstTbResumeSkillHard;
+
+	private List<TbResumeSkill> lstTbResumeSkillSoft;
 
 	private List<TbResumeEducation> lstTbResumeEducation;
 
@@ -33,12 +35,20 @@ public class GetResumeResponseModel extends ResponseModel {
 		this.tbResume = tbResume;
 	}
 
-	public List<TbResumeSkill> getLstTbResumeSkill() {
-		return lstTbResumeSkill;
+	public List<TbResumeSkill> getLstTbResumeSkillHard() {
+		return lstTbResumeSkillHard;
 	}
 
-	public void setLstTbResumeSkill(List<TbResumeSkill> lstTbResumeSkill) {
-		this.lstTbResumeSkill = lstTbResumeSkill;
+	public void setLstTbResumeSkillHard(List<TbResumeSkill> lstTbResumeSkillHard) {
+		this.lstTbResumeSkillHard = lstTbResumeSkillHard;
+	}
+
+	public List<TbResumeSkill> getLstTbResumeSkillSoft() {
+		return lstTbResumeSkillSoft;
+	}
+
+	public void setLstTbResumeSkillSoft(List<TbResumeSkill> lstTbResumeSkillSoft) {
+		this.lstTbResumeSkillSoft = lstTbResumeSkillSoft;
 	}
 
 	public List<TbResumeEducation> getLstTbResumeEducation() {
@@ -63,5 +73,5 @@ public class GetResumeResponseModel extends ResponseModel {
 
 	public void setLstTbResumeCertification(List<TbResumeCertification> lstTbResumeCertification) {
 		this.lstTbResumeCertification = lstTbResumeCertification;
-	}	
+	}
 }
