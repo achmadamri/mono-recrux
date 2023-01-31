@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -226,7 +227,12 @@ public class JobService {
 			if (!tbjName.equals("")) exampleTbJob.setTbjName(tbjName);
 			if (!tbjStatus.equals("")) exampleTbJob.setTbjStatus(tbjStatus);
 
-			Page<TbJob> pgTbJob = tbJobRepository.findAll(Example.of(exampleTbJob), PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbjId").ascending()));
+			ExampleMatcher matcher = ExampleMatcher.matching()
+                .withMatcher("tbjName", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                .withMatcher("tbjStatus", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+			;
+
+			Page<TbJob> pgTbJob = tbJobRepository.findAll(Example.of(exampleTbJob, matcher), PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbjId").ascending()));
 			
 			if (pgTbJob.toList().size() > 0) {
 				responseModel.setLstTbJob(pgTbJob.toList());				
@@ -298,7 +304,12 @@ public class JobService {
 			if (!tbrDataNameRaw.equals("")) exampleViewJobResume.setTbrDataNameRaw(tbrDataNameRaw);
 			if (!tbrStatus.equals("")) exampleViewJobResume.setTbrStatus(tbrStatus);
 
-			Page<ViewJobResume> pgViewJobResume = viewJobResumeRepository.findAll(Example.of(exampleViewJobResume), PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbrId").ascending()));
+			ExampleMatcher matcher = ExampleMatcher.matching()
+                .withMatcher("tbrDataNameRaw", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                .withMatcher("tbrStatus", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+			;
+
+			Page<ViewJobResume> pgViewJobResume = viewJobResumeRepository.findAll(Example.of(exampleViewJobResume, matcher), PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbrId").ascending()));
 			
 			if (pgViewJobResume.toList().size() > 0) {
 				responseModel.setLstViewJobResume(pgViewJobResume.toList());				

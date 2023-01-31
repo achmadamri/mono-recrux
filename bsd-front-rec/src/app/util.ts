@@ -22,7 +22,7 @@ export class Util {
     cachePaginator(name: string): PageEvent {
       let pageEvent: PageEvent = new PageEvent();
       if (localStorage.getItem(name) != null) {
-        pageEvent = JSON.parse(localStorage.getItem(name));    
+        pageEvent = JSON.parse(localStorage.getItem(name));
       } else {
         pageEvent.length = 100;
         pageEvent.pageSize = 5;
@@ -30,6 +30,14 @@ export class Util {
         pageEvent.previousPageIndex = 0;
       }
       return pageEvent;
+    }
+
+    cachePaginatorRequest(name: string): any {
+      let request: any;
+      if (localStorage.getItem(name) != null) {
+        request =  JSON.parse(localStorage.getItem(name));
+      }
+      return request;
     }
 
     randomString(length: number): string {

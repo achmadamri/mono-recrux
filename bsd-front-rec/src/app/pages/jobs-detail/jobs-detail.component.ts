@@ -64,6 +64,8 @@ export class JobsDetailComponent implements OnInit {
 
   ngOnInit() {
     this.pageEvent = this.util.cachePaginator('jobs-detail.pageEvent');
+    this.postAddJobRequest = this.util.cachePaginatorRequest('jobs-detail.request');
+    this.postAddJobRequest == null ? this.postAddJobRequest = new PostAddJobRequest() : this.postAddJobRequest;
 
     this.route.paramMap.subscribe(params => {
       this.postAddJobRequest.tbJob.tbjUuid = params.get('tbjUuid');
@@ -227,6 +229,7 @@ export class JobsDetailComponent implements OnInit {
     if (pageEvent != null) this.pageEvent = pageEvent;
 
     localStorage.setItem('jobs-detail.pageEvent', JSON.stringify(this.pageEvent));
+    localStorage.setItem('jobs-detail.request', JSON.stringify(this.postAddJobRequest));
 
     this.jobService.getJobResumeList(this.postAddJobRequest.tbJob.tbjId, this.getJobResumeListRequest.viewJobResume.tbrDataNameRaw, this.getJobResumeListRequest.viewJobResume.tbrStatus, this.pageEvent.length, this.pageEvent.pageSize, this.pageEvent.pageIndex)
       .subscribe(

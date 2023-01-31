@@ -39,6 +39,8 @@ export class JobsComponent implements OnInit {
 
   ngOnInit() {
     this.pageEvent = this.util.cachePaginator('jobs.pageEvent');
+    this.getJobListRequest = this.util.cachePaginatorRequest('jobs.request');
+    this.getJobListRequest == null ? this.getJobListRequest = new GetJobListRequest() : this.getJobListRequest;
 
     this.getJobList(this.pageEvent);
   }
@@ -49,6 +51,7 @@ export class JobsComponent implements OnInit {
     if (pageEvent != null) this.pageEvent = pageEvent;
 
     localStorage.setItem('jobs.pageEvent', JSON.stringify(this.pageEvent));
+    localStorage.setItem('jobs.request', JSON.stringify(this.getJobListRequest));
 
     this.jobService.getJobList(this.getJobListRequest.tbJob.tbjName, this.getJobListRequest.tbJob.tbjStatus, this.pageEvent.length, this.pageEvent.pageSize, this.pageEvent.pageIndex)
       .subscribe(

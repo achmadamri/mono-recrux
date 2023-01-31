@@ -369,7 +369,12 @@ public class ResumeService {
 			if (!tbrDataNameRaw.equals("")) exampleTbResume.setTbrDataNameRaw(tbrDataNameRaw);
 			if (!tbrStatus.equals("")) exampleTbResume.setTbrStatus(tbrStatus);
 
-			Page<TbResume> pgTbResume = tbResumeRepository.findAll(Example.of(exampleTbResume), PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbrId").ascending()));
+			ExampleMatcher matcher = ExampleMatcher.matching()
+                .withMatcher("tbrDataNameRaw", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                .withMatcher("tbrStatus", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+			;
+
+			Page<TbResume> pgTbResume = tbResumeRepository.findAll(Example.of(exampleTbResume, matcher), PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbrId").ascending()));
 			
 			if (pgTbResume.toList().size() > 0) {
 				responseModel.setLstTbResume(pgTbResume.toList());				
@@ -407,7 +412,7 @@ public class ResumeService {
 			ExampleMatcher matcher = ExampleMatcher.matching()
                 .withMatcher("tbjUuid", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
                 .withMatcher("tbjName", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-                // .withMatcher("tbrUuid", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                .withMatcher("tbrUuid", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
                 .withMatcher("tbrDataNameRaw", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
 			;
 

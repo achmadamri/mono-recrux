@@ -42,7 +42,7 @@ export class ResumesDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.pageEvent = this.util.cachePaginator('Resumes-detail.pageEvent');
+    this.pageEvent = this.util.cachePaginator('resumes-detail.pageEvent');
 
     this.route.paramMap.subscribe(params => {
       this.postAddResumeRequest.tbResume.tbrUuid = params.get('tbrUuid');

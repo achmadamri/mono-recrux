@@ -11,6 +11,7 @@ import { GetResumeRequest } from 'app/services/resume/getresumerequest';
 import { GetResumeResponse } from 'app/services/resume/getresumeresponse';
 import { GetJobResumeListRequest } from 'app/services/job/getjobresumelistrequest';
 import { GetJobResumeListResponse } from 'app/services/job/getjobresumelistresponse';
+import { getSystemErrorMap } from 'util';
 
 @Component({
   selector: 'app-pages-resumes',
@@ -41,6 +42,8 @@ export class ResumesComponent implements OnInit {
 
   ngOnInit() {
     this.pageEvent = this.util.cachePaginator('resume.pageEvent');
+    this.getJobResumeListRequest = this.util.cachePaginatorRequest('resume.request');
+    this.getJobResumeListRequest == null ? this.getJobResumeListRequest = new GetJobResumeListRequest() : this.getJobResumeListRequest;
 
     this.getResumeList(this.pageEvent);
   }
@@ -51,6 +54,7 @@ export class ResumesComponent implements OnInit {
     if (pageEvent != null) this.pageEvent = pageEvent;
 
     localStorage.setItem('resume.pageEvent', JSON.stringify(this.pageEvent));
+    localStorage.setItem('resume.request', JSON.stringify(this.getJobResumeListRequest));
 
     this.resumeService.getJobResumeList(this.getJobResumeListRequest, this.pageEvent.length, this.pageEvent.pageSize, this.pageEvent.pageIndex)
       .subscribe(
