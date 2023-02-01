@@ -36,3 +36,6 @@
   position: absolute;
   width: 260px;
 }
+.highlight {
+  background-color: #f2f2f2;
+}

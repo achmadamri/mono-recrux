@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -232,7 +233,12 @@ public class DepartmentService {
 			if (!tbdName.equals("")) exampleTbDepartment.setTbdName(tbdName);
 			if (!tbdStatus.equals("")) exampleTbDepartment.setTbdStatus(tbdStatus);
 
-			Page<TbDepartment> pgTbDepartment = tbDepartmentRepository.findAll(Example.of(exampleTbDepartment), PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbdId").ascending()));
+			ExampleMatcher matcher = ExampleMatcher.matching()
+                .withMatcher("tbdName", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                .withMatcher("tbdStatus", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+			;
+
+			Page<TbDepartment> pgTbDepartment = tbDepartmentRepository.findAll(Example.of(exampleTbDepartment, matcher), PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbdId").ascending()));
 			
 			if (pgTbDepartment.toList().size() > 0) {
 				responseModel.setLstTbDepartment(pgTbDepartment.toList());				

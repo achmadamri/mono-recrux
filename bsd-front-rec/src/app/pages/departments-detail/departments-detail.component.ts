@@ -49,6 +49,8 @@ export class DepartmentsDetailComponent implements OnInit {
 
   ngOnInit() {
     this.pageEvent = this.util.cachePaginator('departments-detail.pageEvent');
+    this.postAddDepartmentRequest = this.util.cachePaginatorRequest('departments-detail.request');
+    this.postAddDepartmentRequest == null ? this.postAddDepartmentRequest = new PostAddDepartmentRequest() : this.postAddDepartmentRequest;
 
     this.route.paramMap.subscribe(params => {
       this.postAddDepartmentRequest.tbDepartment.tbdUuid = params.get('tbdUuid');
@@ -85,6 +87,7 @@ export class DepartmentsDetailComponent implements OnInit {
     if (pageEvent != null) this.pageEvent = pageEvent;
 
     localStorage.setItem('departments-detail.pageEvent', JSON.stringify(this.pageEvent));
+    localStorage.setItem('departments-detail.request', JSON.stringify(this.postAddDepartmentRequest));
 
     this.jobService.getJobDepartmentList(this.postAddDepartmentRequest.tbDepartment.tbdId, this.getJobDepartmentListRequest.viewJobDepartment.tbjName, this.getJobDepartmentListRequest.viewJobDepartment.tbdjStatus, this.pageEvent.length, this.pageEvent.pageSize, this.pageEvent.pageIndex)
       .subscribe(
@@ -118,7 +121,8 @@ export class DepartmentsDetailComponent implements OnInit {
   }
 
   search() {
-    this.getJobDepartmentList(null);
+    this.pageEvent.pageIndex = 0;
+    this.getJobDepartmentList(this.pageEvent);
     this.searchForm = !this.searchForm;
   }
 

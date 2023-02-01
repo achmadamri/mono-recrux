@@ -1,111 +1,306 @@
 <div class="main-content">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-4">
-        <div class="card card-profile">
-          <div class="card-avatar">
-            <a href="javascript:void(0)">
-              <img class="img" src="./assets/img/faces/marc.jpg" />
-            </a>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title">{{postAddResumeRequest.tbResume.tbrDataNameRaw}}</h4>            
           </div>
           <div class="card-body">
-            <h4 class="card-title">Alec Thompson</h4>
-            <a href="#">
-              <i class="fa fa-facebook"></i>
-            </a>
-            &nbsp;
-            <a href="#">
-              <i class="fa fa-instagram"></i>
-            </a>
-            &nbsp;
-            <a href="#">
-              <i class="fa fa-twitter"></i>
-            </a>
-            &nbsp;
-            <a href="#">
-              <i class="fa fa-linkedin"></i>
-            </a>
-            &nbsp;
-            <a href="#">
-              <i class="fa fa-github"></i>
-            </a>
+            <form>
+              <div class="row">
+                <div class="col-md-12">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Id" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrUuid" name="tbrUuid" disabled>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Name" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataNameRaw" name="tbrDataNameRaw">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <mat-radio-group aria-label="Status" name="tbpType" [(ngModel)]="postAddResumeRequest.tbResume.tbrStatus" name="tbrStatus">
+                    <mat-radio-button value="active">Active</mat-radio-button>
+                    &nbsp;
+                    <mat-radio-button value="not active">Not Active</mat-radio-button>
+                  </mat-radio-group>
+                </div>
+              </div>
+              <button mat-raised-button type="submit" class="btn btn-danger pull-right" [disabled]="clicked" (click)="update();">Update</button>
+              <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked" (click)="back();">Back</button>
+              <div class="clearfix"></div>
+            </form>
           </div>
         </div>
       </div>
     </div>
     <div class="row">
-      <div class="col-md-8">
+      <div class="col-lg-12 col-md-12">
         <div class="card">
-          <div class="card-header card-header-danger">
-            <h4 class="card-title">Edit Profile</h4>
+          <div class="card-header card-header-tabs card-header-danger">
+            <div class="nav-tabs-navigation">
+              <div class="nav-tabs-wrapper">
+                <ul class="nav nav-tabs" data-tabs="tabs">
+                  <li class="nav-item">
+                    <a mat-button class="nav-link active" href="#personaldetails" data-toggle="tab">
+                      <i class="material-icons">perm_identity</i> Personal Details
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a mat-button class="nav-link" href="#resume" data-toggle="tab">
+                      <i class="material-icons">insert_drive_file</i> Resume
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a mat-button class="nav-link" href="#education" data-toggle="tab">
+                      <i class="material-icons">spellcheck</i> Education
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a mat-button class="nav-link" href="#workexperience" data-toggle="tab">
+                      <i class="material-icons">work_outline</i> Work Experience
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a mat-button class="nav-link" href="#certifications" data-toggle="tab">
+                      <i class="material-icons">assignment_turned_in</i> Certifications
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
           <div class="card-body">
-            <form>
-              <div class="row">
-                <div class="col-md-5">
-                  <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Company (disabled)" disabled>
-                  </mat-form-field>
-                </div>
-                <div class="col-md-3">
-                  <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Username">
-                  </mat-form-field>
-                </div>
-                <div class="col-md-4">
-                  <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Email address" type="email">
-                  </mat-form-field>
+            <div class="tab-content">
+              <div class="tab-pane active" id="personaldetails">
+                <div class="row">
+                  <div class="col-md-8">
+                    <form>
+                      <div class="row">
+                        <div class="col-md-8">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Title" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataNameTitle" name="tbrDataNameTitle">
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Total Experience" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataTotalYearsExperience" name="tbrDataTotalYearsExperience">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Fist Name" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataNameFirst" name="tbrDataNameFirst">
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Middle Name" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataNameMiddle" name="tbrDataNameMiddle">
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Last Name" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataNameLast" name="tbrDataNameLast">
+                          </mat-form-field>
+                        </div>                    
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Date Of Birth" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataDateOfBirth" name="tbrDataDateOfBirth">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Phone Number" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataPhoneNumbers" name="tbrDataPhoneNumbers">
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Email" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataEmails" name="tbrDataEmails">
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Website" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataWebsites" name="tbrDataWebsites">
+                          </mat-form-field>
+                        </div>                    
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Street" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataLocationStreet" name="tbrDataLocationStreet">
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="House Number" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataLocationApartmentNumber" name="tbrDataLocationApartmentNumber">
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="City" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataLocationCity" name="tbrDataLocationCity">
+                          </mat-form-field>
+                        </div>                    
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="State" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataLocationState" name="tbrDataLocationState">
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Country" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataLocationCountry" name="tbrDataLocationCountry">
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Postal Code" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataLocationPostalCode" name="tbrDataLocationPostalCode">
+                          </mat-form-field>
+                        </div>                    
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Language" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataLanguages" name="tbrDataLanguages">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked">Update</button>
+                      <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked" (click)="back();">Back</button>
+                      <div class="clearfix"></div>
+                    </form>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="card">
+                      <div class="card-header card-header-danger">
+                        <h4 class="card-title">Hard Skills</h4>
+                      </div>
+                      <div class="card-body">
+                        <div *ngFor="let tbResumeSkill of getResumeResponse.lstTbResumeSkillHard; let i = index">
+                          <button mat-raised-button type="button" class="btn btn-secondary btn-round pull-left" [disabled]="clicked" style="padding: 6px 12px; text-transform: none;" title="{{tbResumeSkill.tbrsType == 'hard_skill' ? 'Hard Skill' : (tbResumeSkill.tbrsType == 'soft_skill' ? 'Soft Skill' : '')}}">{{tbResumeSkill.tbrsName}}</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card">
+                      <div class="card-header card-header-danger">
+                        <h4 class="card-title">Soft Skills</h4>
+                      </div>
+                      <div class="card-body">
+                        <div *ngFor="let tbResumeSkill of getResumeResponse.lstTbResumeSkillSoft; let i = index">
+                          <button mat-raised-button type="button" class="btn btn-secondary btn-round pull-left" [disabled]="clicked" style="padding: 6px 12px; text-transform: none;" title="{{tbResumeSkill.tbrsType == 'hard_skill' ? 'Hard Skill' : (tbResumeSkill.tbrsType == 'soft_skill' ? 'Soft Skill' : '')}}">{{tbResumeSkill.tbrsName}}</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Fist Name" type="text">
-                  </mat-form-field>
-                </div>
-                <div class="col-md-6">
-                  <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Last Name" type="text">
-                  </mat-form-field>
-                </div>
+              <div class="tab-pane" id="resume">
+                <iframe #pdfFrame id="pdf-frame" width="100%" height="650px"></iframe>
               </div>
-              <div class="row">
-                <div class="col-md-12">
-                  <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Adress" type="text">
-                  </mat-form-field>
-                </div>
+              <div class="tab-pane" id="education">
+                <table class="table table-hover">
+                  <thead>
+                    <th>No</th>
+                    <th>Organization</th>
+                    <th>Education</th>
+                    <th>Level</th>
+                    <th>Grade</th>
+                    <th>Location</th>
+                    <th>Action</th>
+                  </thead>
+                  <tbody *ngIf="getResumeResponse.lstTbResumeEducation">
+                    <tr *ngFor="let tbResumeEducation of getResumeResponse.lstTbResumeEducation; let i=index;">
+                      <td>{{i + 1 + (pageSize * pageIndex)}}</td>                                        
+                      <td>{{tbResumeEducation.tbreOrganization}}</td>
+                      <td>{{tbResumeEducation.tbreEducation}}</td>
+                      <td>{{tbResumeEducation.tbreEducationLevel}}</td>
+                      <td>{{tbResumeEducation.tbreGradeValue}}</td>
+                      <td>{{tbResumeEducation.tbreLocationFormatted}}</td>
+                      <td class="td-actions">
+                        <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(tbResumeEducation.tbreUuid);"><mat-icon>pageview</mat-icon></button>
+                        <button mat-icon-button title="Activate" [disabled]="clicked" (click)="nonActive(tbResumeEducation.tbreUuid);" *ngIf="tbResumeEducation.tbreStatus == 'not active'"><mat-icon>check</mat-icon></button>
+                        <button mat-icon-button title="Deactivate" [disabled]="clicked" (click)="nonActive(tbResumeEducation.tbreUuid);" *ngIf="tbResumeEducation.tbreStatus == 'active'"><mat-icon>close</mat-icon></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-              <div class="row">
-                <div class="col-md-4">
-                  <mat-form-field class="example-full-width">
-                    <input matInput placeholder="City" type="text">
-                  </mat-form-field>
-                </div>
-                <div class="col-md-4">
-                  <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Country" type="text">
-                  </mat-form-field>
-                </div>
-                <div class="col-md-4">
-                  <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Postal Code" type="text">
-                  </mat-form-field>
-                </div>
+              <div class="tab-pane" id="workexperience">
+                <table class="table table-hover">
+                  <thead>
+                    <th>No</th>
+                    <th>Title</th>
+                    <th>Title Normalized</th>
+                    <th>Organization</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Months</th>
+                    <th>Current</th>
+                    <th>Major</th>
+                    <th>Sub Major</th>
+                    <th>Minor</th>
+                    <th>Level</th>
+                    <th>Action</th>
+                  </thead>
+                  <tbody *ngIf="getResumeResponse.lstTbResumeWorkExperience">
+                      <tr *ngFor="let tbResumeWorkExperience of getResumeResponse.lstTbResumeWorkExperience; let i=index;">
+                          <td>{{i + 1 + (pageSize * pageIndex)}}</td>                                        
+                          <td>{{tbResumeWorkExperience.tbrweJobTitle}}</td>
+                          <td>{{tbResumeWorkExperience.tbrweJobTitleNormalized}}</td>
+                          <td>{{tbResumeWorkExperience.tbrweOrganization}}</td>
+                          <td>{{tbResumeWorkExperience.tbrweStartDate | date: 'MM/dd/yyyy'}}</td>
+                          <td>{{tbResumeWorkExperience.tbrweEndDate | date: 'MM/dd/yyyy'}}</td>
+                          <td>{{tbResumeWorkExperience.tbrweMonthsInPosition}}</td>
+                          <td>{{tbResumeWorkExperience.tbrweIsCurrent}}</td>
+                          <td>{{tbResumeWorkExperience.tbrweMajorGroup}}</td>
+                          <td>{{tbResumeWorkExperience.tbrweSubMajorGroup}}</td>
+                          <td>{{tbResumeWorkExperience.tbrweMinorGroup}}</td>
+                          <td>{{tbResumeWorkExperience.tbrweManagementLevel}}</td>
+                          <td class="td-actions">
+                              <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(tbResumeWorkExperience.tbrweUuid);"><mat-icon>pageview</mat-icon></button>
+                              <button mat-icon-button title="Activate" [disabled]="clicked" (click)="nonActive(tbResumeWorkExperience.tbrweUuid);" *ngIf="tbResumeWorkExperience.tbrweStatus == 'not active'"><mat-icon>check</mat-icon></button>
+                              <button mat-icon-button title="Deactivate" [disabled]="clicked" (click)="nonActive(tbResumeWorkExperience.tbrweUuid);" *ngIf="tbResumeWorkExperience.tbrweStatus == 'active'"><mat-icon>close</mat-icon></button>
+                          </td>
+                      </tr>
+                  </tbody>
+                </table>
               </div>
-              <div class="row">
-                <div class="col-md-12">
-                  <label>About Me</label>
-                  <mat-form-field class="example-full-width">
-                    <textarea matInput
-                      placeholder="Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo."></textarea>
-                  </mat-form-field>
-                </div>
+              <div class="tab-pane" id="certifications">
+                <table class="table table-hover">
+                  <thead>
+                    <th>No</th>
+                    <th>Name</th>
+                    <th>Action</th>
+                  </thead>
+                  <tbody *ngIf="getResumeResponse.lstTbResumeCertification">
+                    <tr *ngFor="let tbResumeCertification of getResumeResponse.lstTbResumeCertification; let i=index;">
+                      <td>{{i + 1 + (pageSize * pageIndex)}}</td>                                        
+                      <td>{{tbResumeCertification.tbrcName}}</td>
+                      <td class="td-actions">
+                        <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(tbResumeCertification.tbrcUuid);"><mat-icon>pageview</mat-icon></button>
+                        <button mat-icon-button title="Activate" [disabled]="clicked" (click)="nonActive(tbResumeCertification.tbrcUuid);" *ngIf="tbResumeCertification.tbrcStatus == 'not active'"><mat-icon>check</mat-icon></button>
+                        <button mat-icon-button title="Deactivate" [disabled]="clicked" (click)="nonActive(tbResumeCertification.tbrcUuid);" *ngIf="tbResumeCertification.tbrcStatus == 'active'"><mat-icon>close</mat-icon></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-              <button mat-raised-button type="submit" class="btn btn-danger pull-right">Update</button>
-              <div class="clearfix"></div>
-            </form>
+            </div>
           </div>
         </div>
       </div>

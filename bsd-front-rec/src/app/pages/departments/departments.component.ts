@@ -39,6 +39,8 @@ export class DepartmentsComponent implements OnInit {
 
   ngOnInit() {
     this.pageEvent = this.util.cachePaginator('departments.pageEvent');
+    this.getDepartmentListRequest = this.util.cachePaginatorRequest('departments.request');
+    this.getDepartmentListRequest == null ? this.getDepartmentListRequest = new GetDepartmentListRequest() : this.getDepartmentListRequest;
 
     this.getDepartmentList(this.pageEvent);
   }
@@ -49,6 +51,7 @@ export class DepartmentsComponent implements OnInit {
     if (pageEvent != null) this.pageEvent = pageEvent;
 
     localStorage.setItem('departments.pageEvent', JSON.stringify(this.pageEvent));
+    localStorage.setItem('departments.request', JSON.stringify(this.getDepartmentListRequest));
 
     this.departmentService.getDepartmentList(this.getDepartmentListRequest.tbDepartment.tbdName, this.getDepartmentListRequest.tbDepartment.tbdStatus, this.pageEvent.length, this.pageEvent.pageSize, this.pageEvent.pageIndex)
       .subscribe(
@@ -126,7 +129,8 @@ export class DepartmentsComponent implements OnInit {
   }
 
   search() {
-    this.getDepartmentList(null);
+    this.pageEvent.pageIndex = 0;
+    this.getDepartmentList(this.pageEvent);
     this.searchForm = !this.searchForm;
   }
 

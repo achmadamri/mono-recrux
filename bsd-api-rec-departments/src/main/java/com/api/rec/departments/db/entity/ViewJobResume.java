@@ -84,7 +84,8 @@ public class ViewJobResume implements Serializable {
 	@Column(columnDefinition = "text", name="tbr_data_certifications")
 	private String tbrDataCertifications;
 
-	@Column(name="tbr_data_date_of_birth")
+	@Lob
+	@Column(columnDefinition = "text", name="tbr_data_date_of_birth")
 	private String tbrDataDateOfBirth;
 
 	@Lob
@@ -95,7 +96,8 @@ public class ViewJobResume implements Serializable {
 	@Column(columnDefinition = "text", name="tbr_data_emails")
 	private String tbrDataEmails;
 
-	@Column(name="tbr_data_head_shot")
+	@Lob
+	@Column(columnDefinition = "text", name="tbr_data_head_shot")
 	private String tbrDataHeadShot;
 
 	@Column(name="tbr_data_is_resume_probability")
@@ -109,69 +111,88 @@ public class ViewJobResume implements Serializable {
 	@Column(columnDefinition = "text", name="tbr_data_languages")
 	private String tbrDataLanguages;
 
-	@Column(name="tbr_data_linkedin")
+	@Lob
+	@Column(columnDefinition = "text", name="tbr_data_linkedin")
 	private String tbrDataLinkedin;
 
-	@Column(name="tbr_data_location_apartment_number")
+	@Lob
+	@Column(columnDefinition = "text", name="tbr_data_location_apartment_number")
 	private String tbrDataLocationApartmentNumber;
 
-	@Column(name="tbr_data_location_city")
+	@Lob
+	@Column(columnDefinition = "text", name="tbr_data_location_city")
 	private String tbrDataLocationCity;
 
-	@Column(name="tbr_data_location_country")
+	@Lob
+	@Column(columnDefinition = "text", name="tbr_data_location_country")
 	private String tbrDataLocationCountry;
 
-	@Column(name="tbr_data_location_country_code")
+	@Lob
+	@Column(columnDefinition = "text", name="tbr_data_location_country_code")
 	private String tbrDataLocationCountryCode;
 
-	@Column(name="tbr_data_location_formatted")
+	@Lob
+	@Column(columnDefinition = "text", name="tbr_data_location_formatted")
 	private String tbrDataLocationFormatted;
 
-	@Column(name="tbr_data_location_postal_code")
+	@Lob
+	@Column(columnDefinition = "text", name="tbr_data_location_postal_code")
 	private String tbrDataLocationPostalCode;
 
-	@Column(name="tbr_data_location_raw_input")
+	@Lob
+	@Column(columnDefinition = "text", name="tbr_data_location_raw_input")
 	private String tbrDataLocationRawInput;
 
-	@Column(name="tbr_data_location_state")
+	@Lob
+	@Column(columnDefinition = "text", name="tbr_data_location_state")
 	private String tbrDataLocationState;
 
-	@Column(name="tbr_data_location_street")
+	@Lob
+	@Column(columnDefinition = "text", name="tbr_data_location_street")
 	private String tbrDataLocationStreet;
 
-	@Column(name="tbr_data_location_street_number")
+	@Lob
+	@Column(columnDefinition = "text", name="tbr_data_location_street_number")
 	private String tbrDataLocationStreetNumber;
 
-	@Column(name="tbr_data_name_first")
+	@Lob
+	@Column(columnDefinition = "text", name="tbr_data_name_first")
 	private String tbrDataNameFirst;
 
-	@Column(name="tbr_data_name_last")
+	@Lob
+	@Column(columnDefinition = "text", name="tbr_data_name_last")
 	private String tbrDataNameLast;
 
-	@Column(name="tbr_data_name_middle")
+	@Lob
+	@Column(columnDefinition = "text", name="tbr_data_name_middle")
 	private String tbrDataNameMiddle;
 
-	@Column(name="tbr_data_name_raw")
+	@Lob
+	@Column(columnDefinition = "text", name="tbr_data_name_raw")
 	private String tbrDataNameRaw;
 
-	@Column(name="tbr_data_name_title")
+	@Lob
+	@Column(columnDefinition = "text", name="tbr_data_name_title")
 	private String tbrDataNameTitle;
 
-	@Column(name="tbr_data_objective")
+	@Lob
+	@Column(columnDefinition = "text", name="tbr_data_objective")
 	private String tbrDataObjective;
 
 	@Lob
 	@Column(columnDefinition = "text", name="tbr_data_phone_numbers")
 	private String tbrDataPhoneNumbers;
 
-	@Column(name="tbr_data_profession")
+	@Lob
+	@Column(columnDefinition = "text", name="tbr_data_profession")
 	private String tbrDataProfession;
 
 	@Lob
 	@Column(columnDefinition = "text", name="tbr_data_publications")
 	private String tbrDataPublications;
 
-	@Column(name="tbr_data_raw_text")
+	@Lob
+	@Column(columnDefinition = "text", name="tbr_data_raw_text")
 	private String tbrDataRawText;
 
 	@Lob
@@ -186,7 +207,8 @@ public class ViewJobResume implements Serializable {
 	@Column(columnDefinition = "text", name="tbr_data_skills")
 	private String tbrDataSkills;
 
-	@Column(name="tbr_data_summary")
+	@Lob
+	@Column(columnDefinition = "text", name="tbr_data_summary")
 	private String tbrDataSummary;
 
 	@Column(name="tbr_data_total_years_experience")
@@ -200,10 +222,12 @@ public class ViewJobResume implements Serializable {
 	@Column(columnDefinition = "text", name="tbr_data_work_experience")
 	private String tbrDataWorkExperience;
 
-	@Column(name="tbr_error_error_code")
+	@Lob
+	@Column(columnDefinition = "text", name="tbr_error_error_code")
 	private String tbrErrorErrorCode;
 
-	@Column(name="tbr_error_error_detail")
+	@Lob
+	@Column(columnDefinition = "text", name="tbr_error_error_detail")
 	private String tbrErrorErrorDetail;
 
 	@Column(name="tbr_id")
@@ -213,22 +237,26 @@ public class ViewJobResume implements Serializable {
 	@Column(columnDefinition = "text", name="tbr_meta_child_documents")
 	private String tbrMetaChildDocuments;
 
-	@Column(name="tbr_meta_expiry_time")
+	@Lob
+	@Column(columnDefinition = "text", name="tbr_meta_expiry_time")
 	private String tbrMetaExpiryTime;
 
 	@Column(name="tbr_meta_failed")
 	private Integer tbrMetaFailed;
 
-	@Column(name="tbr_meta_file_name")
+	@Lob
+	@Column(columnDefinition = "text", name="tbr_meta_file_name")
 	private String tbrMetaFileName;
 
-	@Column(name="tbr_meta_identifier")
+	@Lob
+	@Column(columnDefinition = "text", name="tbr_meta_identifier")
 	private String tbrMetaIdentifier;
 
 	@Column(name="tbr_meta_is_verified")
 	private Integer tbrMetaIsVerified;
 
-	@Column(name="tbr_meta_language")
+	@Lob
+	@Column(columnDefinition = "text", name="tbr_meta_language")
 	private String tbrMetaLanguage;
 
 	@Column(name="tbr_meta_ocr_confidence")
@@ -238,19 +266,23 @@ public class ViewJobResume implements Serializable {
 	@Column(columnDefinition = "text", name="tbr_meta_pages")
 	private String tbrMetaPages;
 
-	@Column(name="tbr_meta_parent_document_identifier")
+	@Lob
+	@Column(columnDefinition = "text", name="tbr_meta_parent_document_identifier")
 	private String tbrMetaParentDocumentIdentifier;
 
-	@Column(name="tbr_meta_pdf")
+	@Lob
+	@Column(columnDefinition = "text", name="tbr_meta_pdf")
 	private String tbrMetaPdf;
 
 	@Column(name="tbr_meta_ready")
 	private Integer tbrMetaReady;
 
-	@Column(name="tbr_meta_ready_dt")
+	@Lob
+	@Column(columnDefinition = "text", name="tbr_meta_ready_dt")
 	private String tbrMetaReadyDt;
 
-	@Column(name="tbr_meta_review_url")
+	@Lob
+	@Column(columnDefinition = "text", name="tbr_meta_review_url")
 	private String tbrMetaReviewUrl;
 
 	@Column(name="tbr_status")

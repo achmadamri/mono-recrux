@@ -1,3 +1,8 @@
+import { TbResumeCertification } from "./tbresumecertification";
+import { TbResumeEducation } from "./tbresumeeducation";
+import { TbResumeSkill } from "./tbresumeskill";
+import { TbResumeWorkExperience } from "./tbresumeworkexperience";
+
 export class TbResume {
 	tbrId: number;
 	tbrCreateDate: string;
@@ -10,23 +15,23 @@ export class TbResume {
 	tbrDataNameLast: string;
 	tbrDataNameMiddle: string;
 	tbrDataNameTitle: string;
-	tbrDataPhonenumbers: string;
+	tbrDataPhoneNumbers: string;
 	tbrDataWebsites: string;
 	tbrDataEmails: string;
-	tbrDataDateofbirth: string;
+	tbrDataDateOfBirth: string;
 	tbrDataLocationFormatted: string;
-	tbrDataLocationPostalcode: string;
+	tbrDataLocationPostalCode: string;
 	tbrDataLocationState: string;
 	tbrDataLocationCountry: string;
-	tbrDataLocationCountrycode: string;
-	tbrDataLocationRawinput: string;
-	tbrDataLocationStreetnumber: string;
+	tbrDataLocationCountryCode: string;
+	tbrDataLocationRawInput: string;
+	tbrDataLocationStreetNumber: string;
 	tbrDataLocationStreet: string;
-	tbrDataLocationApartmentnumber: string;
+	tbrDataLocationApartmentNumber: string;
 	tbrDataLocationCity: string;
 	tbrDataObjective: string;
 	tbrDataLanguages: string;
-	tbrDataLanguagecodes: string;
+	tbrDataLanguageCodes: string;
 	tbrDataSummary: string;
 	tbrDataTotalYearsExperience: number;
 	tbrDataHeadshot: string;
@@ -42,7 +47,7 @@ export class TbResume {
 	tbrDataIsResumeProbability: number;
 	tbrDataRawText: string;
 	tbrMetaIdentifier: string;
-	tbrMetaFilename: string;
+	tbrMetaFileName: string;
 	tbrMetaReady: number;
 	tbrMetaReadyDt: string;
 	tbrMetaFailed: number;
@@ -58,5 +63,5 @@ export class TbResume {
 	tbrErrorErrorCode: string;
 	tbrErrorErrorDetail: string;
 	tbrStatus: string;
-	tbrUuid: string;
+	tbrUuid: string;	
 }
