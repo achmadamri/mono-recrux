@@ -53,7 +53,22 @@ export class ResumesDetailComponent implements OnInit {
           successResponse => {
             this.getResumeResponse = successResponse;
 
-            this.pdfFrame.nativeElement.src = 'http://localhost/resume/' + this.getResumeResponse.tbResume.tbrMetaFileName + '.pdf';
+            const fileUrl = 'http://localhost/resume/' + this.getResumeResponse.tbResume.tbrMetaFileName + '.pdf';
+            this.pdfFrame.nativeElement.src = fileUrl;
+
+            // fetch(fileUrl, {method: 'HEAD'})
+            //   .then(response => {
+            //     if (response.status === 200) {
+            //       // File exists
+            //       this.pdfFrame.nativeElement.src = fileUrl;
+            //     } else if (response.status === 404) {
+            //       // File does not exist
+            //       console.error('File not found:', fileUrl);
+            //     }
+            //   })
+            //   .catch(error => {
+            //     console.error('Error checking file existence:', error);
+            //   });
 
             this.postAddResumeRequest.tbResume = this.getResumeResponse.tbResume;
           },
