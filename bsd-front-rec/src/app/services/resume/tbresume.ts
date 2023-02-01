@@ -47,7 +47,7 @@ export class TbResume {
 	tbrDataIsResumeProbability: number;
 	tbrDataRawText: string;
 	tbrMetaIdentifier: string;
-	tbrMetaFilename: string;
+	tbrMetaFileName: string;
 	tbrMetaReady: number;
 	tbrMetaReadyDt: string;
 	tbrMetaFailed: number;

@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute } from '@angular/router';
 import { GetResumeRequest } from 'app/services/resume/getresumerequest';
@@ -33,7 +33,8 @@ export class ResumesDetailComponent implements OnInit {
   displayedColumnsEducation: string[] = ['No', 'Organization', 'Education', 'Level', 'Grade', 'Location', 'Action'];
   hoveredRowIndexEducation = -1;
   displayedColumnsWorkExperience: string[] = ['No', 'Title', 'Title Normalized', 'Organization', 'Start Date', 'End Date', 'Months', 'Current', 'Major', 'Sub Major', 'Minor', 'Level', 'Action'];
-  hoveredRowIndexWorkExperience = -1;
+  hoveredRowIndexWorkExperience = -1;  
+  @ViewChild('pdfFrame') pdfFrame: ElementRef;
 
   constructor(
     private location: Location,
@@ -51,6 +52,8 @@ export class ResumesDetailComponent implements OnInit {
         .subscribe(
           successResponse => {
             this.getResumeResponse = successResponse;
+
+            this.pdfFrame.nativeElement.src = 'http://localhost/resume/' + this.getResumeResponse.tbResume.tbrMetaFileName + '.pdf';
 
             this.postAddResumeRequest.tbResume = this.getResumeResponse.tbResume;
           },

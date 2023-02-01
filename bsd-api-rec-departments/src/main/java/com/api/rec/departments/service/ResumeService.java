@@ -1,5 +1,7 @@
 package com.api.rec.departments.service;
 
+import java.io.File;
+import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -231,8 +233,7 @@ public class ResumeService {
 
 			if (optTbJob.isPresent()) {
 				String fileNameOri = StringUtils.cleanPath(file.getOriginalFilename());
-				String fileName = responseModel.getResponseId() + "-" + StringUtils.cleanPath(file.getOriginalFilename());
-				Files.copy(file.getInputStream(), Paths.get(env.getProperty("file.upload.dir") + fileName), StandardCopyOption.REPLACE_EXISTING);
+				String fileName = responseModel.getResponseId() + "-" + StringUtils.cleanPath(file.getOriginalFilename());				
 	
 				TbResume tbResume = affindaCreateResume(optTbUser.get(), file);				
 				tbResume.setTbrDataPhoneNumbers(getJsonArray(tbResume.getTbrDataPhoneNumbers()));
@@ -240,6 +241,8 @@ public class ResumeService {
 				tbResume.setTbrDataWebsites(getJsonArray(tbResume.getTbrDataWebsites()));
 				tbResume.setTbrDataLanguages(getJsonArray(tbResume.getTbrDataLanguages()));
 				tbResumeRepository.save(tbResume);
+
+				Files.copy(file.getInputStream(), Paths.get(env.getProperty("file.resume.dir") + tbResume.getTbrMetaFileName() + ".pdf"), StandardCopyOption.REPLACE_EXISTING);
 				
 				String jsonEducation = tbResume.getTbrDataEducation();
 				JsonArray jsonArrayEducation = JsonParser.parseString(jsonEducation).getAsJsonArray();

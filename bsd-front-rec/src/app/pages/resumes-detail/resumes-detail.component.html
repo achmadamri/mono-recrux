@@ -4,7 +4,7 @@
       <div class="col-md-6">
         <div class="card">
           <div class="card-header card-header-danger">
-            <h4 class="card-title">{{postAddResumeRequest.tbResume.tbrDataNameRaw}}</h4>
+            <h4 class="card-title">{{postAddResumeRequest.tbResume.tbrDataNameRaw}}</h4>            
           </div>
           <div class="card-body">
             <form>
@@ -207,124 +207,98 @@
                       </div>
                     </div>
                   </div>
-                </div>               
+                </div>
               </div>
-              <div class="tab-pane" id="resume">                
-                pdf here
+              <div class="tab-pane" id="resume">
+                <iframe #pdfFrame id="pdf-frame" width="100%" height="750px"></iframe>
               </div>
-              <div class="tab-pane" id="education">                
-                <mat-table [dataSource]="getResumeResponse.lstTbResumeEducation" class="table-responsive" style="height:300px;">
-                  <ng-container matColumnDef="No">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">No</mat-header-cell>
-                    <mat-cell *matCellDef="let row; let i = index" style="font-size: 1rem; font-weight: 300;">{{i + 1 + (pageSize * pageIndex)}}</mat-cell>
-                  </ng-container>
-                  <ng-container matColumnDef="Organization">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">Organization</mat-header-cell>
-                    <mat-cell *matCellDef="let row" style="font-size: 1rem; font-weight: 300;">{{row.tbreOrganization}}</mat-cell>
-                  </ng-container>
-                  <ng-container matColumnDef="Education">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">Education</mat-header-cell>
-                    <mat-cell *matCellDef="let row" style="font-size: 1rem; font-weight: 300;">{{row.tbreEducation}}</mat-cell>
-                  </ng-container>
-                  <ng-container matColumnDef="Level">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">Level</mat-header-cell>
-                    <mat-cell *matCellDef="let row" style="font-size: 1rem; font-weight: 300;">{{row.tbreEducationLevel}}</mat-cell>
-                  </ng-container>
-                  <ng-container matColumnDef="Grade">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">Grade</mat-header-cell>
-                    <mat-cell *matCellDef="let row" style="font-size: 1rem; font-weight: 300;">{{row.tbreGradeValue}}</mat-cell>
-                  </ng-container>
-                  <ng-container matColumnDef="Location">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">Location</mat-header-cell>
-                    <mat-cell *matCellDef="let row" style="font-size: 1rem; font-weight: 300;">{{row.tbreLocationFormatted}}</mat-cell>
-                  </ng-container>
-                  <ng-container matColumnDef="Action">
-                    <mat-header-cell *matHeaderCellDef style="font-size: 0.95rem; font-weight: 500; color: #212529;"> Action </mat-header-cell>
-                    <mat-cell *matCellDef="let tbResumeEducation">
-                      <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(tbResumeEducation.tbreUuid);">
-                        <mat-icon>pageview</mat-icon>
-                      </button>
-                      <button mat-icon-button title="Activate" [disabled]="clicked" (click)="nonActive(tbResumeEducation.tbreUuid);" *ngIf="tbResumeEducation.tbreStatus == 'not active'">
-                        <mat-icon>check</mat-icon>
-                      </button>
-                      <button mat-icon-button title="Deactivate" [disabled]="clicked" (click)="nonActive(tbResumeEducation.tbreUuid);" *ngIf="tbResumeEducation.tbreStatus == 'active'">
-                        <mat-icon>close</mat-icon>
-                      </button>
-                    </mat-cell>
-                  </ng-container>
-                  <mat-header-row *matHeaderRowDef="displayedColumnsEducation; sticky: true"></mat-header-row>
-                  <mat-row *matRowDef="let row; let i = index; columns: displayedColumnsEducation;" [ngClass]="{'highlight': i === hoveredRowIndexEducation}" (mouseenter)="hoveredRowIndexEducation = i" (mouseleave)="hoveredRowIndexEducation = -1"></mat-row>
-                </mat-table>
+              <div class="tab-pane" id="education">
+                <table class="table table-hover">
+                  <thead>
+                    <th>No</th>
+                    <th>Organization</th>
+                    <th>Education</th>
+                    <th>Level</th>
+                    <th>Grade</th>
+                    <th>Location</th>
+                    <th>Action</th>
+                  </thead>
+                  <tbody *ngIf="getResumeResponse.lstTbResumeEducation">
+                    <tr *ngFor="let tbResumeEducation of getResumeResponse.lstTbResumeEducation; let i=index;">
+                      <td>{{i + 1 + (pageSize * pageIndex)}}</td>                                        
+                      <td>{{tbResumeEducation.tbreOrganization}}</td>
+                      <td>{{tbResumeEducation.tbreEducation}}</td>
+                      <td>{{tbResumeEducation.tbreEducationLevel}}</td>
+                      <td>{{tbResumeEducation.tbreGradeValue}}</td>
+                      <td>{{tbResumeEducation.tbreLocationFormatted}}</td>
+                      <td class="td-actions">
+                        <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(tbResumeEducation.tbreUuid);"><mat-icon>pageview</mat-icon></button>
+                        <button mat-icon-button title="Activate" [disabled]="clicked" (click)="nonActive(tbResumeEducation.tbreUuid);" *ngIf="tbResumeEducation.tbreStatus == 'not active'"><mat-icon>check</mat-icon></button>
+                        <button mat-icon-button title="Deactivate" [disabled]="clicked" (click)="nonActive(tbResumeEducation.tbreUuid);" *ngIf="tbResumeEducation.tbreStatus == 'active'"><mat-icon>close</mat-icon></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
               <div class="tab-pane" id="workexperience">
-                <mat-table [dataSource]="getResumeResponse.lstTbResumeWorkExperience" class="table-responsive" style="height:300px;">
-                  <ng-container matColumnDef="No">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">No</mat-header-cell>
-                    <mat-cell *matCellDef="let row; let i = index" style="font-size: 1rem; font-weight: 300;">{{i + 1 + (pageSize * pageIndex)}}</mat-cell>
-                  </ng-container>
-                  <ng-container matColumnDef="Title">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">Title</mat-header-cell>
-                    <mat-cell *matCellDef="let row" style="font-size: 1rem; font-weight: 300;">{{row.tbrweJobTitle}}</mat-cell>
-                  </ng-container>
-                  <ng-container matColumnDef="Title Normalized">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">Title Normalized</mat-header-cell>
-                    <mat-cell *matCellDef="let row" style="font-size: 1rem; font-weight: 300;">{{row.tbrweJobTitleNormalized}}</mat-cell>
-                  </ng-container>
-                  <ng-container matColumnDef="Organization">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">Organization</mat-header-cell>
-                    <mat-cell *matCellDef="let row" style="font-size: 1rem; font-weight: 300;">{{row.tbrweOrganization}}</mat-cell>
-                  </ng-container>
-                  <ng-container matColumnDef="Start Date">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">Start Date</mat-header-cell>
-                    <mat-cell *matCellDef="let row" style="font-size: 1rem; font-weight: 300;">{{row.tbrweStartDate | date: 'MM/dd/yyyy'}}</mat-cell>
-                  </ng-container>
-                  <ng-container matColumnDef="End Date">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">End Date</mat-header-cell>
-                    <mat-cell *matCellDef="let row" style="font-size: 1rem; font-weight: 300;">{{row.tbrweEndDate | date: 'MM/dd/yyyy'}}</mat-cell>
-                  </ng-container>
-                  <ng-container matColumnDef="Months">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">Months</mat-header-cell>
-                    <mat-cell *matCellDef="let row" style="font-size: 1rem; font-weight: 300;">{{row.tbrweMonthsInPosition}}</mat-cell>
-                  </ng-container>
-                  <ng-container matColumnDef="Current">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">Current</mat-header-cell>
-                    <mat-cell *matCellDef="let row" style="font-size: 1rem; font-weight: 300;">{{row.tbrweIsCurrent}}</mat-cell>
-                  </ng-container>
-                  <ng-container matColumnDef="Major">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">Major</mat-header-cell>
-                    <mat-cell *matCellDef="let row" style="font-size: 1rem; font-weight: 300;">{{row.tbrweMajorGroup}}</mat-cell>
-                  </ng-container>
-                  <ng-container matColumnDef="Sub Major">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">Sub Major</mat-header-cell>
-                    <mat-cell *matCellDef="let row" style="font-size: 1rem; font-weight: 300;">{{row.tbrweSubMajorGroup}}</mat-cell>
-                  </ng-container>
-                  <ng-container matColumnDef="Minor">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">Minor</mat-header-cell>
-                    <mat-cell *matCellDef="let row" style="font-size: 1rem; font-weight: 300;">{{row.tbrweMinorGroup}}</mat-cell>
-                  </ng-container>
-                  <ng-container matColumnDef="Level">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 0.95rem; font-weight: 500; color: #212529;">Level</mat-header-cell>
-                    <mat-cell *matCellDef="let row" style="font-size: 1rem; font-weight: 300;">{{row.tbrweManagementLevel}}</mat-cell>
-                  </ng-container>
-                  <ng-container matColumnDef="Action">
-                    <mat-header-cell *matHeaderCellDef style="font-size: 0.95rem; font-weight: 500; color: #212529;"> Action </mat-header-cell>
-                    <mat-cell *matCellDef="let tbResumeWorkExperience">
-                      <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(tbResumeWorkExperience.tbrweUuid);">
-                        <mat-icon>pageview</mat-icon>
-                      </button>
-                      <button mat-icon-button title="Activate" [disabled]="clicked" (click)="nonActive(tbResumeWorkExperience.tbrweUuid);" *ngIf="tbResumeWorkExperience.tbrweStatus == 'not active'">
-                        <mat-icon>check</mat-icon>
-                      </button>
-                      <button mat-icon-button title="Deactivate" [disabled]="clicked" (click)="nonActive(tbResumeWorkExperience.tbrweUuid);" *ngIf="tbResumeWorkExperience.tbrweStatus == 'active'">
-                        <mat-icon>close</mat-icon>
-                      </button>
-                    </mat-cell>
-                  </ng-container>
-                  <mat-header-row *matHeaderRowDef="displayedColumnsWorkExperience; sticky: true"></mat-header-row>
-                  <mat-row *matRowDef="let row; let i = index; columns: displayedColumnsWorkExperience;" [ngClass]="{'highlight': i === hoveredRowIndexWorkExperience}" (mouseenter)="hoveredRowIndexWorkExperience = i" (mouseleave)="hoveredRowIndexWorkExperience = -1"></mat-row>
-                </mat-table>
+                <table class="table table-hover">
+                  <thead>
+                    <th>No</th>
+                    <th>Title</th>
+                    <th>Title Normalized</th>
+                    <th>Organization</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Months</th>
+                    <th>Current</th>
+                    <th>Major</th>
+                    <th>Sub Major</th>
+                    <th>Minor</th>
+                    <th>Level</th>
+                    <th>Action</th>
+                  </thead>
+                  <tbody *ngIf="getResumeResponse.lstTbResumeWorkExperience">
+                      <tr *ngFor="let tbResumeWorkExperience of getResumeResponse.lstTbResumeWorkExperience; let i=index;">
+                          <td>{{i + 1 + (pageSize * pageIndex)}}</td>                                        
+                          <td>{{tbResumeWorkExperience.tbrweJobTitle}}</td>
+                          <td>{{tbResumeWorkExperience.tbrweJobTitleNormalized}}</td>
+                          <td>{{tbResumeWorkExperience.tbrweOrganization}}</td>
+                          <td>{{tbResumeWorkExperience.tbrweStartDate | date: 'MM/dd/yyyy'}}</td>
+                          <td>{{tbResumeWorkExperience.tbrweEndDate | date: 'MM/dd/yyyy'}}</td>
+                          <td>{{tbResumeWorkExperience.tbrweMonthsInPosition}}</td>
+                          <td>{{tbResumeWorkExperience.tbrweIsCurrent}}</td>
+                          <td>{{tbResumeWorkExperience.tbrweMajorGroup}}</td>
+                          <td>{{tbResumeWorkExperience.tbrweSubMajorGroup}}</td>
+                          <td>{{tbResumeWorkExperience.tbrweMinorGroup}}</td>
+                          <td>{{tbResumeWorkExperience.tbrweManagementLevel}}</td>
+                          <td class="td-actions">
+                              <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(tbResumeWorkExperience.tbrweUuid);"><mat-icon>pageview</mat-icon></button>
+                              <button mat-icon-button title="Activate" [disabled]="clicked" (click)="nonActive(tbResumeWorkExperience.tbrweUuid);" *ngIf="tbResumeWorkExperience.tbrweStatus == 'not active'"><mat-icon>check</mat-icon></button>
+                              <button mat-icon-button title="Deactivate" [disabled]="clicked" (click)="nonActive(tbResumeWorkExperience.tbrweUuid);" *ngIf="tbResumeWorkExperience.tbrweStatus == 'active'"><mat-icon>close</mat-icon></button>
+                          </td>
+                      </tr>
+                  </tbody>
+                </table>
               </div>
               <div class="tab-pane" id="certifications">
+                <table class="table table-hover">
+                  <thead>
+                    <th>No</th>
+                    <th>Name</th>
+                    <th>Action</th>
+                  </thead>
+                  <tbody *ngIf="getResumeResponse.lstTbResumeCertification">
+                    <tr *ngFor="let tbResumeCertification of getResumeResponse.lstTbResumeCertification; let i=index;">
+                      <td>{{i + 1 + (pageSize * pageIndex)}}</td>                                        
+                      <td>{{tbResumeCertification.tbrcName}}</td>
+                      <td class="td-actions">
+                        <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(tbResumeCertification.tbrcUuid);"><mat-icon>pageview</mat-icon></button>
+                        <button mat-icon-button title="Activate" [disabled]="clicked" (click)="nonActive(tbResumeCertification.tbrcUuid);" *ngIf="tbResumeCertification.tbrcStatus == 'not active'"><mat-icon>check</mat-icon></button>
+                        <button mat-icon-button title="Deactivate" [disabled]="clicked" (click)="nonActive(tbResumeCertification.tbrcUuid);" *ngIf="tbResumeCertification.tbrcStatus == 'active'"><mat-icon>close</mat-icon></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
