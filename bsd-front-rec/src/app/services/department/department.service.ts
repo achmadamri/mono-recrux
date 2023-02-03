@@ -14,7 +14,7 @@ import { PostAddDepartmentJobResponse } from './postadddepartmentjobresponse';
 })
 export class DepartmentService {
   util: Util = new Util();
-  apiUrl = isDevMode() ? '/apidepartments/department' : 'https://domain.com/2082/department';
+  apiUrl = isDevMode() ? 'http://localhost:2082/department' : 'https://domain.com/2082/department';
 
   constructor(private httpClient: HttpClient) { }
   
