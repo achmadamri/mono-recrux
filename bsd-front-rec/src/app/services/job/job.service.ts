@@ -52,7 +52,7 @@ export class JobService {
     return this.httpClient.get<GetJobResumeListResponse>(`${this.apiUrl}/getjobresumelist`, { headers, params });
   }
   
-  getJobDepartmentList(tbdId: number, tbjName: string, tbdjStatus: string, length: number, pageSize: number, pageIndex: number): Observable<GetJobDepartmentListResponse> {
+  getJobDepartmentList(tbdId: number, tbjName: string, length: number, pageSize: number, pageIndex: number): Observable<GetJobDepartmentListResponse> {
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json');
 
@@ -66,7 +66,6 @@ export class JobService {
       .set('pageIndex', pageIndex.toString())
       .set('tbdId', tbdId)
       .set('tbjName', tbjName == null ? '' : tbjName)
-      .set('tbdjStatus', tbdjStatus  == null ? '' : tbdjStatus)
       ;
 
     return this.httpClient.get<GetJobDepartmentListResponse>(`${this.apiUrl}/getjobdepartmentlist`, { headers, params });

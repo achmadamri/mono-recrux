@@ -136,7 +136,7 @@ public class JobService {
 					TbJob exampleTbJob = new TbJob();
 					exampleTbJob.setTbjName(requestModel.getTbJob().getTbjName());
 					Optional<TbJob> optTbJob = tbJobRepository.findOne(Example.of(exampleTbJob));
-					
+
 					if (optTbJob.isPresent()) {
 						responseModel.setHttpStatus(HttpStatus.ALREADY_REPORTED);
 					} else {
@@ -165,8 +165,11 @@ public class JobService {
 					TbJob tbJob = optTbJob.get();
 					tbJob.setTbjUpdateId(optTbUser.get().getTbuId());
 					tbJob.setTbjUpdateDate(new Date());
-					tbJob.setTbjName(requestModel.getTbJob().getTbjName());
-					tbJob.setTbjStatus(requestModel.getTbJob().getTbjStatus());
+
+					if (requestModel.getTbJob().getTbjName() != null) tbJob.setTbjName(requestModel.getTbJob().getTbjName());
+					if (requestModel.getTbJob().getTbjStatus() != null) tbJob.setTbjStatus(requestModel.getTbJob().getTbjStatus());
+					if (requestModel.getTbJob().getTbdId() != null) tbJob.setTbdId(requestModel.getTbJob().getTbdId());
+					
 					tbJob = tbJobRepository.save(tbJob);
 	
 					responseModel.setTbJob(tbJob);
@@ -248,7 +251,7 @@ public class JobService {
 		return responseModel;
 	}
 
-	public GetJobDepartmentListResponseModel getJobDepartmentList(Integer tbdId, String tbjName, String tbdjStatus, String length, String pageSize, String pageIndex, GetJobDepartmentListRequestModel requestModel) throws Exception {
+	public GetJobDepartmentListResponseModel getJobDepartmentList(Integer tbdId, String tbjName, String length, String pageSize, String pageIndex, GetJobDepartmentListRequestModel requestModel) throws Exception {
 		GetJobDepartmentListResponseModel responseModel = new GetJobDepartmentListResponseModel(requestModel);
 		
 		tokenUtil.claims(requestModel);
@@ -259,23 +262,11 @@ public class JobService {
 		Optional<TbUser> optTbUser = tbUserRepository.findOne(Example.of(exampleTbUser));
 		
 		if (optTbUser.isPresent()) {
-			List<ViewJobDepartment> lstViewJobDepartment = 
-			tbdjStatus.equals("")
-			?
-			viewJobDepartmentRepository.findByTbdId(optTbUser.get().getTbuCreateIdc(), tbdId, tbjName, PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbj_id", "tbd_id").ascending()))
-			:
-			viewJobDepartmentRepository.findByTbdId(optTbUser.get().getTbuCreateIdc(), tbdId, tbjName, tbdjStatus, PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbj_id", "tbd_id").ascending()));
-
-
-			if (lstViewJobDepartment.size() > 0) {
-				responseModel.setLstViewJobDepartment(lstViewJobDepartment);				
-				responseModel.setLength(
-					tbdjStatus.equals("")
-					?
-					viewJobDepartmentRepository.countByTbdId(optTbUser.get().getTbuCreateIdc(), tbjName, tbdId)
-					:
-					viewJobDepartmentRepository.countByTbdId(optTbUser.get().getTbuCreateIdc(), tbjName, tbdjStatus, tbdId)
-				);
+			Page<ViewJobDepartment> pgViewJobDepartment = viewJobDepartmentRepository.findByTbjCreateIdcAndTbdIdOrTbdIdIsNull(optTbUser.get().getTbuCreateIdc(), tbdId, PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbjId").ascending()));
+			
+			if (pgViewJobDepartment.toList().size() > 0) {
+				responseModel.setLstViewJobDepartment(pgViewJobDepartment.toList());				
+				responseModel.setLength(viewJobDepartmentRepository.countByTbjCreateIdcAndTbdIdOrTbdIdIsNull(optTbUser.get().getTbuCreateIdc(), tbdId));
 				responseModel.setHttpStatus(HttpStatus.OK);
 			} else {
 				responseModel.setHttpStatus(HttpStatus.NOT_FOUND);

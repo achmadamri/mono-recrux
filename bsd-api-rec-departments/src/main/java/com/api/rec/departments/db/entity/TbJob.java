@@ -55,11 +55,14 @@ public class TbJob implements Serializable {
 	@Column(name="tbj_uuid")
 	private String tbjUuid;
 
+	@Column(name="tbd_id")
+	private Integer tbdId;
+
 	public TbJob() {
 	}
 
 	public Integer getTbjId() {
-		return this.tbjId;
+		return tbjId;
 	}
 
 	public void setTbjId(Integer tbjId) {
@@ -67,7 +70,7 @@ public class TbJob implements Serializable {
 	}
 
 	public Date getTbjCreateDate() {
-		return this.tbjCreateDate;
+		return tbjCreateDate;
 	}
 
 	public void setTbjCreateDate(Date tbjCreateDate) {
@@ -75,7 +78,7 @@ public class TbJob implements Serializable {
 	}
 
 	public Integer getTbjCreateId() {
-		return this.tbjCreateId;
+		return tbjCreateId;
 	}
 
 	public void setTbjCreateId(Integer tbjCreateId) {
@@ -83,7 +86,7 @@ public class TbJob implements Serializable {
 	}
 
 	public String getTbjName() {
-		return this.tbjName;
+		return tbjName;
 	}
 
 	public void setTbjName(String tbjName) {
@@ -91,7 +94,7 @@ public class TbJob implements Serializable {
 	}
 
 	public String getTbjStatus() {
-		return this.tbjStatus;
+		return tbjStatus;
 	}
 
 	public void setTbjStatus(String tbjStatus) {
@@ -99,7 +102,7 @@ public class TbJob implements Serializable {
 	}
 
 	public Date getTbjUpdateDate() {
-		return this.tbjUpdateDate;
+		return tbjUpdateDate;
 	}
 
 	public void setTbjUpdateDate(Date tbjUpdateDate) {
@@ -107,7 +110,7 @@ public class TbJob implements Serializable {
 	}
 
 	public Integer getTbjUpdateId() {
-		return this.tbjUpdateId;
+		return tbjUpdateId;
 	}
 
 	public void setTbjUpdateId(Integer tbjUpdateId) {
@@ -128,6 +131,14 @@ public class TbJob implements Serializable {
 
 	public void setTbjUuid(String tbjUuid) {
 		this.tbjUuid = tbjUuid;
+	}
+
+	public Integer getTbdId() {
+		return tbdId;
+	}
+
+	public void setTbdId(Integer tbdId) {
+		this.tbdId = tbdId;
 	}
 
 }

@@ -76,38 +76,6 @@ INSERT INTO `tb_department` VALUES (1,NULL,28,1,'2023-01-24 12:18:22',28,'Human 
 UNLOCK TABLES;
 
 --
--- Table structure for table `tb_department_job`
---
-
-DROP TABLE IF EXISTS `tb_department_job`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tb_department_job` (
-  `tbdj_id` int(11) NOT NULL AUTO_INCREMENT,
-  `tbdj_create_date` datetime DEFAULT NULL,
-  `tbdj_create_id` int(11) DEFAULT NULL,
-  `tbdj_create_idc` int(11) DEFAULT NULL,
-  `tbdj_update_date` datetime DEFAULT NULL,
-  `tbdj_update_id` int(11) DEFAULT NULL,
-  `tbdj_status` varchar(20) DEFAULT NULL,
-  `tbd_id` int(11) DEFAULT NULL,
-  `tbj_id` int(11) DEFAULT NULL,
-  `tbdj_uuid` varchar(5) DEFAULT NULL,
-  PRIMARY KEY (`tbdj_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tb_department_job`
---
-
-LOCK TABLES `tb_department_job` WRITE;
-/*!40000 ALTER TABLE `tb_department_job` DISABLE KEYS */;
-INSERT INTO `tb_department_job` VALUES (1,'2023-01-09 03:34:36',28,1,'2023-02-02 04:37:19',28,'not assigned',1,2,'1C1ST'),(2,'2023-01-09 03:55:20',28,1,'2023-02-02 15:35:36',28,'not assigned',1,1,'P74C1'),(3,'2023-01-09 05:17:27',28,1,'2023-01-11 05:20:14',28,'not assigned',5,1,'020UZ'),(4,'2023-01-09 05:17:36',28,1,'2023-01-09 07:36:59',28,'not assigned',5,2,'60HDX'),(5,'2023-01-09 05:17:38',28,1,'2023-01-09 05:17:59',28,'not assigned',5,3,'HDM5J'),(6,'2023-01-09 05:17:39',28,1,'2023-01-09 05:17:56',28,'not assigned',5,4,'QB7YC'),(7,'2023-01-09 05:17:40',28,1,'2023-01-09 05:17:49',28,'not assigned',5,5,'TFU42'),(8,'2023-01-09 05:17:41',28,1,'2023-02-02 04:36:10',28,'not assigned',5,6,'2UKN8'),(9,'2023-01-09 07:36:27',28,1,'2023-01-09 07:36:35',28,'not assigned',3,2,'KLIBG'),(10,'2023-01-12 09:45:38',28,1,'2023-02-02 04:36:00',28,'not assigned',4,1,'CM4AK'),(11,'2023-01-12 09:45:40',28,1,'2023-02-02 04:36:02',28,'not assigned',4,2,'B17AI'),(12,'2023-01-24 01:18:20',28,1,'2023-02-02 15:35:58',28,'assigned',1,5,'VMRN7'),(13,'2023-01-24 01:18:23',28,1,'2023-02-02 04:38:15',28,'assigned',1,4,'TQ72L'),(14,'2023-01-24 12:15:38',28,1,'2023-02-02 04:36:03',28,'not assigned',4,3,'2ULEA'),(15,'2023-01-24 12:18:54',28,1,'2023-02-02 04:37:20',28,'not assigned',1,3,'62YEB'),(16,'2023-01-30 15:57:25',28,1,'2023-02-02 04:36:04',28,'not assigned',4,7,'H7OIP'),(17,'2023-02-02 04:34:24',28,1,'2023-02-02 04:34:25',28,'not assigned',2,1,'R8Z1B'),(18,'2023-02-02 04:35:44',28,1,'2023-02-02 04:37:23',28,'not assigned',1,6,'I78R6'),(19,'2023-02-02 04:35:45',28,1,'2023-02-02 04:37:24',28,'not assigned',1,7,'IP7G5');
-/*!40000 ALTER TABLE `tb_department_job` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `tb_department_team`
 --
 
@@ -153,6 +121,7 @@ CREATE TABLE `tb_job` (
   `tbj_name` varchar(255) DEFAULT NULL,
   `tbj_status` varchar(20) DEFAULT NULL,
   `tbj_uuid` varchar(50) DEFAULT NULL,
+  `tbd_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`tbj_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -163,7 +132,7 @@ CREATE TABLE `tb_job` (
 
 LOCK TABLES `tb_job` WRITE;
 /*!40000 ALTER TABLE `tb_job` DISABLE KEYS */;
-INSERT INTO `tb_job` VALUES (1,'2023-02-02 04:39:24',28,1,'2023-02-02 15:32:53',28,'Documenter','active','ULVVN'),(2,NULL,28,1,'2023-01-05 16:08:53',28,'QA Engineer','active','9LK76'),(3,NULL,28,1,'2023-01-05 16:08:54',28,'Product Owner','active','HASD6'),(4,NULL,28,1,'2023-01-05 16:08:56',28,'HR Manager','active','17G6Y'),(5,NULL,28,1,'2023-01-05 16:51:02',28,'HR Staff','active','A87JH'),(6,NULL,28,1,'2023-01-12 09:43:07',28,'CEO','active','G67HJ'),(7,'2023-01-30 15:57:00',28,1,'2023-02-01 14:10:11',28,'IT Security','active','YDX09');
+INSERT INTO `tb_job` VALUES (1,'2023-02-02 04:39:24',28,1,'2023-02-04 10:25:28',28,'IT Staff','active','ULVVN',4),(2,NULL,28,1,'2023-02-04 09:56:45',28,'Network','active','9LK76',4),(3,NULL,28,1,'2023-02-04 09:56:58',28,'Product Owner','active','HASD6',2),(4,NULL,28,1,'2023-02-04 09:56:35',28,'HR Manager','active','17G6Y',1),(5,NULL,28,1,'2023-02-04 09:56:36',28,'HR Staff','active','A87JH',1),(6,NULL,28,1,'2023-02-04 09:57:01',28,'CEO','active','G67HJ',7),(7,'2023-01-30 15:57:00',28,1,'2023-02-04 09:56:46',28,'IT Security','active','YDX09',4);
 /*!40000 ALTER TABLE `tb_job` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -542,7 +511,7 @@ CREATE TABLE `tb_user` (
 
 LOCK TABLES `tb_user` WRITE;
 /*!40000 ALTER TABLE `tb_user` DISABLE KEYS */;
-INSERT INTO `tb_user` VALUES (1,'2019-09-03 15:42:44',0,NULL,'2022-10-13 04:38:47',1,'admin@mail.com','202cb962ac59075b964b07152d234b70','admin','admin','123','active','xycnh1fzl8chkm8cqr20ni6zvh2ai52c3mvw2uwy0s86mscu9u80h6ylym2imghas6h6ffj05taecfoxfu3g0x8alwbt97q9je8f','1111343528-20q4jm5fw1-Cluster-Morizen-Bekasi-Indonesia.jpg','ymju8h3zhemj0nhcoqrcvu1i961fhslotr0c',NULL,NULL),(2,'2021-11-04 12:00:07',1,NULL,'2022-03-29 09:55:17',1,'pic1@mail.com','202cb962ac59075b964b07152d234b70','pic','one',NULL,'active',NULL,NULL,'ng843n6ocg719kklqklb5814t9n2ahilj9zv',NULL,NULL),(3,'2021-11-04 12:12:24',1,NULL,'2022-03-29 09:55:28',1,'pic2@mail.com','202cb962ac59075b964b07152d234b70','pic','two',NULL,'active',NULL,NULL,'b3n95p03tsdpm9fya84cnelibj9u34xffz6j',NULL,NULL),(4,'2021-11-04 12:13:34',1,NULL,'2022-03-29 09:55:39',1,'pic3@mail.com','202cb962ac59075b964b07152d234b70','pic','three',NULL,'active',NULL,NULL,'zxfxjhji09xdf66s3usg6ro49l76ckrcmhyl',NULL,NULL),(5,'2022-02-07 09:12:44',1,NULL,'2022-03-29 09:55:49',1,'pic4@mail.com','202cb962ac59075b964b07152d234b70','pic','four',NULL,'active',NULL,NULL,'ni5ju0wgw0l4x3gxoq0cgh3jn3lyvejl5aq8',NULL,NULL),(6,'2022-02-07 09:48:32',1,NULL,'2022-03-29 09:56:15',1,'pic6@mail.com','202cb962ac59075b964b07152d234b70','pic','six',NULL,'active',NULL,NULL,'onlidhsdmmgz9k8gxzq2dfazrhshyx9zv53p',NULL,NULL),(7,'2022-02-08 08:57:14',1,NULL,'2022-03-29 09:56:26',1,'pic7@mail.com','202cb962ac59075b964b07152d234b70','pic','seven',NULL,'active',NULL,NULL,'it1wq7s6txkfcl6xw2iji0dmebrmc7b41mtv',NULL,NULL),(8,'2022-02-08 08:57:34',1,NULL,'2022-03-29 09:56:35',1,'pic8@mail.com','202cb962ac59075b964b07152d234b70','pic','eight',NULL,'active',NULL,NULL,'macc9yxlcnfjqix254tmbf0h4459a9w22xfi',NULL,NULL),(9,'2022-02-08 08:58:30',1,NULL,'2022-03-29 09:56:54',1,'pic9@mail.com','202cb962ac59075b964b07152d234b70','pic','nine',NULL,'active',NULL,NULL,'jayf1yr5fd07mshu2c4a29ih8li17beubiwc',NULL,NULL),(10,'2022-02-08 08:59:52',1,NULL,'2022-03-29 09:57:02',1,'pic10@mail.com','202cb962ac59075b964b07152d234b70','pic','ten',NULL,'active',NULL,NULL,'i8m95htaivk0u5mcjfy3ioo0k9zxxf8lpp5h',NULL,NULL),(11,'2022-02-14 11:18:06',1,NULL,'2022-03-29 09:57:11',1,'pic11@mail.com','202cb962ac59075b964b07152d234b70','pic','eleven',NULL,'active',NULL,NULL,'lk9i5cv2dm5bnyz07apzo3wirxodwfhhxf85',NULL,NULL),(12,'2022-02-14 11:19:22',1,NULL,'2022-03-29 09:57:20',1,'pic12@mail.com','202cb962ac59075b964b07152d234b70','pic','twelve',NULL,'active',NULL,NULL,'uzf4niy96076mn4crvfsalm9r06uoey2spjj',NULL,NULL),(13,'2022-02-16 07:42:39',1,NULL,'2022-03-29 09:57:29',1,'pic13@mail.com','202cb962ac59075b964b07152d234b70','pic','thirteen',NULL,'active',NULL,NULL,'oka59r3uxjbqi7pfwpv2kbiyf1tuxedqvam6',NULL,NULL),(14,'2022-02-24 03:08:59',1,NULL,'2022-04-18 06:25:36',14,'pic14@mail.com','202cb962ac59075b964b07152d234b70','pic','fourteen',NULL,'active',NULL,NULL,'ntw5zeue28u72o3bkbdukg0hjahj25bqcljx',NULL,NULL),(28,'2022-12-13 15:22:59',NULL,1,'2023-02-02 15:30:30',28,'achmad.amri@gmail.com','202cb962ac59075b964b07152d234b70','Achmad','Amri','081380782318','active','71imewz8stbcafcx7s2rrukdyzx6plwbdze9gparu9tlrz1wqlw9yhcuq4jp13xprvwa2o4jkqblhxnoz87c7oh9k631uerecms1',NULL,'8B5FUO2TPQRWV6ODC514POH3DD4E4X22OKCI',NULL,NULL);
+INSERT INTO `tb_user` VALUES (1,'2019-09-03 15:42:44',0,NULL,'2022-10-13 04:38:47',1,'admin@mail.com','202cb962ac59075b964b07152d234b70','admin','admin','123','active','xycnh1fzl8chkm8cqr20ni6zvh2ai52c3mvw2uwy0s86mscu9u80h6ylym2imghas6h6ffj05taecfoxfu3g0x8alwbt97q9je8f','1111343528-20q4jm5fw1-Cluster-Morizen-Bekasi-Indonesia.jpg','ymju8h3zhemj0nhcoqrcvu1i961fhslotr0c',NULL,NULL),(2,'2021-11-04 12:00:07',1,NULL,'2022-03-29 09:55:17',1,'pic1@mail.com','202cb962ac59075b964b07152d234b70','pic','one',NULL,'active',NULL,NULL,'ng843n6ocg719kklqklb5814t9n2ahilj9zv',NULL,NULL),(3,'2021-11-04 12:12:24',1,NULL,'2022-03-29 09:55:28',1,'pic2@mail.com','202cb962ac59075b964b07152d234b70','pic','two',NULL,'active',NULL,NULL,'b3n95p03tsdpm9fya84cnelibj9u34xffz6j',NULL,NULL),(4,'2021-11-04 12:13:34',1,NULL,'2022-03-29 09:55:39',1,'pic3@mail.com','202cb962ac59075b964b07152d234b70','pic','three',NULL,'active',NULL,NULL,'zxfxjhji09xdf66s3usg6ro49l76ckrcmhyl',NULL,NULL),(5,'2022-02-07 09:12:44',1,NULL,'2022-03-29 09:55:49',1,'pic4@mail.com','202cb962ac59075b964b07152d234b70','pic','four',NULL,'active',NULL,NULL,'ni5ju0wgw0l4x3gxoq0cgh3jn3lyvejl5aq8',NULL,NULL),(6,'2022-02-07 09:48:32',1,NULL,'2022-03-29 09:56:15',1,'pic6@mail.com','202cb962ac59075b964b07152d234b70','pic','six',NULL,'active',NULL,NULL,'onlidhsdmmgz9k8gxzq2dfazrhshyx9zv53p',NULL,NULL),(7,'2022-02-08 08:57:14',1,NULL,'2022-03-29 09:56:26',1,'pic7@mail.com','202cb962ac59075b964b07152d234b70','pic','seven',NULL,'active',NULL,NULL,'it1wq7s6txkfcl6xw2iji0dmebrmc7b41mtv',NULL,NULL),(8,'2022-02-08 08:57:34',1,NULL,'2022-03-29 09:56:35',1,'pic8@mail.com','202cb962ac59075b964b07152d234b70','pic','eight',NULL,'active',NULL,NULL,'macc9yxlcnfjqix254tmbf0h4459a9w22xfi',NULL,NULL),(9,'2022-02-08 08:58:30',1,NULL,'2022-03-29 09:56:54',1,'pic9@mail.com','202cb962ac59075b964b07152d234b70','pic','nine',NULL,'active',NULL,NULL,'jayf1yr5fd07mshu2c4a29ih8li17beubiwc',NULL,NULL),(10,'2022-02-08 08:59:52',1,NULL,'2022-03-29 09:57:02',1,'pic10@mail.com','202cb962ac59075b964b07152d234b70','pic','ten',NULL,'active',NULL,NULL,'i8m95htaivk0u5mcjfy3ioo0k9zxxf8lpp5h',NULL,NULL),(11,'2022-02-14 11:18:06',1,NULL,'2022-03-29 09:57:11',1,'pic11@mail.com','202cb962ac59075b964b07152d234b70','pic','eleven',NULL,'active',NULL,NULL,'lk9i5cv2dm5bnyz07apzo3wirxodwfhhxf85',NULL,NULL),(12,'2022-02-14 11:19:22',1,NULL,'2022-03-29 09:57:20',1,'pic12@mail.com','202cb962ac59075b964b07152d234b70','pic','twelve',NULL,'active',NULL,NULL,'uzf4niy96076mn4crvfsalm9r06uoey2spjj',NULL,NULL),(13,'2022-02-16 07:42:39',1,NULL,'2022-03-29 09:57:29',1,'pic13@mail.com','202cb962ac59075b964b07152d234b70','pic','thirteen',NULL,'active',NULL,NULL,'oka59r3uxjbqi7pfwpv2kbiyf1tuxedqvam6',NULL,NULL),(14,'2022-02-24 03:08:59',1,NULL,'2022-04-18 06:25:36',14,'pic14@mail.com','202cb962ac59075b964b07152d234b70','pic','fourteen',NULL,'active',NULL,NULL,'ntw5zeue28u72o3bkbdukg0hjahj25bqcljx',NULL,NULL),(28,'2022-12-13 15:22:59',NULL,1,'2023-02-03 17:36:22',28,'achmad.amri@gmail.com','202cb962ac59075b964b07152d234b70','Achmad','Amri','081380782318','active','71imewz8stbcafcx7s2rrukdyzx6plwbdze9gparu9tlrz1wqlw9yhcuq4jp13xprvwa2o4jkqblhxnoz87c7oh9k631uerecms1',NULL,'JHHTS1CT215W0EQAJN0S3Z3NVNX2FPGFQRKC',NULL,NULL);
 /*!40000 ALTER TABLE `tb_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -565,14 +534,6 @@ SET character_set_client = utf8;
   `tbj_name` tinyint NOT NULL,
   `tbj_status` tinyint NOT NULL,
   `tbj_uuid` tinyint NOT NULL,
-  `tbdj_id` tinyint NOT NULL,
-  `tbdj_create_date` tinyint NOT NULL,
-  `tbdj_create_id` tinyint NOT NULL,
-  `tbdj_create_idc` tinyint NOT NULL,
-  `tbdj_update_date` tinyint NOT NULL,
-  `tbdj_update_id` tinyint NOT NULL,
-  `tbdj_status` tinyint NOT NULL,
-  `tbdj_uuid` tinyint NOT NULL,
   `tbd_id` tinyint NOT NULL,
   `tbd_create_date` tinyint NOT NULL,
   `tbd_create_id` tinyint NOT NULL,
@@ -689,7 +650,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = utf8mb4_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `view_job_department` AS select cast(uuid() as char(36) charset utf8mb4) AS `uuid`,`tbj`.`tbj_id` AS `tbj_id`,`tbj`.`tbj_create_date` AS `tbj_create_date`,`tbj`.`tbj_create_id` AS `tbj_create_id`,`tbj`.`tbj_create_idc` AS `tbj_create_idc`,`tbj`.`tbj_update_date` AS `tbj_update_date`,`tbj`.`tbj_update_id` AS `tbj_update_id`,`tbj`.`tbj_name` AS `tbj_name`,`tbj`.`tbj_status` AS `tbj_status`,`tbj`.`tbj_uuid` AS `tbj_uuid`,`tbdj`.`tbdj_id` AS `tbdj_id`,`tbdj`.`tbdj_create_date` AS `tbdj_create_date`,`tbdj`.`tbdj_create_id` AS `tbdj_create_id`,`tbdj`.`tbdj_create_idc` AS `tbdj_create_idc`,`tbdj`.`tbdj_update_date` AS `tbdj_update_date`,`tbdj`.`tbdj_update_id` AS `tbdj_update_id`,`tbdj`.`tbdj_status` AS `tbdj_status`,`tbdj`.`tbdj_uuid` AS `tbdj_uuid`,`tbd`.`tbd_id` AS `tbd_id`,`tbd`.`tbd_create_date` AS `tbd_create_date`,`tbd`.`tbd_create_id` AS `tbd_create_id`,`tbd`.`tbd_create_idc` AS `tbd_create_idc`,`tbd`.`tbd_update_date` AS `tbd_update_date`,`tbd`.`tbd_update_id` AS `tbd_update_id`,`tbd`.`tbd_name` AS `tbd_name`,`tbd`.`tbd_status` AS `tbd_status`,`tbd`.`tbd_uuid` AS `tbd_uuid` from ((`tb_job` `tbj` left join `tb_department_job` `tbdj` on(`tbdj`.`tbdj_create_idc` = `tbj`.`tbj_create_idc` and `tbdj`.`tbj_id` = `tbj`.`tbj_id`)) left join `tb_department` `tbd` on(`tbd`.`tbd_id` = `tbdj`.`tbd_id`)) */;
+/*!50001 VIEW `view_job_department` AS select cast(uuid() as char(36) charset utf8mb4) AS `uuid`,`tbj`.`tbj_id` AS `tbj_id`,`tbj`.`tbj_create_date` AS `tbj_create_date`,`tbj`.`tbj_create_id` AS `tbj_create_id`,`tbj`.`tbj_create_idc` AS `tbj_create_idc`,`tbj`.`tbj_update_date` AS `tbj_update_date`,`tbj`.`tbj_update_id` AS `tbj_update_id`,`tbj`.`tbj_name` AS `tbj_name`,`tbj`.`tbj_status` AS `tbj_status`,`tbj`.`tbj_uuid` AS `tbj_uuid`,`tbd`.`tbd_id` AS `tbd_id`,`tbd`.`tbd_create_date` AS `tbd_create_date`,`tbd`.`tbd_create_id` AS `tbd_create_id`,`tbd`.`tbd_create_idc` AS `tbd_create_idc`,`tbd`.`tbd_update_date` AS `tbd_update_date`,`tbd`.`tbd_update_id` AS `tbd_update_id`,`tbd`.`tbd_name` AS `tbd_name`,`tbd`.`tbd_status` AS `tbd_status`,`tbd`.`tbd_uuid` AS `tbd_uuid` from (`tb_job` `tbj` left join `tb_department` `tbd` on(`tbd`.`tbd_id` = `tbj`.`tbd_id`)) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -722,4 +683,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-02-03  8:24:36
+-- Dump completed on 2023-02-04 17:26:30

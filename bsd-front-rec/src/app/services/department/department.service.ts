@@ -6,8 +6,6 @@ import { GetDepartmentListResponse } from './getDepartmentlistresponse';
 import { PostAddDepartmentRequest } from './postadddepartmentrequest';
 import { PostAddDepartmentResponse } from './postadddepartmentresponse';
 import { GetDepartmentResponse } from './getdepartmentresponse';
-import { PostAddDepartmentJobRequest } from './postadddepartmentjobrequest';
-import { PostAddDepartmentJobResponse } from './postadddepartmentjobresponse';
 
 @Injectable({
   providedIn: 'root'
@@ -35,18 +33,6 @@ export class DepartmentService {
       ;
 
     return this.httpClient.get<GetDepartmentListResponse>(`${this.apiUrl}/getdepartmentlist`, { headers, params });
-  }
-
-  postAddDepartmentJob(postAddDepartmentJobRequest: PostAddDepartmentJobRequest): Observable<PostAddDepartmentJobResponse> {
-    const headers = new HttpHeaders()
-      .set('Content-Type', 'application/json');
-
-    postAddDepartmentJobRequest.email = localStorage.getItem('email');
-    postAddDepartmentJobRequest.token = localStorage.getItem('token');
-    postAddDepartmentJobRequest.requestId = this.util.randomString(10);
-    postAddDepartmentJobRequest.requestDate = ((new Date(Date.now() - ((new Date()).getTimezoneOffset() * 60000))).toISOString().slice(0, -1)) + '000';
-
-    return this.httpClient.post<PostAddDepartmentJobResponse>(`${this.apiUrl}/postadddepartmentjob`, postAddDepartmentJobRequest, { headers });
   }
 
   postAddDepartment(postAddDepartmentRequest: PostAddDepartmentRequest): Observable<PostAddDepartmentResponse> {

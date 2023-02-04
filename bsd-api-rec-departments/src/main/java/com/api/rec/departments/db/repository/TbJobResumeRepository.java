@@ -6,5 +6,5 @@ import com.api.rec.departments.db.entity.TbJobResume;
 
 public interface TbJobResumeRepository extends JpaRepository<TbJobResume, Integer> {
 	public final static String Assigned = "assigned";
-	public final static String NonAssigned = "non assigned";
+	public final static String NotAssigned = "not assigned";
 }

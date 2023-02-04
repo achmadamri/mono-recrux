@@ -8,4 +8,5 @@ export class TbJob {
 	tbjUpdateId: number;
 	tbuCreateIdc: number;
 	tbjUuid: string;
+	tbdId: number;
 }
