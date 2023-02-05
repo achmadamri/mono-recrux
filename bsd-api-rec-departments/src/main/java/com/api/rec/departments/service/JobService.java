@@ -168,7 +168,15 @@ public class JobService {
 
 					if (requestModel.getTbJob().getTbjName() != null) tbJob.setTbjName(requestModel.getTbJob().getTbjName());
 					if (requestModel.getTbJob().getTbjStatus() != null) tbJob.setTbjStatus(requestModel.getTbJob().getTbjStatus());
-					if (requestModel.getTbJob().getTbdId() != null) tbJob.setTbdId(requestModel.getTbJob().getTbdId());
+					if (requestModel.getTbJob().getTbdId() != null) {
+						if (requestModel.getTbJob().getTbdId() == tbJob.getTbdId()) {
+							tbJob.setTbdId(null);
+						} else {
+							tbJob.setTbdId(requestModel.getTbJob().getTbdId());
+						}
+					} else {
+						tbJob.setTbdId(requestModel.getTbJob().getTbdId());
+					}
 					
 					tbJob = tbJobRepository.save(tbJob);
 	
