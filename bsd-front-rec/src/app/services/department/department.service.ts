@@ -2,7 +2,7 @@ import { Injectable, isDevMode } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Util } from 'app/util';
-import { GetDepartmentListResponse } from './getDepartmentlistresponse';
+import { GetDepartmentListResponse } from './getdepartmentlistresponse';
 import { PostAddDepartmentRequest } from './postadddepartmentrequest';
 import { PostAddDepartmentResponse } from './postadddepartmentresponse';
 import { GetDepartmentResponse } from './getdepartmentresponse';
