@@ -16,7 +16,7 @@ import { PostUploadResumeResponse } from './postuploadresumeresponse';
 })
 export class ResumeService {
   util: Util = new Util();
-  apiUrl = isDevMode() ? 'http://localhost:2082/resume' : 'https://domain.com/2082/resume';
+  apiUrl = isDevMode() ? '/apidepartments/resume' : 'https://domain.com/2082/resume';
 
   constructor(private httpClient: HttpClient) { }
 

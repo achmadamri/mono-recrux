@@ -1,0 +1,56 @@
+2023-02-04 15:14:01.846 [restartedMain] INFO  com.api.rec.auth.Application:55 - Starting Application on codespaces-d6e72e with PID 23693 (/workspaces/mono-recrux/bsd-api-rec-auth/target/classes started by codespace in /workspaces/mono-recrux)
+2023-02-04 15:14:01.850 [restartedMain] INFO  com.api.rec.auth.Application:651 - No active profile set, falling back to default profiles: default
+2023-02-04 15:14:01.909 [restartedMain] INFO  o.s.b.d.restart.ChangeableUrls:225 - The Class-Path manifest attribute in /home/codespace/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jaxb-runtime-2.3.2.jar referenced one or more files that do not exist: file:/home/codespace/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.xml.bind-api-2.3.2.jar,file:/home/codespace/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/txw2-2.3.2.jar,file:/home/codespace/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/istack-commons-runtime-3.0.8.jar,file:/home/codespace/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/stax-ex-1.8.1.jar,file:/home/codespace/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/FastInfoset-1.2.16.jar,file:/home/codespace/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.activation-api-1.2.1.jar
+2023-02-04 15:14:01.910 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor:225 - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-02-04 15:14:01.911 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor:225 - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-02-04 15:14:03.023 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate:126 - Bootstrapping Spring Data repositories in DEFAULT mode.
+2023-02-04 15:14:03.088 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate:182 - Finished Spring Data repository scanning in 55ms. Found 1 repository interfaces.
+2023-02-04 15:14:03.465 [restartedMain] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:330 - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-02-04 15:14:03.671 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-02-04 15:14:03.720 [restartedMain] INFO  org.hibernate.Version:46 - HHH000412: Hibernate Core {5.4.6.Final}
+2023-02-04 15:14:03.847 [restartedMain] INFO  o.h.annotations.common.Version:49 - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2023-02-04 15:14:03.929 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource:110 - HikariPool-1 - Starting...
+2023-02-04 15:14:03.933 [restartedMain] WARN  c.z.hikari.util.DriverDataSource:70 - Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
+2023-02-04 15:14:04.290 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource:123 - HikariPool-1 - Start completed.
+2023-02-04 15:14:04.309 [restartedMain] INFO  org.hibernate.dialect.Dialect:172 - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2023-02-04 15:14:04.965 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator:52 - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-02-04 15:14:05.092 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean:416 - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-02-04 15:14:05.510 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer:92 - Tomcat initialized with port(s): 2440 (https) 2080 (http)
+2023-02-04 15:14:05.528 [restartedMain] INFO  o.a.catalina.core.StandardService:173 - Starting service [Tomcat]
+2023-02-04 15:14:05.528 [restartedMain] INFO  o.a.catalina.core.StandardEngine:173 - Starting Servlet engine: [Apache Tomcat/9.0.27]
+2023-02-04 15:14:05.610 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/]:173 - Initializing Spring embedded WebApplicationContext
+2023-02-04 15:14:05.611 [restartedMain] INFO  o.s.web.context.ContextLoader:284 - Root WebApplicationContext: initialization completed in 3699 ms
+2023-02-04 15:14:05.821 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer:57 - LiveReload server is running on port 35729
+2023-02-04 15:14:06.040 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration:220 - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-02-04 15:14:06.155 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver:58 - Exposing 2 endpoint(s) beneath base path '/actuator'
+2023-02-04 15:14:06.225 [restartedMain] INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping:69 - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2023-02-04 15:14:06.343 [restartedMain] INFO  o.s.s.c.ThreadPoolTaskExecutor:171 - Initializing ExecutorService 'applicationTaskExecutor'
+2023-02-04 15:14:06.522 [restartedMain] INFO  s.d.s.w.p.DocumentationPluginsBootstrapper:160 - Context refreshed
+2023-02-04 15:14:06.540 [restartedMain] INFO  s.d.s.w.p.DocumentationPluginsBootstrapper:163 - Found 1 custom documentation plugin(s)
+2023-02-04 15:14:06.564 [restartedMain] INFO  s.d.s.w.s.ApiListingReferenceScanner:41 - Scanning for api listing references
+2023-02-04 15:14:06.703 [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator:40 - Generating unique operation named: handleUsingGET_1
+2023-02-04 15:14:06.706 [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator:40 - Generating unique operation named: handleUsingGET_2
+2023-02-04 15:14:07.311 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer:204 - Tomcat started on port(s): 2440 (https) 2080 (http) with context path ''
+2023-02-04 15:14:07.315 [restartedMain] INFO  com.api.rec.auth.Application:61 - Started Application in 5.991 seconds (JVM running for 7.067)
+2023-02-04 15:14:07.382 [restartedMain] INFO  com.api.rec.auth.Application:53 - trying to set salt
+2023-02-04 15:14:07.480 [restartedMain] INFO  com.api.rec.auth.Application:58 - set salt for : admin@mail.com
+2023-02-04 15:14:07.481 [restartedMain] INFO  com.api.rec.auth.Application:58 - set salt for : pic1@mail.com
+2023-02-04 15:14:07.482 [restartedMain] INFO  com.api.rec.auth.Application:58 - set salt for : pic2@mail.com
+2023-02-04 15:14:07.482 [restartedMain] INFO  com.api.rec.auth.Application:58 - set salt for : pic3@mail.com
+2023-02-04 15:14:07.482 [restartedMain] INFO  com.api.rec.auth.Application:58 - set salt for : pic4@mail.com
+2023-02-04 15:14:07.483 [restartedMain] INFO  com.api.rec.auth.Application:58 - set salt for : pic6@mail.com
+2023-02-04 15:14:07.483 [restartedMain] INFO  com.api.rec.auth.Application:58 - set salt for : pic7@mail.com
+2023-02-04 15:14:07.484 [restartedMain] INFO  com.api.rec.auth.Application:58 - set salt for : pic8@mail.com
+2023-02-04 15:14:07.484 [restartedMain] INFO  com.api.rec.auth.Application:58 - set salt for : pic9@mail.com
+2023-02-04 15:14:07.484 [restartedMain] INFO  com.api.rec.auth.Application:58 - set salt for : pic10@mail.com
+2023-02-04 15:14:07.485 [restartedMain] INFO  com.api.rec.auth.Application:58 - set salt for : pic11@mail.com
+2023-02-04 15:14:07.485 [restartedMain] INFO  com.api.rec.auth.Application:58 - set salt for : pic12@mail.com
+2023-02-04 15:14:07.486 [restartedMain] INFO  com.api.rec.auth.Application:58 - set salt for : pic13@mail.com
+2023-02-04 15:14:07.486 [restartedMain] INFO  com.api.rec.auth.Application:58 - set salt for : pic14@mail.com
+2023-02-04 15:14:07.487 [restartedMain] INFO  com.api.rec.auth.Application:58 - set salt for : achmad.amri@gmail.com
+2023-02-04 15:14:07.487 [restartedMain] INFO  com.api.rec.auth.Application:62 - set salt done
+2023-02-04 15:16:32.207 [http-nio-2080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/]:173 - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-02-04 15:16:32.208 [http-nio-2080-exec-1] INFO  o.s.web.servlet.DispatcherServlet:525 - Initializing Servlet 'dispatcherServlet'
+2023-02-04 15:16:32.220 [http-nio-2080-exec-1] INFO  o.s.web.servlet.DispatcherServlet:547 - Completed initialization in 11 ms
+2023-02-04 15:38:22.723 [http-nio-2080-exec-8] INFO  c.a.r.auth.controller.AuthController:84 - [fid:OQMPPMGY0VW8TKJZVWTB] requestModel : {"fid":"OQMPPMGY0VW8TKJZVWTB","email":null,"token":null,"requestId":"9h5wqzti04","requestDate":"2023-02-04T22:38:21.185000","tbaEmail":"admin@mail.com","tbaIdLogin":"admin@mail.com","tbaPassword":"123","remember":null}
+2023-02-04 15:38:24.562 [http-nio-2080-exec-8] INFO  c.a.r.auth.controller.AuthController:92 - [fid:OQMPPMGY0VW8TKJZVWTB] responseEntity : {"headers":{},"body":{"requestId":"9h5wqzti04","requestDate":"2023-02-04T22:38:21.185000","responseId":"9h5wqzti04-X12L70YJEA","responseDate":"2023-02-04T15:38:22.769269","status":"200","error":null,"message":"Login success. Redirecting...","token":"eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtdC1hdXRoLWFwaSIsInN1YiI6InRva2VuIiwibmFtZSI6ImFkbWluQG1haWwuY29tIiwic2NvcGUiOiJhZG1pbnMiLCJpYXQiOjE2NzU1MjUxMDQsImV4cCI6MTY3NTYxMTUwM30.2Q19OvSFnjmBjqc6UjWJN1EisuzT500l65woUfKfR0A","claims":{"iss":"mt-auth-api","sub":"token","name":"admin@mail.com","scope":"admins","iat":1675525104,"exp":1675611503}},"statusCodeValue":200,"statusCode":"OK"}
