@@ -16,7 +16,9 @@ import { PostAddJobResumeResponse } from './postaddjobresumeresponse';
 })
 export class JobService {
   util: Util = new Util();
-  apiUrl = isDevMode() ? '/apidepartments/job' : 'https://domain.com/2082/job';
+  apiUrl = isDevMode() ? 'http://localhost:2082/job' : 'https://domain.com/2082/job';
+  // codespace
+  // apiUrl = isDevMode() ? '/apidepartments/job' : 'https://domain.com/2082/job';
 
   constructor(private httpClient: HttpClient) { }
 

@@ -12,7 +12,10 @@ import { GetDepartmentResponse } from './getdepartmentresponse';
 })
 export class DepartmentService {
   util: Util = new Util();
-  apiUrl = isDevMode() ? '/apidepartments/department' : 'https://domain.com/2082/department';
+  // local
+  apiUrl = isDevMode() ? 'http://localhost:2082/department' : 'https://domain.com/2082/department';
+  // codespace
+  // apiUrl = isDevMode() ? '/apidepartments/department' : 'https://domain.com/2082/department';
 
   constructor(private httpClient: HttpClient) { }
   
