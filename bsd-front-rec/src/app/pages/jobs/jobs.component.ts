@@ -89,7 +89,7 @@ export class JobsComponent implements OnInit {
     this.clicked = !this.clicked;
 
     if (tbjStatus == 'active') {
-      tbjStatus = 'not active';
+      tbjStatus = 'notactive';
     } else {
       tbjStatus = 'active';
     }

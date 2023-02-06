@@ -93,7 +93,7 @@ export class DepartmentsComponent implements OnInit {
         this.getDepartmentResponse = successResponse;
 
         if (this.getDepartmentResponse.tbDepartment.tbdStatus == 'active') {
-          this.getDepartmentResponse.tbDepartment.tbdStatus = 'not active';
+          this.getDepartmentResponse.tbDepartment.tbdStatus = 'notactive';
         } else {
           this.getDepartmentResponse.tbDepartment.tbdStatus = 'active';
         }

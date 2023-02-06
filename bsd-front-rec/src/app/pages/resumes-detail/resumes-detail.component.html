@@ -27,7 +27,7 @@
                   <mat-radio-group aria-label="Status" name="tbpType" [(ngModel)]="postAddResumeRequest.tbResume.tbrStatus" name="tbrStatus">
                     <mat-radio-button value="active">Active</mat-radio-button>
                     &nbsp;
-                    <mat-radio-button value="not active">Not Active</mat-radio-button>
+                    <mat-radio-button value="notactive">Not Active</mat-radio-button>
                   </mat-radio-group>
                 </div>
               </div>
@@ -233,7 +233,7 @@
                       <td>{{tbResumeEducation.tbreLocationFormatted}}</td>
                       <td class="td-actions">
                         <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(tbResumeEducation.tbreUuid);"><mat-icon>pageview</mat-icon></button>
-                        <button mat-icon-button title="Activate" [disabled]="clicked" (click)="nonActive(tbResumeEducation.tbreUuid);" *ngIf="tbResumeEducation.tbreStatus == 'not active'"><mat-icon>check</mat-icon></button>
+                        <button mat-icon-button title="Activate" [disabled]="clicked" (click)="nonActive(tbResumeEducation.tbreUuid);" *ngIf="tbResumeEducation.tbreStatus == 'notactive'"><mat-icon>check</mat-icon></button>
                         <button mat-icon-button title="Deactivate" [disabled]="clicked" (click)="nonActive(tbResumeEducation.tbreUuid);" *ngIf="tbResumeEducation.tbreStatus == 'active'"><mat-icon>close</mat-icon></button>
                       </td>
                     </tr>
@@ -273,7 +273,7 @@
                           <td>{{tbResumeWorkExperience.tbrweManagementLevel}}</td>
                           <td class="td-actions">
                               <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(tbResumeWorkExperience.tbrweUuid);"><mat-icon>pageview</mat-icon></button>
-                              <button mat-icon-button title="Activate" [disabled]="clicked" (click)="nonActive(tbResumeWorkExperience.tbrweUuid);" *ngIf="tbResumeWorkExperience.tbrweStatus == 'not active'"><mat-icon>check</mat-icon></button>
+                              <button mat-icon-button title="Activate" [disabled]="clicked" (click)="nonActive(tbResumeWorkExperience.tbrweUuid);" *ngIf="tbResumeWorkExperience.tbrweStatus == 'notactive'"><mat-icon>check</mat-icon></button>
                               <button mat-icon-button title="Deactivate" [disabled]="clicked" (click)="nonActive(tbResumeWorkExperience.tbrweUuid);" *ngIf="tbResumeWorkExperience.tbrweStatus == 'active'"><mat-icon>close</mat-icon></button>
                           </td>
                       </tr>
@@ -293,7 +293,7 @@
                       <td>{{tbResumeCertification.tbrcName}}</td>
                       <td class="td-actions">
                         <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(tbResumeCertification.tbrcUuid);"><mat-icon>pageview</mat-icon></button>
-                        <button mat-icon-button title="Activate" [disabled]="clicked" (click)="nonActive(tbResumeCertification.tbrcUuid);" *ngIf="tbResumeCertification.tbrcStatus == 'not active'"><mat-icon>check</mat-icon></button>
+                        <button mat-icon-button title="Activate" [disabled]="clicked" (click)="nonActive(tbResumeCertification.tbrcUuid);" *ngIf="tbResumeCertification.tbrcStatus == 'notactive'"><mat-icon>check</mat-icon></button>
                         <button mat-icon-button title="Deactivate" [disabled]="clicked" (click)="nonActive(tbResumeCertification.tbrcUuid);" *ngIf="tbResumeCertification.tbrcStatus == 'active'"><mat-icon>close</mat-icon></button>
                       </td>
                     </tr>

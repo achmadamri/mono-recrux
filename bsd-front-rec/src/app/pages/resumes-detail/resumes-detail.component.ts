@@ -105,7 +105,7 @@ export class ResumesDetailComponent implements OnInit {
     //     this.getResumeResponse = successResponse;
 
     //     if (this.getResumeResponse.tbResume.tbrStatus == 'active') {
-    //       this.getResumeResponse.tbResume.tbrStatus = 'not active';
+    //       this.getResumeResponse.tbResume.tbrStatus = 'notactive';
     //     } else {
     //       this.getResumeResponse.tbResume.tbrStatus = 'active';
     //     }

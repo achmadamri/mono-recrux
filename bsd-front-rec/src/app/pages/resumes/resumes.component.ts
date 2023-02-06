@@ -12,6 +12,7 @@ import { GetResumeResponse } from 'app/services/resume/getresumeresponse';
 import { getSystemErrorMap } from 'util';
 import { GetResumeJobListRequest } from 'app/services/resume/getresumejoblistrequest';
 import { GetResumeJobListResponse } from 'app/services/resume/getresumejoblistresponse';
+import { ViewResumeJob } from 'app/services/resume/viewresumejob';
 
 @Component({
   selector: 'app-pages-resumes',
@@ -43,7 +44,8 @@ export class ResumesComponent implements OnInit {
   ngOnInit() {
     this.pageEvent = this.util.cachePaginator('resume.pageEvent');
     this.getResumeJobListRequest = this.util.cachePaginatorRequest('resume.request');
-    this.getResumeJobListRequest == null ? this.getResumeJobListRequest = new GetResumeJobListRequest() : this.getResumeJobListRequest;
+    this.getResumeJobListRequest == null ? this.getResumeJobListRequest = new GetResumeJobListRequest() : this.getResumeJobListRequest;    
+    this.getResumeJobListRequest.viewResumeJob = new ViewResumeJob();
 
     this.getResumeList(this.pageEvent);
   }
@@ -96,7 +98,7 @@ export class ResumesComponent implements OnInit {
         this.getResumeResponse = successResponse;
 
         if (this.getResumeResponse.tbResume.tbrStatus == 'active') {
-          this.getResumeResponse.tbResume.tbrStatus = 'not active';
+          this.getResumeResponse.tbResume.tbrStatus = 'notactive';
         } else {
           this.getResumeResponse.tbResume.tbrStatus = 'active';
         }
