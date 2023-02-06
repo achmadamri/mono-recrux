@@ -244,6 +244,9 @@ public class TbResume implements Serializable {
 	@Column(name="tbr_status")
 	private String tbrStatus;
 
+	@Column(name="tbr_assigned")
+	private String tbrAssigned;
+
 	@Column(name="tbr_uuid")
 	private String tbrUuid;
 
@@ -728,6 +731,14 @@ public class TbResume implements Serializable {
 
 	public void setTbrStatus(String tbrStatus) {
 		this.tbrStatus = tbrStatus;
+	}
+
+	public String getTbrAssigned() {
+		return tbrAssigned;
+	}
+
+	public void setTbrAssigned(String tbrAssigned) {
+		this.tbrAssigned = tbrAssigned;
 	}
 
 	public String getTbrUuid() {

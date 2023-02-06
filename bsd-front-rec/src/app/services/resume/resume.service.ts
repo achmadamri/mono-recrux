@@ -76,6 +76,7 @@ export class ResumeService {
       .set('tbrUuid', getResumeJobListRequest.viewResumeJob.tbrUuid == null ? '' : getResumeJobListRequest.viewResumeJob.tbrUuid)
       .set('tbrDataNameRaw', getResumeJobListRequest.viewResumeJob.tbrDataNameRaw == null ? '' : getResumeJobListRequest.viewResumeJob.tbrDataNameRaw)
       .set('tbrStatus', getResumeJobListRequest.viewResumeJob.tbrStatus  == null ? '' : getResumeJobListRequest.viewResumeJob.tbrStatus)
+      .set('tbrAssigned', getResumeJobListRequest.viewResumeJob.tbrAssigned  == null ? '' : getResumeJobListRequest.viewResumeJob.tbrAssigned)
       ;
 
     return this.httpClient.get<GetResumeJobListResponse>(`${this.apiUrl}/getresumejoblist`, { headers, params });

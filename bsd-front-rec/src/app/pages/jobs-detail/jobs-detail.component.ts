@@ -216,7 +216,7 @@ export class JobsDetailComponent implements OnInit {
 
   clear() {
     this.getResumeJobListRequest.viewResumeJob.tbrDataNameRaw = '';
-    this.getResumeJobListRequest.viewResumeJob.tbrStatus = '';
+    this.getResumeJobListRequest.viewResumeJob.tbrAssigned = '';
   }
 
   getResumeJobList(pageEvent: PageEvent) {

@@ -65,4 +65,5 @@ export class TbResume {
 	tbrStatus: string;
 	tbrUuid: string;
 	tbjId: number;
+	tbrAssigned: string;
 }

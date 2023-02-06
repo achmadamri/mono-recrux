@@ -77,4 +77,5 @@ export class ViewResumeJob {
 	tbrErrorErrorDetail: string;
 	tbrStatus: string;
 	tbrUuid: string;
+	tbrAssigned: string;
 }
