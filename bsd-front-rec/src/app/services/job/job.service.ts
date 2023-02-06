@@ -33,8 +33,10 @@ export class JobService {
       .set('pageSize', pageSize.toString())
       .set('pageIndex', pageIndex.toString())
       .set('tbdId', getJobDepartmentListRequest.viewJobDepartment.tbdId == null ? '' : getJobDepartmentListRequest.viewJobDepartment.tbdId)
+      .set('tbjUuid', getJobDepartmentListRequest.viewJobDepartment.tbjUuid == null ? '' : getJobDepartmentListRequest.viewJobDepartment.tbjUuid)
       .set('tbjName', getJobDepartmentListRequest.viewJobDepartment.tbjName == null ? '' : getJobDepartmentListRequest.viewJobDepartment.tbjName)
       .set('tbjStatus', getJobDepartmentListRequest.viewJobDepartment.tbjStatus == null ? '' : getJobDepartmentListRequest.viewJobDepartment.tbjStatus)
+      .set('tbjAssigned', getJobDepartmentListRequest.viewJobDepartment.tbjAssigned == null ? '' : getJobDepartmentListRequest.viewJobDepartment.tbjAssigned)
       ;
 
     return this.httpClient.get<GetJobDepartmentListResponse>(`${this.apiUrl}/getjobdepartmentlist`, { headers, params });

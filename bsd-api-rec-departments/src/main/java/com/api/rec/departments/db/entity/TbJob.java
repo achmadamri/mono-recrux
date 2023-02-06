@@ -58,6 +58,9 @@ public class TbJob implements Serializable {
 	@Column(name="tbd_id")
 	private Integer tbdId;
 
+	@Column(name="tbj_assigned")
+	private String tbjAssigned;
+
 	public TbJob() {
 	}
 
@@ -139,6 +142,14 @@ public class TbJob implements Serializable {
 
 	public void setTbdId(Integer tbdId) {
 		this.tbdId = tbdId;
+	}
+
+	public String getTbjAssigned() {
+		return tbjAssigned;
+	}
+
+	public void setTbjAssigned(String tbjAssigned) {
+		this.tbjAssigned = tbjAssigned;
 	}
 
 }

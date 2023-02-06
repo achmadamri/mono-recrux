@@ -130,6 +130,7 @@ export class DepartmentsDetailComponent implements OnInit {
 
   clear() {
     this.getJobDepartmentListRequest.viewJobDepartment.tbjName = '';
+    this.getJobDepartmentListRequest.viewJobDepartment.tbjAssigned = '';
   }
 
   saveupdate() {

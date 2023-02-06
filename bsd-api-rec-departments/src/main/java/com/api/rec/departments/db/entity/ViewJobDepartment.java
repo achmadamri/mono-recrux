@@ -63,6 +63,9 @@ public class ViewJobDepartment implements Serializable {
 	@Column(name="tbj_status")
 	private String tbjStatus;
 
+	@Column(name="tbj_assigned")
+	private String tbjAssigned;
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="tbj_update_date")
 	private Date tbjUpdateDate;
@@ -80,7 +83,7 @@ public class ViewJobDepartment implements Serializable {
 	}
 
 	public Date getTbdCreateDate() {
-		return this.tbdCreateDate;
+		return tbdCreateDate;
 	}
 
 	public void setTbdCreateDate(Date tbdCreateDate) {
@@ -88,7 +91,7 @@ public class ViewJobDepartment implements Serializable {
 	}
 
 	public Integer getTbdCreateId() {
-		return this.tbdCreateId;
+		return tbdCreateId;
 	}
 
 	public void setTbdCreateId(Integer tbdCreateId) {
@@ -96,7 +99,7 @@ public class ViewJobDepartment implements Serializable {
 	}
 
 	public Integer getTbdCreateIdc() {
-		return this.tbdCreateIdc;
+		return tbdCreateIdc;
 	}
 
 	public void setTbdCreateIdc(Integer tbdCreateIdc) {
@@ -104,7 +107,7 @@ public class ViewJobDepartment implements Serializable {
 	}
 
 	public Integer getTbdId() {
-		return this.tbdId;
+		return tbdId;
 	}
 
 	public void setTbdId(Integer tbdId) {
@@ -112,7 +115,7 @@ public class ViewJobDepartment implements Serializable {
 	}
 
 	public String getTbdName() {
-		return this.tbdName;
+		return tbdName;
 	}
 
 	public void setTbdName(String tbdName) {
@@ -120,7 +123,7 @@ public class ViewJobDepartment implements Serializable {
 	}
 
 	public String getTbdStatus() {
-		return this.tbdStatus;
+		return tbdStatus;
 	}
 
 	public void setTbdStatus(String tbdStatus) {
@@ -128,7 +131,7 @@ public class ViewJobDepartment implements Serializable {
 	}
 
 	public Date getTbdUpdateDate() {
-		return this.tbdUpdateDate;
+		return tbdUpdateDate;
 	}
 
 	public void setTbdUpdateDate(Date tbdUpdateDate) {
@@ -136,7 +139,7 @@ public class ViewJobDepartment implements Serializable {
 	}
 
 	public Integer getTbdUpdateId() {
-		return this.tbdUpdateId;
+		return tbdUpdateId;
 	}
 
 	public void setTbdUpdateId(Integer tbdUpdateId) {
@@ -144,7 +147,7 @@ public class ViewJobDepartment implements Serializable {
 	}
 
 	public String getTbdUuid() {
-		return this.tbdUuid;
+		return tbdUuid;
 	}
 
 	public void setTbdUuid(String tbdUuid) {
@@ -152,7 +155,7 @@ public class ViewJobDepartment implements Serializable {
 	}
 
 	public Date getTbjCreateDate() {
-		return this.tbjCreateDate;
+		return tbjCreateDate;
 	}
 
 	public void setTbjCreateDate(Date tbjCreateDate) {
@@ -160,7 +163,7 @@ public class ViewJobDepartment implements Serializable {
 	}
 
 	public Integer getTbjCreateId() {
-		return this.tbjCreateId;
+		return tbjCreateId;
 	}
 
 	public void setTbjCreateId(Integer tbjCreateId) {
@@ -168,7 +171,7 @@ public class ViewJobDepartment implements Serializable {
 	}
 
 	public Integer getTbjCreateIdc() {
-		return this.tbjCreateIdc;
+		return tbjCreateIdc;
 	}
 
 	public void setTbjCreateIdc(Integer tbjCreateIdc) {
@@ -176,7 +179,7 @@ public class ViewJobDepartment implements Serializable {
 	}
 
 	public Integer getTbjId() {
-		return this.tbjId;
+		return tbjId;
 	}
 
 	public void setTbjId(Integer tbjId) {
@@ -184,7 +187,7 @@ public class ViewJobDepartment implements Serializable {
 	}
 
 	public String getTbjName() {
-		return this.tbjName;
+		return tbjName;
 	}
 
 	public void setTbjName(String tbjName) {
@@ -192,15 +195,23 @@ public class ViewJobDepartment implements Serializable {
 	}
 
 	public String getTbjStatus() {
-		return this.tbjStatus;
+		return tbjStatus;
 	}
 
 	public void setTbjStatus(String tbjStatus) {
 		this.tbjStatus = tbjStatus;
 	}
 
+	public String getTbjAssigned() {
+		return tbjAssigned;
+	}
+
+	public void setTbjAssigned(String tbjAssigned) {
+		this.tbjAssigned = tbjAssigned;
+	}
+
 	public Date getTbjUpdateDate() {
-		return this.tbjUpdateDate;
+		return tbjUpdateDate;
 	}
 
 	public void setTbjUpdateDate(Date tbjUpdateDate) {
@@ -208,7 +219,7 @@ public class ViewJobDepartment implements Serializable {
 	}
 
 	public Integer getTbjUpdateId() {
-		return this.tbjUpdateId;
+		return tbjUpdateId;
 	}
 
 	public void setTbjUpdateId(Integer tbjUpdateId) {
@@ -216,7 +227,7 @@ public class ViewJobDepartment implements Serializable {
 	}
 
 	public String getTbjUuid() {
-		return this.tbjUuid;
+		return tbjUuid;
 	}
 
 	public void setTbjUuid(String tbjUuid) {
@@ -224,7 +235,7 @@ public class ViewJobDepartment implements Serializable {
 	}
 
 	public String getUuid() {
-		return this.uuid;
+		return uuid;
 	}
 
 	public void setUuid(String uuid) {

@@ -391,7 +391,19 @@ public class ResumeService {
 			
 			if (lstViewResumeJob.size() > 0) {
 				responseModel.setLstViewResumeJob(lstViewResumeJob);
+				
 				responseModel.setLength(viewResumeJobRepository.count(tbjId));
+
+				if (tbrAssigned.equals("")) {
+					responseModel.setLength(viewResumeJobRepository.count(tbjId));
+				} else {
+					if (tbrAssigned.equals("assigned")) {
+						responseModel.setLength(viewResumeJobRepository.countAssigned(tbjId, tbrUuid, tbrDataNameRaw, tbrStatus, tbrAssigned));
+					} else if (tbrAssigned.equals("not assigned")) {
+						responseModel.setLength(viewResumeJobRepository.countNotAssigned(tbrUuid, tbrDataNameRaw, tbrStatus, tbrAssigned));
+					}
+				}
+
 				responseModel.setHttpStatus(HttpStatus.OK);
 			} else {
 				responseModel.setHttpStatus(HttpStatus.NOT_FOUND);

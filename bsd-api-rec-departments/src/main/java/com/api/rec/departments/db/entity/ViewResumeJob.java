@@ -262,6 +262,9 @@ public class ViewResumeJob implements Serializable {
 	@Column(name="tbr_status")
 	private String tbrStatus;
 
+	@Column(name="tbr_assigned")
+	private String tbrAssigned;
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="tbr_update_date")
 	private Date tbrUpdateDate;
@@ -804,6 +807,14 @@ public class ViewResumeJob implements Serializable {
 
 	public void setTbrStatus(String tbrStatus) {
 		this.tbrStatus = tbrStatus;
+	}
+
+	public String getTbrAssigned() {
+		return tbrAssigned;
+	}
+
+	public void setTbrAssigned(String tbrAssigned) {
+		this.tbrAssigned = tbrAssigned;
 	}
 
 	public Date getTbrUpdateDate() {

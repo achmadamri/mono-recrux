@@ -18,4 +18,5 @@ export class ViewJobDepartment {
 	tbdName: string;
 	tbdStatus: string;
 	tbdUuid: string;
+	tbjAssigned: string;
 }
