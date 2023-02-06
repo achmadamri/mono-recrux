@@ -123,22 +123,22 @@
                                     <th>Assigned</th>
                                     <th>Action</th>
                                 </thead>
-                                <tbody *ngIf="getJobResumeListResponse.lstViewJobResume[0].tbrUuid != undefined">
-                                    <tr *ngFor="let viewJobResume of getJobResumeListResponse.lstViewJobResume; let i=index;">
+                                <tbody *ngIf="getResumeJobListResponse.lstViewResumeJob[0].tbrUuid != undefined">
+                                    <tr *ngFor="let viewResumeJob of getResumeJobListResponse.lstViewResumeJob; let i=index;">
                                         <td>{{i + 1 + (pageSize * pageIndex)}}</td>
-                                        <td>{{viewJobResume.tbrUuid}}</td>
-                                        <td>{{viewJobResume.tbrDataNameRaw}}</td>
-                                        <td>{{viewJobResume.tbrStatus}}</td>
-                                        <td>{{viewJobResume.tbjrStatus == undefined ? 'not assigned' : viewJobResume.tbjrStatus}}</td>
+                                        <td>{{viewResumeJob.tbrUuid}}</td>
+                                        <td>{{viewResumeJob.tbrDataNameRaw}}</td>
+                                        <td>{{viewResumeJob.tbrStatus}}</td>
+                                        <td>{{viewResumeJob.tbjId}} {{viewResumeJob.tbjId == 0 ? 'not assigned' : 'assigned'}}</td>
                                         <td class="td-actions">
-                                            <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(viewJobResume.tbrUuid);"><mat-icon>pageview</mat-icon></button>
-                                            <button mat-icon-button title="Assign" [disabled]="clicked" (click)="setUnset(viewJobResume.tbjUuid, viewJobResume.tbrUuid, viewJobResume.tbjrUuid, 'assigned');" *ngIf="viewJobResume.tbjrStatus == undefined || viewJobResume.tbjrStatus == 'not assigned'"><mat-icon>check</mat-icon></button>
-                                            <button mat-icon-button title="Not Assign" [disabled]="clicked" (click)="setUnset(viewJobResume.tbjUuid, viewJobResume.tbrUuid, viewJobResume.tbjrUuid, 'not assigned');" *ngIf="viewJobResume.tbjrStatus == 'assigned'"><mat-icon>close</mat-icon></button>
+                                            <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(viewResumeJob.tbrUuid);"><mat-icon>pageview</mat-icon></button>
+                                            <button mat-icon-button title="Assign" [disabled]="clicked" (click)="setUnset(viewResumeJob.tbrUuid, viewResumeJob.tbjId);" *ngIf="viewResumeJob.tbjId == undefined"><mat-icon>check</mat-icon></button>
+                                            <button mat-icon-button title="Not Assign" [disabled]="clicked" (click)="setUnset(viewResumeJob.tbrUuid, viewResumeJob.tbjId);" *ngIf="viewResumeJob.tbjId != undefined"><mat-icon>close</mat-icon></button>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <mat-paginator *ngIf="getJobResumeListResponse.lstViewJobResume[0].tbrUuid != undefined" [length]="length" [pageSize]="pageSize" [pageIndex]="pageIndex" [previousPageIndex]="previousPageIndex" [pageSizeOptions]="pageSizeOptions" (page)="getPage($event)" [disabled]="clicked"></mat-paginator>
+                            <mat-paginator *ngIf="getResumeJobListResponse.lstViewResumeJob[0].tbrUuid != undefined" [length]="length" [pageSize]="pageSize" [pageIndex]="pageIndex" [previousPageIndex]="previousPageIndex" [pageSizeOptions]="pageSizeOptions" (page)="getPage($event)" [disabled]="clicked"></mat-paginator>
                             <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked" (click)="filter();">Filter</button>
                             <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked" (click)="back();">Back</button>
                         </div>

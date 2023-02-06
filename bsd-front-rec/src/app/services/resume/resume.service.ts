@@ -2,8 +2,8 @@ import { HttpClient, HttpEvent, HttpHeaders, HttpParams } from '@angular/common/
 import { Injectable, isDevMode } from '@angular/core';
 import { Util } from 'app/util';
 import { Observable } from 'rxjs';
-import { GetJobResumeListRequest } from '../job/getjobresumelistrequest';
-import { GetJobResumeListResponse } from '../job/getjobresumelistresponse';
+import { GetResumeJobListRequest } from './getresumejoblistrequest';
+import { GetResumeJobListResponse } from './getresumejoblistresponse';
 import { GetResumeListResponse } from './getresumelistresponse';
 import { GetResumeResponse } from './getresumeresponse';
 import { PostAddResumeRequest } from './postaddresumerequest';
@@ -59,7 +59,7 @@ export class ResumeService {
     return this.httpClient.get<GetResumeListResponse>(`${this.apiUrl}/getresumelist`, { headers, params });
   }
   
-  getJobResumeList(getJobResumeListRequest: GetJobResumeListRequest, length: number, pageSize: number, pageIndex: number): Observable<GetJobResumeListResponse> {
+  getResumeJobList(getResumeJobListRequest: GetResumeJobListRequest, length: number, pageSize: number, pageIndex: number): Observable<GetResumeJobListResponse> {
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json');
 
@@ -71,14 +71,14 @@ export class ResumeService {
       .set('length', length.toString())
       .set('pageSize', pageSize.toString())
       .set('pageIndex', pageIndex.toString())
-      .set('tbjUuid', getJobResumeListRequest.viewJobResume.tbjUuid == null ? '' : getJobResumeListRequest.viewJobResume.tbjUuid)
-      .set('tbjName', getJobResumeListRequest.viewJobResume.tbjName == null ? '' : getJobResumeListRequest.viewJobResume.tbjName)
-      .set('tbrUuid', getJobResumeListRequest.viewJobResume.tbrUuid == null ? '' : getJobResumeListRequest.viewJobResume.tbrUuid)
-      .set('tbrDataNameRaw', getJobResumeListRequest.viewJobResume.tbrDataNameRaw == null ? '' : getJobResumeListRequest.viewJobResume.tbrDataNameRaw)
-      .set('tbrStatus', getJobResumeListRequest.viewJobResume.tbrStatus  == null ? '' : getJobResumeListRequest.viewJobResume.tbrStatus)
+      .set('tbjId', getResumeJobListRequest.viewResumeJob.tbjId == null ? '' : getResumeJobListRequest.viewResumeJob.tbjId)
+      .set('tbjName', getResumeJobListRequest.viewResumeJob.tbjName == null ? '' : getResumeJobListRequest.viewResumeJob.tbjName)
+      .set('tbrUuid', getResumeJobListRequest.viewResumeJob.tbrUuid == null ? '' : getResumeJobListRequest.viewResumeJob.tbrUuid)
+      .set('tbrDataNameRaw', getResumeJobListRequest.viewResumeJob.tbrDataNameRaw == null ? '' : getResumeJobListRequest.viewResumeJob.tbrDataNameRaw)
+      .set('tbrStatus', getResumeJobListRequest.viewResumeJob.tbrStatus  == null ? '' : getResumeJobListRequest.viewResumeJob.tbrStatus)
       ;
 
-    return this.httpClient.get<GetJobResumeListResponse>(`${this.apiUrl}/getjobresumelist`, { headers, params });
+    return this.httpClient.get<GetResumeJobListResponse>(`${this.apiUrl}/getresumejoblist`, { headers, params });
   }
 
   postAddResume(postAddResumeRequest: PostAddResumeRequest): Observable<PostAddResumeResponse> {

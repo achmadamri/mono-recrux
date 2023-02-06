@@ -1,7 +1,5 @@
 package com.api.rec.departments.service;
 
-import java.io.File;
-import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -32,25 +30,23 @@ import com.affinda.api.client.AffindaAPIBuilder;
 import com.affinda.api.client.AffindaTokenCredential;
 import com.affinda.api.client.models.ResumeRequestBody;
 import com.api.rec.departments.db.entity.TbJob;
-import com.api.rec.departments.db.entity.TbJobResume;
 import com.api.rec.departments.db.entity.TbResume;
 import com.api.rec.departments.db.entity.TbResumeCertification;
 import com.api.rec.departments.db.entity.TbResumeEducation;
 import com.api.rec.departments.db.entity.TbResumeSkill;
 import com.api.rec.departments.db.entity.TbResumeWorkExperience;
 import com.api.rec.departments.db.entity.TbUser;
-import com.api.rec.departments.db.entity.ViewJobResume;
+import com.api.rec.departments.db.entity.ViewResumeJob;
 import com.api.rec.departments.db.repository.TbJobRepository;
-import com.api.rec.departments.db.repository.TbJobResumeRepository;
 import com.api.rec.departments.db.repository.TbResumeCertificationRepository;
 import com.api.rec.departments.db.repository.TbResumeEducationRepository;
 import com.api.rec.departments.db.repository.TbResumeRepository;
 import com.api.rec.departments.db.repository.TbResumeSkillRepository;
 import com.api.rec.departments.db.repository.TbResumeWorkExperienceRepository;
 import com.api.rec.departments.db.repository.TbUserRepository;
-import com.api.rec.departments.db.repository.ViewJobResumeRepository;
-import com.api.rec.departments.model.job.GetJobResumeListRequestModel;
-import com.api.rec.departments.model.job.GetJobResumeListResponseModel;
+import com.api.rec.departments.db.repository.ViewResumeJobRepository;
+import com.api.rec.departments.model.resume.GetResumeJobListRequestModel;
+import com.api.rec.departments.model.resume.GetResumeJobListResponseModel;
 import com.api.rec.departments.model.resume.GetResumeListRequestModel;
 import com.api.rec.departments.model.resume.GetResumeListResponseModel;
 import com.api.rec.departments.model.resume.GetResumeRequestModel;
@@ -89,9 +85,6 @@ public class ResumeService {
 	private TbResumeRepository tbResumeRepository;
 
 	@Autowired
-	private TbJobResumeRepository tbJobResumeRepository;
-
-	@Autowired
 	private TbResumeEducationRepository tbResumeEducationRepository;
 
 	@Autowired
@@ -104,19 +97,7 @@ public class ResumeService {
 	private TbResumeCertificationRepository tbResumeCertificationRepository;
 
 	@Autowired
-	private ViewJobResumeRepository viewJobResumeRepository;
-
-	@Autowired
-	private TbResumeCertificationRepository tbResumeCertification;
-
-	@Autowired
-	private TbResumeEducationRepository tbResumeEducation;
-
-	@Autowired
-	private TbResumeSkillRepository tbResumeSkill;
-
-	@Autowired
-	private TbResumeWorkExperienceRepository tbResumeWorkExperience;
+	private ViewResumeJobRepository viewResumeJobRepository;
 
 	public TbResume affindaCreateResume(TbUser tbUser, MultipartFile file) throws Exception {
 		Gson gson = new Gson();
@@ -235,11 +216,12 @@ public class ResumeService {
 				String fileNameOri = StringUtils.cleanPath(file.getOriginalFilename());
 				String fileName = responseModel.getResponseId() + "-" + StringUtils.cleanPath(file.getOriginalFilename());				
 	
-				TbResume tbResume = affindaCreateResume(optTbUser.get(), file);				
+				TbResume tbResume = affindaCreateResume(optTbUser.get(), file);
+				tbResume.setTbjId(optTbJob.get().getTbjId());
 				tbResume.setTbrDataPhoneNumbers(getJsonArray(tbResume.getTbrDataPhoneNumbers()));
 				tbResume.setTbrDataEmails(getJsonArray(tbResume.getTbrDataEmails()));
 				tbResume.setTbrDataWebsites(getJsonArray(tbResume.getTbrDataWebsites()));
-				tbResume.setTbrDataLanguages(getJsonArray(tbResume.getTbrDataLanguages()));
+				tbResume.setTbrDataLanguages(getJsonArray(tbResume.getTbrDataLanguages()));				
 				tbResumeRepository.save(tbResume);
 
 				Files.copy(file.getInputStream(), Paths.get(env.getProperty("file.resume.dir") + tbResume.getTbrMetaFileName() + ".pdf"), StandardCopyOption.REPLACE_EXISTING);
@@ -330,17 +312,7 @@ public class ResumeService {
 					tbResumeCertification.setTbrId(tbResume.getTbrId());
 					tbResumeCertification.setTbrcName(jsonElement.getAsString());				
 					tbResumeCertificationRepository.save(tbResumeCertification);
-				}	
-
-				TbJobResume tbJobResume = new TbJobResume();
-				tbJobResume.setTbjrCreateId(optTbUser.get().getTbuId());
-				tbJobResume.setTbjrCreateIdc(optTbUser.get().getTbuCreateIdc());
-				tbJobResume.setTbjrCreateDate(new Date());
-				tbJobResume.setTbjrStatus(TbJobResumeRepository.Assigned);
-				tbJobResume.setTbjrUuid(new Uid().generateString(5));
-				tbJobResume.setTbjId(optTbJob.get().getTbjId());
-				tbJobResume.setTbrId(tbResume.getTbrId());
-				tbJobResumeRepository.save(tbJobResume);
+				}
 	
 				responseModel.setTbResume(tbResume);
 				responseModel.setFileName(fileName);
@@ -393,8 +365,8 @@ public class ResumeService {
 		return responseModel;
 	}
 
-	public GetJobResumeListResponseModel getJobResumeList(String tbjUuid, String tbjName, String tbrUuid, String tbrDataNameRaw, String tbrStatus, String length, String pageSize, String pageIndex, GetJobResumeListRequestModel requestModel) throws Exception {
-		GetJobResumeListResponseModel responseModel = new GetJobResumeListResponseModel(requestModel);
+	public GetResumeJobListResponseModel getResumeJobList(Integer tbjId, String tbrUuid, String tbrDataNameRaw, String tbrStatus, String length, String pageSize, String pageIndex, GetResumeJobListRequestModel requestModel) throws Exception {
+		GetResumeJobListResponseModel responseModel = new GetResumeJobListResponseModel(requestModel);
 		
 		tokenUtil.claims(requestModel);
 		
@@ -404,26 +376,11 @@ public class ResumeService {
 		Optional<TbUser> optTbUser = tbUserRepository.findOne(Example.of(exampleTbUser));
 
 		if (optTbUser.isPresent()) {
-			ViewJobResume exampleViewJobResume = new ViewJobResume();
-			exampleViewJobResume.setTbrCreateIdc(optTbUser.get().getTbuCreateIdc());
-			if (!tbjUuid.equals("")) exampleViewJobResume.setTbjUuid(tbjUuid);
-			if (!tbjName.equals("")) exampleViewJobResume.setTbjName(tbjName);
-			if (!tbrUuid.equals("")) exampleViewJobResume.setTbrUuid(tbrUuid);
-			if (!tbrDataNameRaw.equals("")) exampleViewJobResume.setTbrDataNameRaw(tbrDataNameRaw);
-			if (!tbrStatus.equals("")) exampleViewJobResume.setTbrStatus(tbrStatus);
-
-			ExampleMatcher matcher = ExampleMatcher.matching()
-                .withMatcher("tbjUuid", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-                .withMatcher("tbjName", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-                .withMatcher("tbrUuid", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-                .withMatcher("tbrDataNameRaw", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-			;
-
-			Page<ViewJobResume> pgViewJobResume = viewJobResumeRepository.findAll(Example.of(exampleViewJobResume, matcher), PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbrId").ascending()));
+			List<ViewResumeJob> lstViewResumeJob = viewResumeJobRepository.find(tbjId, tbrUuid, tbrDataNameRaw, tbrStatus, PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbr_id").ascending()));
 			
-			if (pgViewJobResume.toList().size() > 0) {
-				responseModel.setLstViewJobResume(pgViewJobResume.toList());				
-				responseModel.setLength(viewJobResumeRepository.count(Example.of(exampleViewJobResume)));
+			if (lstViewResumeJob.size() > 0) {
+				responseModel.setLstViewResumeJob(lstViewResumeJob);				
+				responseModel.setLength(viewResumeJobRepository.count(tbjId, tbrUuid, tbrDataNameRaw, tbrStatus));
 				responseModel.setHttpStatus(HttpStatus.OK);
 			} else {
 				responseModel.setHttpStatus(HttpStatus.NOT_FOUND);
@@ -480,8 +437,17 @@ public class ResumeService {
 					TbResume tbResume = optTbResume.get();
 					tbResume.setTbrUpdateId(optTbUser.get().getTbuId());
 					tbResume.setTbrUpdateDate(new Date());
-					tbResume.setTbrDataNameRaw(requestModel.getTbResume().getTbrDataNameRaw());
-					tbResume.setTbrStatus(requestModel.getTbResume().getTbrStatus());
+
+					if (requestModel.getTbResume().getTbrDataNameRaw() != null) tbResume.setTbrDataNameRaw(requestModel.getTbResume().getTbrDataNameRaw());
+					if (requestModel.getTbResume().getTbrStatus() != null) tbResume.setTbrStatus(requestModel.getTbResume().getTbrStatus());
+					if (requestModel.getTbResume().getTbjId() != null) {
+						if (requestModel.getTbResume().getTbjId() == 0) {
+							tbResume.setTbjId(null);
+						} else {
+							tbResume.setTbjId(requestModel.getTbResume().getTbjId());
+						}
+					}
+					
 					tbResume = tbResumeRepository.save(tbResume);
 	
 					responseModel.setTbResume(tbResume);

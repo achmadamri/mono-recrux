@@ -30,6 +30,9 @@ public class TbResume implements Serializable {
 	@Column(name="tbr_create_idc")
 	private Integer tbrCreateIdc;
 
+	@Column(name="tbj_id")
+	private Integer tbjId;
+
 	@Lob
 	@Column(columnDefinition = "text", name="tbr_data_certifications")
 	private String tbrDataCertifications;
@@ -277,6 +280,14 @@ public class TbResume implements Serializable {
 
 	public void setTbrCreateIdc(Integer tbrCreateIdc) {
 		this.tbrCreateIdc = tbrCreateIdc;
+	}
+
+	public Integer getTbjId() {
+		return tbjId;
+	}
+
+	public void setTbjId(Integer tbjId) {
+		this.tbjId = tbjId;
 	}
 
 	public String getTbrDataCertifications() {

@@ -86,11 +86,11 @@
                                         <td>{{viewJobDepartment.tbjUuid}}</td>
                                         <td>{{viewJobDepartment.tbjName}}</td>
                                         <td>{{viewJobDepartment.tbjStatus}}</td>
-                                        <td>{{viewJobDepartment.tbdjStatus == undefined ? 'not assigned' : viewJobDepartment.tbdjStatus}}</td>
+                                        <td>{{viewJobDepartment.tbdId == undefined ? 'not assigned' : 'assigned'}}</td>
                                         <td class="td-actions">
                                             <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(viewJobDepartment.tbjUuid);"><mat-icon>pageview</mat-icon></button>
-                                            <button mat-icon-button title="Assign" [disabled]="clicked" (click)="setUnset(viewJobDepartment.tbjUuid);" *ngIf="viewJobDepartment.tbdId == undefined"><mat-icon>check</mat-icon></button>
-                                            <button mat-icon-button title="Not Assign" [disabled]="clicked" (click)="setUnset(viewJobDepartment.tbjUuid);" *ngIf="viewJobDepartment.tbdId != undefined"><mat-icon>close</mat-icon></button>
+                                            <button mat-icon-button title="Assign" [disabled]="clicked" (click)="setUnset(viewJobDepartment.tbjUuid, viewJobDepartment.tbdId);" *ngIf="viewJobDepartment.tbdId == undefined"><mat-icon>check</mat-icon></button>
+                                            <button mat-icon-button title="Not Assign" [disabled]="clicked" (click)="setUnset(viewJobDepartment.tbjUuid, viewJobDepartment.tbdId);" *ngIf="viewJobDepartment.tbdId != undefined"><mat-icon>close</mat-icon></button>
                                         </td>
                                     </tr>
                                 </tbody>

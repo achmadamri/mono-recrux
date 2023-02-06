@@ -66,6 +66,8 @@ export class DepartmentsDetailComponent implements OnInit {
             this.postAddDepartmentRequest.tbDepartment.tbdName = this.getDepartmentResponse.tbDepartment.tbdName;
             this.postAddDepartmentRequest.tbDepartment.tbdStatus = this.getDepartmentResponse.tbDepartment.tbdStatus;
 
+            this.getJobDepartmentListRequest.viewJobDepartment.tbdId = this.postAddDepartmentRequest.tbDepartment.tbdId;
+
             this.getJobDepartmentList(this.pageEvent);
           },
           errorResponse => {            
@@ -89,7 +91,7 @@ export class DepartmentsDetailComponent implements OnInit {
     localStorage.setItem('departments-detail.pageEvent', JSON.stringify(this.pageEvent));
     localStorage.setItem('departments-detail.request', JSON.stringify(this.postAddDepartmentRequest));
 
-    this.jobService.getJobDepartmentList(this.postAddDepartmentRequest.tbDepartment.tbdId, this.getJobDepartmentListRequest.viewJobDepartment.tbjName, this.pageEvent.length, this.pageEvent.pageSize, this.pageEvent.pageIndex)
+    this.jobService.getJobDepartmentList(this.getJobDepartmentListRequest, this.pageEvent.length, this.pageEvent.pageSize, this.pageEvent.pageIndex)
       .subscribe(
         successResponse => {
           this.clicked = !this.clicked;
@@ -149,11 +151,16 @@ export class DepartmentsDetailComponent implements OnInit {
     );
   }
 
-  setUnset(tbjUuid: string) {
+  setUnset(tbjUuid: string, tbdId: number) {
     this.clicked = !this.clicked;
 
     this.postAddJobRequest.tbJob.tbjUuid = tbjUuid;
-    this.postAddJobRequest.tbJob.tbdId = this.postAddDepartmentRequest.tbDepartment.tbdId;    
+
+    if (tbdId == undefined) {
+      this.postAddJobRequest.tbJob.tbdId = this.postAddDepartmentRequest.tbDepartment.tbdId;
+    } else {
+      this.postAddJobRequest.tbJob.tbdId = 0;
+    }
 
     this.jobService.postAddJob(this.postAddJobRequest)
     .subscribe(

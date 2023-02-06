@@ -9,9 +9,9 @@ import { PostAddResumeRequest } from 'app/services/resume/postaddresumerequest';
 import { PostAddResumeResponse } from 'app/services/resume/postaddresumeresponse';
 import { GetResumeRequest } from 'app/services/resume/getresumerequest';
 import { GetResumeResponse } from 'app/services/resume/getresumeresponse';
-import { GetJobResumeListRequest } from 'app/services/job/getjobresumelistrequest';
-import { GetJobResumeListResponse } from 'app/services/job/getjobresumelistresponse';
 import { getSystemErrorMap } from 'util';
+import { GetResumeJobListRequest } from 'app/services/resume/getresumejoblistrequest';
+import { GetResumeJobListResponse } from 'app/services/resume/getresumejoblistresponse';
 
 @Component({
   selector: 'app-pages-resumes',
@@ -32,8 +32,8 @@ export class ResumesComponent implements OnInit {
   postAddResumeResponse: PostAddResumeResponse = new PostAddResumeResponse();
   getResumeRequest: GetResumeRequest = new GetResumeRequest();
   getResumeResponse: GetResumeResponse = new GetResumeResponse();
-  getJobResumeListRequest: GetJobResumeListRequest = new GetJobResumeListRequest();
-  getJobResumeListResponse: GetJobResumeListResponse = new GetJobResumeListResponse();
+  getResumeJobListRequest: GetResumeJobListRequest = new GetResumeJobListRequest();
+  getResumeJobListResponse: GetResumeJobListResponse = new GetResumeJobListResponse();
 
   constructor(
     private router: Router,
@@ -42,8 +42,8 @@ export class ResumesComponent implements OnInit {
 
   ngOnInit() {
     this.pageEvent = this.util.cachePaginator('resume.pageEvent');
-    this.getJobResumeListRequest = this.util.cachePaginatorRequest('resume.request');
-    this.getJobResumeListRequest == null ? this.getJobResumeListRequest = new GetJobResumeListRequest() : this.getJobResumeListRequest;
+    this.getResumeJobListRequest = this.util.cachePaginatorRequest('resume.request');
+    this.getResumeJobListRequest == null ? this.getResumeJobListRequest = new GetResumeJobListRequest() : this.getResumeJobListRequest;
 
     this.getResumeList(this.pageEvent);
   }
@@ -54,14 +54,14 @@ export class ResumesComponent implements OnInit {
     if (pageEvent != null) this.pageEvent = pageEvent;
 
     localStorage.setItem('resume.pageEvent', JSON.stringify(this.pageEvent));
-    localStorage.setItem('resume.request', JSON.stringify(this.getJobResumeListRequest));
+    localStorage.setItem('resume.request', JSON.stringify(this.getResumeJobListRequest));
 
-    this.resumeService.getJobResumeList(this.getJobResumeListRequest, this.pageEvent.length, this.pageEvent.pageSize, this.pageEvent.pageIndex)
+    this.resumeService.getResumeJobList(this.getResumeJobListRequest, this.pageEvent.length, this.pageEvent.pageSize, this.pageEvent.pageIndex)
       .subscribe(
         successResponse => {
           this.clicked = !this.clicked;
-          this.getJobResumeListResponse = successResponse;
-          this.length = this.getJobResumeListResponse.length;
+          this.getResumeJobListResponse = successResponse;
+          this.length = this.getResumeJobListResponse.length;
           this.pageSize = this.pageEvent.pageSize;
           this.pageIndex = this.pageEvent.pageIndex;
           this.previousPageIndex = this.pageEvent.previousPageIndex;     
@@ -69,7 +69,7 @@ export class ResumesComponent implements OnInit {
         errorResponse => {
           this.length = 0;
           this.clicked = !this.clicked;
-          this.getJobResumeListResponse = new GetJobResumeListResponse();
+          this.getResumeJobListResponse = new GetResumeJobListResponse();
           this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
         }
       );
@@ -138,11 +138,11 @@ export class ResumesComponent implements OnInit {
   }
 
   clear() {
-    this.getJobResumeListRequest.viewJobResume.tbjUuid = '';
-    this.getJobResumeListRequest.viewJobResume.tbjName = '';
-    this.getJobResumeListRequest.viewJobResume.tbrUuid = '';
-    this.getJobResumeListRequest.viewJobResume.tbrDataNameRaw = '';
-    this.getJobResumeListRequest.viewJobResume.tbrStatus = '';
+    this.getResumeJobListRequest.viewResumeJob.tbjUuid = '';
+    this.getResumeJobListRequest.viewResumeJob.tbjName = '';
+    this.getResumeJobListRequest.viewResumeJob.tbrUuid = '';
+    this.getResumeJobListRequest.viewResumeJob.tbrDataNameRaw = '';
+    this.getResumeJobListRequest.viewResumeJob.tbrStatus = '';
   }
 
 }

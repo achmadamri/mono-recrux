@@ -1,4 +1,4 @@
-export class ViewJobResume {
+export class ViewResumeJob {
 	uuid: string;
 	tbjId: number;
 	tbjCreateDate: string;

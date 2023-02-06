@@ -1,6 +1,6 @@
-import { ViewJobResume } from './viewjobresume';
+import { ViewResumeJob } from "./viewresumejob";
 
-export class GetResumeListResponse {
+export class GetResumeJobListResponse {
     requestId: string;
     requestDate: string;
     responseId: string;
@@ -8,6 +8,6 @@ export class GetResumeListResponse {
     status: string;
     error: string;
     message: string;
-    lstViewJobResume: ViewJobResume[] = Array(new ViewJobResume());
+    lstViewResumeJob: ViewResumeJob[] = Array(new ViewResumeJob());
     length: number;
 }

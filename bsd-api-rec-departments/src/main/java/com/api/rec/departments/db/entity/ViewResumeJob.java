@@ -6,13 +6,13 @@ import java.util.Date;
 
 
 /**
- * The persistent class for the view_job_resume database table.
+ * The persistent class for the view_resume_job database table.
  * 
  */
 @Entity
-@Table(name="view_job_resume")
-@NamedQuery(name="ViewJobResume.findAll", query="SELECT v FROM ViewJobResume v")
-public class ViewJobResume implements Serializable {
+@Table(name="view_resume_job")
+@NamedQuery(name="ViewResumeJob.findAll", query="SELECT v FROM ViewResumeJob v")
+public class ViewResumeJob implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -55,208 +55,208 @@ public class ViewJobResume implements Serializable {
 	private Integer tbrCreateIdc;
 
 	@Lob
-	@Column(name="tbr_data_certifications")
+	@Column(columnDefinition = "text", name="tbr_data_certifications")
 	private String tbrDataCertifications;
 
 	@Lob
-	@Column(name="tbr_data_date_of_birth")
+	@Column(columnDefinition = "text", name="tbr_data_date_of_birth")
 	private String tbrDataDateOfBirth;
 
 	@Lob
-	@Column(name="tbr_data_education")
+	@Column(columnDefinition = "text", name="tbr_data_education")
 	private String tbrDataEducation;
 
 	@Lob
-	@Column(name="tbr_data_emails")
+	@Column(columnDefinition = "text", name="tbr_data_emails")
 	private String tbrDataEmails;
 
 	@Lob
-	@Column(name="tbr_data_head_shot")
+	@Column(columnDefinition = "text", name="tbr_data_head_shot")
 	private String tbrDataHeadShot;
 
 	@Column(name="tbr_data_is_resume_probability")
 	private Integer tbrDataIsResumeProbability;
 
 	@Lob
-	@Column(name="tbr_data_language_codes")
+	@Column(columnDefinition = "text", name="tbr_data_language_codes")
 	private String tbrDataLanguageCodes;
 
 	@Lob
-	@Column(name="tbr_data_languages")
+	@Column(columnDefinition = "text", name="tbr_data_languages")
 	private String tbrDataLanguages;
 
 	@Lob
-	@Column(name="tbr_data_linkedin")
+	@Column(columnDefinition = "text", name="tbr_data_linkedin")
 	private String tbrDataLinkedin;
 
 	@Lob
-	@Column(name="tbr_data_location_apartment_number")
+	@Column(columnDefinition = "text", name="tbr_data_location_apartment_number")
 	private String tbrDataLocationApartmentNumber;
 
 	@Lob
-	@Column(name="tbr_data_location_city")
+	@Column(columnDefinition = "text", name="tbr_data_location_city")
 	private String tbrDataLocationCity;
 
 	@Lob
-	@Column(name="tbr_data_location_country")
+	@Column(columnDefinition = "text", name="tbr_data_location_country")
 	private String tbrDataLocationCountry;
 
 	@Lob
-	@Column(name="tbr_data_location_country_code")
+	@Column(columnDefinition = "text", name="tbr_data_location_country_code")
 	private String tbrDataLocationCountryCode;
 
 	@Lob
-	@Column(name="tbr_data_location_formatted")
+	@Column(columnDefinition = "text", name="tbr_data_location_formatted")
 	private String tbrDataLocationFormatted;
 
 	@Lob
-	@Column(name="tbr_data_location_postal_code")
+	@Column(columnDefinition = "text", name="tbr_data_location_postal_code")
 	private String tbrDataLocationPostalCode;
 
 	@Lob
-	@Column(name="tbr_data_location_raw_input")
+	@Column(columnDefinition = "text", name="tbr_data_location_raw_input")
 	private String tbrDataLocationRawInput;
 
 	@Lob
-	@Column(name="tbr_data_location_state")
+	@Column(columnDefinition = "text", name="tbr_data_location_state")
 	private String tbrDataLocationState;
 
 	@Lob
-	@Column(name="tbr_data_location_street")
+	@Column(columnDefinition = "text", name="tbr_data_location_street")
 	private String tbrDataLocationStreet;
 
 	@Lob
-	@Column(name="tbr_data_location_street_number")
+	@Column(columnDefinition = "text", name="tbr_data_location_street_number")
 	private String tbrDataLocationStreetNumber;
 
 	@Lob
-	@Column(name="tbr_data_name_first")
+	@Column(columnDefinition = "text", name="tbr_data_name_first")
 	private String tbrDataNameFirst;
 
 	@Lob
-	@Column(name="tbr_data_name_last")
+	@Column(columnDefinition = "text", name="tbr_data_name_last")
 	private String tbrDataNameLast;
 
 	@Lob
-	@Column(name="tbr_data_name_middle")
+	@Column(columnDefinition = "text", name="tbr_data_name_middle")
 	private String tbrDataNameMiddle;
 
 	@Lob
-	@Column(name="tbr_data_name_raw")
+	@Column(columnDefinition = "text", name="tbr_data_name_raw")
 	private String tbrDataNameRaw;
 
 	@Lob
-	@Column(name="tbr_data_name_title")
+	@Column(columnDefinition = "text", name="tbr_data_name_title")
 	private String tbrDataNameTitle;
 
 	@Lob
-	@Column(name="tbr_data_objective")
+	@Column(columnDefinition = "text", name="tbr_data_objective")
 	private String tbrDataObjective;
 
 	@Lob
-	@Column(name="tbr_data_phone_numbers")
+	@Column(columnDefinition = "text", name="tbr_data_phone_numbers")
 	private String tbrDataPhoneNumbers;
 
 	@Lob
-	@Column(name="tbr_data_profession")
+	@Column(columnDefinition = "text", name="tbr_data_profession")
 	private String tbrDataProfession;
 
 	@Lob
-	@Column(name="tbr_data_publications")
+	@Column(columnDefinition = "text", name="tbr_data_publications")
 	private String tbrDataPublications;
 
 	@Lob
-	@Column(name="tbr_data_raw_text")
+	@Column(columnDefinition = "text", name="tbr_data_raw_text")
 	private String tbrDataRawText;
 
 	@Lob
-	@Column(name="tbr_data_referees")
+	@Column(columnDefinition = "text", name="tbr_data_referees")
 	private String tbrDataReferees;
 
 	@Lob
-	@Column(name="tbr_data_sections")
+	@Column(columnDefinition = "text", name="tbr_data_sections")
 	private String tbrDataSections;
 
 	@Lob
-	@Column(name="tbr_data_skills")
+	@Column(columnDefinition = "text", name="tbr_data_skills")
 	private String tbrDataSkills;
 
 	@Lob
-	@Column(name="tbr_data_summary")
+	@Column(columnDefinition = "text", name="tbr_data_summary")
 	private String tbrDataSummary;
 
 	@Column(name="tbr_data_total_years_experience")
 	private Integer tbrDataTotalYearsExperience;
 
 	@Lob
-	@Column(name="tbr_data_websites")
+	@Column(columnDefinition = "text", name="tbr_data_websites")
 	private String tbrDataWebsites;
 
 	@Lob
-	@Column(name="tbr_data_work_experience")
+	@Column(columnDefinition = "text", name="tbr_data_work_experience")
 	private String tbrDataWorkExperience;
 
 	@Lob
-	@Column(name="tbr_error_error_code")
+	@Column(columnDefinition = "text", name="tbr_error_error_code")
 	private String tbrErrorErrorCode;
 
 	@Lob
-	@Column(name="tbr_error_error_detail")
+	@Column(columnDefinition = "text", name="tbr_error_error_detail")
 	private String tbrErrorErrorDetail;
 
 	@Column(name="tbr_id")
 	private Integer tbrId;
 
 	@Lob
-	@Column(name="tbr_meta_child_documents")
+	@Column(columnDefinition = "text", name="tbr_meta_child_documents")
 	private String tbrMetaChildDocuments;
 
 	@Lob
-	@Column(name="tbr_meta_expiry_time")
+	@Column(columnDefinition = "text", name="tbr_meta_expiry_time")
 	private String tbrMetaExpiryTime;
 
 	@Column(name="tbr_meta_failed")
 	private Integer tbrMetaFailed;
 
 	@Lob
-	@Column(name="tbr_meta_file_name")
+	@Column(columnDefinition = "text", name="tbr_meta_file_name")
 	private String tbrMetaFileName;
 
 	@Lob
-	@Column(name="tbr_meta_identifier")
+	@Column(columnDefinition = "text", name="tbr_meta_identifier")
 	private String tbrMetaIdentifier;
 
 	@Column(name="tbr_meta_is_verified")
 	private Integer tbrMetaIsVerified;
 
 	@Lob
-	@Column(name="tbr_meta_language")
+	@Column(columnDefinition = "text", name="tbr_meta_language")
 	private String tbrMetaLanguage;
 
 	@Column(name="tbr_meta_ocr_confidence")
-	private double tbrMetaOcrConfidence;
+	private Double tbrMetaOcrConfidence;
 
 	@Lob
-	@Column(name="tbr_meta_pages")
+	@Column(columnDefinition = "text", name="tbr_meta_pages")
 	private String tbrMetaPages;
 
 	@Lob
-	@Column(name="tbr_meta_parent_document_identifier")
+	@Column(columnDefinition = "text", name="tbr_meta_parent_document_identifier")
 	private String tbrMetaParentDocumentIdentifier;
 
 	@Lob
-	@Column(name="tbr_meta_pdf")
+	@Column(columnDefinition = "text", name="tbr_meta_pdf")
 	private String tbrMetaPdf;
 
 	@Column(name="tbr_meta_ready")
 	private Integer tbrMetaReady;
 
 	@Lob
-	@Column(name="tbr_meta_ready_dt")
+	@Column(columnDefinition = "text", name="tbr_meta_ready_dt")
 	private String tbrMetaReadyDt;
 
 	@Lob
-	@Column(name="tbr_meta_review_url")
+	@Column(columnDefinition = "text", name="tbr_meta_review_url")
 	private String tbrMetaReviewUrl;
 
 	@Column(name="tbr_status")
@@ -272,13 +272,14 @@ public class ViewJobResume implements Serializable {
 	@Column(name="tbr_uuid")
 	private String tbrUuid;
 
+    @Id
 	private String uuid;
 
-	public ViewJobResume() {
+	public ViewResumeJob() {
 	}
 
 	public Date getTbjCreateDate() {
-		return this.tbjCreateDate;
+		return tbjCreateDate;
 	}
 
 	public void setTbjCreateDate(Date tbjCreateDate) {
@@ -286,7 +287,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public Integer getTbjCreateId() {
-		return this.tbjCreateId;
+		return tbjCreateId;
 	}
 
 	public void setTbjCreateId(Integer tbjCreateId) {
@@ -294,7 +295,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public Integer getTbjCreateIdc() {
-		return this.tbjCreateIdc;
+		return tbjCreateIdc;
 	}
 
 	public void setTbjCreateIdc(Integer tbjCreateIdc) {
@@ -302,7 +303,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public Integer getTbjId() {
-		return this.tbjId;
+		return tbjId;
 	}
 
 	public void setTbjId(Integer tbjId) {
@@ -310,7 +311,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbjName() {
-		return this.tbjName;
+		return tbjName;
 	}
 
 	public void setTbjName(String tbjName) {
@@ -318,7 +319,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbjStatus() {
-		return this.tbjStatus;
+		return tbjStatus;
 	}
 
 	public void setTbjStatus(String tbjStatus) {
@@ -326,7 +327,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public Date getTbjUpdateDate() {
-		return this.tbjUpdateDate;
+		return tbjUpdateDate;
 	}
 
 	public void setTbjUpdateDate(Date tbjUpdateDate) {
@@ -334,7 +335,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public Integer getTbjUpdateId() {
-		return this.tbjUpdateId;
+		return tbjUpdateId;
 	}
 
 	public void setTbjUpdateId(Integer tbjUpdateId) {
@@ -342,7 +343,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbjUuid() {
-		return this.tbjUuid;
+		return tbjUuid;
 	}
 
 	public void setTbjUuid(String tbjUuid) {
@@ -350,7 +351,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public Date getTbrCreateDate() {
-		return this.tbrCreateDate;
+		return tbrCreateDate;
 	}
 
 	public void setTbrCreateDate(Date tbrCreateDate) {
@@ -358,7 +359,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public Integer getTbrCreateId() {
-		return this.tbrCreateId;
+		return tbrCreateId;
 	}
 
 	public void setTbrCreateId(Integer tbrCreateId) {
@@ -366,7 +367,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public Integer getTbrCreateIdc() {
-		return this.tbrCreateIdc;
+		return tbrCreateIdc;
 	}
 
 	public void setTbrCreateIdc(Integer tbrCreateIdc) {
@@ -374,7 +375,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrDataCertifications() {
-		return this.tbrDataCertifications;
+		return tbrDataCertifications;
 	}
 
 	public void setTbrDataCertifications(String tbrDataCertifications) {
@@ -382,7 +383,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrDataDateOfBirth() {
-		return this.tbrDataDateOfBirth;
+		return tbrDataDateOfBirth;
 	}
 
 	public void setTbrDataDateOfBirth(String tbrDataDateOfBirth) {
@@ -390,7 +391,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrDataEducation() {
-		return this.tbrDataEducation;
+		return tbrDataEducation;
 	}
 
 	public void setTbrDataEducation(String tbrDataEducation) {
@@ -398,7 +399,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrDataEmails() {
-		return this.tbrDataEmails;
+		return tbrDataEmails;
 	}
 
 	public void setTbrDataEmails(String tbrDataEmails) {
@@ -406,7 +407,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrDataHeadShot() {
-		return this.tbrDataHeadShot;
+		return tbrDataHeadShot;
 	}
 
 	public void setTbrDataHeadShot(String tbrDataHeadShot) {
@@ -414,7 +415,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public Integer getTbrDataIsResumeProbability() {
-		return this.tbrDataIsResumeProbability;
+		return tbrDataIsResumeProbability;
 	}
 
 	public void setTbrDataIsResumeProbability(Integer tbrDataIsResumeProbability) {
@@ -422,7 +423,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrDataLanguageCodes() {
-		return this.tbrDataLanguageCodes;
+		return tbrDataLanguageCodes;
 	}
 
 	public void setTbrDataLanguageCodes(String tbrDataLanguageCodes) {
@@ -430,7 +431,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrDataLanguages() {
-		return this.tbrDataLanguages;
+		return tbrDataLanguages;
 	}
 
 	public void setTbrDataLanguages(String tbrDataLanguages) {
@@ -438,7 +439,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrDataLinkedin() {
-		return this.tbrDataLinkedin;
+		return tbrDataLinkedin;
 	}
 
 	public void setTbrDataLinkedin(String tbrDataLinkedin) {
@@ -446,7 +447,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrDataLocationApartmentNumber() {
-		return this.tbrDataLocationApartmentNumber;
+		return tbrDataLocationApartmentNumber;
 	}
 
 	public void setTbrDataLocationApartmentNumber(String tbrDataLocationApartmentNumber) {
@@ -454,7 +455,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrDataLocationCity() {
-		return this.tbrDataLocationCity;
+		return tbrDataLocationCity;
 	}
 
 	public void setTbrDataLocationCity(String tbrDataLocationCity) {
@@ -462,7 +463,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrDataLocationCountry() {
-		return this.tbrDataLocationCountry;
+		return tbrDataLocationCountry;
 	}
 
 	public void setTbrDataLocationCountry(String tbrDataLocationCountry) {
@@ -470,7 +471,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrDataLocationCountryCode() {
-		return this.tbrDataLocationCountryCode;
+		return tbrDataLocationCountryCode;
 	}
 
 	public void setTbrDataLocationCountryCode(String tbrDataLocationCountryCode) {
@@ -478,7 +479,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrDataLocationFormatted() {
-		return this.tbrDataLocationFormatted;
+		return tbrDataLocationFormatted;
 	}
 
 	public void setTbrDataLocationFormatted(String tbrDataLocationFormatted) {
@@ -486,7 +487,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrDataLocationPostalCode() {
-		return this.tbrDataLocationPostalCode;
+		return tbrDataLocationPostalCode;
 	}
 
 	public void setTbrDataLocationPostalCode(String tbrDataLocationPostalCode) {
@@ -494,7 +495,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrDataLocationRawInput() {
-		return this.tbrDataLocationRawInput;
+		return tbrDataLocationRawInput;
 	}
 
 	public void setTbrDataLocationRawInput(String tbrDataLocationRawInput) {
@@ -502,7 +503,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrDataLocationState() {
-		return this.tbrDataLocationState;
+		return tbrDataLocationState;
 	}
 
 	public void setTbrDataLocationState(String tbrDataLocationState) {
@@ -510,7 +511,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrDataLocationStreet() {
-		return this.tbrDataLocationStreet;
+		return tbrDataLocationStreet;
 	}
 
 	public void setTbrDataLocationStreet(String tbrDataLocationStreet) {
@@ -518,7 +519,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrDataLocationStreetNumber() {
-		return this.tbrDataLocationStreetNumber;
+		return tbrDataLocationStreetNumber;
 	}
 
 	public void setTbrDataLocationStreetNumber(String tbrDataLocationStreetNumber) {
@@ -526,7 +527,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrDataNameFirst() {
-		return this.tbrDataNameFirst;
+		return tbrDataNameFirst;
 	}
 
 	public void setTbrDataNameFirst(String tbrDataNameFirst) {
@@ -534,7 +535,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrDataNameLast() {
-		return this.tbrDataNameLast;
+		return tbrDataNameLast;
 	}
 
 	public void setTbrDataNameLast(String tbrDataNameLast) {
@@ -542,7 +543,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrDataNameMiddle() {
-		return this.tbrDataNameMiddle;
+		return tbrDataNameMiddle;
 	}
 
 	public void setTbrDataNameMiddle(String tbrDataNameMiddle) {
@@ -550,7 +551,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrDataNameRaw() {
-		return this.tbrDataNameRaw;
+		return tbrDataNameRaw;
 	}
 
 	public void setTbrDataNameRaw(String tbrDataNameRaw) {
@@ -558,7 +559,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrDataNameTitle() {
-		return this.tbrDataNameTitle;
+		return tbrDataNameTitle;
 	}
 
 	public void setTbrDataNameTitle(String tbrDataNameTitle) {
@@ -566,7 +567,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrDataObjective() {
-		return this.tbrDataObjective;
+		return tbrDataObjective;
 	}
 
 	public void setTbrDataObjective(String tbrDataObjective) {
@@ -574,7 +575,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrDataPhoneNumbers() {
-		return this.tbrDataPhoneNumbers;
+		return tbrDataPhoneNumbers;
 	}
 
 	public void setTbrDataPhoneNumbers(String tbrDataPhoneNumbers) {
@@ -582,7 +583,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrDataProfession() {
-		return this.tbrDataProfession;
+		return tbrDataProfession;
 	}
 
 	public void setTbrDataProfession(String tbrDataProfession) {
@@ -590,7 +591,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrDataPublications() {
-		return this.tbrDataPublications;
+		return tbrDataPublications;
 	}
 
 	public void setTbrDataPublications(String tbrDataPublications) {
@@ -598,7 +599,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrDataRawText() {
-		return this.tbrDataRawText;
+		return tbrDataRawText;
 	}
 
 	public void setTbrDataRawText(String tbrDataRawText) {
@@ -606,7 +607,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrDataReferees() {
-		return this.tbrDataReferees;
+		return tbrDataReferees;
 	}
 
 	public void setTbrDataReferees(String tbrDataReferees) {
@@ -614,7 +615,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrDataSections() {
-		return this.tbrDataSections;
+		return tbrDataSections;
 	}
 
 	public void setTbrDataSections(String tbrDataSections) {
@@ -622,7 +623,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrDataSkills() {
-		return this.tbrDataSkills;
+		return tbrDataSkills;
 	}
 
 	public void setTbrDataSkills(String tbrDataSkills) {
@@ -630,7 +631,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrDataSummary() {
-		return this.tbrDataSummary;
+		return tbrDataSummary;
 	}
 
 	public void setTbrDataSummary(String tbrDataSummary) {
@@ -638,7 +639,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public Integer getTbrDataTotalYearsExperience() {
-		return this.tbrDataTotalYearsExperience;
+		return tbrDataTotalYearsExperience;
 	}
 
 	public void setTbrDataTotalYearsExperience(Integer tbrDataTotalYearsExperience) {
@@ -646,7 +647,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrDataWebsites() {
-		return this.tbrDataWebsites;
+		return tbrDataWebsites;
 	}
 
 	public void setTbrDataWebsites(String tbrDataWebsites) {
@@ -654,7 +655,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrDataWorkExperience() {
-		return this.tbrDataWorkExperience;
+		return tbrDataWorkExperience;
 	}
 
 	public void setTbrDataWorkExperience(String tbrDataWorkExperience) {
@@ -662,7 +663,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrErrorErrorCode() {
-		return this.tbrErrorErrorCode;
+		return tbrErrorErrorCode;
 	}
 
 	public void setTbrErrorErrorCode(String tbrErrorErrorCode) {
@@ -670,7 +671,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrErrorErrorDetail() {
-		return this.tbrErrorErrorDetail;
+		return tbrErrorErrorDetail;
 	}
 
 	public void setTbrErrorErrorDetail(String tbrErrorErrorDetail) {
@@ -678,7 +679,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public Integer getTbrId() {
-		return this.tbrId;
+		return tbrId;
 	}
 
 	public void setTbrId(Integer tbrId) {
@@ -686,7 +687,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrMetaChildDocuments() {
-		return this.tbrMetaChildDocuments;
+		return tbrMetaChildDocuments;
 	}
 
 	public void setTbrMetaChildDocuments(String tbrMetaChildDocuments) {
@@ -694,7 +695,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrMetaExpiryTime() {
-		return this.tbrMetaExpiryTime;
+		return tbrMetaExpiryTime;
 	}
 
 	public void setTbrMetaExpiryTime(String tbrMetaExpiryTime) {
@@ -702,7 +703,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public Integer getTbrMetaFailed() {
-		return this.tbrMetaFailed;
+		return tbrMetaFailed;
 	}
 
 	public void setTbrMetaFailed(Integer tbrMetaFailed) {
@@ -710,7 +711,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrMetaFileName() {
-		return this.tbrMetaFileName;
+		return tbrMetaFileName;
 	}
 
 	public void setTbrMetaFileName(String tbrMetaFileName) {
@@ -718,7 +719,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrMetaIdentifier() {
-		return this.tbrMetaIdentifier;
+		return tbrMetaIdentifier;
 	}
 
 	public void setTbrMetaIdentifier(String tbrMetaIdentifier) {
@@ -726,7 +727,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public Integer getTbrMetaIsVerified() {
-		return this.tbrMetaIsVerified;
+		return tbrMetaIsVerified;
 	}
 
 	public void setTbrMetaIsVerified(Integer tbrMetaIsVerified) {
@@ -734,23 +735,23 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrMetaLanguage() {
-		return this.tbrMetaLanguage;
+		return tbrMetaLanguage;
 	}
 
 	public void setTbrMetaLanguage(String tbrMetaLanguage) {
 		this.tbrMetaLanguage = tbrMetaLanguage;
 	}
 
-	public double getTbrMetaOcrConfidence() {
-		return this.tbrMetaOcrConfidence;
+	public Double getTbrMetaOcrConfidence() {
+		return tbrMetaOcrConfidence;
 	}
 
-	public void setTbrMetaOcrConfidence(double tbrMetaOcrConfidence) {
+	public void setTbrMetaOcrConfidence(Double tbrMetaOcrConfidence) {
 		this.tbrMetaOcrConfidence = tbrMetaOcrConfidence;
 	}
 
 	public String getTbrMetaPages() {
-		return this.tbrMetaPages;
+		return tbrMetaPages;
 	}
 
 	public void setTbrMetaPages(String tbrMetaPages) {
@@ -758,7 +759,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrMetaParentDocumentIdentifier() {
-		return this.tbrMetaParentDocumentIdentifier;
+		return tbrMetaParentDocumentIdentifier;
 	}
 
 	public void setTbrMetaParentDocumentIdentifier(String tbrMetaParentDocumentIdentifier) {
@@ -766,7 +767,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrMetaPdf() {
-		return this.tbrMetaPdf;
+		return tbrMetaPdf;
 	}
 
 	public void setTbrMetaPdf(String tbrMetaPdf) {
@@ -774,7 +775,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public Integer getTbrMetaReady() {
-		return this.tbrMetaReady;
+		return tbrMetaReady;
 	}
 
 	public void setTbrMetaReady(Integer tbrMetaReady) {
@@ -782,7 +783,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrMetaReadyDt() {
-		return this.tbrMetaReadyDt;
+		return tbrMetaReadyDt;
 	}
 
 	public void setTbrMetaReadyDt(String tbrMetaReadyDt) {
@@ -790,7 +791,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrMetaReviewUrl() {
-		return this.tbrMetaReviewUrl;
+		return tbrMetaReviewUrl;
 	}
 
 	public void setTbrMetaReviewUrl(String tbrMetaReviewUrl) {
@@ -798,7 +799,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrStatus() {
-		return this.tbrStatus;
+		return tbrStatus;
 	}
 
 	public void setTbrStatus(String tbrStatus) {
@@ -806,7 +807,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public Date getTbrUpdateDate() {
-		return this.tbrUpdateDate;
+		return tbrUpdateDate;
 	}
 
 	public void setTbrUpdateDate(Date tbrUpdateDate) {
@@ -814,7 +815,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public Integer getTbrUpdateId() {
-		return this.tbrUpdateId;
+		return tbrUpdateId;
 	}
 
 	public void setTbrUpdateId(Integer tbrUpdateId) {
@@ -822,7 +823,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getTbrUuid() {
-		return this.tbrUuid;
+		return tbrUuid;
 	}
 
 	public void setTbrUuid(String tbrUuid) {
@@ -830,7 +831,7 @@ public class ViewJobResume implements Serializable {
 	}
 
 	public String getUuid() {
-		return this.uuid;
+		return uuid;
 	}
 
 	public void setUuid(String uuid) {
