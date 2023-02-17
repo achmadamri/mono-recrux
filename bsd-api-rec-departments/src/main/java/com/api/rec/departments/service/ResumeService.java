@@ -15,14 +15,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.affinda.api.client.AffindaAPI;
@@ -99,7 +108,7 @@ public class ResumeService {
 	@Autowired
 	private ViewResumeJobRepository viewResumeJobRepository;
 
-	public TbResume affindaCreateResume(TbUser tbUser, MultipartFile file) throws Exception {
+	public TbResume postUploadResumeAffinda(TbUser tbUser, MultipartFile file) throws Exception {
 		Gson gson = new Gson();
 
 		String apiKey = env.getProperty("key.affinda");
@@ -197,6 +206,25 @@ public class ResumeService {
 		return tbResume;
 	}
 
+	public TbResume postUploadResumeParser(TbUser tbUser, MultipartFile file) throws Exception {
+		String fileName = StringUtils.cleanPath(file.getOriginalFilename()) + "_" + (new Uid().generateString(5)) + ".pdf";
+		Files.copy(file.getInputStream(), Paths.get(env.getProperty("file.resume.dir") + fileName), StandardCopyOption.REPLACE_EXISTING);
+		String filePath = env.getProperty("file.resume.dir") + fileName;
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+		MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+		body.add("resume", new FileSystemResource(filePath));
+
+		HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<String> response = restTemplate.exchange("http://localhost:8081/upload", HttpMethod.POST, requestEntity, String.class);
+
+		return null;
+	}
+
 	public PostUploadResumeResponseModel postUploadResume(PostUploadResumeRequestModel requestModel, MultipartFile file) throws Exception {
 		PostUploadResumeResponseModel responseModel = new PostUploadResumeResponseModel(requestModel);
 
@@ -215,9 +243,13 @@ public class ResumeService {
 
 			if (optTbJob.isPresent()) {
 				String fileNameOri = StringUtils.cleanPath(file.getOriginalFilename());
-				String fileName = responseModel.getResponseId() + "-" + StringUtils.cleanPath(file.getOriginalFilename());				
+				String fileName = responseModel.getResponseId() + "-" + StringUtils.cleanPath(file.getOriginalFilename());		
+				
+				postUploadResumeParser(optTbUser.get(), file);
+				
+				int i = 1 / 0;
 	
-				TbResume tbResume = affindaCreateResume(optTbUser.get(), file);
+				TbResume tbResume = postUploadResumeAffinda(optTbUser.get(), file);
 				tbResume.setTbjId(optTbJob.get().getTbjId());
 				tbResume.setTbrDataPhoneNumbers(getJsonArray(tbResume.getTbrDataPhoneNumbers()));
 				tbResume.setTbrDataEmails(getJsonArray(tbResume.getTbrDataEmails()));

@@ -29,6 +29,16 @@
             "projectName": "bsd-api-rec-member",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-Application<bsd-api-rec-resume>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.api.rec.resume.Application",
+            "projectName": "bsd-api-rec-resume",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
