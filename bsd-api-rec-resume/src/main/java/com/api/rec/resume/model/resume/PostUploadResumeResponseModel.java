@@ -10,13 +10,13 @@ public class PostUploadResumeResponseModel extends ResponseModel {
 		super(requestModel);
 	}
 	
-	private JSONObject parsedJSON;
+	private JSONObject json;
 
-	public JSONObject getParsedJSON() {
-		return parsedJSON;
+	public JSONObject getJson() {
+		return json;
 	}
 
-	public void setParsedJSON(JSONObject parsedJSON) {
-		this.parsedJSON = parsedJSON;
-	}
+	public void setJson(JSONObject json) {
+		this.json = json;
+	}	
 }

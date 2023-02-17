@@ -43,7 +43,7 @@ public class ResumeService {
 		File tikkaConvertedFile = resumeParserProgram.parseToHTMLUsingApacheTikka(filePath);
 		JSONObject parsedJSON = resumeParserProgram.loadGateAndAnnie(tikkaConvertedFile);
 
-		responseModel.setParsedJSON(parsedJSON);
+		responseModel.setJson(parsedJSON);
 		responseModel.setHttpStatus(HttpStatus.OK);
 		
 		return responseModel;

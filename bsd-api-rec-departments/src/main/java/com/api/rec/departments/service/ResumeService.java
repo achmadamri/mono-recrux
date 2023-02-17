@@ -7,8 +7,10 @@ import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -67,6 +69,8 @@ import com.api.rec.departments.model.resume.PostUploadResumeResponseModel;
 import com.api.rec.departments.util.TokenUtil;
 import com.api.rec.departments.util.Uid;
 import com.azure.core.credential.TokenCredential;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -206,7 +210,7 @@ public class ResumeService {
 		return tbResume;
 	}
 
-	public TbResume postUploadResumeParser(TbUser tbUser, MultipartFile file) throws Exception {
+	public JsonNode postUploadResumeParser(TbUser tbUser, MultipartFile file) throws Exception {
 		String fileName = StringUtils.cleanPath(file.getOriginalFilename()) + "_" + (new Uid().generateString(5)) + ".pdf";
 		Files.copy(file.getInputStream(), Paths.get(env.getProperty("file.resume.dir") + fileName), StandardCopyOption.REPLACE_EXISTING);
 		String filePath = env.getProperty("file.resume.dir") + fileName;
@@ -215,14 +219,17 @@ public class ResumeService {
 		headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
 		MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-		body.add("resume", new FileSystemResource(filePath));
+		body.add("file", new FileSystemResource(filePath));
 
 		HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
 		RestTemplate restTemplate = new RestTemplate();
-		ResponseEntity<String> response = restTemplate.exchange("http://localhost:8081/upload", HttpMethod.POST, requestEntity, String.class);
+		ResponseEntity<String> response = restTemplate.exchange("http://localhost:2083/resume/postuploadresume", HttpMethod.POST, requestEntity, String.class);
 
-		return null;
+		ObjectMapper objectMapper = new ObjectMapper();
+		JsonNode rootNode = objectMapper.readTree(response.getBody());
+
+		return rootNode;
 	}
 
 	public PostUploadResumeResponseModel postUploadResume(PostUploadResumeRequestModel requestModel, MultipartFile file) throws Exception {
@@ -245,107 +252,68 @@ public class ResumeService {
 				String fileNameOri = StringUtils.cleanPath(file.getOriginalFilename());
 				String fileName = responseModel.getResponseId() + "-" + StringUtils.cleanPath(file.getOriginalFilename());		
 				
-				postUploadResumeParser(optTbUser.get(), file);
-				
-				int i = 1 / 0;
-	
-				TbResume tbResume = postUploadResumeAffinda(optTbUser.get(), file);
+				JsonNode rootNode = postUploadResumeParser(optTbUser.get(), file);
+
+				TbResume tbResume = new TbResume();
+				tbResume.setTbrCreateId(optTbUser.get().getTbuId());
+				tbResume.setTbrCreateDate(new Date());
+				tbResume.setTbrCreateIdc(optTbUser.get().getTbuCreateIdc());
+				tbResume.setTbrStatus(TbResumeRepository.Active);
+				tbResume.setTbrAssigned(TbResumeRepository.Assigned);
+				tbResume.setTbrUuid(new Uid().generateString(5));
+
 				tbResume.setTbjId(optTbJob.get().getTbjId());
-				tbResume.setTbrDataPhoneNumbers(getJsonArray(tbResume.getTbrDataPhoneNumbers()));
-				tbResume.setTbrDataEmails(getJsonArray(tbResume.getTbrDataEmails()));
-				tbResume.setTbrDataWebsites(getJsonArray(tbResume.getTbrDataWebsites()));
-				tbResume.setTbrDataLanguages(getJsonArray(tbResume.getTbrDataLanguages()));				
+
+				JsonNode basics = rootNode.path("json").path("basics");
+				
+				if (basics.path("name").path("firstName") != null)				
+					tbResume.setTbrDataNameFirst(basics.path("name").path("firstName").asText());
+				
+				if (basics.path("name").path("surname") != null)
+					tbResume.setTbrDataNameLast(basics.path("name").path("surname").asText());
+				
+				tbResume.setTbrDataNameRaw(tbResume.getTbrDataNameFirst() + " " + tbResume.getTbrDataNameLast());
+				
+				if (basics.path("email").get(0) != null)
+					tbResume.setTbrDataEmails(basics.path("email").get(0).asText());
+
+				if (basics.path("phone").get(0) != null)				
+					tbResume.setTbrDataPhoneNumbers(basics.path("phone").get(0).asText().replaceAll(" ", ""));
+				
 				tbResumeRepository.save(tbResume);
 
-				Files.copy(file.getInputStream(), Paths.get(env.getProperty("file.resume.dir") + tbResume.getTbrMetaFileName() + ".pdf"), StandardCopyOption.REPLACE_EXISTING);
-				
-				String jsonEducation = tbResume.getTbrDataEducation();
-				JsonArray jsonArrayEducation = JsonParser.parseString(jsonEducation).getAsJsonArray();
-				for (JsonElement jsonElement : jsonArrayEducation) {
-					TbResumeEducation tbResumeEducation = new TbResumeEducation();
-					tbResumeEducation.setTbreUuid(new Uid().generateString(5));
-					tbResumeEducation.setTbreCreateId(optTbUser.get().getTbuId());
-					tbResumeEducation.setTbreCreateIdc(optTbUser.get().getTbuCreateIdc());
-					tbResumeEducation.setTbreCreateDate(new Date());
-					tbResumeEducation.setTbreStatus(TbResumeEducationRepository.Active);
-					tbResumeEducation.setTbrId(tbResume.getTbrId());
-					tbResumeEducation.setTbreOrganization(getJson(jsonElement, "organization"));
-					tbResumeEducation.setTbreEducation(getJson(jsonElement, "accreditation.education"));
-					tbResumeEducation.setTbreEducationLevel(getJson(jsonElement, "accreditation.educationLevel"));
-					tbResumeEducation.setTbreInputStr(getJson(jsonElement, "accreditation.inputStr"));
-					tbResumeEducation.setTbreMatchStr(getJson(jsonElement, "accreditation.matchStr"));
-					tbResumeEducation.setTbreGradeRaw(getJson(jsonElement, "grade.raw"));
-					tbResumeEducation.setTbreGradeValue(getJson(jsonElement, "grade.value"));
-					tbResumeEducation.setTbreGradeMetric(getJson(jsonElement, "grade.metric"));
-					tbResumeEducation.setTbreLocationFormatted(getJson(jsonElement, "location.formatted"));
-					tbResumeEducation.setTbreLocationCity(getJson(jsonElement, "location.city"));
-					tbResumeEducation.setTbreLocationState(getJson(jsonElement, "location.state"));
-					tbResumeEducation.setTbreLocationCountry(getJson(jsonElement, "location.country"));
-					tbResumeEducation.setTbreLocationRawInput(getJson(jsonElement, "location.rawInput"));
-					tbResumeEducation.setTbreLocationCountryCode(getJson(jsonElement, "location.countryCode"));
-					tbResumeEducation.setTbreLocationLatitude(getJson(jsonElement, "location.latitude"));
-					tbResumeEducation.setTbreLocationLongitude(getJson(jsonElement, "location.longitude"));				
-					tbResumeEducation.setTbreStartDate(getJsonDate(getJson(jsonElement, "startDate")));
-					tbResumeEducation.setTbreCompletionDate(getJsonDate(getJson(jsonElement, "completionDate")));
-					tbResumeEducation.setTbreIsCurrent(getJson(jsonElement, "isCurrent"));
-					tbResumeEducationRepository.save(tbResumeEducation);
-				}
+				JsonNode workExperienceArray = rootNode.path("json").path("work_experience");
 
-				String jsonWorkExperience = tbResume.getTbrDataWorkExperience();
-				JsonArray jsonArrayWorkExperience = JsonParser.parseString(jsonWorkExperience).getAsJsonArray();
-				for (JsonElement jsonElement : jsonArrayWorkExperience) {
+				Iterator<JsonNode> workExperienceIterator = workExperienceArray.elements();
+				List<TbResumeWorkExperience> lstTbResumeWorkExperience = new ArrayList<TbResumeWorkExperience>();
+				while (workExperienceIterator.hasNext()) {
+					JsonNode experienceNode = workExperienceIterator.next();
 					TbResumeWorkExperience tbResumeWorkExperience = new TbResumeWorkExperience();
-					tbResumeWorkExperience.setTbrweUuid(new Uid().generateString(5));
 					tbResumeWorkExperience.setTbrweCreateId(optTbUser.get().getTbuId());
-					tbResumeWorkExperience.setTbrweCreateIdc(optTbUser.get().getTbuCreateIdc());
 					tbResumeWorkExperience.setTbrweCreateDate(new Date());
+					tbResumeWorkExperience.setTbrweCreateIdc(optTbUser.get().getTbuCreateIdc());
 					tbResumeWorkExperience.setTbrweStatus(TbResumeWorkExperienceRepository.Active);
+					tbResumeWorkExperience.setTbrweUuid(new Uid().generateString(5));
 					tbResumeWorkExperience.setTbrId(tbResume.getTbrId());
-					tbResumeWorkExperience.setTbrweJobTitle(getJson(jsonElement, "jobTitle"));
-					tbResumeWorkExperience.setTbrweJobTitleNormalized(getJson(jsonElement, "occupation.jobTitleNormalized"));
-					tbResumeWorkExperience.setTbrweOrganization(getJson(jsonElement, "organization"));
-					tbResumeWorkExperience.setTbrweStartDate(getJsonDate(getJson(jsonElement, "dates.startDate")));
-					tbResumeWorkExperience.setTbrweEndDate(getJsonDate(getJson(jsonElement, "dates.endDate")));
-					tbResumeWorkExperience.setTbrweMonthsInPosition(getJsonInteger(jsonElement, "dates.monthsInPosition"));
-					tbResumeWorkExperience.setTbrweIsCurrent(getJson(jsonElement, "dates.isCurrent"));
-					tbResumeWorkExperience.setTbrweJobDescription(getJson(jsonElement, "jobDescription"));
-					tbResumeWorkExperience.setTbrweMinorGroup(getJson(jsonElement, "occupation.classification.minorGroup"));
-					tbResumeWorkExperience.setTbrweMajorGroup(getJson(jsonElement, "occupation.classification.majorGroup"));
-					tbResumeWorkExperience.setTbrweSubMajorGroup(getJson(jsonElement, "occupation.classification.subMajorGroup"));
-					tbResumeWorkExperience.setTbrweManagementLevel(getJson(jsonElement, "occupation.managementLevel"));
-					tbResumeWorkExperienceRepository.save(tbResumeWorkExperience);
-				}
 
-				String jsonSkills = tbResume.getTbrDataSkills();
-				JsonArray jsonArraySkills = JsonParser.parseString(jsonSkills).getAsJsonArray();
-				for (JsonElement jsonElement : jsonArraySkills) {
-					TbResumeSkill tbResumeSkill = new TbResumeSkill();
-					tbResumeSkill.setTbrsUuid(new Uid().generateString(5));
-					tbResumeSkill.setTbrsCreateId(optTbUser.get().getTbuId());
-					tbResumeSkill.setTbrsCreateIdc(optTbUser.get().getTbuCreateIdc());
-					tbResumeSkill.setTbrsCreateDate(new Date());
-					tbResumeSkill.setTbrsStatus(TbResumeSkillRepository.Active);
-					tbResumeSkill.setTbrId(tbResume.getTbrId());
-					tbResumeSkill.setTbrsName(getJson(jsonElement, "name"));
-					tbResumeSkill.setTbrsLastUsed(getJsonDate(getJson(jsonElement, "lastUsed")));
-					tbResumeSkill.setTbrsNumberOfMonths(getJsonInteger(jsonElement, "numberOfMonths"));
-					tbResumeSkill.setTbrsType(getJson(jsonElement, "type"));
-					tbResumeSkillRepository.save(tbResumeSkill);
-				}
+					if (experienceNode.get("date_start") != null)
+						tbResumeWorkExperience.setTbrweStart(experienceNode.get("date_start").asText());
 
-				String jsonCertifications = tbResume.getTbrDataCertifications();
-				JsonArray jsonArrayCertifications = JsonParser.parseString(jsonCertifications).getAsJsonArray();
-				for (JsonElement jsonElement : jsonArrayCertifications) {
-					TbResumeCertification tbResumeCertification = new TbResumeCertification();
-					tbResumeCertification.setTbrcUuid(new Uid().generateString(5));
-					tbResumeCertification.setTbrcCreateId(optTbUser.get().getTbuId());
-					tbResumeCertification.setTbrcCreateIdc(optTbUser.get().getTbuCreateIdc());
-					tbResumeCertification.setTbrcCreateDate(new Date());
-					tbResumeCertification.setTbrcStatus(TbResumeCertificationRepository.Active);
-					tbResumeCertification.setTbrId(tbResume.getTbrId());
-					tbResumeCertification.setTbrcName(jsonElement.getAsString());				
-					tbResumeCertificationRepository.save(tbResumeCertification);
+					if (experienceNode.get("date_end") != null)
+						tbResumeWorkExperience.setTbrweEnd(experienceNode.get("date_end").asText());
+
+					if (experienceNode.get("jobtitle") != null)
+						tbResumeWorkExperience.setTbrweJobTitle(experienceNode.get("jobtitle").asText());
+
+					if (experienceNode.get("organization") != null)
+						tbResumeWorkExperience.setTbrweOrganization(experienceNode.get("organization").asText());
+					
+					if (experienceNode.get("text") != null)
+						tbResumeWorkExperience.setTbrweText(experienceNode.get("text").asText());
+					
+					lstTbResumeWorkExperience.add(tbResumeWorkExperience);
 				}
+				tbResumeWorkExperienceRepository.saveAll(lstTbResumeWorkExperience);
 	
 				responseModel.setTbResume(tbResume);
 				responseModel.setFileName(fileName);
