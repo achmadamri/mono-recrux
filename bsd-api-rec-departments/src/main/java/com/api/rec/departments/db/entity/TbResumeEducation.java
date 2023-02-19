@@ -105,6 +105,10 @@ public class TbResumeEducation implements Serializable {
 	@Column(name="tbre_uuid")
 	private String tbreUuid;
 
+	@Lob
+	@Column(columnDefinition = "text", name="tbre_text")
+	private String tbreText;
+
 	public TbResumeEducation() {
 	}
 
@@ -330,6 +334,14 @@ public class TbResumeEducation implements Serializable {
 
 	public void setTbreUuid(String tbreUuid) {
 		this.tbreUuid = tbreUuid;
+	}
+
+	public String getTbreText() {
+		return tbreText;
+	}
+
+	public void setTbreText(String tbreText) {
+		this.tbreText = tbreText;
 	}	
 
 }

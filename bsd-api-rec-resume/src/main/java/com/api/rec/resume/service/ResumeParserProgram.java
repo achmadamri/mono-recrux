@@ -18,6 +18,8 @@ import org.apache.tika.parser.AutoDetectParser;
 import org.apache.tika.sax.ToXMLContentHandler;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
@@ -34,6 +36,8 @@ import gate.util.Out;
 
 @Component
 public class ResumeParserProgram {
+	private Logger log = LoggerFactory.getLogger(ResumeParserProgram.class);
+	
 	public File parseToHTMLUsingApacheTikka(String file) throws IOException, SAXException, TikaException {
 		String ext = FilenameUtils.getExtension(file);
 		String outputFileFormat = "";
@@ -43,7 +47,7 @@ public class ResumeParserProgram {
 		} else if (ext.equalsIgnoreCase("txt") | ext.equalsIgnoreCase("rtf")) {
 			outputFileFormat = ".txt";
 		} else {
-			System.out.println("Input format of the file " + file + " is not supported.");
+			log.info("Input format of the file " + file + " is not supported.");
 			return null;
 		}
 		String OUTPUT_FILE_NAME = FilenameUtils.removeExtension(file) + outputFileFormat;
@@ -63,16 +67,26 @@ public class ResumeParserProgram {
 		}
 	}
 
+	private static boolean gateInitialized = false;
+
+	public static void initializeGate() throws GateException {
+		if (!gateInitialized) {
+			System.setProperty("gate.site.config", System.getProperty("user.dir")+"/GATEFiles/gate.xml");
+			if (Gate.getGateHome() == null)
+				Gate.setGateHome(new File(System.getProperty("user.dir")+"/GATEFiles"));
+			if (Gate.getPluginsHome() == null)
+				Gate.setPluginsHome(new File(System.getProperty("user.dir")+"/GATEFiles/plugins"));
+			Gate.init();
+
+			gateInitialized = true;
+		}
+	}
+
 	@SuppressWarnings("unchecked")
 	public JSONObject loadGateAndAnnie(File file) throws GateException, IOException {
-		System.setProperty("gate.site.config", System.getProperty("user.dir")+"/GATEFiles/gate.xml");
-		if (Gate.getGateHome() == null)
-			Gate.setGateHome(new File(System.getProperty("user.dir")+"/GATEFiles"));
-		if (Gate.getPluginsHome() == null)
-			Gate.setPluginsHome(new File(System.getProperty("user.dir")+"/GATEFiles/plugins"));
-		Gate.init();
+		initializeGate();
 
-		Annie annie = new Annie();
+		Annie annie = AnnieThreadLocal.getAnnie();
 		annie.initAnnie();
 
 		Corpus corpus = Factory.newCorpus("Annie corpus");
@@ -81,7 +95,7 @@ public class ResumeParserProgram {
 		params.put("sourceUrl", u);
 		params.put("preserveOriginalContent", new Boolean(true));
 		params.put("collectRepositioningInfo", new Boolean(true));
-		Out.prln("Creating doc for " + u);
+		log.info("Creating doc for " + u);
 		Document resume = (Document) Factory.createResource("gate.corpora.DocumentImpl", params);
 		corpus.add(resume);
 
@@ -90,7 +104,7 @@ public class ResumeParserProgram {
 
 		Iterator iter = corpus.iterator();
 		JSONObject parsedJSON = new JSONObject();
-		Out.prln("Started parsing...");
+		log.info("Started parsing...");
 		if (iter.hasNext()) {
 			JSONObject profileJSON = new JSONObject();
 			Document doc = (Document) iter.next();
@@ -206,8 +220,11 @@ public class ResumeParserProgram {
 			if (!workExperiences.isEmpty()) {
 				parsedJSON.put("work_experience", workExperiences);
 			}
-
+			
 		}
+		log.info("End parsing...");
+		corpus.unloadDocument(resume);
+		corpus.cleanup();
 		return parsedJSON;
 	}
 

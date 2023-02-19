@@ -70,12 +70,6 @@
                       <div class="ripple-container"></div>
                     </a>
                   </li>
-                  <li class="nav-item">
-                    <a mat-button class="nav-link" href="#certifications" data-toggle="tab">
-                      <i class="material-icons">assignment_turned_in</i> Certifications
-                      <div class="ripple-container"></div>
-                    </a>
-                  </li>
                 </ul>
               </div>
             </div>
@@ -216,21 +210,13 @@
                 <table class="table table-hover">
                   <thead>
                     <th>No</th>
-                    <th>Organization</th>
-                    <th>Education</th>
-                    <th>Level</th>
-                    <th>Grade</th>
-                    <th>Location</th>
+                    <th>Description</th>
                     <th>Action</th>
                   </thead>
                   <tbody *ngIf="getResumeResponse.lstTbResumeEducation">
                     <tr *ngFor="let tbResumeEducation of getResumeResponse.lstTbResumeEducation; let i=index;">
                       <td>{{i + 1 + (pageSize * pageIndex)}}</td>                                        
-                      <td>{{tbResumeEducation.tbreOrganization}}</td>
-                      <td>{{tbResumeEducation.tbreEducation}}</td>
-                      <td>{{tbResumeEducation.tbreEducationLevel}}</td>
-                      <td>{{tbResumeEducation.tbreGradeValue}}</td>
-                      <td>{{tbResumeEducation.tbreLocationFormatted}}</td>
+                      <td>{{tbResumeEducation.tbreText}}</td>
                       <td class="td-actions">
                         <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(tbResumeEducation.tbreUuid);"><mat-icon>pageview</mat-icon></button>
                         <button mat-icon-button title="Activate" [disabled]="clicked" (click)="nonActive(tbResumeEducation.tbreUuid);" *ngIf="tbResumeEducation.tbreStatus == 'notactive'"><mat-icon>check</mat-icon></button>
@@ -244,59 +230,27 @@
                 <table class="table table-hover">
                   <thead>
                     <th>No</th>
-                    <th>Title</th>
-                    <th>Title Normalized</th>
+                    <th>Job Title</th>
                     <th>Organization</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>Months</th>
-                    <th>Current</th>
-                    <th>Major</th>
-                    <th>Sub Major</th>
-                    <th>Minor</th>
-                    <th>Level</th>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Description</th>
                     <th>Action</th>
                   </thead>
                   <tbody *ngIf="getResumeResponse.lstTbResumeWorkExperience">
                       <tr *ngFor="let tbResumeWorkExperience of getResumeResponse.lstTbResumeWorkExperience; let i=index;">
                           <td>{{i + 1 + (pageSize * pageIndex)}}</td>                                        
                           <td>{{tbResumeWorkExperience.tbrweJobTitle}}</td>
-                          <td>{{tbResumeWorkExperience.tbrweJobTitleNormalized}}</td>
                           <td>{{tbResumeWorkExperience.tbrweOrganization}}</td>
-                          <td>{{tbResumeWorkExperience.tbrweStartDate | date: 'MM/dd/yyyy'}}</td>
-                          <td>{{tbResumeWorkExperience.tbrweEndDate | date: 'MM/dd/yyyy'}}</td>
-                          <td>{{tbResumeWorkExperience.tbrweMonthsInPosition}}</td>
-                          <td>{{tbResumeWorkExperience.tbrweIsCurrent}}</td>
-                          <td>{{tbResumeWorkExperience.tbrweMajorGroup}}</td>
-                          <td>{{tbResumeWorkExperience.tbrweSubMajorGroup}}</td>
-                          <td>{{tbResumeWorkExperience.tbrweMinorGroup}}</td>
-                          <td>{{tbResumeWorkExperience.tbrweManagementLevel}}</td>
+                          <td>{{tbResumeWorkExperience.tbrweStart}}</td>
+                          <td>{{tbResumeWorkExperience.tbrweEnd}}</td>
+                          <td>{{tbResumeWorkExperience.tbrweText}}</td>
                           <td class="td-actions">
                               <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(tbResumeWorkExperience.tbrweUuid);"><mat-icon>pageview</mat-icon></button>
                               <button mat-icon-button title="Activate" [disabled]="clicked" (click)="nonActive(tbResumeWorkExperience.tbrweUuid);" *ngIf="tbResumeWorkExperience.tbrweStatus == 'notactive'"><mat-icon>check</mat-icon></button>
                               <button mat-icon-button title="Deactivate" [disabled]="clicked" (click)="nonActive(tbResumeWorkExperience.tbrweUuid);" *ngIf="tbResumeWorkExperience.tbrweStatus == 'active'"><mat-icon>close</mat-icon></button>
                           </td>
                       </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div class="tab-pane" id="certifications">
-                <table class="table table-hover">
-                  <thead>
-                    <th>No</th>
-                    <th>Name</th>
-                    <th>Action</th>
-                  </thead>
-                  <tbody *ngIf="getResumeResponse.lstTbResumeCertification">
-                    <tr *ngFor="let tbResumeCertification of getResumeResponse.lstTbResumeCertification; let i=index;">
-                      <td>{{i + 1 + (pageSize * pageIndex)}}</td>                                        
-                      <td>{{tbResumeCertification.tbrcName}}</td>
-                      <td class="td-actions">
-                        <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(tbResumeCertification.tbrcUuid);"><mat-icon>pageview</mat-icon></button>
-                        <button mat-icon-button title="Activate" [disabled]="clicked" (click)="nonActive(tbResumeCertification.tbrcUuid);" *ngIf="tbResumeCertification.tbrcStatus == 'notactive'"><mat-icon>check</mat-icon></button>
-                        <button mat-icon-button title="Deactivate" [disabled]="clicked" (click)="nonActive(tbResumeCertification.tbrcUuid);" *ngIf="tbResumeCertification.tbrcStatus == 'active'"><mat-icon>close</mat-icon></button>
-                      </td>
-                    </tr>
                   </tbody>
                 </table>
               </div>

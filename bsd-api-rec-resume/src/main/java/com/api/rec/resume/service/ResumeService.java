@@ -30,9 +30,6 @@ public class ResumeService {
 
 	private TokenUtil tokenUtil = new TokenUtil();
 
-	@Autowired
-	private ResumeParserProgram resumeParserProgram;
-
 	public PostUploadResumeResponseModel postUploadResume(PostUploadResumeRequestModel requestModel, MultipartFile file) throws Exception {
 		PostUploadResumeResponseModel responseModel = new PostUploadResumeResponseModel(requestModel);
 
@@ -40,6 +37,7 @@ public class ResumeService {
 		Files.copy(file.getInputStream(), Paths.get(env.getProperty("file.resume.dir") + fileName), StandardCopyOption.REPLACE_EXISTING);
 		String filePath = env.getProperty("file.resume.dir") + fileName;
 		
+		ResumeParserProgram resumeParserProgram = new ResumeParserProgram();
 		File tikkaConvertedFile = resumeParserProgram.parseToHTMLUsingApacheTikka(filePath);
 		JSONObject parsedJSON = resumeParserProgram.loadGateAndAnnie(tikkaConvertedFile);
 

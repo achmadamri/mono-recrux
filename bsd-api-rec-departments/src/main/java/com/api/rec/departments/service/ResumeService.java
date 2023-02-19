@@ -210,11 +210,7 @@ public class ResumeService {
 		return tbResume;
 	}
 
-	public JsonNode postUploadResumeParser(TbUser tbUser, MultipartFile file) throws Exception {
-		String fileName = StringUtils.cleanPath(file.getOriginalFilename()) + "_" + (new Uid().generateString(5)) + ".pdf";
-		Files.copy(file.getInputStream(), Paths.get(env.getProperty("file.resume.dir") + fileName), StandardCopyOption.REPLACE_EXISTING);
-		String filePath = env.getProperty("file.resume.dir") + fileName;
-
+	public JsonNode postUploadResumeParser(TbUser tbUser, String filePath) throws Exception {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
@@ -250,9 +246,12 @@ public class ResumeService {
 
 			if (optTbJob.isPresent()) {
 				String fileNameOri = StringUtils.cleanPath(file.getOriginalFilename());
-				String fileName = responseModel.getResponseId() + "-" + StringUtils.cleanPath(file.getOriginalFilename());		
+				String fileName = StringUtils.cleanPath(file.getOriginalFilename()) + "_" + (new Uid().generateString(5)) + ".pdf";
+				Files.copy(file.getInputStream(), Paths.get(env.getProperty("file.resume.dir") + fileName), StandardCopyOption.REPLACE_EXISTING);
+				String filePath = env.getProperty("file.resume.dir") + fileName;	
 				
-				JsonNode rootNode = postUploadResumeParser(optTbUser.get(), file);
+				// Start Resume
+				JsonNode rootNode = postUploadResumeParser(optTbUser.get(), filePath);
 
 				TbResume tbResume = new TbResume();
 				tbResume.setTbrCreateId(optTbUser.get().getTbuId());
@@ -261,6 +260,7 @@ public class ResumeService {
 				tbResume.setTbrStatus(TbResumeRepository.Active);
 				tbResume.setTbrAssigned(TbResumeRepository.Assigned);
 				tbResume.setTbrUuid(new Uid().generateString(5));
+				tbResume.setTbrMetaFileName(fileName);
 
 				tbResume.setTbjId(optTbJob.get().getTbjId());
 
@@ -281,7 +281,9 @@ public class ResumeService {
 					tbResume.setTbrDataPhoneNumbers(basics.path("phone").get(0).asText().replaceAll(" ", ""));
 				
 				tbResumeRepository.save(tbResume);
+				// End Resume
 
+				// Start Work Experience
 				JsonNode workExperienceArray = rootNode.path("json").path("work_experience");
 
 				Iterator<JsonNode> workExperienceIterator = workExperienceArray.elements();
@@ -314,6 +316,48 @@ public class ResumeService {
 					lstTbResumeWorkExperience.add(tbResumeWorkExperience);
 				}
 				tbResumeWorkExperienceRepository.saveAll(lstTbResumeWorkExperience);
+				// End Work Experience
+
+				// Start Education
+				JsonNode educationArray = rootNode.path("json").path("education_and_training");
+
+				Iterator<JsonNode> educationIterator = educationArray.elements();
+				List<TbResumeEducation> lstTbResumeEducation = new ArrayList<TbResumeEducation>();
+				while (educationIterator.hasNext()) {
+					JsonNode educationNode = educationIterator.next();
+
+					// Get an iterator of all the field names in the educationNode
+					Iterator<String> fieldNamesIterator = educationNode.fieldNames();
+					List<String> lstValue = new ArrayList<String>();
+					while (fieldNamesIterator.hasNext()) {
+						String fieldName = fieldNamesIterator.next();
+						// Get the value of the field using the fieldName variable
+						JsonNode fieldValue = educationNode.get(fieldName);
+						if (fieldValue.isValueNode()) {
+							lstValue.add(fieldValue.asText());
+						}
+					}
+
+					for (String strArray : lstValue) {
+						String strs[] = strArray.split("\n");
+						for (String str : strs) {
+							if (!str.equals("")) {
+								TbResumeEducation tbResumeEducation = new TbResumeEducation();
+								tbResumeEducation.setTbreCreateId(optTbUser.get().getTbuId());
+								tbResumeEducation.setTbreCreateDate(new Date());
+								tbResumeEducation.setTbreCreateIdc(optTbUser.get().getTbuCreateIdc());
+								tbResumeEducation.setTbreStatus(TbResumeEducationRepository.Active);
+								tbResumeEducation.setTbreUuid(new Uid().generateString(5));
+								tbResumeEducation.setTbrId(tbResume.getTbrId());
+								tbResumeEducation.setTbreText(str);
+
+								lstTbResumeEducation.add(tbResumeEducation);
+							}
+						}
+					}
+				}
+				tbResumeEducationRepository.saveAll(lstTbResumeEducation);
+				// End Education
 	
 				responseModel.setTbResume(tbResume);
 				responseModel.setFileName(fileName);

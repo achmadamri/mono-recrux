@@ -82,6 +82,7 @@
 			<artifactId>tika-parsers</artifactId>
 			<version>1.17</version>
 		</dependency>
+
 	</dependencies>
 
 	<build>
