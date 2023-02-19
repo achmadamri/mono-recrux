@@ -211,6 +211,8 @@ public class ResumeParserProgram {
 				parsedJSON.put("work_experience", workExperiences);
 			}
 			
+			corpus.unloadDocument(resume);
+			corpus.clear();
 		}
 		return parsedJSON;
 	}

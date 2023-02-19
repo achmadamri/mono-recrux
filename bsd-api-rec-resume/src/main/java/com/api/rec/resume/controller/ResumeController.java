@@ -37,7 +37,7 @@ public class ResumeController {
 	public HttpEntity<?> postUploadResume(PostUploadResumeRequestModel requestModel, @Valid @RequestParam("file") MultipartFile file) throws Exception {
 		String fid = new Uid().generateString(20);
 		log.info("[fid:" + fid + "] requestModel : " + file.toString());
-		
+				
 		PostUploadResumeResponseModel responseModel = resumeService.postUploadResume(requestModel, file);
 		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
 		

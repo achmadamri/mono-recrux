@@ -30,7 +30,8 @@ public class ResumeService {
 
 	private TokenUtil tokenUtil = new TokenUtil();
 
-	public PostUploadResumeResponseModel postUploadResume(PostUploadResumeRequestModel requestModel, MultipartFile file) throws Exception {
+	// Will be scaled horizontally
+	public synchronized PostUploadResumeResponseModel postUploadResume(PostUploadResumeRequestModel requestModel, MultipartFile file) throws Exception {
 		PostUploadResumeResponseModel responseModel = new PostUploadResumeResponseModel(requestModel);
 
 		String fileName = StringUtils.cleanPath(file.getOriginalFilename()) + "_" + (new Uid().generateString(5)) + ".pdf";
