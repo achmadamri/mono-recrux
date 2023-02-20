@@ -358,6 +358,30 @@ public class ResumeService {
 				}
 				tbResumeEducationRepository.saveAll(lstTbResumeEducation);
 				// End Education
+
+				// Start Skills
+				String skillsArray[] = rootNode.path("json").path("pyresparser_skills").asText()
+					.replaceAll("'skills': \\[", "")
+					.replaceAll("\\]", "")
+					.replaceAll("'", "")
+					.split(",");
+				List<TbResumeSkill> lstTbResumeSkill = new ArrayList<TbResumeSkill>();
+				for (String skill : skillsArray) {
+					if (!skill.equals("")) {
+						TbResumeSkill tbResumeSkill = new TbResumeSkill();
+						tbResumeSkill.setTbrsCreateId(optTbUser.get().getTbuId());
+						tbResumeSkill.setTbrsCreateDate(new Date());
+						tbResumeSkill.setTbrsCreateIdc(optTbUser.get().getTbuCreateIdc());
+						tbResumeSkill.setTbrsStatus(TbResumeSkillRepository.Active);
+						tbResumeSkill.setTbrsUuid(new Uid().generateString(5));
+						tbResumeSkill.setTbrId(tbResume.getTbrId());
+						tbResumeSkill.setTbrsType("hard_skill");
+						tbResumeSkill.setTbrsName(skill.trim());
+
+						lstTbResumeSkill.add(tbResumeSkill);
+					}
+				}
+				tbResumeSkillRepository.saveAll(lstTbResumeSkill);
 	
 				responseModel.setTbResume(tbResume);
 				responseModel.setFileName(fileName);

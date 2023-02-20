@@ -182,21 +182,11 @@
                   <div class="col-md-4">
                     <div class="card">
                       <div class="card-header card-header-danger">
-                        <h4 class="card-title">Hard Skills</h4>
+                        <h4 class="card-title">Skills</h4>
                       </div>
                       <div class="card-body">
                         <div *ngFor="let tbResumeSkill of getResumeResponse.lstTbResumeSkillHard; let i = index">
-                          <button mat-raised-button type="button" class="btn btn-secondary btn-round pull-left" [disabled]="clicked" style="padding: 6px 12px; text-transform: none;" title="{{tbResumeSkill.tbrsType == 'hard_skill' ? 'Hard Skill' : (tbResumeSkill.tbrsType == 'soft_skill' ? 'Soft Skill' : '')}}">{{tbResumeSkill.tbrsName}}</button>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="card">
-                      <div class="card-header card-header-danger">
-                        <h4 class="card-title">Soft Skills</h4>
-                      </div>
-                      <div class="card-body">
-                        <div *ngFor="let tbResumeSkill of getResumeResponse.lstTbResumeSkillSoft; let i = index">
-                          <button mat-raised-button type="button" class="btn btn-secondary btn-round pull-left" [disabled]="clicked" style="padding: 6px 12px; text-transform: none;" title="{{tbResumeSkill.tbrsType == 'hard_skill' ? 'Hard Skill' : (tbResumeSkill.tbrsType == 'soft_skill' ? 'Soft Skill' : '')}}">{{tbResumeSkill.tbrsName}}</button>
+                          <button mat-raised-button type="button" class="btn btn-secondary btn-round pull-left" [disabled]="clicked" style="padding: 6px 12px; text-transform: none;" title="Skills">{{tbResumeSkill.tbrsName}}</button>
                         </div>
                       </div>
                     </div>
