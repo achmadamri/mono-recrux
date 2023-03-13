@@ -27,9 +27,9 @@ public interface ViewResumeJobRepository extends JpaRepository<ViewResumeJob, In
 	@Query(value = "SELECT count(0) FROM view_resume_job WHERE tbr_create_idc = ?1 and tbj_id is null and tbr_uuid like %?2% and tbr_data_name_raw like %?3% and tbr_status like %?4% and tbr_assigned like %?4%", nativeQuery = true)
 	Long countNotAssigned(Integer tbrCreateIdc, String tbrUuid, String tbrDataNameRaw, String tbrStatus, String tbrAssigned);
 
-	@Query(value = "SELECT * FROM view_resume_job WHERE tbr_create_idc = ?1", nativeQuery = true)
-	List<ViewResumeJob> findList(Integer tbrCreateIdc, Pageable pageable);
+	@Query(value = "SELECT * FROM view_resume_job WHERE tbr_create_idc = ?1 and tbr_uuid like %?2% and tbr_data_name_raw like %?3%", nativeQuery = true)
+	List<ViewResumeJob> findList(Integer tbrCreateIdc, String tbrUuid, String tbrDataNameRaw, Pageable pageable);
 
-	@Query(value = "SELECT count(0) FROM view_resume_job WHERE tbr_create_idc = ?1", nativeQuery = true)
-	Long countList(Integer tbrCreateIdc);
+	@Query(value = "SELECT count(0) FROM view_resume_job WHERE tbr_create_idc = ?1 and tbr_uuid like %?2% and tbr_data_name_raw like %?3%", nativeQuery = true)
+	Long countList(Integer tbrCreateIdc, String tbrUuid, String tbrDataNameRaw);
 }

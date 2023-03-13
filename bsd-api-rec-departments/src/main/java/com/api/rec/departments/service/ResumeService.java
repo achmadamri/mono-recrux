@@ -449,7 +449,7 @@ public class ResumeService {
 
 			if (tbrAssigned.equals("")) {
 				if (tbjId == null) {
-					lstViewResumeJob = viewResumeJobRepository.findList(optTbUser.get().getTbuCreateIdc(), PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbr_id").ascending()));
+					lstViewResumeJob = viewResumeJobRepository.findList(optTbUser.get().getTbuCreateIdc(), tbrUuid, tbrDataNameRaw, PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbr_id").ascending()));
 				} else {
 					lstViewResumeJob = viewResumeJobRepository.find(optTbUser.get().getTbuCreateIdc(), tbjId, PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbr_id").ascending()));
 				}				
@@ -466,7 +466,7 @@ public class ResumeService {
 
 				if (tbrAssigned.equals("")) {
 					if (tbjId == null) {
-						responseModel.setLength(viewResumeJobRepository.countList(optTbUser.get().getTbuCreateIdc()));
+						responseModel.setLength(viewResumeJobRepository.countList(optTbUser.get().getTbuCreateIdc(), tbrUuid, tbrDataNameRaw));
 					} else {
 						responseModel.setLength(viewResumeJobRepository.count(optTbUser.get().getTbuCreateIdc(), tbjId));
 					}					
