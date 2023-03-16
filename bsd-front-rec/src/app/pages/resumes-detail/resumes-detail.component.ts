@@ -85,7 +85,20 @@ export class ResumesDetailComponent implements OnInit {
   }
 
   update() {
+    this.clicked = !this.clicked;
     
+    this.resumeService.postAddResume(this.postAddResumeRequest)
+    .subscribe(
+      successResponse => {
+        this.clicked = !this.clicked;
+        this.postAddResumeResponse = successResponse;
+        this.util.showNotification('info', 'top', 'center', successResponse.message);
+      },
+      errorResponse => {
+        this.clicked = !this.clicked;
+        this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
+      }
+    );
   }
 
   add() {

@@ -535,7 +535,26 @@ public class ResumeService {
 					tbResume.setTbrUpdateId(optTbUser.get().getTbuId());
 					tbResume.setTbrUpdateDate(new Date());
 
-					if (requestModel.getTbResume().getTbrDataNameRaw() != null) tbResume.setTbrDataNameRaw(requestModel.getTbResume().getTbrDataNameRaw());
+					if (requestModel.getTbResume().getTbrDataNameFirst() != null) tbResume.setTbrDataNameFirst(requestModel.getTbResume().getTbrDataNameFirst());
+					if (requestModel.getTbResume().getTbrDataNameMiddle() != null) tbResume.setTbrDataNameMiddle(requestModel.getTbResume().getTbrDataNameMiddle());
+					if (requestModel.getTbResume().getTbrDataNameLast() != null) tbResume.setTbrDataNameLast(requestModel.getTbResume().getTbrDataNameLast());
+
+					if (requestModel.getTbResume().getTbrDataPhoneNumbers() != null) tbResume.setTbrDataPhoneNumbers(requestModel.getTbResume().getTbrDataPhoneNumbers());
+					if (requestModel.getTbResume().getTbrDataEmails() != null) tbResume.setTbrDataEmails(requestModel.getTbResume().getTbrDataEmails());
+					if (requestModel.getTbResume().getTbrDataWebsites() != null) tbResume.setTbrDataWebsites(requestModel.getTbResume().getTbrDataWebsites());
+
+					if (requestModel.getTbResume().getTbrDataLocationStreet() != null) tbResume.setTbrDataLocationStreet(requestModel.getTbResume().getTbrDataLocationStreet());
+					if (requestModel.getTbResume().getTbrDataLocationApartmentNumber() != null) tbResume.setTbrDataLocationApartmentNumber(requestModel.getTbResume().getTbrDataLocationApartmentNumber());
+					if (requestModel.getTbResume().getTbrDataLocationCity() != null) tbResume.setTbrDataLocationCity(requestModel.getTbResume().getTbrDataLocationCity());
+
+					if (requestModel.getTbResume().getTbrDataLocationState() != null) tbResume.setTbrDataLocationState(requestModel.getTbResume().getTbrDataLocationState());
+					if (requestModel.getTbResume().getTbrDataLocationCountry() != null) tbResume.setTbrDataLocationCountry(requestModel.getTbResume().getTbrDataLocationCountry());
+					if (requestModel.getTbResume().getTbrDataLocationPostalCode() != null) tbResume.setTbrDataLocationPostalCode(requestModel.getTbResume().getTbrDataLocationPostalCode());
+
+					if (requestModel.getTbResume().getTbrDataLanguages() != null) tbResume.setTbrDataLanguages(requestModel.getTbResume().getTbrDataLanguages());
+
+					tbResume.setTbrDataNameRaw(tbResume.getTbrDataNameFirst() + " " + tbResume.getTbrDataNameMiddle() + " " + tbResume.getTbrDataNameLast());
+
 					if (requestModel.getTbResume().getTbrStatus() != null) tbResume.setTbrStatus(requestModel.getTbResume().getTbrStatus());
 					if (requestModel.getTbResume().getTbjId() != null) {
 						if (requestModel.getTbResume().getTbjId() == 0) {
