@@ -53,6 +53,9 @@ export class ResumesDetailComponent implements OnInit {
           successResponse => {
             this.getResumeResponse = successResponse;
 
+            this.postAddResumeRequest.lstTbResumeEducation = this.getResumeResponse.lstTbResumeEducation;
+            this.postAddResumeRequest.lstTbResumeWorkExperience = this.getResumeResponse.lstTbResumeWorkExperience;
+
             const fileUrl = 'http://localhost/resume/' + this.getResumeResponse.tbResume.tbrMetaFileName;
             this.pdfFrame.nativeElement.src = fileUrl;
 

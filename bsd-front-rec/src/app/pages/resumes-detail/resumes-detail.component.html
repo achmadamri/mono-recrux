@@ -81,18 +81,6 @@
                   <div class="col-md-8">
                     <form>
                       <div class="row">
-                        <div class="col-md-8">
-                          <mat-form-field class="example-full-width">
-                            <input matInput placeholder="Title" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataNameTitle" name="tbrDataNameTitle">
-                          </mat-form-field>
-                        </div>
-                        <div class="col-md-4">
-                          <mat-form-field class="example-full-width">
-                            <input matInput placeholder="Total Experience" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataTotalYearsExperience" name="tbrDataTotalYearsExperience">
-                          </mat-form-field>
-                        </div>
-                      </div>
-                      <div class="row">
                         <div class="col-md-4">
                           <mat-form-field class="example-full-width">
                             <input matInput placeholder="Fist Name" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataNameFirst" name="tbrDataNameFirst">
@@ -173,6 +161,11 @@
                             <input matInput placeholder="Language" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataLanguages" name="tbrDataLanguages">
                           </mat-form-field>
                         </div>
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Total Experience" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataTotalYearsExperience" name="tbrDataTotalYearsExperience">
+                          </mat-form-field>
+                        </div>
                       </div>
                       <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked" (click)="update();">Update</button>
                       <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked" (click)="back();">Back</button>
@@ -205,10 +198,11 @@
                   </thead>
                   <tbody *ngIf="getResumeResponse.lstTbResumeEducation">
                     <tr *ngFor="let tbResumeEducation of getResumeResponse.lstTbResumeEducation; let i=index;">
-                      <td>{{i + 1 + (pageSize * pageIndex)}}</td>                                        
-                      <td>{{tbResumeEducation.tbreText}}</td>
+                      <td style="width: 5%;">{{i + 1 + (pageSize * pageIndex)}}</td>    
+                      <td style="width: 85%;">
+                        <input matInput placeholder="Description" type="text" [(ngModel)]="tbResumeEducation.tbreText" name="tbreText">
+                      </td>
                       <td class="td-actions">
-                        <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(tbResumeEducation.tbreUuid);"><mat-icon>pageview</mat-icon></button>
                         <button mat-icon-button title="Activate" [disabled]="clicked" (click)="nonActive(tbResumeEducation.tbreUuid);" *ngIf="tbResumeEducation.tbreStatus == 'notactive'"><mat-icon>check</mat-icon></button>
                         <button mat-icon-button title="Deactivate" [disabled]="clicked" (click)="nonActive(tbResumeEducation.tbreUuid);" *ngIf="tbResumeEducation.tbreStatus == 'active'"><mat-icon>close</mat-icon></button>
                       </td>
@@ -222,27 +216,36 @@
                     <th>No</th>
                     <th>Job Title</th>
                     <th>Organization</th>
-                    <th>Start</th>
-                    <th>End</th>
+                    <th>Start / End</th>
                     <th>Description</th>
                     <th>Action</th>
                   </thead>
                   <tbody *ngIf="getResumeResponse.lstTbResumeWorkExperience">
                       <tr *ngFor="let tbResumeWorkExperience of getResumeResponse.lstTbResumeWorkExperience; let i=index;">
-                          <td>{{i + 1 + (pageSize * pageIndex)}}</td>                                        
-                          <td>{{tbResumeWorkExperience.tbrweJobTitle}}</td>
-                          <td>{{tbResumeWorkExperience.tbrweOrganization}}</td>
-                          <td>{{tbResumeWorkExperience.tbrweStart}}</td>
-                          <td>{{tbResumeWorkExperience.tbrweEnd}}</td>
-                          <td>{{tbResumeWorkExperience.tbrweText}}</td>
+                          <td style="width: 5%;">{{i + 1 + (pageSize * pageIndex)}}</td>           
+                          <td style="width: 15%;">
+                            <input matInput placeholder="Job Title" type="text" [(ngModel)]="tbResumeWorkExperience.tbrweJobTitle" name="tbrweJobTitle">
+                          </td>
+                          <td style="width: 15%;">
+                            <input matInput placeholder="Organization" type="text" [(ngModel)]="tbResumeWorkExperience.tbrweOrganization" name="tbrweOrganization">
+                          </td>
+                          <td style="width: 20%;">
+                              <mat-date-range-input [rangePicker]="picker" (click)="picker.open()">
+                                <input matStartDate placeholder="Start date" [(ngModel)]="tbResumeWorkExperience.tbrweStart" name="tbrweStart">
+                                <input matEndDate placeholder="End date" [(ngModel)]="tbResumeWorkExperience.tbrweEnd" name="tbrweEnd">
+                              </mat-date-range-input>
+                              <mat-date-range-picker #picker></mat-date-range-picker>
+                          </td>
+                          <td style="width: 40%;">
+                            <input matInput placeholder="Description" type="text" [(ngModel)]="tbResumeWorkExperience.tbrweText" name="tbrweText">
+                          </td>       
                           <td class="td-actions">
-                              <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(tbResumeWorkExperience.tbrweUuid);"><mat-icon>pageview</mat-icon></button>
                               <button mat-icon-button title="Activate" [disabled]="clicked" (click)="nonActive(tbResumeWorkExperience.tbrweUuid);" *ngIf="tbResumeWorkExperience.tbrweStatus == 'notactive'"><mat-icon>check</mat-icon></button>
                               <button mat-icon-button title="Deactivate" [disabled]="clicked" (click)="nonActive(tbResumeWorkExperience.tbrweUuid);" *ngIf="tbResumeWorkExperience.tbrweStatus == 'active'"><mat-icon>close</mat-icon></button>
                           </td>
                       </tr>
                   </tbody>
-                </table>
+                </table>                
               </div>
             </div>
           </div>
