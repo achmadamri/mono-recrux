@@ -167,9 +167,6 @@
                           </mat-form-field>
                         </div>
                       </div>
-                      <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked" (click)="update();">Update</button>
-                      <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked" (click)="back();">Back</button>
-                      <div class="clearfix"></div>
                     </form>
                   </div>
                   <div class="col-md-4">
@@ -248,6 +245,9 @@
                 </table>                
               </div>
             </div>
+            <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked" (click)="update();">Update</button>
+            <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked" (click)="back();">Back</button>
+            <div class="clearfix"></div>
           </div>
         </div>
       </div>

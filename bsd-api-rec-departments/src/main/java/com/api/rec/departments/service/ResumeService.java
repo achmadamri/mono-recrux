@@ -567,6 +567,22 @@ public class ResumeService {
 					}
 					
 					tbResume = tbResumeRepository.save(tbResume);
+
+					for (TbResumeEducation tbResumeEducation : requestModel.getLstTbResumeEducation()) {
+						tbResumeEducation.setTbreUpdateId(optTbUser.get().getTbuId());
+						tbResumeEducation.setTbreUpdateDate(new Date());
+						tbResumeEducation.setTbreCreateIdc(optTbUser.get().getTbuCreateIdc());
+						tbResumeEducation.setTbrId(tbResume.getTbrId());
+						tbResumeEducationRepository.save(tbResumeEducation);
+					}
+
+					for (TbResumeWorkExperience tbResumeWorkExperience : requestModel.getLstTbResumeWorkExperience()) {
+						tbResumeWorkExperience.setTbrweUpdateId(optTbUser.get().getTbuId());
+						tbResumeWorkExperience.setTbrweUpdateDate(new Date());
+						tbResumeWorkExperience.setTbrweCreateIdc(optTbUser.get().getTbuCreateIdc());
+						tbResumeWorkExperience.setTbrId(tbResume.getTbrId());
+						tbResumeWorkExperienceRepository.save(tbResumeWorkExperience);
+					}
 	
 					responseModel.setTbResume(tbResume);
 					responseModel.setHttpStatus(HttpStatus.OK);
