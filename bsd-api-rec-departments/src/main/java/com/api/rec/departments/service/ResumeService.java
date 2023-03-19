@@ -552,8 +552,12 @@ public class ResumeService {
 					if (requestModel.getTbResume().getTbrDataLocationPostalCode() != null) tbResume.setTbrDataLocationPostalCode(requestModel.getTbResume().getTbrDataLocationPostalCode());
 
 					if (requestModel.getTbResume().getTbrDataLanguages() != null) tbResume.setTbrDataLanguages(requestModel.getTbResume().getTbrDataLanguages());
-
-					tbResume.setTbrDataNameRaw(tbResume.getTbrDataNameFirst() + " " + tbResume.getTbrDataNameMiddle() + " " + tbResume.getTbrDataNameLast());
+					
+					tbResume.setTbrDataNameRaw(
+						(tbResume.getTbrDataNameFirst() == null ? "" : tbResume.getTbrDataNameFirst()) + " " + 
+						(tbResume.getTbrDataNameMiddle() == null ? "" : tbResume.getTbrDataNameMiddle()) + " " + 
+						(tbResume.getTbrDataNameLast() == null ? "" : tbResume.getTbrDataNameLast())
+					);
 
 					if (requestModel.getTbResume().getTbrStatus() != null) tbResume.setTbrStatus(requestModel.getTbResume().getTbrStatus());
 					if (requestModel.getTbResume().getTbjId() != null) {
