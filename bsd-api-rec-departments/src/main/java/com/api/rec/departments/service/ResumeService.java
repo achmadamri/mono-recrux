@@ -569,18 +569,34 @@ public class ResumeService {
 					tbResume = tbResumeRepository.save(tbResume);
 
 					for (TbResumeEducation tbResumeEducation : requestModel.getLstTbResumeEducation()) {
-						tbResumeEducation.setTbreUpdateId(optTbUser.get().getTbuId());
-						tbResumeEducation.setTbreUpdateDate(new Date());
-						tbResumeEducation.setTbreCreateIdc(optTbUser.get().getTbuCreateIdc());
-						tbResumeEducation.setTbrId(tbResume.getTbrId());
-						tbResumeEducationRepository.save(tbResumeEducation);
+						if (tbResumeEducation.getTbreId() == null) {
+							tbResumeEducation.setTbreCreateId(optTbUser.get().getTbuId());
+							tbResumeEducation.setTbreCreateDate(new Date());
+							tbResumeEducation.setTbreCreateIdc(optTbUser.get().getTbuCreateIdc());
+							tbResumeEducation.setTbreStatus(TbResumeEducationRepository.Active);
+							tbResumeEducation.setTbreUuid(new Uid().generateString(5));
+							tbResumeEducation.setTbrId(tbResume.getTbrId());
+						} else {
+							tbResumeEducation.setTbreUpdateId(optTbUser.get().getTbuId());
+							tbResumeEducation.setTbreUpdateDate(new Date());
+						}
+						tbResumeEducationRepository.save(tbResumeEducation);						
 					}
 
 					for (TbResumeWorkExperience tbResumeWorkExperience : requestModel.getLstTbResumeWorkExperience()) {
-						tbResumeWorkExperience.setTbrweUpdateId(optTbUser.get().getTbuId());
-						tbResumeWorkExperience.setTbrweUpdateDate(new Date());
-						tbResumeWorkExperience.setTbrweCreateIdc(optTbUser.get().getTbuCreateIdc());
-						tbResumeWorkExperience.setTbrId(tbResume.getTbrId());
+						if (tbResumeWorkExperience.getTbrweId() == null) {
+							tbResumeWorkExperience.setTbrweCreateId(optTbUser.get().getTbuId());
+							tbResumeWorkExperience.setTbrweCreateDate(new Date());
+							tbResumeWorkExperience.setTbrweCreateIdc(optTbUser.get().getTbuCreateIdc());
+							tbResumeWorkExperience.setTbrweStatus(TbResumeWorkExperienceRepository.Active);
+							tbResumeWorkExperience.setTbrweUuid(new Uid().generateString(5));
+							tbResumeWorkExperience.setTbrId(tbResume.getTbrId());
+						} else {
+							tbResumeWorkExperience.setTbrweUpdateId(optTbUser.get().getTbuId());
+							tbResumeWorkExperience.setTbrweUpdateDate(new Date());
+							tbResumeWorkExperience.setTbrweCreateIdc(optTbUser.get().getTbuCreateIdc());
+							tbResumeWorkExperience.setTbrId(tbResume.getTbrId());							
+						}
 						tbResumeWorkExperienceRepository.save(tbResumeWorkExperience);
 					}
 	
