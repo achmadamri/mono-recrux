@@ -52,12 +52,7 @@ export class ResumesDetailComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       this.postAddResumeRequest.tbResume.tbrUuid = params.get('tbrUuid');
 
-      this.getResume();
-    });
-  }
-
-  getResume() {
-    this.resumeService.getResume(this.postAddResumeRequest.tbResume.tbrUuid)
+      this.resumeService.getResume(this.postAddResumeRequest.tbResume.tbrUuid)
       .subscribe(
         successResponse => {
           this.getResumeResponse = successResponse;
@@ -68,20 +63,6 @@ export class ResumesDetailComponent implements OnInit {
           const fileUrl = 'http://localhost/resume/' + this.getResumeResponse.tbResume.tbrMetaFileName;
           this.pdfFrame.nativeElement.src = fileUrl;
 
-          // fetch(fileUrl, {method: 'HEAD'})
-          //   .then(response => {
-          //     if (response.status === 200) {
-          //       // File exists
-          //       this.pdfFrame.nativeElement.src = fileUrl;
-          //     } else if (response.status === 404) {
-          //       // File does not exist
-          //       console.error('File not found:', fileUrl);
-          //     }
-          //   })
-          //   .catch(error => {
-          //     console.error('Error checking file existence:', error);
-          //   });
-
           this.postAddResumeRequest.tbResume = this.getResumeResponse.tbResume;
         },
         errorResponse => {
@@ -89,10 +70,11 @@ export class ResumesDetailComponent implements OnInit {
           this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
         }
       );
+    });
   }
 
   back() {
-    this.router.navigate(['/resumes']);
+    this.location.back();
   }
 
   update() {
@@ -105,7 +87,21 @@ export class ResumesDetailComponent implements OnInit {
         this.postAddResumeResponse = successResponse;
         this.util.showNotification('info', 'top', 'center', successResponse.message);
 
-        this.getResume();
+        this.resumeService.getResume(this.postAddResumeRequest.tbResume.tbrUuid)
+      .subscribe(
+        successResponse => {
+          this.getResumeResponse = successResponse;
+
+          this.postAddResumeRequest.lstTbResumeEducation = this.getResumeResponse.lstTbResumeEducation;
+          this.postAddResumeRequest.lstTbResumeWorkExperience = this.getResumeResponse.lstTbResumeWorkExperience;
+
+          this.postAddResumeRequest.tbResume = this.getResumeResponse.tbResume;
+        },
+        errorResponse => {
+          this.getResumeResponse = new GetResumeResponse();
+          this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
+        }
+      );
       },
       errorResponse => {
         this.clicked = !this.clicked;
