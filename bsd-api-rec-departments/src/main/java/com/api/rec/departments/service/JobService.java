@@ -80,6 +80,7 @@ public class JobService {
 					} else {
 						TbJob tbJob = new TbJob();
 						tbJob = requestModel.getTbJob();
+						tbJob.setTbjId(null);
 						tbJob.setTbjCreateId(optTbUser.get().getTbuId());
 						tbJob.setTbjCreateIdc(optTbUser.get().getTbuCreateIdc());
 						tbJob.setTbjCreateDate(new Date());

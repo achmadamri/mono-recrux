@@ -131,7 +131,30 @@ export class JobsDetailComponent implements OnInit {
           this.clicked = !this.clicked;
           this.postAddJobResponse = successResponse;
           this.util.showNotification('info', 'top', 'center', successResponse.message);
-          this.router.navigate(['/jobs' + '/' + this.postAddJobResponse.tbJob.tbjUuid]);
+
+          if (this.postAddJobRequest.tbJob.tbdId == 0) {
+            this.router.navigate(['/jobs' + '/' + this.postAddJobResponse.tbJob.tbjUuid]);
+          } else {
+            this.jobService.getJob(this.postAddJobRequest.tbJob.tbjUuid)
+              .subscribe(
+                successResponse => {
+                  this.getJobResponse = successResponse;
+
+                  this.postAddJobRequest.tbJob.tbjId = this.getJobResponse.tbJob.tbjId;
+                  this.postAddJobRequest.tbJob.tbjUuid = this.getJobResponse.tbJob.tbjUuid;
+                  this.postAddJobRequest.tbJob.tbjName = this.getJobResponse.tbJob.tbjName;
+                  this.postAddJobRequest.tbJob.tbjStatus = this.getJobResponse.tbJob.tbjStatus;
+
+                  this.getResumeJobListRequest.viewResumeJob.tbjId = this.postAddJobRequest.tbJob.tbjId;
+
+                  this.getResumeJobList(this.pageEvent);
+                },
+                errorResponse => {
+                  this.getJobResponse = new GetJobResponse();
+                  this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
+                }
+              );
+          }          
         },
         errorResponse => {
           this.clicked = !this.clicked;

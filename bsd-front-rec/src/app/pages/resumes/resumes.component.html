@@ -53,11 +53,13 @@
                                         <td>{{viewResumeJob.tbrUuid}}</td>
                                         <td>{{viewResumeJob.tbrDataNameRaw}}</td>
                                         <td>{{viewResumeJob.tbrStatus}}</td>
-                                        <td class="td-actions">
+                                        <td class="td-actions" *ngIf="viewResumeJob.tbrStatus != 'parsing'">
                                             <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(viewResumeJob.tbrUuid);" *ngIf="viewResumeJob.tbrStatus != 'parsing'"><mat-icon>pageview</mat-icon></button>
-                                            <button mat-icon-button title="View" *ngIf="viewResumeJob.tbrStatus == 'parsing'"><mat-icon>refresh</mat-icon></button>
                                             <button mat-icon-button title="Activate" [disabled]="clicked" (click)="nonActive(viewResumeJob.tbrUuid);" *ngIf="viewResumeJob.tbrStatus == 'notactive'"><mat-icon>check</mat-icon></button>
                                             <button mat-icon-button title="Deactivate" [disabled]="clicked" (click)="nonActive(viewResumeJob.tbrUuid);" *ngIf="viewResumeJob.tbrStatus == 'active'"><mat-icon>close</mat-icon></button>
+                                        </td>
+                                        <td class="td-actions" *ngIf="viewResumeJob.tbrStatus == 'parsing'">
+                                            <mat-spinner diameter="25"></mat-spinner>
                                         </td>
                                     </tr>
                                 </tbody>

@@ -130,11 +130,13 @@
                                         <td>{{viewResumeJob.tbrDataNameRaw}}</td>
                                         <td>{{viewResumeJob.tbrStatus}}</td>
                                         <td>{{viewResumeJob.tbrAssigned}}</td>
-                                        <td class="td-actions">
+                                        <td class="td-actions" *ngIf="viewResumeJob.tbrStatus != 'parsing'">
                                             <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(viewResumeJob.tbrUuid);" *ngIf="viewResumeJob.tbrStatus != 'parsing'"><mat-icon>pageview</mat-icon></button>
-                                            <button mat-icon-button title="Parsing" *ngIf="viewResumeJob.tbrStatus == 'parsing'"><mat-icon>refresh</mat-icon></button>
                                             <button mat-icon-button title="Assign" [disabled]="clicked" (click)="setUnset(viewResumeJob.tbrUuid, viewResumeJob.tbjId);" *ngIf="viewResumeJob.tbjId == undefined"><mat-icon>check</mat-icon></button>
                                             <button mat-icon-button title="Not Assign" [disabled]="clicked" (click)="setUnset(viewResumeJob.tbrUuid, viewResumeJob.tbjId);" *ngIf="viewResumeJob.tbjId != undefined"><mat-icon>close</mat-icon></button>
+                                        </td>
+                                        <td class="td-actions" *ngIf="viewResumeJob.tbrStatus == 'parsing'">
+                                            <mat-spinner diameter="25"></mat-spinner>
                                         </td>
                                     </tr>
                                 </tbody>

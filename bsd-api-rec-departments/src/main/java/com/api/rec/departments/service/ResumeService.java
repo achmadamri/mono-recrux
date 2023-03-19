@@ -257,6 +257,7 @@ public class ResumeService {
 				tbResume.setTbrCreateIdc(optTbUser.get().getTbuCreateIdc());
 				tbResume.setTbrStatus(TbResumeRepository.Parsing);
 				tbResume.setTbrAssigned(TbResumeRepository.Assigned);
+				tbResume.setTbrDataNameRaw("");
 				tbResume.setTbrUuid(new Uid().generateString(5));
 				tbResume.setTbrMetaFileName(fileName);
 				tbResume.setTbjId(optTbJob.get().getTbjId());
