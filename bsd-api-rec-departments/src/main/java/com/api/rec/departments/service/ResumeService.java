@@ -10,7 +10,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -29,6 +28,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -64,6 +64,8 @@ import com.api.rec.departments.model.resume.GetResumeRequestModel;
 import com.api.rec.departments.model.resume.GetResumeResponseModel;
 import com.api.rec.departments.model.resume.PostAddResumeRequestModel;
 import com.api.rec.departments.model.resume.PostAddResumeResponseModel;
+import com.api.rec.departments.model.resume.PostParseResumeRequestModel;
+import com.api.rec.departments.model.resume.PostParseResumeResponseModel;
 import com.api.rec.departments.model.resume.PostUploadResumeRequestModel;
 import com.api.rec.departments.model.resume.PostUploadResumeResponseModel;
 import com.api.rec.departments.util.TokenUtil;
@@ -210,7 +212,7 @@ public class ResumeService {
 		return tbResume;
 	}
 
-	public JsonNode postUploadResumeParser(TbUser tbUser, String filePath) throws Exception {
+	public JsonNode postUploadResumeParser(String filePath) throws Exception {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
@@ -247,141 +249,18 @@ public class ResumeService {
 			if (optTbJob.isPresent()) {
 				String fileNameOri = StringUtils.cleanPath(file.getOriginalFilename());
 				String fileName = StringUtils.cleanPath(file.getOriginalFilename()) + "_" + (new Uid().generateString(5)) + ".pdf";
-				Files.copy(file.getInputStream(), Paths.get(env.getProperty("file.resume.dir") + fileName), StandardCopyOption.REPLACE_EXISTING);
-				String filePath = env.getProperty("file.resume.dir") + fileName;	
-				
-				// Start Resume
-				JsonNode rootNode = postUploadResumeParser(optTbUser.get(), filePath);
+				Files.copy(file.getInputStream(), Paths.get(env.getProperty("file.resume.dir") + fileName), StandardCopyOption.REPLACE_EXISTING);				
 
 				TbResume tbResume = new TbResume();
 				tbResume.setTbrCreateId(optTbUser.get().getTbuId());
 				tbResume.setTbrCreateDate(new Date());
 				tbResume.setTbrCreateIdc(optTbUser.get().getTbuCreateIdc());
-				tbResume.setTbrStatus(TbResumeRepository.Active);
+				tbResume.setTbrStatus(TbResumeRepository.Parsing);
 				tbResume.setTbrAssigned(TbResumeRepository.Assigned);
 				tbResume.setTbrUuid(new Uid().generateString(5));
 				tbResume.setTbrMetaFileName(fileName);
-
 				tbResume.setTbjId(optTbJob.get().getTbjId());
-
-				JsonNode basics = rootNode.path("json").path("basics");
-				
-				if (basics.path("name").path("firstName") != null)				
-					tbResume.setTbrDataNameFirst(basics.path("name").path("firstName").asText());
-				
-				if (basics.path("name").path("surname") != null)
-					tbResume.setTbrDataNameLast(basics.path("name").path("surname").asText());
-				
-				tbResume.setTbrDataNameRaw(tbResume.getTbrDataNameFirst() + " " + tbResume.getTbrDataNameLast());
-				
-				if (basics.path("email").get(0) != null)
-					tbResume.setTbrDataEmails(basics.path("email").get(0).asText());
-
-				if (basics.path("phone").get(0) != null)				
-					tbResume.setTbrDataPhoneNumbers(basics.path("phone").get(0).asText().replaceAll(" ", ""));
-				
 				tbResumeRepository.save(tbResume);
-				// End Resume
-
-				// Start Work Experience
-				JsonNode workExperienceArray = rootNode.path("json").path("work_experience");
-
-				Iterator<JsonNode> workExperienceIterator = workExperienceArray.elements();
-				List<TbResumeWorkExperience> lstTbResumeWorkExperience = new ArrayList<TbResumeWorkExperience>();
-				while (workExperienceIterator.hasNext()) {
-					JsonNode experienceNode = workExperienceIterator.next();
-					TbResumeWorkExperience tbResumeWorkExperience = new TbResumeWorkExperience();
-					tbResumeWorkExperience.setTbrweCreateId(optTbUser.get().getTbuId());
-					tbResumeWorkExperience.setTbrweCreateDate(new Date());
-					tbResumeWorkExperience.setTbrweCreateIdc(optTbUser.get().getTbuCreateIdc());
-					tbResumeWorkExperience.setTbrweStatus(TbResumeWorkExperienceRepository.Active);
-					tbResumeWorkExperience.setTbrweUuid(new Uid().generateString(5));
-					tbResumeWorkExperience.setTbrId(tbResume.getTbrId());
-
-					if (experienceNode.get("date_start") != null)
-						tbResumeWorkExperience.setTbrweStart(experienceNode.get("date_start").asText());
-
-					if (experienceNode.get("date_end") != null)
-						tbResumeWorkExperience.setTbrweEnd(experienceNode.get("date_end").asText());
-
-					if (experienceNode.get("jobtitle") != null)
-						tbResumeWorkExperience.setTbrweJobTitle(experienceNode.get("jobtitle").asText());
-
-					if (experienceNode.get("organization") != null)
-						tbResumeWorkExperience.setTbrweOrganization(experienceNode.get("organization").asText());
-					
-					if (experienceNode.get("text") != null)
-						tbResumeWorkExperience.setTbrweText(experienceNode.get("text").asText());
-					
-					lstTbResumeWorkExperience.add(tbResumeWorkExperience);
-				}
-				tbResumeWorkExperienceRepository.saveAll(lstTbResumeWorkExperience);
-				// End Work Experience
-
-				// Start Education
-				JsonNode educationArray = rootNode.path("json").path("education_and_training");
-
-				Iterator<JsonNode> educationIterator = educationArray.elements();
-				List<TbResumeEducation> lstTbResumeEducation = new ArrayList<TbResumeEducation>();
-				while (educationIterator.hasNext()) {
-					JsonNode educationNode = educationIterator.next();
-
-					// Get an iterator of all the field names in the educationNode
-					Iterator<String> fieldNamesIterator = educationNode.fieldNames();
-					List<String> lstValue = new ArrayList<String>();
-					while (fieldNamesIterator.hasNext()) {
-						String fieldName = fieldNamesIterator.next();
-						// Get the value of the field using the fieldName variable
-						JsonNode fieldValue = educationNode.get(fieldName);
-						if (fieldValue.isValueNode()) {
-							lstValue.add(fieldValue.asText());
-						}
-					}
-
-					for (String strArray : lstValue) {
-						String strs[] = strArray.split("\n");
-						for (String str : strs) {
-							if (!str.equals("")) {
-								TbResumeEducation tbResumeEducation = new TbResumeEducation();
-								tbResumeEducation.setTbreCreateId(optTbUser.get().getTbuId());
-								tbResumeEducation.setTbreCreateDate(new Date());
-								tbResumeEducation.setTbreCreateIdc(optTbUser.get().getTbuCreateIdc());
-								tbResumeEducation.setTbreStatus(TbResumeEducationRepository.Active);
-								tbResumeEducation.setTbreUuid(new Uid().generateString(5));
-								tbResumeEducation.setTbrId(tbResume.getTbrId());
-								tbResumeEducation.setTbreText(str);
-
-								lstTbResumeEducation.add(tbResumeEducation);
-							}
-						}
-					}
-				}
-				tbResumeEducationRepository.saveAll(lstTbResumeEducation);
-				// End Education
-
-				// Start Skills
-				String skillsArray[] = rootNode.path("json").path("pyresparser_skills").asText()
-					.replaceAll("'skills': \\[", "")
-					.replaceAll("\\]", "")
-					.replaceAll("'", "")
-					.split(",");
-				List<TbResumeSkill> lstTbResumeSkill = new ArrayList<TbResumeSkill>();
-				for (String skill : skillsArray) {
-					if (!skill.equals("")) {
-						TbResumeSkill tbResumeSkill = new TbResumeSkill();
-						tbResumeSkill.setTbrsCreateId(optTbUser.get().getTbuId());
-						tbResumeSkill.setTbrsCreateDate(new Date());
-						tbResumeSkill.setTbrsCreateIdc(optTbUser.get().getTbuCreateIdc());
-						tbResumeSkill.setTbrsStatus(TbResumeSkillRepository.Active);
-						tbResumeSkill.setTbrsUuid(new Uid().generateString(5));
-						tbResumeSkill.setTbrId(tbResume.getTbrId());
-						tbResumeSkill.setTbrsType("hard_skill");
-						tbResumeSkill.setTbrsName(skill.trim());
-
-						lstTbResumeSkill.add(tbResumeSkill);
-					}
-				}
-				tbResumeSkillRepository.saveAll(lstTbResumeSkill);
 	
 				responseModel.setTbResume(tbResume);
 				responseModel.setFileName(fileName);
@@ -395,6 +274,144 @@ public class ResumeService {
 		}
 
 		return responseModel;
+	}
+
+	@Scheduled(fixedDelay = 10 * 1000) // 10 seconds
+	public void schedParseResume() throws Exception {
+
+		// Start Load Resume List
+		TbResume exampleTbResume = new TbResume();
+		exampleTbResume.setTbrStatus(TbResumeRepository.Parsing);
+		List<TbResume> tbResumeList = tbResumeRepository.findAll(Example.of(exampleTbResume));
+		// End Load Resume List
+
+		for (TbResume tbResume : tbResumeList) {
+			log.info("Parse Resume : " + tbResume.getTbrUuid() + " " + tbResume.getTbrMetaFileName());
+
+			// Start Parse Resume
+			JsonNode rootNode = postUploadResumeParser(env.getProperty("file.resume.dir") + tbResume.getTbrMetaFileName());
+			JsonNode basics = rootNode.path("json").path("basics");
+
+			if (basics.path("name").path("firstName") != null)
+				tbResume.setTbrDataNameFirst(basics.path("name").path("firstName").asText());
+
+			if (basics.path("name").path("surname") != null)
+				tbResume.setTbrDataNameLast(basics.path("name").path("surname").asText());
+
+			tbResume.setTbrDataNameRaw(tbResume.getTbrDataNameFirst() + " " + tbResume.getTbrDataNameLast());
+
+			if (basics.path("email").get(0) != null)
+				tbResume.setTbrDataEmails(basics.path("email").get(0).asText());
+
+			if (basics.path("phone").get(0) != null)
+				tbResume.setTbrDataPhoneNumbers(basics.path("phone").get(0).asText().replaceAll(" ", ""));
+
+			tbResume.setTbrUpdateDate(new Date());
+			tbResume.setTbrUpdateId(0);
+			tbResume.setTbrStatus(TbResumeRepository.Active);
+			tbResumeRepository.save(tbResume);
+			// End Parse Resume
+
+			// Start Work Experience
+			JsonNode workExperienceArray = rootNode.path("json").path("work_experience");
+
+			Iterator<JsonNode> workExperienceIterator = workExperienceArray.elements();
+			List<TbResumeWorkExperience> lstTbResumeWorkExperience = new ArrayList<TbResumeWorkExperience>();
+			while (workExperienceIterator.hasNext()) {
+				JsonNode experienceNode = workExperienceIterator.next();
+				TbResumeWorkExperience tbResumeWorkExperience = new TbResumeWorkExperience();
+				tbResumeWorkExperience.setTbrweCreateId(tbResume.getTbrCreateId());
+				tbResumeWorkExperience.setTbrweCreateDate(new Date());
+				tbResumeWorkExperience.setTbrweCreateIdc(tbResume.getTbrCreateIdc());
+				tbResumeWorkExperience.setTbrweStatus(TbResumeWorkExperienceRepository.Active);
+				tbResumeWorkExperience.setTbrweUuid(new Uid().generateString(5));
+				tbResumeWorkExperience.setTbrId(tbResume.getTbrId());
+
+				if (experienceNode.get("date_start") != null)
+					tbResumeWorkExperience.setTbrweStart(experienceNode.get("date_start").asText());
+
+				if (experienceNode.get("date_end") != null)
+					tbResumeWorkExperience.setTbrweEnd(experienceNode.get("date_end").asText());
+
+				if (experienceNode.get("jobtitle") != null)
+					tbResumeWorkExperience.setTbrweJobTitle(experienceNode.get("jobtitle").asText());
+
+				if (experienceNode.get("organization") != null)
+					tbResumeWorkExperience.setTbrweOrganization(experienceNode.get("organization").asText());
+
+				if (experienceNode.get("text") != null)
+					tbResumeWorkExperience.setTbrweText(experienceNode.get("text").asText());
+
+				lstTbResumeWorkExperience.add(tbResumeWorkExperience);
+			}
+			tbResumeWorkExperienceRepository.saveAll(lstTbResumeWorkExperience);
+			// End Work Experience
+
+			// Start Education
+			JsonNode educationArray = rootNode.path("json").path("education_and_training");
+
+			Iterator<JsonNode> educationIterator = educationArray.elements();
+			List<TbResumeEducation> lstTbResumeEducation = new ArrayList<TbResumeEducation>();
+			while (educationIterator.hasNext()) {
+				JsonNode educationNode = educationIterator.next();
+
+				// Get an iterator of all the field names in the educationNode
+				Iterator<String> fieldNamesIterator = educationNode.fieldNames();
+				List<String> lstValue = new ArrayList<String>();
+				while (fieldNamesIterator.hasNext()) {
+					String fieldName = fieldNamesIterator.next();
+					// Get the value of the field using the fieldName variable
+					JsonNode fieldValue = educationNode.get(fieldName);
+					if (fieldValue.isValueNode()) {
+						lstValue.add(fieldValue.asText());
+					}
+				}
+
+				for (String strArray : lstValue) {
+					String strs[] = strArray.split("\n");
+					for (String str : strs) {
+						if (!str.equals("")) {
+							TbResumeEducation tbResumeEducation = new TbResumeEducation();
+							tbResumeEducation.setTbreCreateId(tbResume.getTbrCreateId());
+							tbResumeEducation.setTbreCreateDate(new Date());
+							tbResumeEducation.setTbreCreateIdc(tbResume.getTbrCreateIdc());
+							tbResumeEducation.setTbreStatus(TbResumeEducationRepository.Active);
+							tbResumeEducation.setTbreUuid(new Uid().generateString(5));
+							tbResumeEducation.setTbrId(tbResume.getTbrId());
+							tbResumeEducation.setTbreText(str);
+
+							lstTbResumeEducation.add(tbResumeEducation);
+						}
+					}
+				}
+			}
+			tbResumeEducationRepository.saveAll(lstTbResumeEducation);
+			// End Education
+
+			// Start Skills
+			String skillsArray[] = rootNode.path("json").path("pyresparser_skills").asText()
+					.replaceAll("'skills': \\[", "")
+					.replaceAll("\\]", "")
+					.replaceAll("'", "")
+					.split(",");
+			List<TbResumeSkill> lstTbResumeSkill = new ArrayList<TbResumeSkill>();
+			for (String skill : skillsArray) {
+				if (!skill.equals("")) {
+					TbResumeSkill tbResumeSkill = new TbResumeSkill();
+					tbResumeSkill.setTbrsCreateId(tbResume.getTbrCreateId());
+					tbResumeSkill.setTbrsCreateDate(new Date());
+					tbResumeSkill.setTbrsCreateIdc(tbResume.getTbrCreateIdc());
+					tbResumeSkill.setTbrsStatus(TbResumeSkillRepository.Active);
+					tbResumeSkill.setTbrsUuid(new Uid().generateString(5));
+					tbResumeSkill.setTbrId(tbResume.getTbrId());
+					tbResumeSkill.setTbrsType("hard_skill");
+					tbResumeSkill.setTbrsName(skill.trim());
+
+					lstTbResumeSkill.add(tbResumeSkill);
+				}
+			}
+			tbResumeSkillRepository.saveAll(lstTbResumeSkill);
+		}
 	}
 	
 	public GetResumeListResponseModel getResumeList(String tbrDataNameRaw, String tbrStatus, String length, String pageSize, String pageIndex, GetResumeListRequestModel requestModel) throws Exception {
