@@ -63,6 +63,7 @@ export class ResumesComponent implements OnInit {
         successResponse => {
           this.clicked = !this.clicked;
           this.getResumeJobListResponse = successResponse;
+
           this.length = this.getResumeJobListResponse.length;
           this.pageSize = this.pageEvent.pageSize;
           this.pageIndex = this.pageEvent.pageIndex;
