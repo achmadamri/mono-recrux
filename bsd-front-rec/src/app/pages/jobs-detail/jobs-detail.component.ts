@@ -194,9 +194,9 @@ export class JobsDetailComponent implements OnInit {
                 this.postUploadResumeResponse = successResponse.body;
                 this.util.showNotification('info', 'top', 'center', this.postUploadResumeResponse.fileNameOri + ' - ' + this.postUploadResumeResponse.message);
 
-                this.getResumeJobList(this.pageEvent);
-
                 if (this.totalUpload == this.selectedFiles.length) {
+                  this.getResumeJobList(this.pageEvent);
+
                   this.clicked = !this.clicked;
                   this.selectedFiles = [];
                   this.fileInput.nativeElement.value = '';                  
@@ -255,6 +255,14 @@ export class JobsDetailComponent implements OnInit {
         successResponse => {
           this.clicked = !this.clicked;
           this.getResumeJobListResponse = successResponse;
+
+          const isParsing = this.getResumeJobListResponse.lstViewResumeJob.some(job => job.tbrStatus === 'parsing');
+
+          if (isParsing) {
+            setTimeout(() => {
+              this.getResumeJobList(this.pageEvent);
+            }, 3000);
+          }
 
           this.length = this.getResumeJobListResponse.length;
           this.pageSize = this.pageEvent.pageSize;

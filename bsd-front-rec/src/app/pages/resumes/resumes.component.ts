@@ -64,6 +64,14 @@ export class ResumesComponent implements OnInit {
           this.clicked = !this.clicked;
           this.getResumeJobListResponse = successResponse;
 
+          const isParsing = this.getResumeJobListResponse.lstViewResumeJob.some(job => job.tbrStatus === 'parsing');
+
+          if (isParsing) {
+            setTimeout(() => {
+              this.getResumeList(this.pageEvent);
+            }, 3000);
+          }
+
           this.length = this.getResumeJobListResponse.length;
           this.pageSize = this.pageEvent.pageSize;
           this.pageIndex = this.pageEvent.pageIndex;
