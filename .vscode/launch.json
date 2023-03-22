@@ -8,7 +8,8 @@
             "mainClass": "com.api.rec.auth.Application",
             "projectName": "bsd-api-rec-auth",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=57047 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=bsd-api-rec-auth"
         },
         {
             "type": "java",
@@ -18,7 +19,8 @@
             "mainClass": "com.api.rec.departments.Application",
             "projectName": "bsd-api-rec-departments",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=57093 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=bsd-api-rec-departments"
         },
         {
             "type": "java",
@@ -28,7 +30,8 @@
             "mainClass": "com.api.rec.member.Application",
             "projectName": "bsd-api-rec-member",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=57131 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=bsd-api-rec-member"
         },
         {
             "type": "java",
@@ -37,6 +40,37 @@
             "cwd": "${workspaceFolder}",
             "mainClass": "com.api.rec.resume.Application",
             "projectName": "bsd-api-rec-resume",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=57173 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=bsd-api-rec-resume"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-Application<bsd-api-rec-resume-1>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.api.rec.resume.Application",
+            "projectName": "bsd-api-rec-resume-1",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-Application<bsd-api-rec-resume-2>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.api.rec.resume.Application",
+            "projectName": "bsd-api-rec-resume-2",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-Application<bsd-api-rec-resume-3>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.api.rec.resume.Application",
+            "projectName": "bsd-api-rec-resume-3",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
         }
