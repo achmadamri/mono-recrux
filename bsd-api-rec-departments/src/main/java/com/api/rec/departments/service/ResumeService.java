@@ -228,7 +228,7 @@ public class ResumeService {
 
 		RestTemplate restTemplate = new RestTemplate();
 		String url = "http://localhost:" + port + "/resume/postuploadresume";
-		System.out.println("url: " + url);
+		log.info("url: " + url);
 		ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
 
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -414,22 +414,26 @@ public class ResumeService {
 		tbResumeSkillRepository.flush();
 	}
 
-	@Scheduled(fixedDelay = 2 * 1000) // 2 seconds
+	@Scheduled(fixedDelay = 1 * 1000)
 	public void schedParseResume() throws Exception {
 
 		TbResume exampleTbResume = new TbResume();
 		exampleTbResume.setTbrStatus(TbResumeRepository.Parsing);
 		List<TbResume> tbResumeList = tbResumeRepository.findAll(Example.of(exampleTbResume), Sort.by("tbrId").ascending());
 
-		System.out.println("tbResumeList.size() : " + tbResumeList.size());
-		
+		log.info("tbResumeList.size() : " + tbResumeList.size());
+
 		AtomicInteger threadRun = new AtomicInteger(0);
 
-		if (tbResumeList.size() >= 1) {					
+		if (tbResumeList.size() > 0) {
+			TbResume tbResume = tbResumeList.get(0);
+			tbResumeList.remove(0);
 			Thread t = new Thread(() -> {
-				System.out.println("Start Parsing Resume 2084");
 				try {
-					parseResume(tbResumeList.get(0), "2084");
+					System.out.println("------------------------------------------------------------------");
+					System.out.println(tbResume.getTbrUuid());
+					System.out.println("------------------------------------------------------------------");
+					parseResume(tbResume, "2084");
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {
@@ -439,59 +443,67 @@ public class ResumeService {
 			t.start();
 			threadRun.getAndIncrement();
 		}
-		
-		if (tbResumeList.size() >= 2) {
+
+		if (tbResumeList.size() > 0) {	
+			TbResume tbResume = tbResumeList.get(0);
+			tbResumeList.remove(0);				
 			Thread t = new Thread(() -> {
-				System.out.println("Start Parsing Resume 2085");
 				try {
-					parseResume(tbResumeList.get(1), "2085");
+					System.out.println("------------------------------------------------------------------");
+					System.out.println(tbResume.getTbrUuid());
+					System.out.println("------------------------------------------------------------------");
+					parseResume(tbResume, "2085");
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {
-					threadRun.getAndDecrement();					
+					threadRun.getAndDecrement();
 				}
 			});
 			t.start();
 			threadRun.getAndIncrement();
 		}
 
-		if (tbResumeList.size() >= 3) {
+		if (tbResumeList.size() > 0) {		
+			TbResume tbResume = tbResumeList.get(0);
+			tbResumeList.remove(0);			
 			Thread t = new Thread(() -> {
-				System.out.println("Start Parsing Resume 2086");
 				try {
-					parseResume(tbResumeList.get(2), "2086");
+					System.out.println("------------------------------------------------------------------");
+					System.out.println(tbResume.getTbrUuid());
+					System.out.println("------------------------------------------------------------------");
+					parseResume(tbResume, "2086");
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {
-					threadRun.getAndDecrement();					
+					threadRun.getAndDecrement();
 				}
 			});
 			t.start();
 			threadRun.getAndIncrement();
 		}
 
-		if (tbResumeList.size() >= 4) {
+		if (tbResumeList.size() > 0) {		
+			TbResume tbResume = tbResumeList.get(0);
+			tbResumeList.remove(0);			
 			Thread t = new Thread(() -> {
-				System.out.println("Start Parsing Resume 2087");
 				try {
-					parseResume(tbResumeList.get(2), "2087");
+					System.out.println("------------------------------------------------------------------");
+					System.out.println(tbResume.getTbrUuid());
+					System.out.println("------------------------------------------------------------------");
+					parseResume(tbResume, "2087");
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {
-					threadRun.getAndDecrement();					
+					threadRun.getAndDecrement();
 				}
 			});
 			t.start();
 			threadRun.getAndIncrement();
 		}
 
-		boolean wait = true;
-		while (wait) {
-			Thread.sleep(2 * 1000);
-			if (threadRun.get() == 0) {
-				wait = false;
-			}
-		}		
+		while(threadRun.get() > 0) {
+			Thread.sleep(1000);
+		}
 	}
 	
 	public GetResumeListResponseModel getResumeList(String tbrDataNameRaw, String tbrStatus, String length, String pageSize, String pageIndex, GetResumeListRequestModel requestModel) throws Exception {
