@@ -73,6 +73,16 @@
             "projectName": "bsd-api-rec-resume-3",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-Application<bsd-api-rec-resumescheduler>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.api.rec.resumescheduler.Application",
+            "projectName": "bsd-api-rec-resumescheduler",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }

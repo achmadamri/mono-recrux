@@ -17,10 +17,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
 
 import com.api.rec.resumescheduler.db.entity.TbResume;
-import com.api.rec.resumescheduler.db.entity.TbUser;
 import com.api.rec.resumescheduler.db.repository.TbResumeRepository;
-import com.api.rec.resumescheduler.db.repository.TbUserRepository;
-import com.api.rec.resumescheduler.util.TokenUtil;
 
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer {
@@ -29,9 +26,6 @@ public class Application extends SpringBootServletInitializer {
 	// HTTP port
 	@Value("${http.port}")
 	private int httpPort;
-	
-	@Autowired
-	private TbUserRepository tbUserRepository;
 	
 	@Autowired
 	private TbResumeRepository tbResumeRepository;
@@ -55,17 +49,6 @@ public class Application extends SpringBootServletInitializer {
 	
 	@EventListener(ApplicationReadyEvent.class)
 	public void init() {
-		log.info("trying to set salt");
-		
-		List<TbUser> lstTbUser = tbUserRepository.findAll();
-		
-		for (TbUser tbUser : lstTbUser) {
-			log.info("set salt for : " + tbUser.getTbuEmail());
-			TokenUtil.keyMap.put(tbUser.getTbuEmail(), tbUser.getTbuTokenSalt());
-		}
-		
-		log.info("set salt done");
-
 		log.info("clean resume sched");
 		List<TbResume> tbResumeList = tbResumeRepository.findParsing();
 		for (TbResume tbResume : tbResumeList) {

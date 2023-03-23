@@ -239,7 +239,7 @@ public class ResumeService {
 					log.info("------------------------------------------------------------------");
 					tbResume.setTbrStatus(TbResumeRepository.Parsing);
 					tbResumeRepository.save(tbResume);					
-					parseResume(tbResume, "2084");
+					parseResume(tbResume, "3080");
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {
@@ -262,7 +262,7 @@ public class ResumeService {
 					log.info("------------------------------------------------------------------");
 					tbResume.setTbrStatus(TbResumeRepository.Parsing);
 					tbResumeRepository.save(tbResume);
-					parseResume(tbResume, "2085");
+					parseResume(tbResume, "3081");
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {
@@ -285,7 +285,7 @@ public class ResumeService {
 					log.info("------------------------------------------------------------------");
 					tbResume.setTbrStatus(TbResumeRepository.Parsing);
 					tbResumeRepository.save(tbResume);
-					parseResume(tbResume, "2086");
+					parseResume(tbResume, "3082");
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {
@@ -308,7 +308,7 @@ public class ResumeService {
 					log.info("------------------------------------------------------------------");
 					tbResume.setTbrStatus(TbResumeRepository.Parsing);
 					tbResumeRepository.save(tbResume);
-					parseResume(tbResume, "2087");
+					parseResume(tbResume, "3081");
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {
