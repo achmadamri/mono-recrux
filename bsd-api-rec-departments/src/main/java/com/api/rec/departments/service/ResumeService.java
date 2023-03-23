@@ -7,9 +7,11 @@ import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -262,7 +264,7 @@ public class ResumeService {
 				tbResume.setTbrCreateId(optTbUser.get().getTbuId());
 				tbResume.setTbrCreateDate(new Date());
 				tbResume.setTbrCreateIdc(optTbUser.get().getTbuCreateIdc());
-				tbResume.setTbrStatus(TbResumeRepository.Parsing);
+				tbResume.setTbrStatus(TbResumeRepository.ParsePending);
 				tbResume.setTbrAssigned(TbResumeRepository.Assigned);
 				tbResume.setTbrDataNameRaw("");
 				tbResume.setTbrUuid(new Uid().generateString(5));
@@ -307,7 +309,6 @@ public class ResumeService {
 		tbResume.setTbrUpdateId(0);
 		tbResume.setTbrStatus(TbResumeRepository.Active);
 		tbResumeRepository.save(tbResume);
-		tbResumeRepository.flush();
 		// End Parse Resume
 
 		// Start Work Experience
@@ -342,8 +343,8 @@ public class ResumeService {
 
 			lstTbResumeWorkExperience.add(tbResumeWorkExperience);
 		}
+		tbResumeWorkExperienceRepository.deleteByTbrId(tbResume.getTbrId());
 		tbResumeWorkExperienceRepository.saveAll(lstTbResumeWorkExperience);
-		tbResumeWorkExperienceRepository.flush();
 		// End Work Experience
 
 		// Start Education
@@ -384,8 +385,8 @@ public class ResumeService {
 				}
 			}
 		}
+		tbResumeEducationRepository.deleteByTbrId(tbResume.getTbrId());
 		tbResumeEducationRepository.saveAll(lstTbResumeEducation);
-		tbResumeEducationRepository.flush();
 		// End Education
 
 		// Start Skills
@@ -410,100 +411,102 @@ public class ResumeService {
 				lstTbResumeSkill.add(tbResumeSkill);
 			}
 		}
+		tbResumeSkillRepository.deleteByTbrId(tbResume.getTbrId());
 		tbResumeSkillRepository.saveAll(lstTbResumeSkill);
-		tbResumeSkillRepository.flush();
 	}
+	
+	@Autowired
+	private ObjectMapper objectMapper = new ObjectMapper();
+
+	AtomicInteger threadRun0 = new AtomicInteger(0);
+	AtomicInteger threadRun1 = new AtomicInteger(0);
+	AtomicInteger threadRun2 = new AtomicInteger(0);
+	AtomicInteger threadRun3 = new AtomicInteger(0);
+
+	static Map<String, Integer> mapThreadRun = new HashMap<String, Integer>();
+	int threadCount = 3;
 
 	@Scheduled(fixedDelay = 1 * 1000)
 	public void schedParseResume() throws Exception {
+		List<TbResume> tbResumeList = tbResumeRepository.findByTbrIdNotIn();
 
-		TbResume exampleTbResume = new TbResume();
-		exampleTbResume.setTbrStatus(TbResumeRepository.Parsing);
-		List<TbResume> tbResumeList = tbResumeRepository.findAll(Example.of(exampleTbResume), Sort.by("tbrId").ascending());
-
+		log.info("------------------------------------------------------------------");
+		log.info("mapThreadRun : " + objectMapper.writeValueAsString(mapThreadRun));
 		log.info("tbResumeList.size() : " + tbResumeList.size());
+		log.info("threadRun0.get() : " + threadRun0.get());			
+		log.info("threadRun1.get() : " + threadRun1.get());			
+		log.info("threadRun2.get() : " + threadRun2.get());
 
-		AtomicInteger threadRun = new AtomicInteger(0);
-
-		if (tbResumeList.size() > 0) {
+		if (tbResumeList.size() > 0 && threadRun0.get() == 0) {			
 			TbResume tbResume = tbResumeList.get(0);
 			tbResumeList.remove(0);
 			Thread t = new Thread(() -> {
 				try {
-					System.out.println("------------------------------------------------------------------");
-					System.out.println(tbResume.getTbrUuid());
-					System.out.println("------------------------------------------------------------------");
+					mapThreadRun.put("threadRun0Data", tbResume.getTbrId());
+					log.info("------------------------------------------------------------------");
+					log.info("tbResume.getTbrId() : " + tbResume.getTbrId());
+					log.info("------------------------------------------------------------------");
+					tbResume.setTbrStatus(TbResumeRepository.Parsing);
+					tbResumeRepository.save(tbResume);					
 					parseResume(tbResume, "2084");
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {
-					threadRun.getAndDecrement();
+					mapThreadRun.remove("threadRun0Data");
+					threadRun0.getAndDecrement();
 				}
 			});
 			t.start();
-			threadRun.getAndIncrement();
+			threadRun0.getAndIncrement();		
 		}
 
-		if (tbResumeList.size() > 0) {	
+		if (tbResumeList.size() > 0 && threadRun1.get() == 0) {			
 			TbResume tbResume = tbResumeList.get(0);
-			tbResumeList.remove(0);				
+			tbResumeList.remove(0);
 			Thread t = new Thread(() -> {
 				try {
-					System.out.println("------------------------------------------------------------------");
-					System.out.println(tbResume.getTbrUuid());
-					System.out.println("------------------------------------------------------------------");
+					mapThreadRun.put("threadRun1Data", tbResume.getTbrId());
+					log.info("------------------------------------------------------------------");
+					log.info("tbResume.getTbrId() : " + tbResume.getTbrId());
+					log.info("------------------------------------------------------------------");
+					tbResume.setTbrStatus(TbResumeRepository.Parsing);
+					tbResumeRepository.save(tbResume);
 					parseResume(tbResume, "2085");
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {
-					threadRun.getAndDecrement();
+					mapThreadRun.remove("threadRun1Data");
+					threadRun1.getAndDecrement();
 				}
 			});
 			t.start();
-			threadRun.getAndIncrement();
+			threadRun1.getAndIncrement();		
 		}
 
-		if (tbResumeList.size() > 0) {		
+		if (tbResumeList.size() > 0 && threadRun2.get() == 0) {			
 			TbResume tbResume = tbResumeList.get(0);
-			tbResumeList.remove(0);			
+			tbResumeList.remove(0);
 			Thread t = new Thread(() -> {
 				try {
-					System.out.println("------------------------------------------------------------------");
-					System.out.println(tbResume.getTbrUuid());
-					System.out.println("------------------------------------------------------------------");
+					mapThreadRun.put("threadRun2Data", tbResume.getTbrId());
+					log.info("------------------------------------------------------------------");
+					log.info("tbResume.getTbrId() : " + tbResume.getTbrId());
+					log.info("------------------------------------------------------------------");
+					tbResume.setTbrStatus(TbResumeRepository.Parsing);
+					tbResumeRepository.save(tbResume);
 					parseResume(tbResume, "2086");
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {
-					threadRun.getAndDecrement();
+					mapThreadRun.remove("threadRun2Data");
+					threadRun2.getAndDecrement();
 				}
 			});
 			t.start();
-			threadRun.getAndIncrement();
+			threadRun2.getAndIncrement();		
 		}
 
-		if (tbResumeList.size() > 0) {		
-			TbResume tbResume = tbResumeList.get(0);
-			tbResumeList.remove(0);			
-			Thread t = new Thread(() -> {
-				try {
-					System.out.println("------------------------------------------------------------------");
-					System.out.println(tbResume.getTbrUuid());
-					System.out.println("------------------------------------------------------------------");
-					parseResume(tbResume, "2087");
-				} catch (Exception e) {
-					e.printStackTrace();
-				} finally {
-					threadRun.getAndDecrement();
-				}
-			});
-			t.start();
-			threadRun.getAndIncrement();
-		}
-
-		while(threadRun.get() > 0) {
-			Thread.sleep(1000);
-		}
+		log.info("------------------------------------------------------------------");
 	}
 	
 	public GetResumeListResponseModel getResumeList(String tbrDataNameRaw, String tbrStatus, String length, String pageSize, String pageIndex, GetResumeListRequestModel requestModel) throws Exception {

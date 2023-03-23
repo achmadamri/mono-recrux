@@ -88,13 +88,13 @@ public class ResumeController {
 		requestModel.setRequestDate(requestDate);
 		
 		String fid = new Uid().generateString(20);
-		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
+		// log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
 		
 		GetResumeJobListResponseModel responseModel = resumeService.getResumeJobList(tbjId, tbrUuid, tbrDataNameRaw, tbrStatus, tbrAssigned, length, pageSize, pageIndex, requestModel);
 		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
 
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
-		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
+		// log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
 
 		return responseEntity;
 	}
