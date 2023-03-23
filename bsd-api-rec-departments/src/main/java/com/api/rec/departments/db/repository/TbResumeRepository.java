@@ -16,5 +16,8 @@ public interface TbResumeRepository extends JpaRepository<TbResume, Integer> {
 	public final static String NotAssigned = "notassigned";
 
 	@Query(value = "SELECT * FROM tb_resume WHERE tbr_status = 'parse pending' order by tbr_id asc", nativeQuery = true)
-	List<TbResume> findByTbrIdNotIn();
+	List<TbResume> findParsePending();
+
+	@Query(value = "SELECT * FROM tb_resume WHERE tbr_status = 'parsing' order by tbr_id asc", nativeQuery = true)
+	List<TbResume> findParsing();
 }

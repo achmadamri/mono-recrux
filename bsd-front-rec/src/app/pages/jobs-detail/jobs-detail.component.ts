@@ -237,6 +237,10 @@ export class JobsDetailComponent implements OnInit {
     this.searchForm = !this.searchForm;
   }
 
+  refresh() {
+    this.getResumeJobList(this.pageEvent);
+  }
+
   clear() {
     this.getResumeJobListRequest.viewResumeJob.tbrDataNameRaw = '';
     this.getResumeJobListRequest.viewResumeJob.tbrAssigned = '';
@@ -255,14 +259,6 @@ export class JobsDetailComponent implements OnInit {
         successResponse => {
           this.clicked = !this.clicked;
           this.getResumeJobListResponse = successResponse;
-
-          const isParsing = this.getResumeJobListResponse.lstViewResumeJob.some(job => job.tbrStatus === 'parsing');
-
-          if (isParsing) {
-            setTimeout(() => {
-              this.getResumeJobList(this.pageEvent);
-            }, 3000);
-          }
 
           this.length = this.getResumeJobListResponse.length;
           this.pageSize = this.pageEvent.pageSize;

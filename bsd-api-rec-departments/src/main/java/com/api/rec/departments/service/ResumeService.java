@@ -424,18 +424,19 @@ public class ResumeService {
 	AtomicInteger threadRun3 = new AtomicInteger(0);
 
 	static Map<String, Integer> mapThreadRun = new HashMap<String, Integer>();
-	int threadCount = 3;
+	int threadCount = 4;
 
 	@Scheduled(fixedDelay = 1 * 1000)
 	public void schedParseResume() throws Exception {
-		List<TbResume> tbResumeList = tbResumeRepository.findByTbrIdNotIn();
+		List<TbResume> tbResumeList = tbResumeRepository.findParsePending();
 
 		log.info("------------------------------------------------------------------");
 		log.info("mapThreadRun : " + objectMapper.writeValueAsString(mapThreadRun));
 		log.info("tbResumeList.size() : " + tbResumeList.size());
 		log.info("threadRun0.get() : " + threadRun0.get());			
 		log.info("threadRun1.get() : " + threadRun1.get());			
-		log.info("threadRun2.get() : " + threadRun2.get());
+		log.info("threadRun2.get() : " + threadRun2.get());			
+		log.info("threadRun3.get() : " + threadRun3.get());
 
 		if (tbResumeList.size() > 0 && threadRun0.get() == 0) {			
 			TbResume tbResume = tbResumeList.get(0);
@@ -504,6 +505,29 @@ public class ResumeService {
 			});
 			t.start();
 			threadRun2.getAndIncrement();		
+		}
+
+		if (tbResumeList.size() > 0 && threadRun3.get() == 0) {			
+			TbResume tbResume = tbResumeList.get(0);
+			tbResumeList.remove(0);
+			Thread t = new Thread(() -> {
+				try {
+					mapThreadRun.put("threadRun3Data", tbResume.getTbrId());
+					log.info("------------------------------------------------------------------");
+					log.info("tbResume.getTbrId() : " + tbResume.getTbrId());
+					log.info("------------------------------------------------------------------");
+					tbResume.setTbrStatus(TbResumeRepository.Parsing);
+					tbResumeRepository.save(tbResume);
+					parseResume(tbResume, "2087");
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					mapThreadRun.remove("threadRun3Data");
+					threadRun3.getAndDecrement();
+				}
+			});
+			t.start();
+			threadRun3.getAndIncrement();		
 		}
 
 		log.info("------------------------------------------------------------------");
