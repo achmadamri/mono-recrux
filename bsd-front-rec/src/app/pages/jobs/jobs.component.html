@@ -21,7 +21,7 @@
                                     <mat-radio-group aria-label="Select an option" [(ngModel)]="getJobListRequest.tbJob.tbjStatus" name="tbjStatus">
                                         <mat-radio-button value="active">Active</mat-radio-button>
                                         &nbsp;
-                                        <mat-radio-button value="notactive">Not Active</mat-radio-button>
+                                        <mat-radio-button value="not active">Not Active</mat-radio-button>
                                     </mat-radio-group>
                                 </div>
                             </div>
@@ -47,8 +47,8 @@
                                         <td>{{tbJob.tbjName}}</td>
                                         <td>{{tbJob.tbjStatus}}</td>
                                         <td class="td-actions">
-                                            <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(tbJob.tbjUuid);"><mat-icon>pageview</mat-icon></button>
-                                            <button mat-icon-button title="Activate" [disabled]="clicked" (click)="nonActive(tbJob.tbjUuid, tbJob.tbjStatus);" *ngIf="tbJob.tbjStatus == 'notactive'"><mat-icon>check</mat-icon></button>
+                                            <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(tbJob.tbjUuid);"><mat-icon>visibility</mat-icon></button>
+                                            <button mat-icon-button title="Activate" [disabled]="clicked" (click)="nonActive(tbJob.tbjUuid, tbJob.tbjStatus);" *ngIf="tbJob.tbjStatus == 'not active'"><mat-icon>check</mat-icon></button>
                                             <button mat-icon-button title="Deactivate" [disabled]="clicked" (click)="nonActive(tbJob.tbjUuid, tbJob.tbjStatus);" *ngIf="tbJob.tbjStatus == 'active'"><mat-icon>close</mat-icon></button>
                                         </td>
                                     </tr>

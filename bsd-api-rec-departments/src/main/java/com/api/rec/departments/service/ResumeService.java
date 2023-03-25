@@ -325,7 +325,7 @@ public class ResumeService {
 			} else {
 				if (tbrAssigned.equals("assigned")) {
 					lstViewResumeJob = viewResumeJobRepository.findAssigned(optTbUser.get().getTbuCreateIdc(), tbjId, tbrUuid, tbrDataNameRaw, tbrStatus, tbrAssigned, PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbr_id").ascending()));
-				} else if (tbrAssigned.equals("notassigned")) {
+				} else if (tbrAssigned.equals("not assigned")) {
 					lstViewResumeJob = viewResumeJobRepository.findNotAssigned(optTbUser.get().getTbuCreateIdc(), tbrUuid, tbrDataNameRaw, tbrStatus, tbrAssigned, PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbr_id").ascending()));
 				}
 			}			
@@ -342,7 +342,7 @@ public class ResumeService {
 				} else {
 					if (tbrAssigned.equals("assigned")) {
 						responseModel.setLength(viewResumeJobRepository.countAssigned(optTbUser.get().getTbuCreateIdc(), tbjId, tbrUuid, tbrDataNameRaw, tbrStatus, tbrAssigned));
-					} else if (tbrAssigned.equals("notassigned")) {
+					} else if (tbrAssigned.equals("not assigned")) {
 						responseModel.setLength(viewResumeJobRepository.countNotAssigned(optTbUser.get().getTbuCreateIdc(), tbrUuid, tbrDataNameRaw, tbrStatus, tbrAssigned));
 					}
 				}

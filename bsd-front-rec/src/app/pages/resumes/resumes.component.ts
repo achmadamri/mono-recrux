@@ -99,7 +99,7 @@ export class ResumesComponent implements OnInit {
         this.getResumeResponse = successResponse;
 
         if (this.getResumeResponse.tbResume.tbrStatus == 'active') {
-          this.getResumeResponse.tbResume.tbrStatus = 'notactive';
+          this.getResumeResponse.tbResume.tbrStatus = 'not active';
         } else {
           this.getResumeResponse.tbResume.tbrStatus = 'active';
         }

@@ -27,7 +27,7 @@
                                     <mat-radio-group aria-label="Status" name="tbpType" [(ngModel)]="postAddDepartmentRequest.tbDepartment.tbdStatus" name="tbpType">
                                         <mat-radio-button value="active">Active</mat-radio-button>
                                         &nbsp;
-                                        <mat-radio-button value="notactive">Not Active</mat-radio-button>
+                                        <mat-radio-button value="not active">Not Active</mat-radio-button>
                                     </mat-radio-group>
                                 </div>
                             </div>
@@ -60,7 +60,7 @@
                                     <mat-radio-group aria-label="Select an option" [(ngModel)]="getJobDepartmentListRequest.viewJobDepartment.tbjAssigned" name="tbjAssigned">
                                         <mat-radio-button value="assigned">Assigned</mat-radio-button>
                                         &nbsp;
-                                        <mat-radio-button value="notassigned">Not Assigned</mat-radio-button>
+                                        <mat-radio-button value="not assigned">Not Assigned</mat-radio-button>
                                     </mat-radio-group>
                                 </div>
                             </div>
@@ -88,7 +88,7 @@
                                         <td>{{viewJobDepartment.tbjStatus}}</td>
                                         <td>{{viewJobDepartment.tbjAssigned}}</td>
                                         <td class="td-actions">
-                                            <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(viewJobDepartment.tbjUuid);"><mat-icon>pageview</mat-icon></button>
+                                            <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(viewJobDepartment.tbjUuid);"><mat-icon>visibility</mat-icon></button>
                                             <button mat-icon-button title="Assign" [disabled]="clicked" (click)="setUnset(viewJobDepartment.tbjUuid, viewJobDepartment.tbdId);" *ngIf="viewJobDepartment.tbdId == undefined"><mat-icon>check</mat-icon></button>
                                             <button mat-icon-button title="Not Assign" [disabled]="clicked" (click)="setUnset(viewJobDepartment.tbjUuid, viewJobDepartment.tbdId);" *ngIf="viewJobDepartment.tbdId != undefined"><mat-icon>close</mat-icon></button>
                                         </td>

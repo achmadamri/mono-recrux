@@ -209,40 +209,21 @@ public class JobService {
 		exampleTbUser.setTbuStatus(TbUserRepository.Active);
 		Optional<TbUser> optTbUser = tbUserRepository.findOne(Example.of(exampleTbUser));
 		
-		if (optTbUser.isPresent()) {
-			List<ViewJobDepartment> lstViewJobDepartment = null;
-
-			if (tbjAssigned.equals("")) {
-				if (tbdId == null) {
-					lstViewJobDepartment = viewJobDepartmentRepository.findList(optTbUser.get().getTbuCreateIdc(), PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbr_id").ascending()));
-				} else {
-					lstViewJobDepartment = viewJobDepartmentRepository.find(optTbUser.get().getTbuCreateIdc(), tbdId, PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbd_id").ascending()));
-				}				
-			} else {
-				if (tbjAssigned.equals("assigned")) {
-					lstViewJobDepartment = viewJobDepartmentRepository.findAssigned(optTbUser.get().getTbuCreateIdc(), tbdId, tbjUuid, tbjName, tbjStatus, tbjAssigned, PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbd_id").ascending()));
-				} else if (tbjAssigned.equals("notassigned")) {
-					lstViewJobDepartment = viewJobDepartmentRepository.findNotAssigned(optTbUser.get().getTbuCreateIdc(), tbjUuid, tbjName, tbjStatus, tbjAssigned, PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbd_id").ascending()));
-				}
-			}
+		if (optTbUser.isPresent()) {			
+			List<ViewJobDepartment> lstViewJobDepartment = 
 			
+			tbjAssigned == "" ?
+				viewJobDepartmentRepository.find(optTbUser.get().getTbuCreateIdc(), tbdId, tbjUuid, tbjName, tbjStatus, PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbj_id").ascending()))
+				:
+				viewJobDepartmentRepository.findAssigned(optTbUser.get().getTbuCreateIdc(), tbdId, tbjUuid, tbjName, tbjStatus, tbjAssigned, PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbj_id").ascending()));
+
 			if (lstViewJobDepartment.size() > 0) {
-				responseModel.setLstViewJobDepartment(lstViewJobDepartment);
-
-				if (tbjAssigned.equals("")) {
-					if (tbdId == null) {
-						responseModel.setLength(viewJobDepartmentRepository.countList(optTbUser.get().getTbuCreateIdc()));
-					} else {
-						responseModel.setLength(viewJobDepartmentRepository.count(optTbUser.get().getTbuCreateIdc(), tbdId));
-					}	
-				} else {
-					if (tbjAssigned.equals("assigned")) {
-						responseModel.setLength(viewJobDepartmentRepository.countAssigned(optTbUser.get().getTbuCreateIdc(), tbdId, tbjUuid, tbjName, tbjStatus, tbjAssigned));
-					} else if (tbjAssigned.equals("notassigned")) {
-						responseModel.setLength(viewJobDepartmentRepository.countNotAssigned(optTbUser.get().getTbuCreateIdc(), tbjUuid, tbjName, tbjStatus, tbjAssigned));
-					}
-				}
-
+				responseModel.setLstViewJobDepartment(lstViewJobDepartment);				
+				responseModel.setLength(
+					tbjAssigned == "" ?
+						viewJobDepartmentRepository.count(optTbUser.get().getTbuCreateIdc(), tbdId, tbjUuid, tbjName, tbjStatus)
+						:
+						viewJobDepartmentRepository.countAssigned(optTbUser.get().getTbuCreateIdc(), tbdId, tbjUuid, tbjName, tbjStatus, tbjAssigned));
 				responseModel.setHttpStatus(HttpStatus.OK);
 			} else {
 				responseModel.setHttpStatus(HttpStatus.NOT_FOUND);

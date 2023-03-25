@@ -125,11 +125,11 @@ export class ResumesDetailComponent implements OnInit {
         const index = this.getResumeResponse.lstTbResumeEducation.indexOf(education);
         this.getResumeResponse.lstTbResumeEducation.splice(index, 1);
       } else {
-        if (education.tbreStatus === 'notactive') {
+        if (education.tbreStatus === 'not active') {
           education.tbreStatus = 'active';
         }
         else if (education.tbreStatus === 'active') {
-          education.tbreStatus = 'notactive';
+          education.tbreStatus = 'not active';
         }
       }
     }
@@ -150,11 +150,11 @@ export class ResumesDetailComponent implements OnInit {
         const index = this.getResumeResponse.lstTbResumeWorkExperience.indexOf(workExperience);
         this.getResumeResponse.lstTbResumeWorkExperience.splice(index, 1);
       } else {
-        if (workExperience.tbrweStatus === 'notactive') {
+        if (workExperience.tbrweStatus === 'not active') {
           workExperience.tbrweStatus = 'active';
         }
         else if (workExperience.tbrweStatus === 'active') {
-          workExperience.tbrweStatus = 'notactive';
+          workExperience.tbrweStatus = 'not active';
         }
       }
     }

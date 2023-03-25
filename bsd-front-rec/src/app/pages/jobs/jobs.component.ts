@@ -89,7 +89,7 @@ export class JobsComponent implements OnInit {
     this.clicked = !this.clicked;
 
     if (tbjStatus == 'active') {
-      tbjStatus = 'notactive';
+      tbjStatus = 'not active';
     } else {
       tbjStatus = 'active';
     }
@@ -121,7 +121,7 @@ export class JobsComponent implements OnInit {
   search() {
     this.pageEvent.pageIndex = 0;
     this.getJobList(this.pageEvent);
-    this.searchForm = !this.searchForm;
+    // this.searchForm = !this.searchForm;
   }
 
   clear() {

@@ -27,7 +27,7 @@
                   <mat-radio-group aria-label="Status" name="tbpType" [(ngModel)]="postAddResumeRequest.tbResume.tbrStatus" name="tbrStatus">
                     <mat-radio-button value="active">Active</mat-radio-button>
                     &nbsp;
-                    <mat-radio-button value="notactive">Not Active</mat-radio-button>
+                    <mat-radio-button value="not active">Not Active</mat-radio-button>
                   </mat-radio-group>
                 </div>
               </div>
@@ -194,13 +194,13 @@
                     <th>Action</th>
                   </thead>
                   <tbody *ngIf="getResumeResponse.lstTbResumeEducation">
-                    <tr *ngFor="let tbResumeEducation of getResumeResponse.lstTbResumeEducation; let i=index;" [class.not-active]="tbResumeEducation.tbreStatus === 'notactive'">
+                    <tr *ngFor="let tbResumeEducation of getResumeResponse.lstTbResumeEducation; let i=index;" [class.not-active]="tbResumeEducation.tbreStatus === 'not active'">
                       <td style="width: 5%;">{{i + 1 + (pageSize * pageIndex)}}</td>    
                       <td style="width: 85%;">
-                        <input matInput placeholder="Description" type="text" [(ngModel)]="tbResumeEducation.tbreText" name="tbreText" [class.not-active]="tbResumeEducation.tbreStatus === 'notactive'">
+                        <input matInput placeholder="Description" type="text" [(ngModel)]="tbResumeEducation.tbreText" name="tbreText" [class.not-active]="tbResumeEducation.tbreStatus === 'not active'">
                       </td>
                       <td class="td-actions">
-                        <button mat-icon-button title="Activate" class="pull-right" [disabled]="clicked" (click)="nonActiveEducation(tbResumeEducation.tbreUuid);" *ngIf="tbResumeEducation.tbreStatus == 'notactive'"><mat-icon>check</mat-icon></button>
+                        <button mat-icon-button title="Activate" class="pull-right" [disabled]="clicked" (click)="nonActiveEducation(tbResumeEducation.tbreUuid);" *ngIf="tbResumeEducation.tbreStatus == 'not active'"><mat-icon>check</mat-icon></button>
                         <button mat-icon-button title="Deactivate" class="pull-right" [disabled]="clicked" (click)="nonActiveEducation(tbResumeEducation.tbreUuid);" *ngIf="tbResumeEducation.tbreStatus == 'active'"><mat-icon>close</mat-icon></button>
                       </td>
                     </tr>
@@ -223,26 +223,26 @@
                     <th>Action</th>
                   </thead>
                   <tbody *ngIf="getResumeResponse.lstTbResumeWorkExperience">
-                      <tr *ngFor="let tbResumeWorkExperience of getResumeResponse.lstTbResumeWorkExperience; let i=index;" [class.not-active]="tbResumeWorkExperience.tbrweStatus === 'notactive'">
+                      <tr *ngFor="let tbResumeWorkExperience of getResumeResponse.lstTbResumeWorkExperience; let i=index;" [class.not-active]="tbResumeWorkExperience.tbrweStatus === 'not active'">
                           <td style="width: 5%;">{{i + 1 + (pageSize * pageIndex)}}</td>           
                           <td style="width: 15%;">
-                            <input matInput placeholder="Job Title" type="text" [(ngModel)]="tbResumeWorkExperience.tbrweJobTitle" name="tbrweJobTitle" [class.not-active]="tbResumeWorkExperience.tbrweStatus === 'notactive'">
+                            <input matInput placeholder="Job Title" type="text" [(ngModel)]="tbResumeWorkExperience.tbrweJobTitle" name="tbrweJobTitle" [class.not-active]="tbResumeWorkExperience.tbrweStatus === 'not active'">
                           </td>
                           <td style="width: 15%;">
-                            <input matInput placeholder="Organization" type="text" [(ngModel)]="tbResumeWorkExperience.tbrweOrganization" name="tbrweOrganization" [class.not-active]="tbResumeWorkExperience.tbrweStatus === 'notactive'">
+                            <input matInput placeholder="Organization" type="text" [(ngModel)]="tbResumeWorkExperience.tbrweOrganization" name="tbrweOrganization" [class.not-active]="tbResumeWorkExperience.tbrweStatus === 'not active'">
                           </td>
                           <td style="width: 20%;">
                               <mat-date-range-input [rangePicker]="picker" (click)="picker.open()">
-                                <input matStartDate placeholder="Start date" [(ngModel)]="tbResumeWorkExperience.tbrweStart" name="tbrweStart" [class.not-active]="tbResumeWorkExperience.tbrweStatus === 'notactive'">
-                                <input matEndDate placeholder="End date" [(ngModel)]="tbResumeWorkExperience.tbrweEnd" name="tbrweEnd" [class.not-active]="tbResumeWorkExperience.tbrweStatus === 'notactive'">
+                                <input matStartDate placeholder="Start date" [(ngModel)]="tbResumeWorkExperience.tbrweStart" name="tbrweStart" [class.not-active]="tbResumeWorkExperience.tbrweStatus === 'not active'">
+                                <input matEndDate placeholder="End date" [(ngModel)]="tbResumeWorkExperience.tbrweEnd" name="tbrweEnd" [class.not-active]="tbResumeWorkExperience.tbrweStatus === 'not active'">
                               </mat-date-range-input>
                               <mat-date-range-picker #picker></mat-date-range-picker>
                           </td>
                           <td style="width: 40%;">
-                            <input matInput placeholder="Description" type="text" [(ngModel)]="tbResumeWorkExperience.tbrweText" name="tbrweText" [class.not-active]="tbResumeWorkExperience.tbrweStatus === 'notactive'">
+                            <input matInput placeholder="Description" type="text" [(ngModel)]="tbResumeWorkExperience.tbrweText" name="tbrweText" [class.not-active]="tbResumeWorkExperience.tbrweStatus === 'not active'">
                           </td>       
                           <td class="td-actions">
-                            <button mat-icon-button title="Deactivate" class="pull-right" [disabled]="clicked" (click)="nonActiveWorkExperience(tbResumeWorkExperience.tbrweUuid);" *ngIf="tbResumeWorkExperience.tbrweStatus == 'notactive'"><mat-icon>check</mat-icon></button>
+                            <button mat-icon-button title="Deactivate" class="pull-right" [disabled]="clicked" (click)="nonActiveWorkExperience(tbResumeWorkExperience.tbrweUuid);" *ngIf="tbResumeWorkExperience.tbrweStatus == 'not active'"><mat-icon>check</mat-icon></button>
                             <button mat-icon-button title="Deactivate" class="pull-right" [disabled]="clicked" (click)="nonActiveWorkExperience(tbResumeWorkExperience.tbrweUuid);" *ngIf="tbResumeWorkExperience.tbrweStatus == 'active'"><mat-icon>close</mat-icon></button>
                           </td>
                       </tr>
