@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -92,6 +93,16 @@ public class TbResumeWorkExperience implements Serializable {
 
 	@Column(name="tbrwe_uuid")
 	private String tbrweUuid;
+
+	@Lob
+	@Column(columnDefinition = "text", name="tbrwe_text")
+	private String tbrweText;
+
+	@Column(name="tbrwe_start")
+	private String tbrweStart;
+
+	@Column(name="tbrwe_end")
+	private String tbrweEnd;
 
 	public TbResumeWorkExperience() {
 	}
@@ -262,6 +273,30 @@ public class TbResumeWorkExperience implements Serializable {
 
 	public void setTbrweUuid(String tbrweUuid) {
 		this.tbrweUuid = tbrweUuid;
-	}	
+	}
+
+	public String getTbrweText() {
+		return tbrweText;
+	}
+
+	public void setTbrweText(String tbrweText) {
+		this.tbrweText = tbrweText;
+	}
+
+	public String getTbrweStart() {
+		return tbrweStart;
+	}
+
+	public void setTbrweStart(String tbrweStart) {
+		this.tbrweStart = tbrweStart;
+	}
+
+	public String getTbrweEnd() {
+		return tbrweEnd;
+	}
+
+	public void setTbrweEnd(String tbrweEnd) {
+		this.tbrweEnd = tbrweEnd;
+	}
 
 }

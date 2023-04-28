@@ -47,7 +47,7 @@
                                         <td>{{tbDepartment.tbdName}}</td>
                                         <td>{{tbDepartment.tbdStatus}}</td>
                                         <td class="td-actions">
-                                            <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(tbDepartment.tbdUuid);"><mat-icon>pageview</mat-icon></button>
+                                            <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(tbDepartment.tbdUuid);"><mat-icon>visibility</mat-icon></button>
                                             <button mat-icon-button title="Activate" [disabled]="clicked" (click)="nonActive(tbDepartment.tbdUuid);" *ngIf="tbDepartment.tbdStatus == 'not active'"><mat-icon>check</mat-icon></button>
                                             <button mat-icon-button title="Deactivate" [disabled]="clicked" (click)="nonActive(tbDepartment.tbdUuid);" *ngIf="tbDepartment.tbdStatus == 'active'"><mat-icon>close</mat-icon></button>
                                         </td>

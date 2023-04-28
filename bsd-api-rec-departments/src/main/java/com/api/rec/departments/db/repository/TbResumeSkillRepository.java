@@ -7,4 +7,6 @@ import com.api.rec.departments.db.entity.TbResumeSkill;
 public interface TbResumeSkillRepository extends JpaRepository<TbResumeSkill, Integer> {
 	public final static String Active = "active";
 	public final static String NonActive = "non active";
+
+	public void deleteByTbrId(int tbrId);
 }

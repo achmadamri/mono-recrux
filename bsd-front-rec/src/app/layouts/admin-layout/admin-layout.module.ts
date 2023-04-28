@@ -13,10 +13,11 @@ import { NotificationsComponent } from '../../notifications/notifications.compon
 import { UpgradeComponent } from '../../upgrade/upgrade.component';
 import { MatButtonModule} from '@angular/material/button';
 import { MatInputModule} from '@angular/material/input';
-import { MatRippleModule} from '@angular/material/core';
+import { MatNativeDateModule, MatRippleModule} from '@angular/material/core';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { MatTooltipModule} from '@angular/material/tooltip';
 import { MatSelectModule} from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { LoginComponent } from 'app/pages/login/login.component';
 import { LogoutComponent } from 'app/pages/logout/logout.component';
@@ -33,6 +34,7 @@ import { JobsDetailComponent } from 'app/pages/jobs-detail/jobs-detail.component
 import { ResumesDetailComponent } from 'app/pages/resumes-detail/resumes-detail.component';
 import { ResumesComponent } from 'app/pages/resumes/resumes.component';
 import { MatTableModule } from '@angular/material/table';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   imports: [
@@ -45,6 +47,8 @@ import { MatTableModule } from '@angular/material/table';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     MatTooltipModule,
     MatPaginatorModule,
     MatRadioModule,
@@ -52,6 +56,7 @@ import { MatTableModule } from '@angular/material/table';
     MatIconModule,
     MatProgressBarModule,
     MatTableModule,
+    MatProgressSpinnerModule,
   ],
   declarations: [
     DashboardComponent,

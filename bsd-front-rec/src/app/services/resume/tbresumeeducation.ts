@@ -27,4 +27,5 @@ export class TbResumeEducation {
     tbreIsCurrent: string;
     tbreStatus: string;
     tbreUuid: string;
+    tbreText: string;
 }

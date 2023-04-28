@@ -12,7 +12,10 @@ import { Util } from 'app/util';
 })
 export class AuthService {
   util: Util = new Util();
-  apiUrl = isDevMode() ? '/apiauth/auth' : 'https://domain.com/2080/auth';
+  // local
+  apiUrl = isDevMode() ? 'http://localhost:2080/auth' : 'https://domain.com/2080/auth';
+  // codespace
+  // apiUrl = isDevMode() ? '/apiauth/auth' : 'https://domain.com/2080/auth';
 
   constructor(private httpClient: HttpClient) { }
 

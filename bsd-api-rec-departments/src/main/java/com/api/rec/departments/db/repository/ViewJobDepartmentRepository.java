@@ -9,98 +9,16 @@ import org.springframework.data.jpa.repository.Query;
 import com.api.rec.departments.db.entity.ViewJobDepartment;
 
 public interface ViewJobDepartmentRepository extends JpaRepository<ViewJobDepartment, Integer> {
-	public final static String Active = "active";
-	public final static String NonActive = "non active";
 
-	@Query(
-		value = 
-		"select" +
-		"    cast(uuid() as char(36) charset utf8mb4) as uuid, " +
-		"    tbj.tbj_id as tbj_id, " +
-		"    tbj.tbj_create_date as tbj_create_date, " +
-		"    tbj.tbj_create_id as tbj_create_id, " +
-		"    tbj.tbj_create_idc as tbj_create_idc, " +
-		"    tbj.tbj_update_date as tbj_update_date, " +
-		"    tbj.tbj_update_id as tbj_update_id, " +
-		"    tbj.tbj_name as tbj_name, " +
-		"    tbj.tbj_status as tbj_status, " +
-		"    tbj.tbj_uuid as tbj_uuid, " +
-		"    tbdj.tbdj_id, " +
-		"    tbdj.tbdj_create_date as tbdj_create_date, " +
-		"    tbdj.tbdj_create_id as tbdj_create_id, " +
-		"    tbdj.tbdj_create_idc as tbdj_create_idc, " +
-		"    tbdj.tbdj_update_date as tbdj_update_date, " +
-		"    tbdj.tbdj_update_id as tbdj_update_id, " +
-		"    tbdj.tbdj_status as tbdj_status, " +
-		"    tbdj.tbdj_uuid as tbdj_uuid, " +
-		"    tbd.tbd_id as tbd_id, " +
-		"    tbd.tbd_create_date as tbd_create_date, " +
-		"    tbd.tbd_create_id as tbd_create_id, " +
-		"    tbd.tbd_create_idc as tbd_create_idc, " +
-		"    tbd.tbd_update_date as tbd_update_date, " +
-		"    tbd.tbd_update_id as tbd_update_id, " +
-		"    tbd.tbd_name as tbd_name, " +
-		"    tbd.tbd_status as tbd_status, " +
-		"    tbd.tbd_uuid as tbd_uuid " +
-		"from (select * from tb_job where tbj_create_idc = :tbjCreateIdc and tbj_name like %:tbjName%) tbj " +
-		"left join tb_department_job tbdj on tbdj.tbdj_create_idc = tbj.tbj_create_idc and tbdj.tbj_id = tbj.tbj_id and tbdj.tbd_id = :tbdId " +
-		"left join tb_department tbd on tbd.tbd_id = tbdj.tbd_id " +
-		"where case when :tbdjStatus = 'not assigned' then tbdj.tbdj_status = :tbdjStatus or tbdj.tbdj_status is null else tbdj.tbdj_status = :tbdjStatus end"
-		, nativeQuery = true)
-	List<ViewJobDepartment> findByTbdId(Integer tbjCreateIdc, Integer tbdId, String tbjName, String tbdjStatus, Pageable pageable);
+	@Query(value = "SELECT * FROM view_job_department WHERE tbj_create_idc = ?1 and (tbd_id = ?2 or tbd_id is null) and tbj_uuid like %?3% and tbj_name like %?4% and tbj_status like %?5%", nativeQuery = true)
+	List<ViewJobDepartment> find(Integer tbjCreateIdc, Integer tbdId, String tbjUuid, String tbjName, String tbjStatus, Pageable pageable);
 
-	@Query(
-		value = 
-		"select count(0) " +
-		"from (select * from tb_job where tbj_create_idc = :tbjCreateIdc and tbj_name like %:tbjName%) tbj " +
-		"left join tb_department_job tbdj on tbdj.tbdj_create_idc = tbj.tbj_create_idc and tbdj.tbj_id = tbj.tbj_id and tbdj.tbd_id = :tbdId " +
-		"left join tb_department tbd on tbd.tbd_id = tbdj.tbd_id " +
-		"where case when :tbdjStatus = 'not assigned' then tbdj.tbdj_status = :tbdjStatus or tbdj.tbdj_status is null else tbdj.tbdj_status = :tbdjStatus end"
-		, nativeQuery = true)
-	Long countByTbdId(Integer tbjCreateIdc, String tbjName, String tbdjStatus, Integer tbdId);
+	@Query(value = "SELECT count(0) FROM view_job_department WHERE tbj_create_idc = ?1 and (tbd_id = ?2 or tbd_id is null) and tbj_uuid like %?3% and tbj_name like %?4% and tbj_status like %?5%", nativeQuery = true)
+	Long count(Integer tbjCreateIdc, Integer tbdId, String tbjUuid, String tbjName, String tbjStatus);
 
-	@Query(
-		value = 
-		"select" +
-		"    cast(uuid() as char(36) charset utf8mb4) as uuid, " +
-		"    tbj.tbj_id as tbj_id, " +
-		"    tbj.tbj_create_date as tbj_create_date, " +
-		"    tbj.tbj_create_id as tbj_create_id, " +
-		"    tbj.tbj_create_idc as tbj_create_idc, " +
-		"    tbj.tbj_update_date as tbj_update_date, " +
-		"    tbj.tbj_update_id as tbj_update_id, " +
-		"    tbj.tbj_name as tbj_name, " +
-		"    tbj.tbj_status as tbj_status, " +
-		"    tbj.tbj_uuid as tbj_uuid, " +
-		"    tbdj.tbdj_id, " +
-		"    tbdj.tbdj_create_date as tbdj_create_date, " +
-		"    tbdj.tbdj_create_id as tbdj_create_id, " +
-		"    tbdj.tbdj_create_idc as tbdj_create_idc, " +
-		"    tbdj.tbdj_update_date as tbdj_update_date, " +
-		"    tbdj.tbdj_update_id as tbdj_update_id, " +
-		"    tbdj.tbdj_status as tbdj_status, " +
-		"    tbdj.tbdj_uuid as tbdj_uuid, " +
-		"    tbd.tbd_id as tbd_id, " +
-		"    tbd.tbd_create_date as tbd_create_date, " +
-		"    tbd.tbd_create_id as tbd_create_id, " +
-		"    tbd.tbd_create_idc as tbd_create_idc, " +
-		"    tbd.tbd_update_date as tbd_update_date, " +
-		"    tbd.tbd_update_id as tbd_update_id, " +
-		"    tbd.tbd_name as tbd_name, " +
-		"    tbd.tbd_status as tbd_status, " +
-		"    tbd.tbd_uuid as tbd_uuid " +
-		"from (select * from tb_job where tbj_create_idc = :tbjCreateIdc and tbj_name like %:tbjName%) tbj " +
-		"left join tb_department_job tbdj on tbdj.tbdj_create_idc = tbj.tbj_create_idc and tbdj.tbj_id = tbj.tbj_id and tbdj.tbd_id = :tbdId " +
-		"left join tb_department tbd on tbd.tbd_id = tbdj.tbd_id"
-		, nativeQuery = true)
-	List<ViewJobDepartment> findByTbdId(Integer tbjCreateIdc, Integer tbdId, String tbjName, Pageable pageable);
+	@Query(value = "SELECT * FROM view_job_department WHERE tbj_create_idc = ?1 and (tbd_id = ?2 or tbd_id is null) and tbj_uuid like %?3% and tbj_name like %?4% and tbj_status like %?5% and tbj_assigned = ?6", nativeQuery = true)
+	List<ViewJobDepartment> findAssigned(Integer tbjCreateIdc, Integer tbdId, String tbjUuid, String tbjName, String tbjStatus, String tbjAssigned, Pageable pageable);
 
-	@Query(
-		value = 
-		"select count(0) " +
-		"from (select * from tb_job where tbj_create_idc = :tbjCreateIdc and tbj_name like %:tbjName%) tbj " +
-		"left join tb_department_job tbdj on tbdj.tbdj_create_idc = tbj.tbj_create_idc and tbdj.tbj_id = tbj.tbj_id and tbdj.tbd_id = :tbdId " +
-		"left join tb_department tbd on tbd.tbd_id = tbdj.tbd_id"
-		, nativeQuery = true)
-	Long countByTbdId(Integer tbjCreateIdc, String tbjName, Integer tbdId);
+	@Query(value = "SELECT count(0) FROM view_job_department WHERE tbj_create_idc = ?1 and (tbd_id = ?2 or tbd_id is null) and tbj_uuid like %?3% and tbj_name like %?4% and tbj_status like %?5% and tbj_assigned = ?6", nativeQuery = true)
+	Long countAssigned(Integer tbjCreateIdc, Integer tbdId, String tbjUuid, String tbjName, String tbjStatus, String tbjAssigned);
 }
