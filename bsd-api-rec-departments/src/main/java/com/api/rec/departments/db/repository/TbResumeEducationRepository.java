@@ -7,4 +7,6 @@ import com.api.rec.departments.db.entity.TbResumeEducation;
 public interface TbResumeEducationRepository extends JpaRepository<TbResumeEducation, Integer> {
 	public final static String Active = "active";
 	public final static String NonActive = "non active";
+
+	public void deleteByTbrId(int tbrId);
 }

@@ -16,10 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.api.rec.departments.db.entity.TbDepartment;
-import com.api.rec.departments.db.entity.TbDepartmentJob;
-import com.api.rec.departments.db.entity.TbJob;
 import com.api.rec.departments.db.entity.TbUser;
-import com.api.rec.departments.db.repository.TbDepartmentJobRepository;
 import com.api.rec.departments.db.repository.TbDepartmentRepository;
 import com.api.rec.departments.db.repository.TbJobRepository;
 import com.api.rec.departments.db.repository.TbUserRepository;
@@ -27,8 +24,6 @@ import com.api.rec.departments.model.department.GetDepartmentListRequestModel;
 import com.api.rec.departments.model.department.GetDepartmentListResponseModel;
 import com.api.rec.departments.model.department.GetDepartmentRequestModel;
 import com.api.rec.departments.model.department.GetDepartmentResponseModel;
-import com.api.rec.departments.model.department.PostAddDepartmentJobRequestModel;
-import com.api.rec.departments.model.department.PostAddDepartmentJobResponseModel;
 import com.api.rec.departments.model.department.PostAddDepartmentRequestModel;
 import com.api.rec.departments.model.department.PostAddDepartmentResponseModel;
 import com.api.rec.departments.util.TokenUtil;
@@ -49,9 +44,6 @@ public class DepartmentService {
 
 	@Autowired
 	private TbDepartmentRepository tbDepartmentRepository;
-
-	@Autowired
-	private TbDepartmentJobRepository tbDepartmentJobRepository;
 
 	@Autowired
 	private TbJobRepository tbJobRepository;
@@ -106,76 +98,6 @@ public class DepartmentService {
 					tbDepartment = tbDepartmentRepository.save(tbDepartment);
 	
 					responseModel.setTbDepartment(tbDepartment);
-					responseModel.setHttpStatus(HttpStatus.OK);
-				} else {
-					responseModel.setHttpStatus(HttpStatus.NOT_FOUND);
-				}
-			}
-		} else {
-			responseModel.setHttpStatus(HttpStatus.UNAUTHORIZED);
-		}
-		
-		return responseModel;
-	}
-
-	public PostAddDepartmentJobResponseModel postAddDepartmentJob(PostAddDepartmentJobRequestModel requestModel) throws Exception {
-		PostAddDepartmentJobResponseModel responseModel = new PostAddDepartmentJobResponseModel(requestModel);
-		
-		tokenUtil.claims(requestModel);
-		
-		TbUser exampleTbUser = new TbUser();
-		exampleTbUser.setTbuEmail(requestModel.getEmail());
-		exampleTbUser.setTbuStatus(TbUserRepository.Active);
-		Optional<TbUser> optTbUser = tbUserRepository.findOne(Example.of(exampleTbUser));
-
-		if (optTbUser.isPresent()) {
-			if (requestModel.getTbDepartmentJob().getTbdjUuid() == null) {
-				TbDepartment exampleTbDepartment = new TbDepartment();
-				exampleTbDepartment.setTbdUuid(requestModel.getTbDepartment().getTbdUuid());
-				exampleTbDepartment.setTbdCreateIdc(optTbUser.get().getTbuCreateIdc());
-				Optional<TbDepartment> optTbDepartment = tbDepartmentRepository.findOne(Example.of(exampleTbDepartment));
-
-				TbJob exampleTbJob = new TbJob();
-				exampleTbJob.setTbjUuid(requestModel.getTbJob().getTbjUuid());
-				exampleTbJob.setTbjCreateIdc(optTbUser.get().getTbuCreateIdc());
-				Optional<TbJob> optTbJob = tbJobRepository.findOne(Example.of(exampleTbJob));
-
-				TbDepartmentJob tbDepartmentJob = new TbDepartmentJob();
-				tbDepartmentJob.setTbdjCreateId(optTbUser.get().getTbuId());
-				tbDepartmentJob.setTbdjCreateDate(new Date());
-				tbDepartmentJob.setTbdjCreateIdc(optTbUser.get().getTbuCreateIdc());
-				tbDepartmentJob.setTbdjStatus(TbDepartmentJobRepository.Active);
-				tbDepartmentJob.setTbdId(optTbDepartment.get().getTbdId());
-				tbDepartmentJob.setTbjId(optTbJob.get().getTbjId());
-				tbDepartmentJob.setTbdjUuid(new Uid().generateString(5));
-				tbDepartmentJobRepository.save(tbDepartmentJob);
-
-				responseModel.setTbDepartmentJob(tbDepartmentJob);
-				responseModel.setHttpStatus(HttpStatus.OK);
-			} else {
-				TbDepartment exampleTbDepartment = new TbDepartment();
-				exampleTbDepartment.setTbdUuid(requestModel.getTbDepartment().getTbdUuid());
-				exampleTbDepartment.setTbdCreateIdc(optTbUser.get().getTbuCreateIdc());
-				Optional<TbDepartment> optTbDepartment = tbDepartmentRepository.findOne(Example.of(exampleTbDepartment));
-
-				TbJob exampleTbJob = new TbJob();
-				exampleTbJob.setTbjUuid(requestModel.getTbJob().getTbjUuid());
-				exampleTbJob.setTbjCreateIdc(optTbUser.get().getTbuCreateIdc());
-				Optional<TbJob> optTbJob = tbJobRepository.findOne(Example.of(exampleTbJob));
-
-				TbDepartmentJob exampleTbDepartmentJob = new TbDepartmentJob();
-				exampleTbDepartmentJob.setTbdjUuid(requestModel.getTbDepartmentJob().getTbdjUuid());
-				exampleTbDepartmentJob.setTbdjCreateIdc(optTbUser.get().getTbuCreateIdc());
-				Optional<TbDepartmentJob> optTbDepartmentJob = tbDepartmentJobRepository.findOne(Example.of(exampleTbDepartmentJob));
-
-				if (optTbDepartment.isPresent() && optTbDepartmentJob.isPresent() && optTbJob.isPresent()) {
-					TbDepartmentJob tbDepartmentJob = optTbDepartmentJob.get();
-					tbDepartmentJob.setTbdjUpdateId(optTbUser.get().getTbuId());
-					tbDepartmentJob.setTbdjUpdateDate(new Date());
-					tbDepartmentJob.setTbdjStatus(requestModel.getTbDepartmentJob().getTbdjStatus());
-					tbDepartmentJob = tbDepartmentJobRepository.save(tbDepartmentJob);
-
-					responseModel.setTbDepartmentJob(tbDepartmentJob);
 					responseModel.setHttpStatus(HttpStatus.OK);
 				} else {
 					responseModel.setHttpStatus(HttpStatus.NOT_FOUND);

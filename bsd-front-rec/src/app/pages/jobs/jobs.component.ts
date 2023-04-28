@@ -85,41 +85,30 @@ export class JobsComponent implements OnInit {
     this.router.navigate(['/jobs/' + tbjUuid]);
   }
 
-  nonActive(tbjUuid: string) {
+  nonActive(tbjUuid: string, tbjStatus: string) {
     this.clicked = !this.clicked;
 
-    this.jobService.getJob(tbjUuid)
+    if (tbjStatus == 'active') {
+      tbjStatus = 'not active';
+    } else {
+      tbjStatus = 'active';
+    }
+
+    this.postAddJobRequest.tbJob.tbjUuid = tbjUuid;
+    this.postAddJobRequest.tbJob.tbjStatus = tbjStatus;
+
+    this.jobService.postAddJob(this.postAddJobRequest)
     .subscribe(
       successResponse => {
-        this.getJobResponse = successResponse;
+        this.clicked = !this.clicked;
+        this.postAddJobResponse = successResponse;
+        this.util.showNotification('info', 'top', 'center', successResponse.message);
 
-        if (this.getJobResponse.tbJob.tbjStatus == 'active') {
-          this.getJobResponse.tbJob.tbjStatus = 'not active';
-        } else {
-          this.getJobResponse.tbJob.tbjStatus = 'active';
-        }
-
-        this.postAddJobRequest.tbJob = this.getJobResponse.tbJob;
-
-        this.jobService.postAddJob(this.postAddJobRequest)
-        .subscribe(
-          successResponse => {
-            this.clicked = !this.clicked;
-            this.postAddJobResponse = successResponse;
-            this.util.showNotification('info', 'top', 'center', successResponse.message);
-
-            this.getJobList(this.pageEvent);
-          },
-          errorResponse => {
-            this.clicked = !this.clicked;
-            this.postAddJobResponse = new PostAddJobResponse();
-            this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
-          }
-        );
+        this.getJobList(this.pageEvent);
       },
       errorResponse => {
         this.clicked = !this.clicked;
-        this.getJobResponse = new GetJobResponse();
+        this.postAddJobResponse = new PostAddJobResponse();
         this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
       }
     );
@@ -132,7 +121,7 @@ export class JobsComponent implements OnInit {
   search() {
     this.pageEvent.pageIndex = 0;
     this.getJobList(this.pageEvent);
-    this.searchForm = !this.searchForm;
+    // this.searchForm = !this.searchForm;
   }
 
   clear() {

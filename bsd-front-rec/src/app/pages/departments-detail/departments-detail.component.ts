@@ -10,9 +10,9 @@ import { Util } from 'app/util';
 import { GetJobDepartmentListRequest } from 'app/services/job/getjobdepartmentlistrequest';
 import { GetJobDepartmentListResponse } from 'app/services/job/getjobdepartmentlistresponse';
 import { JobService } from 'app/services/job/job.service';
-import { PostAddDepartmentJobRequest } from 'app/services/department/postadddepartmentjobrequest';
-import { PostAddDepartmentJobResponse } from 'app/services/department/postadddepartmentjobresponse';
 import { Location } from '@angular/common';
+import { PostAddJobRequest } from 'app/services/job/postaddjobrequest';
+import { PostAddJobResponse } from 'app/services/job/postaddjobresponse';
 
 @Component({
   selector: 'app-pages-departments-detail',
@@ -36,8 +36,8 @@ export class DepartmentsDetailComponent implements OnInit {
   getDepartmentResponse: GetDepartmentResponse = new GetDepartmentResponse();
   getJobDepartmentListRequest: GetJobDepartmentListRequest = new GetJobDepartmentListRequest();
   getJobDepartmentListResponse: GetJobDepartmentListResponse = new GetJobDepartmentListResponse();
-  postAddDepartmentJobRequest: PostAddDepartmentJobRequest = new PostAddDepartmentJobRequest();
-  postAddDepartmentJobResponse: PostAddDepartmentJobResponse = new PostAddDepartmentJobResponse();
+  postAddJobRequest: PostAddJobRequest = new PostAddJobRequest();
+  postAddJobResponse: PostAddJobResponse = new PostAddJobResponse();
 
   constructor(
     private location: Location,
@@ -66,6 +66,8 @@ export class DepartmentsDetailComponent implements OnInit {
             this.postAddDepartmentRequest.tbDepartment.tbdName = this.getDepartmentResponse.tbDepartment.tbdName;
             this.postAddDepartmentRequest.tbDepartment.tbdStatus = this.getDepartmentResponse.tbDepartment.tbdStatus;
 
+            this.getJobDepartmentListRequest.viewJobDepartment.tbdId = this.postAddDepartmentRequest.tbDepartment.tbdId;
+
             this.getJobDepartmentList(this.pageEvent);
           },
           errorResponse => {            
@@ -89,7 +91,7 @@ export class DepartmentsDetailComponent implements OnInit {
     localStorage.setItem('departments-detail.pageEvent', JSON.stringify(this.pageEvent));
     localStorage.setItem('departments-detail.request', JSON.stringify(this.postAddDepartmentRequest));
 
-    this.jobService.getJobDepartmentList(this.postAddDepartmentRequest.tbDepartment.tbdId, this.getJobDepartmentListRequest.viewJobDepartment.tbjName, this.getJobDepartmentListRequest.viewJobDepartment.tbdjStatus, this.pageEvent.length, this.pageEvent.pageSize, this.pageEvent.pageIndex)
+    this.jobService.getJobDepartmentList(this.getJobDepartmentListRequest, this.pageEvent.length, this.pageEvent.pageSize, this.pageEvent.pageIndex)
       .subscribe(
         successResponse => {
           this.clicked = !this.clicked;
@@ -128,7 +130,7 @@ export class DepartmentsDetailComponent implements OnInit {
 
   clear() {
     this.getJobDepartmentListRequest.viewJobDepartment.tbjName = '';
-    this.getJobDepartmentListRequest.viewJobDepartment.tbdjStatus = '';
+    this.getJobDepartmentListRequest.viewJobDepartment.tbjAssigned = '';
   }
 
   saveupdate() {
@@ -150,31 +152,29 @@ export class DepartmentsDetailComponent implements OnInit {
     );
   }
 
-  setUnset(tbdUuid: string, tbjUuid: string, tbdjUuid: string, tbdjStatus: string) {
+  setUnset(tbjUuid: string, tbdId: number) {
     this.clicked = !this.clicked;
 
-    if (tbdUuid == undefined) {
-      this.postAddDepartmentJobRequest.tbDepartment.tbdUuid = this.postAddDepartmentRequest.tbDepartment.tbdUuid;
-    } else {
-      this.postAddDepartmentJobRequest.tbDepartment.tbdUuid = tbdUuid;
-    }
-        
-    this.postAddDepartmentJobRequest.tbJob.tbjUuid = tbjUuid;
-    this.postAddDepartmentJobRequest.tbDepartmentJob.tbdjUuid = tbdjUuid;
-    this.postAddDepartmentJobRequest.tbDepartmentJob.tbdjStatus = tbdjStatus;
+    this.postAddJobRequest.tbJob.tbjUuid = tbjUuid;
 
-    this.departmentService.postAddDepartmentJob(this.postAddDepartmentJobRequest)
+    if (tbdId == undefined) {
+      this.postAddJobRequest.tbJob.tbdId = this.postAddDepartmentRequest.tbDepartment.tbdId;
+    } else {
+      this.postAddJobRequest.tbJob.tbdId = 0;
+    }
+
+    this.jobService.postAddJob(this.postAddJobRequest)
     .subscribe(
       successResponse => {
         this.clicked = !this.clicked;
-        this.postAddDepartmentJobResponse = successResponse;
+        this.postAddJobResponse = successResponse;
         this.util.showNotification('info', 'top', 'center', successResponse.message);
 
         this.getJobDepartmentList(this.pageEvent);
       },
       errorResponse => {
         this.clicked = !this.clicked;
-        this.postAddDepartmentJobResponse = new PostAddDepartmentJobResponse();
+        this.postAddJobResponse = new PostAddJobResponse();
         this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
       }
     );

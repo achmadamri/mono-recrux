@@ -24,8 +24,10 @@ import { UserRegisterRequest } from './userregisterrequest';
   providedIn: 'root'
 })
 export class UserService {
-  util: Util = new Util();
-  apiUrl = isDevMode() ? '/apimember/user' : 'https://domain.com/2081/user';
+  util: Util = new Util();  
+  apiUrl = isDevMode() ? 'http://localhost:2081/user' : 'https://domain.com/2081/user';
+  // codespace
+  // apiUrl = isDevMode() ? '/apimember/user' : 'https://domain.com/2081/user';
 
   constructor(private httpClient: HttpClient) { }
 

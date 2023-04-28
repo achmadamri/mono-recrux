@@ -16,7 +16,9 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
 
+import com.api.rec.departments.db.entity.TbResume;
 import com.api.rec.departments.db.entity.TbUser;
+import com.api.rec.departments.db.repository.TbResumeRepository;
 import com.api.rec.departments.db.repository.TbUserRepository;
 import com.api.rec.departments.util.TokenUtil;
 
@@ -30,6 +32,9 @@ public class Application extends SpringBootServletInitializer {
 	
 	@Autowired
 	private TbUserRepository tbUserRepository;
+	
+	@Autowired
+	private TbResumeRepository tbResumeRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
@@ -60,5 +65,13 @@ public class Application extends SpringBootServletInitializer {
 		}
 		
 		log.info("set salt done");
+
+		log.info("clean resume sched");
+		List<TbResume> tbResumeList = tbResumeRepository.findParsing();
+		for (TbResume tbResume : tbResumeList) {
+			tbResume.setTbrStatus(TbResumeRepository.ParsePending);
+			tbResumeRepository.save(tbResume);
+		}
+		log.info("clean resume sched done");
 	}
 }

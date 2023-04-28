@@ -22,12 +22,8 @@ import com.api.rec.departments.model.job.GetJobListRequestModel;
 import com.api.rec.departments.model.job.GetJobListResponseModel;
 import com.api.rec.departments.model.job.GetJobRequestModel;
 import com.api.rec.departments.model.job.GetJobResponseModel;
-import com.api.rec.departments.model.job.GetJobResumeListRequestModel;
-import com.api.rec.departments.model.job.GetJobResumeListResponseModel;
 import com.api.rec.departments.model.job.PostAddJobRequestModel;
 import com.api.rec.departments.model.job.PostAddJobResponseModel;
-import com.api.rec.departments.model.job.PostAddJobResumeRequestModel;
-import com.api.rec.departments.model.job.PostAddJobResumeResponseModel;
 import com.api.rec.departments.service.JobService;
 import com.api.rec.departments.util.Uid;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -44,21 +40,6 @@ public class JobController {
 
 	@Autowired
 	private JobService jobService;
-
-	@PostMapping("/postaddjobresume")
-	@Transactional
-	public HttpEntity<?> postAddJobResume(@Valid @RequestBody PostAddJobResumeRequestModel requestModel) throws Exception {		
-		String fid = new Uid().generateString(20);
-		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
-		
-		PostAddJobResumeResponseModel responseModel = jobService.postAddJobResume(requestModel);
-		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
-		
-		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
-		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
-
-		return responseEntity;
-	}
 
 	@PostMapping("/postaddjob")
 	@Transactional
@@ -96,7 +77,7 @@ public class JobController {
 	}
 
 	@GetMapping("/getjobdepartmentlist")
-	public HttpEntity<?> getJobDepartmentList(@RequestParam Integer tbdId, @RequestParam String tbjName, @RequestParam String tbdjStatus, @RequestParam String length, @RequestParam String pageSize, @RequestParam String pageIndex, @RequestParam String email, @RequestParam String token, @RequestParam String requestId, @RequestParam String requestDate) throws Exception {
+	public HttpEntity<?> getJobDepartmentList(@RequestParam Integer tbdId, @RequestParam String tbjUuid, @RequestParam String tbjName, @RequestParam String tbjStatus, @RequestParam String tbjAssigned, @RequestParam String length, @RequestParam String pageSize, @RequestParam String pageIndex, @RequestParam String email, @RequestParam String token, @RequestParam String requestId, @RequestParam String requestDate) throws Exception {
 		GetJobDepartmentListRequestModel requestModel = new GetJobDepartmentListRequestModel();
 		requestModel.setEmail(email);
 		requestModel.setToken(token);
@@ -106,27 +87,7 @@ public class JobController {
 		String fid = new Uid().generateString(20);
 		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
 		
-		GetJobDepartmentListResponseModel responseModel = jobService.getJobDepartmentList(tbdId, tbjName, tbdjStatus, length, pageSize, pageIndex, requestModel);
-		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
-
-		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
-		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
-
-		return responseEntity;
-	}
-
-	@GetMapping("/getjobresumelist")
-	public HttpEntity<?> getJobResumeList(@RequestParam Integer tbjId, @RequestParam String tbrDataNameRaw, @RequestParam String tbrStatus, @RequestParam String length, @RequestParam String pageSize, @RequestParam String pageIndex, @RequestParam String email, @RequestParam String token, @RequestParam String requestId, @RequestParam String requestDate) throws Exception {
-		GetJobResumeListRequestModel requestModel = new GetJobResumeListRequestModel();
-		requestModel.setEmail(email);
-		requestModel.setToken(token);
-		requestModel.setRequestId(requestId);
-		requestModel.setRequestDate(requestDate);
-		
-		String fid = new Uid().generateString(20);
-		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
-		
-		GetJobResumeListResponseModel responseModel = jobService.getJobResumeList(tbjId, tbrDataNameRaw, tbrStatus, length, pageSize, pageIndex, requestModel);
+		GetJobDepartmentListResponseModel responseModel = jobService.getJobDepartmentList(tbdId, tbjUuid, tbjName, tbjStatus, tbjAssigned, length, pageSize, pageIndex, requestModel);
 		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
 
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());

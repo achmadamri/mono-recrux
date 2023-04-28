@@ -44,32 +44,6 @@ public class ViewJobDepartment implements Serializable {
 	@Column(name="tbd_uuid")
 	private String tbdUuid;
 
-	@Column(name="tbdj_id")
-	private Integer tbdjId;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="tbdj_create_date")
-	private Date tbdjCreateDate;
-
-	@Column(name="tbdj_create_id")
-	private Integer tbdjCreateId;
-
-	@Column(name="tbdj_create_idc")
-	private Integer tbdjCreateIdc;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="tbdj_update_date")
-	private Date tbdjUpdateDate;
-
-	@Column(name="tbdj_update_id")
-	private Integer tbdjUpdateId;
-
-	@Column(name="tbdj_status")
-	private String tbdjStatus;
-
-	@Column(name="tbdj_uuid")
-	private String tbdjUuid;
-
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="tbj_create_date")
 	private Date tbjCreateDate;
@@ -88,6 +62,9 @@ public class ViewJobDepartment implements Serializable {
 
 	@Column(name="tbj_status")
 	private String tbjStatus;
+
+	@Column(name="tbj_assigned")
+	private String tbjAssigned;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="tbj_update_date")
@@ -177,70 +154,6 @@ public class ViewJobDepartment implements Serializable {
 		this.tbdUuid = tbdUuid;
 	}
 
-	public Integer getTbdjId() {
-		return tbdjId;
-	}
-
-	public void setTbdjId(Integer tbdjId) {
-		this.tbdjId = tbdjId;
-	}
-
-	public Date getTbdjCreateDate() {
-		return tbdjCreateDate;
-	}
-
-	public void setTbdjCreateDate(Date tbdjCreateDate) {
-		this.tbdjCreateDate = tbdjCreateDate;
-	}
-
-	public Integer getTbdjCreateId() {
-		return tbdjCreateId;
-	}
-
-	public void setTbdjCreateId(Integer tbdjCreateId) {
-		this.tbdjCreateId = tbdjCreateId;
-	}
-
-	public Integer getTbdjCreateIdc() {
-		return tbdjCreateIdc;
-	}
-
-	public void setTbdjCreateIdc(Integer tbdjCreateIdc) {
-		this.tbdjCreateIdc = tbdjCreateIdc;
-	}
-
-	public Date getTbdjUpdateDate() {
-		return tbdjUpdateDate;
-	}
-
-	public void setTbdjUpdateDate(Date tbdjUpdateDate) {
-		this.tbdjUpdateDate = tbdjUpdateDate;
-	}
-
-	public Integer getTbdjUpdateId() {
-		return tbdjUpdateId;
-	}
-
-	public void setTbdjUpdateId(Integer tbdjUpdateId) {
-		this.tbdjUpdateId = tbdjUpdateId;
-	}
-
-	public String getTbdjStatus() {
-		return tbdjStatus;
-	}
-
-	public void setTbdjStatus(String tbdjStatus) {
-		this.tbdjStatus = tbdjStatus;
-	}
-
-	public String getTbdjUuid() {
-		return tbdjUuid;
-	}
-
-	public void setTbdjUuid(String tbdjUuid) {
-		this.tbdjUuid = tbdjUuid;
-	}
-
 	public Date getTbjCreateDate() {
 		return tbjCreateDate;
 	}
@@ -287,6 +200,14 @@ public class ViewJobDepartment implements Serializable {
 
 	public void setTbjStatus(String tbjStatus) {
 		this.tbjStatus = tbjStatus;
+	}
+
+	public String getTbjAssigned() {
+		return tbjAssigned;
+	}
+
+	public void setTbjAssigned(String tbjAssigned) {
+		this.tbjAssigned = tbjAssigned;
 	}
 
 	public Date getTbjUpdateDate() {

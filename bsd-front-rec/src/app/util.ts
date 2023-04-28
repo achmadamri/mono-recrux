@@ -10,6 +10,22 @@ declare let $: any;
 export class Util {
     constructor() { }
 
+    /**
+     * Generate uuid for given length
+     * Uuid consist of 0-9 and a-z
+     * @param length
+     */
+    generateUuid(length: number): string {
+      let outString = '';
+      const inOptions = 'abcdefghijklmnopqrstuvwxyz0123456789';
+
+      for (let i = 0; i < length; i++) {
+        outString += inOptions.charAt(Math.floor(Math.random() * inOptions.length));
+      }
+
+      return outString;
+    }
+
     cachePaginatorReset(name: string) {
       let pageEvent: PageEvent = new PageEvent();
       pageEvent.length = 100;

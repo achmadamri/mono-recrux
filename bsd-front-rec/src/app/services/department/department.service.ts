@@ -2,19 +2,20 @@ import { Injectable, isDevMode } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Util } from 'app/util';
-import { GetDepartmentListResponse } from './getDepartmentlistresponse';
+import { GetDepartmentListResponse } from './getdepartmentlistresponse';
 import { PostAddDepartmentRequest } from './postadddepartmentrequest';
 import { PostAddDepartmentResponse } from './postadddepartmentresponse';
 import { GetDepartmentResponse } from './getdepartmentresponse';
-import { PostAddDepartmentJobRequest } from './postadddepartmentjobrequest';
-import { PostAddDepartmentJobResponse } from './postadddepartmentjobresponse';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DepartmentService {
   util: Util = new Util();
-  apiUrl = isDevMode() ? '/apidepartments/department' : 'https://domain.com/2082/department';
+  // local
+  apiUrl = isDevMode() ? 'http://localhost:2082/department' : 'https://domain.com/2082/department';
+  // codespace
+  // apiUrl = isDevMode() ? '/apidepartments/department' : 'https://domain.com/2082/department';
 
   constructor(private httpClient: HttpClient) { }
   
@@ -35,18 +36,6 @@ export class DepartmentService {
       ;
 
     return this.httpClient.get<GetDepartmentListResponse>(`${this.apiUrl}/getdepartmentlist`, { headers, params });
-  }
-
-  postAddDepartmentJob(postAddDepartmentJobRequest: PostAddDepartmentJobRequest): Observable<PostAddDepartmentJobResponse> {
-    const headers = new HttpHeaders()
-      .set('Content-Type', 'application/json');
-
-    postAddDepartmentJobRequest.email = localStorage.getItem('email');
-    postAddDepartmentJobRequest.token = localStorage.getItem('token');
-    postAddDepartmentJobRequest.requestId = this.util.randomString(10);
-    postAddDepartmentJobRequest.requestDate = ((new Date(Date.now() - ((new Date()).getTimezoneOffset() * 60000))).toISOString().slice(0, -1)) + '000';
-
-    return this.httpClient.post<PostAddDepartmentJobResponse>(`${this.apiUrl}/postadddepartmentjob`, postAddDepartmentJobRequest, { headers });
   }
 
   postAddDepartment(postAddDepartmentRequest: PostAddDepartmentRequest): Observable<PostAddDepartmentResponse> {

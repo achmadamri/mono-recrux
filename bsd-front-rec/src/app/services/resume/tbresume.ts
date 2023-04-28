@@ -63,5 +63,7 @@ export class TbResume {
 	tbrErrorErrorCode: string;
 	tbrErrorErrorDetail: string;
 	tbrStatus: string;
-	tbrUuid: string;	
+	tbrUuid: string;
+	tbjId: number;
+	tbrAssigned: string;
 }

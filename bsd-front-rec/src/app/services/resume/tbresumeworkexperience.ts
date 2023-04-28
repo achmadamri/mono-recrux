@@ -20,4 +20,7 @@ export class TbResumeWorkExperience {
     tbrweManagementLevel: string;
     tbrweStatus: string;
     tbrweUuid: string;
+    tbrweText: string;
+    tbrweStart: string;
+    tbrweEnd: string;
 }
