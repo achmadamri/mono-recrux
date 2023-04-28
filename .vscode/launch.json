@@ -83,6 +83,58 @@
             "projectName": "bsd-api-rec-resumescheduler",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-Application<com.bsd.api.dms.resume-bsd-api-rec-resume>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.api.rec.resume.Application",
+            "projectName": "com.bsd.api.dms.resume-bsd-api-rec-resume",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-Application<bsd-api-rec-resume-3080>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.api.rec.resume.Application",
+            "projectName": "bsd-api-rec-resume-3080",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=63242 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=bsd-api-rec-resume-3080"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-Application<bsd-api-rec-resume-3081>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.api.rec.resume.Application",
+            "projectName": "bsd-api-rec-resume-3081",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=63269 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=bsd-api-rec-resume-3081"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-Application<bsd-api-rec-resume-3082>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.api.rec.resume.Application",
+            "projectName": "bsd-api-rec-resume-3082",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-Application<bsd-api-rec-resume-3083>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.api.rec.resume.Application",
+            "projectName": "bsd-api-rec-resume-3083",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }

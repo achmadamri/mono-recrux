@@ -308,7 +308,7 @@ public class ResumeService {
 					log.info("------------------------------------------------------------------");
 					tbResume.setTbrStatus(TbResumeRepository.Parsing);
 					tbResumeRepository.save(tbResume);
-					parseResume(tbResume, "3081");
+					parseResume(tbResume, "3083");
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {
