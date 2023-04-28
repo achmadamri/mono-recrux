@@ -1,0 +1,1 @@
+c:\xampp\mysql\bin\mysql.exe -uroot -pP@55w0rd bsd_api_rec_departments < "C:\Users\Achmad Amri\git\mono-recrux\bsd-api-rec-departments\bsd_api_rec_departments.sql"
