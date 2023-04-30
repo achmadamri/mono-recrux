@@ -250,6 +250,12 @@ public class TbResume implements Serializable {
 	@Column(name="tbr_uuid")
 	private String tbrUuid;
 
+	@Column(name="tbr_score")
+	private Integer tbrScore;
+
+	@Column(name="tbr_star")
+	private Integer tbrStar;
+
 	public TbResume() {
 	}
 
@@ -747,6 +753,22 @@ public class TbResume implements Serializable {
 
 	public void setTbrUuid(String tbrUuid) {
 		this.tbrUuid = tbrUuid;
+	}
+
+	public Integer getTbrScore() {
+		return tbrScore;
+	}
+
+	public void setTbrScore(Integer tbrScore) {
+		this.tbrScore = tbrScore;
+	}
+
+	public Integer getTbrStar() {
+		return tbrStar;
+	}
+
+	public void setTbrStar(Integer tbrStar) {
+		this.tbrStar = tbrStar;
 	}
 
 }

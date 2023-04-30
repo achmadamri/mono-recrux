@@ -106,6 +106,7 @@ public class JobService {
 					tbJob.setTbjUpdateDate(new Date());
 
 					if (requestModel.getTbJob().getTbjName() != null) tbJob.setTbjName(requestModel.getTbJob().getTbjName());
+					if (requestModel.getTbJob().getTbjDescription() != null) tbJob.setTbjDescription(requestModel.getTbJob().getTbjDescription());
 					if (requestModel.getTbJob().getTbjStatus() != null) tbJob.setTbjStatus(requestModel.getTbJob().getTbjStatus());
 					if (requestModel.getTbJob().getTbdId() != null) tbJob.setTbdId(requestModel.getTbJob().getTbdId());
 					if (requestModel.getTbJob().getTbdId() != null) {

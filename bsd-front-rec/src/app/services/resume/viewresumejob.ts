@@ -78,4 +78,6 @@ export class ViewResumeJob {
 	tbrStatus: string;
 	tbrUuid: string;
 	tbrAssigned: string;
+	tbrScore: number;
+	tbrStar: number;
 }

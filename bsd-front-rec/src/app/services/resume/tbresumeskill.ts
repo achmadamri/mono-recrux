@@ -12,4 +12,5 @@ export class TbResumeSkill {
     tbrsType: string;
     tbrsStatus: string;
     tbrsUuid: string;
+    tbrScore: number;
 }

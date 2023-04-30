@@ -75,6 +75,7 @@ export class JobsDetailComponent implements OnInit {
               this.postAddJobRequest.tbJob.tbjId = this.getJobResponse.tbJob.tbjId;
               this.postAddJobRequest.tbJob.tbjUuid = this.getJobResponse.tbJob.tbjUuid;
               this.postAddJobRequest.tbJob.tbjName = this.getJobResponse.tbJob.tbjName;
+              this.postAddJobRequest.tbJob.tbjDescription = this.getJobResponse.tbJob.tbjDescription;
               this.postAddJobRequest.tbJob.tbjStatus = this.getJobResponse.tbJob.tbjStatus;
 
               this.getResumeJobListRequest.viewResumeJob.tbjId = this.postAddJobRequest.tbJob.tbjId;

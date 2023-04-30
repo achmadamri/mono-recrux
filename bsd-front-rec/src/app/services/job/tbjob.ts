@@ -9,4 +9,5 @@ export class TbJob {
 	tbuCreateIdc: number;
 	tbjUuid: string;
 	tbdId: number;
+	tbjDescription: string;
 }

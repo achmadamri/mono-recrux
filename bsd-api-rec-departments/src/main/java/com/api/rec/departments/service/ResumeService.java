@@ -318,15 +318,15 @@ public class ResumeService {
 
 			if (tbrAssigned.equals("")) {
 				if (tbjId == null) {
-					lstViewResumeJob = viewResumeJobRepository.findList(optTbUser.get().getTbuCreateIdc(), tbrUuid, tbrDataNameRaw, PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbr_id").ascending()));
+					lstViewResumeJob = viewResumeJobRepository.findList(optTbUser.get().getTbuCreateIdc(), tbrUuid, tbrDataNameRaw, PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbj_id", "tbr_star", "tbr_score").descending()));
 				} else {
-					lstViewResumeJob = viewResumeJobRepository.find(optTbUser.get().getTbuCreateIdc(), tbjId, PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbr_id").ascending()));
+					lstViewResumeJob = viewResumeJobRepository.find(optTbUser.get().getTbuCreateIdc(), tbjId, PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbj_id", "tbr_star", "tbr_score").descending()));
 				}				
 			} else {
 				if (tbrAssigned.equals("assigned")) {
-					lstViewResumeJob = viewResumeJobRepository.findAssigned(optTbUser.get().getTbuCreateIdc(), tbjId, tbrUuid, tbrDataNameRaw, tbrStatus, tbrAssigned, PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbr_id").ascending()));
+					lstViewResumeJob = viewResumeJobRepository.findAssigned(optTbUser.get().getTbuCreateIdc(), tbjId, tbrUuid, tbrDataNameRaw, tbrStatus, tbrAssigned, PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbj_id", "tbr_star", "tbr_score").descending()));
 				} else if (tbrAssigned.equals("not assigned")) {
-					lstViewResumeJob = viewResumeJobRepository.findNotAssigned(optTbUser.get().getTbuCreateIdc(), tbrUuid, tbrDataNameRaw, tbrStatus, tbrAssigned, PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbr_id").ascending()));
+					lstViewResumeJob = viewResumeJobRepository.findNotAssigned(optTbUser.get().getTbuCreateIdc(), tbrUuid, tbrDataNameRaw, tbrStatus, tbrAssigned, PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbj_id", "tbr_star", "tbr_score").descending()));
 				}
 			}			
 			
@@ -517,13 +517,13 @@ public class ResumeService {
 				exampleTbResumeSkill.setTbrId(optTbResume.get().getTbrId());
 				exampleTbResumeSkill.setTbrsStatus(TbResumeSkillRepository.Active);
 				exampleTbResumeSkill.setTbrsType("hard_skill");				
-				List<TbResumeSkill> tbResumeSkillsHard = tbResumeSkillRepository.findAll(Example.of(exampleTbResumeSkill), Sort.by(Sort.Direction.ASC, "tbrsName"));
+				List<TbResumeSkill> tbResumeSkillsHard = tbResumeSkillRepository.findAll(Example.of(exampleTbResumeSkill), Sort.by(Sort.Direction.DESC, "tbrsScore"));
 
 				exampleTbResumeSkill = new TbResumeSkill();
 				exampleTbResumeSkill.setTbrId(optTbResume.get().getTbrId());
 				exampleTbResumeSkill.setTbrsStatus(TbResumeSkillRepository.Active);
 				exampleTbResumeSkill.setTbrsType("soft_skill");				
-				List<TbResumeSkill> tbResumeSkillsSoft = tbResumeSkillRepository.findAll(Example.of(exampleTbResumeSkill), Sort.by(Sort.Direction.ASC, "tbrsName"));
+				List<TbResumeSkill> tbResumeSkillsSoft = tbResumeSkillRepository.findAll(Example.of(exampleTbResumeSkill), Sort.by(Sort.Direction.DESC, "tbrsScore"));
 
 				TbResumeWorkExperience exampleTbResumeWorkExperience = new TbResumeWorkExperience();
 				exampleTbResumeWorkExperience.setTbrId(optTbResume.get().getTbrId());

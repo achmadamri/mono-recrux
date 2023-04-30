@@ -59,6 +59,9 @@ public class TbResumeSkill implements Serializable {
 	@Column(name="tbrs_uuid")
 	private String tbrsUuid;
 
+	@Column(name="tbrs_score")
+	private Integer tbrsScore;
+
 	public TbResumeSkill() {
 	}
 
@@ -164,6 +167,10 @@ public class TbResumeSkill implements Serializable {
 
 	public void setTbrsUuid(String tbrsUuid) {
 		this.tbrsUuid = tbrsUuid;
+	}
+
+	public void setTbrsScore(Integer tbrsScore) {
+		this.tbrsScore = tbrsScore;
 	}
 
 }

@@ -42,6 +42,13 @@
                                           </mat-form-field>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                          <mat-form-field class="example-full-width">
+                                            <textarea matInput placeholder="Description" [(ngModel)]="postAddJobRequest.tbJob.tbjDescription" name="tbjDescription" rows="4" maxlength="1000"></textarea>
+                                          </mat-form-field>
+                                        </div>
+                                    </div>
                                     <div class="row" *ngIf="saveUpdate == 'Update'">
                                         <div class="col-md-12">
                                             <mat-radio-group aria-label="Status" [(ngModel)]="postAddJobRequest.tbJob.tbjStatus" name="tbjStatus">
@@ -119,6 +126,8 @@
                                     <th>No</th>
                                     <th>ID</th>
                                     <th>Name</th>
+                                    <th>Score</th>
+                                    <th>Star</th>
                                     <th>Status</th>
                                     <th>Assigned</th>
                                     <th>Action</th>
@@ -128,6 +137,8 @@
                                         <td>{{i + 1 + (pageSize * pageIndex)}}</td>
                                         <td>{{viewResumeJob.tbrUuid}}</td>
                                         <td>{{viewResumeJob.tbrDataNameRaw}}</td>
+                                        <td>{{viewResumeJob.tbrScore}}</td>
+                                        <td>{{viewResumeJob.tbrStar}}</td>
                                         <td>{{viewResumeJob.tbrStatus}}</td>
                                         <td>{{viewResumeJob.tbrAssigned}}</td>
                                         <td class="td-actions" *ngIf="viewResumeJob.tbrStatus == 'active'">

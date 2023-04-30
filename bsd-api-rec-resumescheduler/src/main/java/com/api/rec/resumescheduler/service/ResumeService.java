@@ -1,5 +1,8 @@
 package com.api.rec.resumescheduler.service;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,10 +27,12 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import com.api.rec.resumescheduler.db.entity.TbJob;
 import com.api.rec.resumescheduler.db.entity.TbResume;
 import com.api.rec.resumescheduler.db.entity.TbResumeEducation;
 import com.api.rec.resumescheduler.db.entity.TbResumeSkill;
 import com.api.rec.resumescheduler.db.entity.TbResumeWorkExperience;
+import com.api.rec.resumescheduler.db.repository.TbJobRepository;
 import com.api.rec.resumescheduler.db.repository.TbResumeEducationRepository;
 import com.api.rec.resumescheduler.db.repository.TbResumeRepository;
 import com.api.rec.resumescheduler.db.repository.TbResumeSkillRepository;
@@ -43,6 +48,9 @@ public class ResumeService {
 
 	@Autowired
 	private Environment env;
+
+	@Autowired
+	private TbJobRepository tbJobRepository;
 
 	@Autowired
 	private TbResumeRepository tbResumeRepository;
@@ -186,23 +194,84 @@ public class ResumeService {
 				.replaceAll("'", "")
 				.split(",");
 		List<TbResumeSkill> lstTbResumeSkill = new ArrayList<TbResumeSkill>();
-		for (String skill : skillsArray) {
-			if (!skill.equals("")) {
-				TbResumeSkill tbResumeSkill = new TbResumeSkill();
-				tbResumeSkill.setTbrsCreateId(tbResume.getTbrCreateId());
-				tbResumeSkill.setTbrsCreateDate(new Date());
-				tbResumeSkill.setTbrsCreateIdc(tbResume.getTbrCreateIdc());
-				tbResumeSkill.setTbrsStatus(TbResumeSkillRepository.Active);
-				tbResumeSkill.setTbrsUuid(new Uid().generateString(5));
-				tbResumeSkill.setTbrId(tbResume.getTbrId());
-				tbResumeSkill.setTbrsType("hard_skill");
-				tbResumeSkill.setTbrsName(skill.trim());
 
-				lstTbResumeSkill.add(tbResumeSkill);
+		// Score Skills Using OpenAI
+		TbJob tbJob = tbJobRepository.findById(tbResume.getTbjId()).get();
+		String prompt = "Job Title : " + tbJob.getTbjName() + ".\\nSkills : ";
+		for (String skill : skillsArray) {
+			prompt += skill.trim() + ", ";
+		}
+		prompt = prompt.substring(0, prompt.length() - 2);
+		prompt += ".\\nScore each skill on a scale of 0-10 for how relevant it is to the job title.";
+
+		final String uri = "https://api.openai.com/v1/completions";
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth("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");
+
+		String requestJson = "{\"model\": \"text-davinci-003\", \"prompt\": \"" + prompt + "\", \"max_tokens\": 100, \"temperature\": 0}";
+
+        HttpEntity<String> entity = new HttpEntity<String>(requestJson, headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.POST, entity, String.class);
+
+		log.info("------------------------------------------------------------------");		
+		log.info(response.getBody());
+		log.info("------------------------------------------------------------------");
+
+		ObjectMapper mapper = new ObjectMapper();
+		JsonNode rootNodeGpt = mapper.readTree(response.getBody());
+		JsonNode choicesNode = rootNodeGpt.path("choices");
+		Iterator<JsonNode> choicesIterator = choicesNode.elements();
+		Integer totalScore = 0;
+		Integer totalStar = 0;
+		while (choicesIterator.hasNext()) {
+			JsonNode choiceNode = choicesIterator.next();
+			if (choiceNode.get("text") != null) {
+				String text = choiceNode.get("text").asText();
+				String strs[] = text.split("\n");
+				for (String str : strs) {
+					if (!str.equals("")) {
+						String strs2[] = str.split(":");
+						if (strs2.length == 2) {
+							String skill = strs2[0].trim();
+							String score = strs2[1].trim();
+							if (score.equals("0")) {
+								score = "1";
+							}
+
+							TbResumeSkill tbResumeSkill = new TbResumeSkill();
+							tbResumeSkill.setTbrsCreateId(tbResume.getTbrCreateId());
+							tbResumeSkill.setTbrsCreateDate(new Date());
+							tbResumeSkill.setTbrsCreateIdc(tbResume.getTbrCreateIdc());
+							tbResumeSkill.setTbrsStatus(TbResumeSkillRepository.Active);
+							tbResumeSkill.setTbrsUuid(new Uid().generateString(5));
+							tbResumeSkill.setTbrId(tbResume.getTbrId());
+							tbResumeSkill.setTbrsType("hard_skill");
+							tbResumeSkill.setTbrsName(skill.trim());
+							tbResumeSkill.setTbrsScore(Integer.parseInt(score));
+
+							lstTbResumeSkill.add(tbResumeSkill);
+
+							totalScore += Integer.parseInt(score);
+							if (Integer.parseInt(score) == 10) {
+								totalStar++;
+							}
+						}
+					}
+				}
 			}
 		}
+
+		// Save Skills
 		tbResumeSkillRepository.deleteByTbrId(tbResume.getTbrId());
 		tbResumeSkillRepository.saveAll(lstTbResumeSkill);
+
+		tbResume.setTbrScore(totalScore);
+		tbResume.setTbrStar(totalStar);
+		tbResumeRepository.save(tbResume);
 	}
 	
 	@Autowired

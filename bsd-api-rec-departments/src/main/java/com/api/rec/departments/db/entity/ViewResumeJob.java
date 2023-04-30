@@ -278,6 +278,12 @@ public class ViewResumeJob implements Serializable {
     @Id
 	private String uuid;
 
+	@Column(name="tbr_score")
+	private Integer tbrScore;
+
+	@Column(name="tbr_star")
+	private Integer tbrStar;
+
 	public ViewResumeJob() {
 	}
 
@@ -849,4 +855,20 @@ public class ViewResumeJob implements Serializable {
 		this.uuid = uuid;
 	}
 
+	public Integer getTbrScore() {
+		return tbrScore;
+	}
+
+	public void setTbrScore(Integer tbrScore) {
+		this.tbrScore = tbrScore;
+	}
+
+	public Integer getTbrStar() {
+		return tbrStar;
+	}
+
+	public void setTbrStar(Integer tbrStar) {
+		this.tbrStar = tbrStar;
+	}
+	
 }
