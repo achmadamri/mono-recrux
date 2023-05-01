@@ -90,6 +90,14 @@ export class JobsDetailComponent implements OnInit {
 
         this.saveUpdate = 'Update';
       } else {
+        this.postAddJobRequest.tbJob.tbjId = null;
+        this.postAddJobRequest.tbJob.tbjUuid = null;
+        this.postAddJobRequest.tbJob.tbjName = null;
+        this.postAddJobRequest.tbJob.tbjDescription = null;
+        this.postAddJobRequest.tbJob.tbjStatus = null;
+
+        this.getResumeJobListRequest.viewResumeJob.tbjId = null;
+
         this.saveUpdate = 'Save';
       }
     });

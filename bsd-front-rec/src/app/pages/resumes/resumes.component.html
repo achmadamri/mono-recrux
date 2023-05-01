@@ -43,7 +43,7 @@
                                     <th>ID</th>
                                     <th>Name</th>
                                     <th>Score</th>
-                                    <th>Star</th>
+                                    <th>Rating</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </thead>
@@ -55,7 +55,9 @@
                                         <td>{{viewResumeJob.tbrUuid}}</td>
                                         <td>{{viewResumeJob.tbrDataNameRaw}}</td>
                                         <td>{{viewResumeJob.tbrScore}}</td>
-                                        <td>{{viewResumeJob.tbrStar}}</td>
+                                        <td>
+                                            <mat-icon *ngFor="let i of [].constructor(viewResumeJob.tbrStar); let index = index">star</mat-icon>
+                                        </td>
                                         <td>{{viewResumeJob.tbrStatus}}</td>
                                         <td class="td-actions" *ngIf="viewResumeJob.tbrStatus == 'active'">
                                             <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(viewResumeJob.tbrUuid);" *ngIf="viewResumeJob.tbrStatus != 'parsing'"><mat-icon>visibility</mat-icon></button>
