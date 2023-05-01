@@ -87,4 +87,19 @@ export class JobService {
 
     return this.httpClient.get<GetJobResponse>(`${this.apiUrl}/getjob`, { headers, params });
   }
+
+  getJobDescription(tbjUuid: string): Observable<GetJobResponse> {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json');
+
+    const params = new HttpParams()
+      .set('requestId', this.util.randomString(10))
+      .set('requestDate', ((new Date(Date.now() - ((new Date()).getTimezoneOffset() * 60000))).toISOString().slice(0, -1)) + '000')
+      .set('email', localStorage.getItem('email'))
+      .set('token', localStorage.getItem('token'))
+      .set('tbjUuid', tbjUuid)
+      ;
+
+    return this.httpClient.get<GetJobResponse>(`${this.apiUrl}/getjobdescription`, { headers, params });
+  }
 }

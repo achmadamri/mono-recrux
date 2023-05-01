@@ -14,8 +14,14 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.api.rec.departments.db.entity.TbJob;
 import com.api.rec.departments.db.entity.TbUser;
@@ -27,6 +33,8 @@ import com.api.rec.departments.db.repository.ViewJobDepartmentRepository;
 import com.api.rec.departments.db.repository.ViewResumeJobRepository;
 import com.api.rec.departments.model.job.GetJobDepartmentListRequestModel;
 import com.api.rec.departments.model.job.GetJobDepartmentListResponseModel;
+import com.api.rec.departments.model.job.GetJobDescriptionRequestModel;
+import com.api.rec.departments.model.job.GetJobDescriptionResponseModel;
 import com.api.rec.departments.model.job.GetJobListRequestModel;
 import com.api.rec.departments.model.job.GetJobListResponseModel;
 import com.api.rec.departments.model.job.GetJobRequestModel;
@@ -35,6 +43,8 @@ import com.api.rec.departments.model.job.PostAddJobRequestModel;
 import com.api.rec.departments.model.job.PostAddJobResponseModel;
 import com.api.rec.departments.util.TokenUtil;
 import com.api.rec.departments.util.Uid;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class JobService {
@@ -151,6 +161,71 @@ public class JobService {
 			Optional<TbJob> optTbJob = tbJobRepository.findOne(Example.of(exampleTbJob));
 			
 			if (optTbJob.isPresent()) {
+				responseModel.setTbJob(optTbJob.get());
+				responseModel.setHttpStatus(HttpStatus.OK);
+			} else {
+				responseModel.setHttpStatus(HttpStatus.NOT_FOUND);
+			}
+		} else {
+			responseModel.setHttpStatus(HttpStatus.UNAUTHORIZED);
+		}
+		
+		return responseModel;
+	}
+	
+	public GetJobDescriptionResponseModel getJobDescription(String tbjUuid, GetJobDescriptionRequestModel requestModel) throws Exception {
+		GetJobDescriptionResponseModel responseModel = new GetJobDescriptionResponseModel(requestModel);
+		
+		tokenUtil.claims(requestModel);
+		
+		TbUser exampleTbUser = new TbUser();
+		exampleTbUser.setTbuEmail(requestModel.getEmail());
+		exampleTbUser.setTbuStatus(TbUserRepository.Active);
+		Optional<TbUser> optTbUser = tbUserRepository.findOne(Example.of(exampleTbUser));
+		
+		if (optTbUser.isPresent()) {
+			TbJob exampleTbJob = new TbJob();
+			exampleTbJob.setTbjUuid(tbjUuid);
+			exampleTbJob.setTbjCreateId(optTbUser.get().getTbuCreateId());
+			Optional<TbJob> optTbJob = tbJobRepository.findOne(Example.of(exampleTbJob));
+			
+			if (optTbJob.isPresent()) {
+				String prompt = "You act as my human resources expert and create a job description for " + optTbJob.get().getTbjName() + ".";
+		
+				final String uri = "https://api.openai.com/v1/completions";
+				RestTemplate restTemplate = new RestTemplate();
+		
+				HttpHeaders headers = new HttpHeaders();
+				headers.setContentType(MediaType.APPLICATION_JSON);
+				headers.setBearerAuth("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");
+		
+				String requestJson = "{\"model\": \"text-davinci-003\", \"prompt\": \"" + prompt + "\", \"max_tokens\": 1000, \"temperature\": 0}";
+		
+				HttpEntity<String> entity = new HttpEntity<String>(requestJson, headers);
+		
+				ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.POST, entity, String.class);
+
+				log.info("------------------------------------------------------------------");				
+				log.info(response.getBody());
+				log.info("------------------------------------------------------------------");
+				
+				// Save the job description
+				ObjectMapper mapper = new ObjectMapper();
+				JsonNode rootNodeGpt = mapper.readTree(response.getBody());
+				JsonNode choicesNodeGpt = rootNodeGpt.path("choices");
+				JsonNode choiceNodeGpt = choicesNodeGpt.get(0);
+				JsonNode textNodeGpt = choiceNodeGpt.path("text");
+				String tbjDescription = textNodeGpt.asText();
+				log.info("------------------------------------------------------------------");				
+				log.info(tbjDescription);
+				log.info("------------------------------------------------------------------");
+				
+				// Save the job description and trim for 1000 char. Convert non readable characters to empty string
+				tbjDescription = tbjDescription.substring(0, Math.min(tbjDescription.length(), 10000));
+				tbjDescription = tbjDescription.replaceAll("[^\\x00-\\x7F]", "");
+				optTbJob.get().setTbjDescription(tbjDescription);
+				tbJobRepository.save(optTbJob.get());
+
 				responseModel.setTbJob(optTbJob.get());
 				responseModel.setHttpStatus(HttpStatus.OK);
 			} else {

@@ -195,14 +195,14 @@ public class ResumeService {
 				.split(",");
 		List<TbResumeSkill> lstTbResumeSkill = new ArrayList<TbResumeSkill>();
 
-		// Score Skills Using OpenAI
+		// Rating Skills Using OpenAI
 		TbJob tbJob = tbJobRepository.findById(tbResume.getTbjId()).get();
-		String prompt = "Job Title : " + tbJob.getTbjName() + ".\\nSkills : ";
+		String prompt = "Job Title: " + tbJob.getTbjName() + ".\\nSkills: ";
 		for (String skill : skillsArray) {
 			prompt += skill.trim() + ", ";
 		}
 		prompt = prompt.substring(0, prompt.length() - 2);
-		prompt += ".\\nScore each skill on a scale of 0-10 for how relevant it is to the job title.";
+		prompt += ".\\nYou act as my human resources expert and give a score for each skill on a scale of 0-10 for how relevant it is to the job title.";
 
 		final String uri = "https://api.openai.com/v1/completions";
         RestTemplate restTemplate = new RestTemplate();
