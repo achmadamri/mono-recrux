@@ -35,6 +35,7 @@ import { ResumesDetailComponent } from 'app/pages/resumes-detail/resumes-detail.
 import { ResumesComponent } from 'app/pages/resumes/resumes.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CKEditorModule } from 'ckeditor4-angular';
 
 @NgModule({
   imports: [
@@ -57,6 +58,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatProgressBarModule,
     MatTableModule,
     MatProgressSpinnerModule,
+    CKEditorModule,
   ],
   declarations: [
     DashboardComponent,

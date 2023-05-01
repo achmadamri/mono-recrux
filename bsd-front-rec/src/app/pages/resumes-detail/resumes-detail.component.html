@@ -37,6 +37,10 @@
                     <mat-radio-button value="active">Active</mat-radio-button>
                     &nbsp;
                     <mat-radio-button value="not active">Not Active</mat-radio-button>
+                    &nbsp;
+                    <mat-radio-button value="interview">Interview</mat-radio-button>
+                    &nbsp;
+                    <mat-radio-button value="offer">Offer</mat-radio-button>
                   </mat-radio-group>
                 </div>
               </div>
@@ -76,6 +80,12 @@
                   <li class="nav-item">
                     <a mat-button class="nav-link" href="#workexperience" data-toggle="tab">
                       <i class="material-icons">work_outline</i> Work Experience
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a mat-button class="nav-link" href="#note" data-toggle="tab">
+                      <i class="material-icons">note_add</i> Note
                       <div class="ripple-container"></div>
                     </a>
                   </li>
@@ -263,6 +273,15 @@
                       </tr>
                   </tbody>
                 </table>                
+              </div>
+              <div class="tab-pane" id="note">
+                <ckeditor
+                  [(ngModel)]="postAddResumeRequest.tbResume.tbrNote"
+                  [config]="{
+                    height: '400px'
+                  }"
+                  >
+                </ckeditor>
               </div>
             </div>
             <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked" (click)="update();">Update</button>

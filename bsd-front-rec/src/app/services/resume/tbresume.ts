@@ -68,4 +68,5 @@ export class TbResume {
 	tbrAssigned: string;
 	tbrScore: number;
 	tbrStar: number;
+	tbrNote: number;
 }

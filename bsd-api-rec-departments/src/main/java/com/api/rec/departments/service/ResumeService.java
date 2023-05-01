@@ -438,6 +438,8 @@ public class ResumeService {
 							tbResume.setTbjId(requestModel.getTbResume().getTbjId());
 						}
 					}
+
+					tbResume.setTbrNote(requestModel.getTbResume().getTbrNote());
 					
 					tbResume = tbResumeRepository.save(tbResume);
 
