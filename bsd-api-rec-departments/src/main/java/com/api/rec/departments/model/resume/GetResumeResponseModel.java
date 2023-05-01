@@ -2,6 +2,7 @@ package com.api.rec.departments.model.resume;
 
 import java.util.List;
 
+import com.api.rec.departments.db.entity.TbJob;
 import com.api.rec.departments.db.entity.TbResume;
 import com.api.rec.departments.db.entity.TbResumeCertification;
 import com.api.rec.departments.db.entity.TbResumeEducation;
@@ -15,6 +16,8 @@ public class GetResumeResponseModel extends ResponseModel {
 		super(requestModel);
 	}
 
+	private TbJob tbJob;
+
 	private TbResume tbResume;
 
 	private List<TbResumeSkill> lstTbResumeSkillHard;
@@ -26,6 +29,14 @@ public class GetResumeResponseModel extends ResponseModel {
 	private List<TbResumeWorkExperience> lstTbResumeWorkExperience;
 
 	private List<TbResumeCertification> lstTbResumeCertification;
+
+	public TbJob getTbJob() {
+		return tbJob;
+	}
+
+	public void setTbJob(TbJob tbJob) {
+		this.tbJob = tbJob;
+	}
 
 	public TbResume getTbResume() {
 		return tbResume;
@@ -73,5 +84,5 @@ public class GetResumeResponseModel extends ResponseModel {
 
 	public void setLstTbResumeCertification(List<TbResumeCertification> lstTbResumeCertification) {
 		this.lstTbResumeCertification = lstTbResumeCertification;
-	}
+	}	
 }

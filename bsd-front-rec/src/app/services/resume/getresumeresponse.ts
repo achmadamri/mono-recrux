@@ -1,3 +1,4 @@
+import { TbJob } from '../job/tbjob';
 import { TbResume } from './tbresume';
 import { TbResumeCertification } from './tbresumecertification';
 import { TbResumeEducation } from './tbresumeeducation';
@@ -12,6 +13,7 @@ export class GetResumeResponse {
     status: string;
     error: string;
     message: string;
+    tbJob: TbJob = new TbJob();
     tbResume: TbResume = new TbResume();
     lstTbResumeCertification: TbResumeCertification[] = Array(new TbResumeCertification());
 	lstTbResumeEducation: TbResumeEducation[] = Array(new TbResumeEducation());

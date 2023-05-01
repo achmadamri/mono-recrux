@@ -314,7 +314,7 @@ public class ResumeService {
 		Optional<TbUser> optTbUser = tbUserRepository.findOne(Example.of(exampleTbUser));
 
 		if (optTbUser.isPresent()) {
-			List<ViewResumeJob> lstViewResumeJob = null;
+			List<ViewResumeJob> lstViewResumeJob = new ArrayList<ViewResumeJob>();
 
 			if (tbrAssigned.equals("")) {
 				if (tbjId == null) {
@@ -530,12 +530,17 @@ public class ResumeService {
 				exampleTbResumeWorkExperience.setTbrweStatus(TbResumeWorkExperienceRepository.Active);
 				List<TbResumeWorkExperience> tbResumeWorkExperiences = tbResumeWorkExperienceRepository.findAll(Example.of(exampleTbResumeWorkExperience));
 
+				TbJob exampleTbJob = new TbJob();
+				exampleTbJob.setTbjId(optTbResume.get().getTbjId());
+				Optional<TbJob> optTbJob = tbJobRepository.findOne(Example.of(exampleTbJob));
+
 				responseModel.setLstTbResumeCertification(tbResumeCertifications);
 				responseModel.setLstTbResumeEducation(tbResumeEducations);
 				responseModel.setLstTbResumeSkillHard(tbResumeSkillsHard);
 				responseModel.setLstTbResumeSkillSoft(tbResumeSkillsSoft);
 				responseModel.setLstTbResumeWorkExperience(tbResumeWorkExperiences);				
 				responseModel.setTbResume(optTbResume.get());
+				responseModel.setTbJob(optTbJob.get());
 				
 				responseModel.setHttpStatus(HttpStatus.OK);
 			} else {
@@ -546,66 +551,5 @@ public class ResumeService {
 		}
 		
 		return responseModel;
-	}
-
-	private Integer getJsonInteger(JsonElement jsonElement, String path) {
-		try {
-			String[] paths = path.split("\\.");
-			for (String p : paths) {
-				jsonElement = jsonElement.getAsJsonObject().get(p);
-				if (jsonElement == null) {
-					return null;
-				}
-			}
-			return jsonElement.getAsInt();
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			return null;
-		}
-	}
-
-	private Date getJsonDate(String date) {
-		try {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			return sdf.parse(date);
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			return null;
-		}
-	}
-
-	private String getJson(JsonElement jsonElement, String path) {
-		try {
-			String[] paths = path.split("\\.");
-			for (String p : paths) {
-				jsonElement = jsonElement.getAsJsonObject().get(p);
-				if (jsonElement == null) {
-					return null;
-				}
-			}
-			return jsonElement.getAsString();
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			return null;
-		}		
-	}
-
-	private String getJsonArray(String jsonData) {
-		try {
-			Gson gson = new Gson();
-			String[] data = gson.fromJson(jsonData, String[].class);
-			String result = "";
-			for (String d : data) {
-				if (result.equals("")) {
-					result = d;
-				} else {
-					result = result + ", " + d;
-				}			
-			}
-			return result;
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			return jsonData;
-		}
-	}
+	}	
 }

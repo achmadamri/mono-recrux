@@ -3,33 +3,34 @@
     <div class="row">
       <div class="col-md-6">
         <div class="card">
-          <div class="card-header card-header-danger">
+          <div class="card-header card-header-danger">            
+            <h4 class="card-title">{{getResumeResponse.tbJob.tbjName}} ({{getResumeResponse.tbJob.tbjUuid}})</h4>
             <mat-icon *ngFor="let i of [].constructor(postAddResumeRequest.tbResume.tbrStar); let index = index">star</mat-icon>
-            <h4 class="card-title">{{postAddResumeRequest.tbResume.tbrDataNameRaw}}</h4>                        
           </div>
           <div class="card-body">
             <form>
               <div class="row">
                 <div class="col-md-12">
                   <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Id" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrUuid" name="tbrUuid" disabled>
+                    <input matInput placeholder="Resume Id" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrUuid" name="tbrUuid" readonly>
                   </mat-form-field>
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-12">
                   <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Name" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataNameRaw" name="tbrDataNameRaw" disabled>
+                    <input matInput placeholder="Name" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrDataNameRaw" name="tbrDataNameRaw" readonly>
                   </mat-form-field>
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-12">
                   <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Score" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrScore" name="tbrScore" disabled>
+                    <input matInput placeholder="Score" type="text" [(ngModel)]="postAddResumeRequest.tbResume.tbrScore" name="tbrScore" readonly>
                   </mat-form-field>
                 </div>
               </div>
+              <br>
               <div class="row">
                 <div class="col-md-12">
                   <mat-radio-group aria-label="Status" name="tbpType" [(ngModel)]="postAddResumeRequest.tbResume.tbrStatus" name="tbrStatus">
@@ -184,7 +185,8 @@
                       </div>
                       <div class="card-body">
                         <div *ngFor="let tbResumeSkill of getResumeResponse.lstTbResumeSkillHard; let i = index">
-                          <button mat-raised-button type="button" class="btn btn-secondary btn-round pull-left" [disabled]="clicked" style="padding: 6px 12px; text-transform: none;" title="Skills">{{tbResumeSkill.tbrsName}} ({{tbResumeSkill.tbrsScore}})</button>
+                          <button mat-raised-button type="button" class="btn btn-danger btn-round pull-left" [disabled]="clicked" style="padding: 6px 12px; text-transform: none;" title="Skills" *ngIf="tbResumeSkill.tbrsScore == 10">{{tbResumeSkill.tbrsName}} ({{tbResumeSkill.tbrsScore}})</button>
+                          <button mat-raised-button type="button" class="btn btn-secondary btn-round pull-left" [disabled]="clicked" style="padding: 6px 12px; text-transform: none;" title="Skills" *ngIf="tbResumeSkill.tbrsScore != 10">{{tbResumeSkill.tbrsName}} ({{tbResumeSkill.tbrsScore}})</button>
                         </div>
                       </div>
                     </div>
