@@ -12,8 +12,6 @@ public interface TbResumeRepository extends JpaRepository<TbResume, Integer> {
 	public final static String Parsing = "parsing";
 	public final static String Active = "active";
 	public final static String NonActive = "non active";
-	public final static String Interview = "interview";
-	public final static String Offer = "offer";
 	public final static String Assigned = "assigned";
 	public final static String NotAssigned = "not assigned";
 

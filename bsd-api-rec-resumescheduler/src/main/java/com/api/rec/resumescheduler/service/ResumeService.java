@@ -195,7 +195,7 @@ public class ResumeService {
 				.split(",");
 		List<TbResumeSkill> lstTbResumeSkill = new ArrayList<TbResumeSkill>();
 
-		// Rating Skills Using OpenAI
+		// Star Skills Using OpenAI
 		TbJob tbJob = tbJobRepository.findById(tbResume.getTbjId()).get();
 		String prompt = "Job Title: " + tbJob.getTbjName() + ".\\nSkills: ";
 		for (String skill : skillsArray) {
