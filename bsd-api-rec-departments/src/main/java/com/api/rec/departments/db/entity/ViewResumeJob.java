@@ -272,6 +272,12 @@ public class ViewResumeJob implements Serializable {
 	@Column(name="tbr_update_id")
 	private Integer tbrUpdateId;
 
+	@Column(name="tbr_score")
+	private Integer tbrScore;
+
+	@Column(name="tbr_star")
+	private Integer tbrStar;
+
 	@Column(name="tbr_uuid")
 	private String tbrUuid;
 
@@ -858,6 +864,22 @@ public class ViewResumeJob implements Serializable {
 
 	public void setTbrResumeStatus(String tbrResumeStatus) {
 		this.tbrResumeStatus = tbrResumeStatus;
+	}
+
+	public Integer getTbrScore() {
+		return tbrScore;
+	}
+
+	public void setTbrScore(Integer tbrScore) {
+		this.tbrScore = tbrScore;
+	}
+
+	public Integer getTbrStar() {
+		return tbrStar;
+	}
+
+	public void setTbrStar(Integer tbrStar) {
+		this.tbrStar = tbrStar;
 	}
 
 }

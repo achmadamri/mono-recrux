@@ -123,8 +123,16 @@
                                     <h4 class="card-title">{{list.title}}</h4>
                                     <div cdkDropList [cdkDropListData]="list.list" class="example-list" (cdkDropListDropped)="drop($event)">
                                         <div class="example-box" *ngFor="let item of list.list" cdkDrag>
-                                            {{item.tbrDataNameRaw}}                                            
-                                        </div>
+                                            <div class="circle">
+                                                <p class="initials">
+                                                    <span *ngFor="let word of item.tbrDataNameRaw.split(' ')">{{ word.charAt(0) }}</span>
+                                                </p>
+                                            </div>
+                                            <div class="info">
+                                                <h4 title="{{ item.tbrScore }}">{{ item.tbrDataNameRaw }}</h4>
+                                                <mat-icon *ngFor="let i of [].constructor(item.tbrStar); let index = index">star</mat-icon>                                                
+                                            </div>                                            
+                                        </div>                                        
                                     </div>
                                 </div>
                             </div>
