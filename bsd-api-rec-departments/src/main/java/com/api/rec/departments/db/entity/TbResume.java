@@ -260,6 +260,9 @@ public class TbResume implements Serializable {
 	@Column(columnDefinition = "text", name="tbr_note")
 	private String tbrNote;	
 
+	@Column(name="tbr_resume_status")
+	private String tbrResumeStatus;
+
 	public TbResume() {
 	}
 
@@ -781,6 +784,14 @@ public class TbResume implements Serializable {
 
 	public void setTbrNote(String tbrNote) {
 		this.tbrNote = tbrNote;
+	}
+
+	public String getTbrResumeStatus() {
+		return tbrResumeStatus;
+	}
+
+	public void setTbrResumeStatus(String tbrResumeStatus) {
+		this.tbrResumeStatus = tbrResumeStatus;
 	}
 
 }

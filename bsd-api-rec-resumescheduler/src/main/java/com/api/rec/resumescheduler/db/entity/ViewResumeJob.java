@@ -278,6 +278,9 @@ public class ViewResumeJob implements Serializable {
     @Id
 	private String uuid;
 
+	@Column(name="tbr_resume_status")
+	private String tbrResumeStatus;
+
 	public ViewResumeJob() {
 	}
 
@@ -847,6 +850,14 @@ public class ViewResumeJob implements Serializable {
 
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
+	}
+
+	public String getTbrResumeStatus() {
+		return tbrResumeStatus;
+	}
+
+	public void setTbrResumeStatus(String tbrResumeStatus) {
+		this.tbrResumeStatus = tbrResumeStatus;
 	}
 
 }

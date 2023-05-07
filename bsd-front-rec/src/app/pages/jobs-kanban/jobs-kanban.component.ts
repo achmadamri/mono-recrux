@@ -28,13 +28,6 @@ export class JobsKanbanComponent implements OnInit {
   searchForm = false;
   clicked = false;
   util: Util = new Util();
-  length = 100;
-  pageSize = 5;
-  pageIndex = 0;
-  previousPageIndex = 0;
-  pageSizeOptions: number[] = [5, 10, 25, 100];
-  pageEvent: PageEvent = new PageEvent();
-  pageDisabled: boolean = false;
   saveUpdate: string = '';
   postAddJobRequest: PostAddJobRequest = new PostAddJobRequest();
   postAddJobResponse: PostAddJobResponse = new PostAddJobResponse();
@@ -51,8 +44,13 @@ export class JobsKanbanComponent implements OnInit {
   getResumeJobListResponse: GetResumeJobListResponse = new GetResumeJobListResponse();
   postAddResumeRequest: PostAddResumeRequest = new PostAddResumeRequest();
   postAddResumeResponse: PostAddResumeResponse = new PostAddResumeResponse();
-  todo = ['Get to work', 'Pick up groceries', 'Go home', 'Fall asleep'];
-  done = ['Get up', 'Brush teeth', 'Take a shower', 'Check e-mail', 'Walk dog'];
+  // todo = ['Get to work', 'Pick up groceries', 'Go home', 'Fall asleep'];
+  // done = ['Get up', 'Brush teeth', 'Take a shower', 'Check e-mail', 'Walk dog'];
+  // kanbanList = [
+  //   { title: 'Todo', list: this.todo },
+  //   { title: 'Done', list: this.done }
+  // ];
+  kanbanList = [];
 
   constructor(
     private location: Location,
@@ -75,10 +73,36 @@ export class JobsKanbanComponent implements OnInit {
     }
   }
 
+  getResumeJobList(pageEvent: PageEvent) {
+    this.clicked = !this.clicked;
+
+    this.resumeService.getResumeJobList(this.getResumeJobListRequest, 999999, 999999, 0)
+      .subscribe(
+        successResponse => {
+          this.clicked = !this.clicked;
+          this.getResumeJobListResponse = successResponse;
+
+          // iterate this.postAddJobRequest.tbJob.tbjResumeStatus split by comma
+          this.kanbanList = [];
+          this.postAddJobRequest.tbJob.tbjResumeStatus.split(',').forEach(element => {
+            let kanban = {
+              title: element.trim(),
+              // get data from this.getResumeJobListResponse.lstViewResumeJob where tbrResumeStatus = element
+              list: this.getResumeJobListResponse.lstViewResumeJob.filter(x => x.tbrResumeStatus == element.trim())
+            };
+            this.kanbanList.push(kanban);
+          });
+        },
+        errorResponse => {
+          this.clicked = !this.clicked;
+          this.getResumeJobListResponse = new GetResumeJobListResponse();
+          this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
+        }
+      );
+  }
+
   ngOnInit() {
-    this.pageEvent = this.util.cachePaginator('jobs-detail.pageEvent');
-    this.postAddJobRequest = this.util.cachePaginatorRequest('jobs-detail.request');
-    this.postAddJobRequest == null ? this.postAddJobRequest = new PostAddJobRequest() : this.postAddJobRequest;
+    this.postAddJobRequest == new PostAddJobRequest();
 
     this.route.paramMap.subscribe(params => {
       this.postAddJobRequest.tbJob.tbjUuid = params.get('tbjUuid');
@@ -98,7 +122,7 @@ export class JobsKanbanComponent implements OnInit {
 
               this.getResumeJobListRequest.viewResumeJob.tbjId = this.postAddJobRequest.tbJob.tbjId;
 
-              this.getResumeJobList(this.pageEvent);
+              this.getResumeJobList(null);
             },
             errorResponse => {
               this.getJobResponse = new GetJobResponse();
@@ -144,7 +168,7 @@ export class JobsKanbanComponent implements OnInit {
 
                 this.getResumeJobListRequest.viewResumeJob.tbjId = this.postAddJobRequest.tbJob.tbjId;
 
-                this.getResumeJobList(this.pageEvent);
+                this.getResumeJobList(null);
               },
               errorResponse => {
                 this.getJobResponse = new GetJobResponse();
@@ -191,7 +215,7 @@ export class JobsKanbanComponent implements OnInit {
                 this.util.showNotification('info', 'top', 'center', this.postUploadResumeResponse.fileNameOri + ' - ' + this.postUploadResumeResponse.message);
 
                 if (this.totalUpload == this.selectedFiles.length) {
-                  this.getResumeJobList(this.pageEvent);
+                  this.getResumeJobList(null);
 
                   this.clicked = !this.clicked;
                   this.selectedFiles = [];
@@ -235,34 +259,6 @@ export class JobsKanbanComponent implements OnInit {
           this.clicked = !this.clicked;
 
           this.getJobResponse = new GetJobResponse();
-          this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
-        }
-      );
-  }
-
-  getResumeJobList(pageEvent: PageEvent) {
-    this.clicked = !this.clicked;
-
-    if (pageEvent != null) this.pageEvent = pageEvent;
-
-    localStorage.setItem('jobs-detail.pageEvent', JSON.stringify(this.pageEvent));
-    localStorage.setItem('jobs-detail.request', JSON.stringify(this.postAddJobRequest));
-
-    this.resumeService.getResumeJobList(this.getResumeJobListRequest, this.pageEvent.length, this.pageEvent.pageSize, this.pageEvent.pageIndex)
-      .subscribe(
-        successResponse => {
-          this.clicked = !this.clicked;
-          this.getResumeJobListResponse = successResponse;
-
-          this.length = this.getResumeJobListResponse.length;
-          this.pageSize = this.pageEvent.pageSize;
-          this.pageIndex = this.pageEvent.pageIndex;
-          this.previousPageIndex = this.pageEvent.previousPageIndex;   
-        },
-        errorResponse => {
-          this.length = 0;
-          this.clicked = !this.clicked;
-          this.getResumeJobListResponse = new GetResumeJobListResponse();
           this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
         }
       );

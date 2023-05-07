@@ -256,6 +256,13 @@ public class TbResume implements Serializable {
 	@Column(name="tbr_star")
 	private Integer tbrStar;
 
+	@Lob
+	@Column(columnDefinition = "text", name="tbr_note")
+	private String tbrNote;	
+
+	@Column(name="tbr_resume_status")
+	private String tbrResumeStatus;
+
 	public TbResume() {
 	}
 
@@ -769,6 +776,22 @@ public class TbResume implements Serializable {
 
 	public void setTbrStar(Integer tbrStar) {
 		this.tbrStar = tbrStar;
+	}
+
+	public String getTbrNote() {
+		return tbrNote;
+	}
+
+	public void setTbrNote(String tbrNote) {
+		this.tbrNote = tbrNote;
+	}
+
+	public String getTbrResumeStatus() {
+		return tbrResumeStatus;
+	}
+
+	public void setTbrResumeStatus(String tbrResumeStatus) {
+		this.tbrResumeStatus = tbrResumeStatus;
 	}
 
 }
