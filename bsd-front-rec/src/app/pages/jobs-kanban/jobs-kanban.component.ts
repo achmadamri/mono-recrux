@@ -16,12 +16,14 @@ import { PostAddResumeRequest } from 'app/services/resume/postaddresumerequest';
 import { PostAddResumeResponse } from 'app/services/resume/postaddresumeresponse';
 import { ResumeService } from 'app/services/resume/resume.service';
 import { Util } from 'app/util';
+import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 
 @Component({
-  selector: 'app-pages-jobs-detail',
-  templateUrl: './jobs-detail.component.html'
+  selector: 'app-pages-jobs-kanban',
+  templateUrl: './jobs-kanban.component.html',
+  styleUrls: ['./jobs-kanban.component.css']
 })
-export class JobsDetailComponent implements OnInit {
+export class JobsKanbanComponent implements OnInit {
   @ViewChild('fileInput', { static: false }) fileInput;
   searchForm = false;
   clicked = false;
@@ -49,6 +51,8 @@ export class JobsDetailComponent implements OnInit {
   getResumeJobListResponse: GetResumeJobListResponse = new GetResumeJobListResponse();
   postAddResumeRequest: PostAddResumeRequest = new PostAddResumeRequest();
   postAddResumeResponse: PostAddResumeResponse = new PostAddResumeResponse();
+  todo = ['Get to work', 'Pick up groceries', 'Go home', 'Fall asleep'];
+  done = ['Get up', 'Brush teeth', 'Take a shower', 'Check e-mail', 'Walk dog'];
 
   constructor(
     private location: Location,
@@ -57,6 +61,19 @@ export class JobsDetailComponent implements OnInit {
     private jobService: JobService,
     private resumeService: ResumeService
   ) { }
+
+  drop(event: CdkDragDrop<string[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
+    }
+  }
 
   ngOnInit() {
     this.pageEvent = this.util.cachePaginator('jobs-detail.pageEvent');
@@ -102,34 +119,6 @@ export class JobsDetailComponent implements OnInit {
         this.saveUpdate = 'Save';
       }
     });
-  }
-
-  setUnset(tbrUuid: string, tbjId: number) {
-    this.clicked = !this.clicked;
-
-    this.postAddResumeRequest.tbResume.tbrUuid = tbrUuid;   
-
-    if (tbjId == undefined) {
-      this.postAddResumeRequest.tbResume.tbjId = this.postAddJobRequest.tbJob.tbjId;
-    } else {
-      this.postAddResumeRequest.tbResume.tbjId = 0;
-    }
-
-    this.resumeService.postAddResume(this.postAddResumeRequest)
-    .subscribe(
-      successResponse => {
-        this.clicked = !this.clicked;
-        this.postAddResumeResponse = successResponse;
-        this.util.showNotification('info', 'top', 'center', successResponse.message);
-
-        this.getResumeJobList(this.pageEvent);
-      },
-      errorResponse => {
-        this.clicked = !this.clicked;
-        this.postAddJobResponse = new PostAddJobResponse();
-        this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
-      }
-    );
   }
 
   saveupdate() {
@@ -226,16 +215,8 @@ export class JobsDetailComponent implements OnInit {
     }
   }
 
-  getPage(pageEvent: PageEvent) {
-    this.getResumeJobList(pageEvent);
-  }
-
   back() {
     this.location.back();
-  }
-
-  kanban() {
-    this.router.navigate(['/jobskanban/' + this.postAddJobRequest.tbJob.tbjUuid]);
   }
 
   generate() {
@@ -257,25 +238,6 @@ export class JobsDetailComponent implements OnInit {
           this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
         }
       );
-  }
-
-  filter() {
-    this.searchForm = !this.searchForm;
-  }
-
-  search() {
-    this.pageEvent.pageIndex = 0;
-    this.getResumeJobList(this.pageEvent);
-    this.searchForm = !this.searchForm;
-  }
-
-  refresh() {
-    this.getResumeJobList(this.pageEvent);
-  }
-
-  clear() {
-    this.getResumeJobListRequest.viewResumeJob.tbrDataNameRaw = '';
-    this.getResumeJobListRequest.viewResumeJob.tbrAssigned = '';
   }
 
   getResumeJobList(pageEvent: PageEvent) {
@@ -304,10 +266,6 @@ export class JobsDetailComponent implements OnInit {
           this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
         }
       );
-  }
-
-  edit(tbrUuid: string) {
-    this.router.navigate(['/resumes/' + tbrUuid]);
   }
 
 }

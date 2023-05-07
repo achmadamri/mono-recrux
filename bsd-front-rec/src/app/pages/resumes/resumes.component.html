@@ -43,7 +43,7 @@
                                     <th>ID</th>
                                     <th>Name</th>
                                     <th>Score</th>
-                                    <th>Rating</th>
+                                    <th>AI Rating</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </thead>
@@ -61,7 +61,7 @@
                                             </div>
                                         </td>
                                         <td>{{viewResumeJob.tbrStatus}}</td>
-                                        <td class="td-actions" *ngIf="viewResumeJob.tbrStatus == 'active' || viewResumeJob.tbrStatus == 'interview' || viewResumeJob.tbrStatus == 'offer'">
+                                        <td class="td-actions" *ngIf="viewResumeJob.tbrStatus == 'active' || viewResumeJob.tbrStatus == 'not active'">
                                             <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(viewResumeJob.tbrUuid);" *ngIf="viewResumeJob.tbrStatus != 'parsing'"><mat-icon>visibility</mat-icon></button>
                                             <button mat-icon-button title="Activate" [disabled]="clicked" (click)="nonActive(viewResumeJob.tbrUuid);" *ngIf="viewResumeJob.tbrStatus == 'not active'"><mat-icon>check</mat-icon></button>
                                             <button mat-icon-button title="Deactivate" [disabled]="clicked" (click)="nonActive(viewResumeJob.tbrUuid);" *ngIf="viewResumeJob.tbrStatus == 'active'"><mat-icon>close</mat-icon></button>

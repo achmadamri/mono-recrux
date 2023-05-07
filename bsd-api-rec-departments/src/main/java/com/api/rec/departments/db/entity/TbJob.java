@@ -64,6 +64,9 @@ public class TbJob implements Serializable {
 	@Column(name="tbj_description")
 	private String tbjDescription;
 
+	@Column(name="tbj_resume_status")
+	private String tbjResumeStatus;
+
 	public TbJob() {
 	}
 
@@ -161,6 +164,14 @@ public class TbJob implements Serializable {
 
 	public void setTbjDescription(String tbjDescription) {
 		this.tbjDescription = tbjDescription;
+	}
+
+	public String getTbjResumeStatus() {
+		return tbjResumeStatus;
+	}
+
+	public void setTbjResumeStatus(String tbjResumeStatus) {
+		this.tbjResumeStatus = tbjResumeStatus;
 	}
 
 }

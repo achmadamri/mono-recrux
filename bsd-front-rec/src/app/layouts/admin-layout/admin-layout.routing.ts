@@ -19,6 +19,7 @@ import { JobsComponent } from 'app/pages/jobs/jobs.component';
 import { JobsDetailComponent } from 'app/pages/jobs-detail/jobs-detail.component';
 import { ResumesDetailComponent } from 'app/pages/resumes-detail/resumes-detail.component';
 import { ResumesComponent } from 'app/pages/resumes/resumes.component';
+import { JobsKanbanComponent } from 'app/pages/jobs-kanban/jobs-kanban.component';
 
 export const AdminLayoutRoutes: Routes = [
     // {
@@ -79,6 +80,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'departments/:tbdUuid', component: DepartmentsDetailComponent, canActivate: [AuthGuard] },
     { path: 'jobs', component: JobsComponent, canActivate: [AuthGuard] },
     { path: 'jobs/:tbjUuid', component: JobsDetailComponent, canActivate: [AuthGuard] },
+    { path: 'jobskanban/:tbjUuid', component: JobsKanbanComponent, canActivate: [AuthGuard] },
     { path: 'resumes', component: ResumesComponent, canActivate: [AuthGuard] },
     { path: 'resumes/:tbrUuid', component: ResumesDetailComponent, canActivate: [AuthGuard] },
     { path: 'logout', component: LogoutComponent },    

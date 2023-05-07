@@ -10,4 +10,5 @@ export class TbJob {
 	tbjUuid: string;
 	tbdId: number;
 	tbjDescription: string;
+	tbjResumeStatus: string;
 }

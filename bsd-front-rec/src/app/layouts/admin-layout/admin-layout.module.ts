@@ -36,6 +36,8 @@ import { ResumesComponent } from 'app/pages/resumes/resumes.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CKEditorModule } from 'ckeditor4-angular';
+import { JobsKanbanComponent } from 'app/pages/jobs-kanban/jobs-kanban.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   imports: [
@@ -59,6 +61,7 @@ import { CKEditorModule } from 'ckeditor4-angular';
     MatTableModule,
     MatProgressSpinnerModule,
     CKEditorModule,
+    DragDropModule
   ],
   declarations: [
     DashboardComponent,
@@ -71,6 +74,7 @@ import { CKEditorModule } from 'ckeditor4-angular';
     JobsComponent,
     DepartmentsDetailComponent,
     JobsDetailComponent,
+    JobsKanbanComponent,
     ConfirmationComponent,
     LogoutComponent,
     TableListComponent,

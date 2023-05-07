@@ -135,8 +135,10 @@ export class NavbarComponent implements OnInit {
       }
 
       var normTitle = titlee.replace('#','').replace('/','').replace('-',' ');
+      console.log(normTitle);
 
       if (normTitle.match(/departments.*/)) return "Departments";
+      if (normTitle.match(/jobskanban.*/)) return "Jobs Kanban";
       if (normTitle.match(/jobs.*/)) return "Jobs";
       if (normTitle.match(/resumes.*/)) return "Resumes";
 
