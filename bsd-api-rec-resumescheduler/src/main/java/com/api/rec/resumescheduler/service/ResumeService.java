@@ -202,7 +202,9 @@ public class ResumeService {
 			prompt += skill.trim() + ", ";
 		}
 		prompt = prompt.substring(0, prompt.length() - 2);
-		prompt += ".\\nYou act as my human resources expert and give a score for each skill on a scale of 0-10 for how relevant it is to the job title.";
+		prompt += ".\\nYou act as my human resources expert and give a score for each skill on a scale of 0-10 for how relevant the skills are to the job title and give an overall score on a scale of 0-100 for the relevancy of the skills vs job title.";
+
+		log.info(prompt);
 
 		final String uri = "https://api.openai.com/v1/completions";
         RestTemplate restTemplate = new RestTemplate();
@@ -226,41 +228,46 @@ public class ResumeService {
 		JsonNode choicesNode = rootNodeGpt.path("choices");
 		Iterator<JsonNode> choicesIterator = choicesNode.elements();
 		Integer totalScore = 0;
-		Integer totalStar = 0;
+		Integer overallScore = 0;
 		while (choicesIterator.hasNext()) {
 			JsonNode choiceNode = choicesIterator.next();
 			if (choiceNode.get("text") != null) {
 				String text = choiceNode.get("text").asText();
 				String strs[] = text.split("\n");
+				int i = 1;
 				for (String str : strs) {
+					log.info(str);
 					if (!str.equals("")) {
-						String strs2[] = str.split(":");
-						if (strs2.length == 2) {
-							String skill = strs2[0].trim();
-							String score = strs2[1].trim();
-							if (score.equals("0")) {
-								score = "1";
-							}
-
-							TbResumeSkill tbResumeSkill = new TbResumeSkill();
-							tbResumeSkill.setTbrsCreateId(tbResume.getTbrCreateId());
-							tbResumeSkill.setTbrsCreateDate(new Date());
-							tbResumeSkill.setTbrsCreateIdc(tbResume.getTbrCreateIdc());
-							tbResumeSkill.setTbrsStatus(TbResumeSkillRepository.Active);
-							tbResumeSkill.setTbrsUuid(new Uid().generateString(5));
-							tbResumeSkill.setTbrId(tbResume.getTbrId());
-							tbResumeSkill.setTbrsType("hard_skill");
-							tbResumeSkill.setTbrsName(skill.trim());
-							tbResumeSkill.setTbrsScore(Integer.parseInt(score));
-
-							lstTbResumeSkill.add(tbResumeSkill);
-
-							totalScore += Integer.parseInt(score);
-							if (Integer.parseInt(score) == 10) {
-								totalStar++;
+						if (i == strs.length) {
+							String strs2[] = str.split(": ");
+							overallScore = Integer.parseInt(strs2[1]);
+						} else {
+							String strs2[] = str.split(":");
+							if (strs2.length == 2) {
+								String skill = strs2[0].trim();
+								String score = strs2[1].trim();
+								if (score.equals("0")) {
+									score = "1";
+								}
+	
+								TbResumeSkill tbResumeSkill = new TbResumeSkill();
+								tbResumeSkill.setTbrsCreateId(tbResume.getTbrCreateId());
+								tbResumeSkill.setTbrsCreateDate(new Date());
+								tbResumeSkill.setTbrsCreateIdc(tbResume.getTbrCreateIdc());
+								tbResumeSkill.setTbrsStatus(TbResumeSkillRepository.Active);
+								tbResumeSkill.setTbrsUuid(new Uid().generateString(5));
+								tbResumeSkill.setTbrId(tbResume.getTbrId());
+								tbResumeSkill.setTbrsType("hard_skill");
+								tbResumeSkill.setTbrsName(skill.trim());
+								tbResumeSkill.setTbrsScore(Integer.parseInt(score));
+	
+								lstTbResumeSkill.add(tbResumeSkill);
+	
+								totalScore += Integer.parseInt(score);
 							}
 						}
 					}
+					i++;
 				}
 			}
 		}
@@ -270,7 +277,7 @@ public class ResumeService {
 		tbResumeSkillRepository.saveAll(lstTbResumeSkill);
 
 		tbResume.setTbrScore(totalScore);
-		tbResume.setTbrStar(totalStar);
+		tbResume.setTbrStar(overallScore);
 		tbResumeRepository.save(tbResume);
 	}
 	

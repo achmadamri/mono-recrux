@@ -43,7 +43,7 @@
                                     <th>ID</th>
                                     <th>Name</th>
                                     <th>Score</th>
-                                    <th>AI Rating</th>
+                                    <th>Match</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </thead>
@@ -56,9 +56,7 @@
                                         <td>{{viewResumeJob.tbrDataNameRaw}}</td>
                                         <td>{{viewResumeJob.tbrScore}}</td>
                                         <td>
-                                            <div *ngIf="viewResumeJob.tbrStar != null">
-                                                <mat-icon *ngFor="let i of [].constructor(viewResumeJob.tbrStar); let index = index">star</mat-icon>
-                                            </div>
+                                            {{viewResumeJob.tbrStar}}%
                                         </td>
                                         <td>{{viewResumeJob.tbrStatus}}</td>
                                         <td class="td-actions" *ngIf="viewResumeJob.tbrStatus == 'active' || viewResumeJob.tbrStatus == 'not active'">
