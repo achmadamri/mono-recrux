@@ -438,7 +438,7 @@ public class ResumeService {
 					}
 
 					tbResume.setTbrScore(score);
-					tbResume.setTbrNote("AI Note:\n\n" + note);
+					tbResume.setTbrNote("AI Note:<br>" + note);
 					tbResumeRepository.save(tbResume);
 
 					// Open AI End ---------------------------------------------------------------------------------------------
