@@ -89,7 +89,7 @@
                                 <form>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <input type="file" #fileInput (change)="onFileChanged($event)" multiple/>
+                                            <input type="file" #fileInput (change)="onFileChanged($event)" multiple accept=".pdf" />
                                             <mat-progress-bar mode="determinate" [value]="uploadPercentage"></mat-progress-bar>
                                             {{uploadPercentage}}%
                                             <br/>
@@ -160,11 +160,7 @@
                                         <td>{{viewResumeJob.tbrUuid}}</td>
                                         <td>{{viewResumeJob.tbrDataNameRaw}}</td>
                                         <td>{{viewResumeJob.tbrScore}}</td>
-                                        <td>   
-                                            <div *ngIf="viewResumeJob.tbrStar != null">
-                                                <mat-icon *ngFor="let i of [].constructor(viewResumeJob.tbrStar); let index = index">star</mat-icon>
-                                            </div>                                                                                     
-                                        </td>
+                                        <td>{{viewResumeJob.tbrStar}}%</td>
                                         <td>{{viewResumeJob.tbrStatus}}</td>
                                         <td>{{viewResumeJob.tbrAssigned}}</td>
                                         <td class="td-actions" *ngIf="viewResumeJob.tbrStatus == 'active' || viewResumeJob.tbrStatus == 'not active'">

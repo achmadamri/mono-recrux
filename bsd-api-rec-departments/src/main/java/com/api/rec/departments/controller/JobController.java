@@ -50,7 +50,7 @@ public class JobController {
 		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
 		
 		PostAddJobResponseModel responseModel = jobService.postAddJob(requestModel);
-		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
+		if (responseModel.getMessage() == null ) responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
 		
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
 		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
@@ -70,7 +70,7 @@ public class JobController {
 		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
 		
 		GetJobListResponseModel responseModel = jobService.getJobList(tbjName, tbjStatus, length, pageSize, pageIndex, requestModel);
-		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
+		if (responseModel.getMessage() == null ) responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
 
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
 		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
@@ -90,7 +90,7 @@ public class JobController {
 		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
 		
 		GetJobDepartmentListResponseModel responseModel = jobService.getJobDepartmentList(tbdId, tbjUuid, tbjName, tbjStatus, tbjAssigned, length, pageSize, pageIndex, requestModel);
-		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
+		if (responseModel.getMessage() == null ) responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
 
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
 		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
@@ -110,7 +110,7 @@ public class JobController {
 		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
 		
 		GetJobResponseModel responseModel = jobService.getJob(tbjUuid, requestModel);
-		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
+		if (responseModel.getMessage() == null ) responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
 		
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
 		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
@@ -130,7 +130,7 @@ public class JobController {
 		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
 		
 		GetJobDescriptionResponseModel responseModel = jobService.getJobDescription(tbjUuid, requestModel);
-		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
+		if (responseModel.getMessage() == null ) responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
 		
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
 		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));

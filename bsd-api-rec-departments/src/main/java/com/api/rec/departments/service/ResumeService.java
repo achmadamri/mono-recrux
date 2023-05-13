@@ -7,40 +7,22 @@ import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.affinda.api.client.AffindaAPI;
@@ -71,8 +53,6 @@ import com.api.rec.departments.model.resume.GetResumeRequestModel;
 import com.api.rec.departments.model.resume.GetResumeResponseModel;
 import com.api.rec.departments.model.resume.PostAddResumeRequestModel;
 import com.api.rec.departments.model.resume.PostAddResumeResponseModel;
-import com.api.rec.departments.model.resume.PostParseResumeRequestModel;
-import com.api.rec.departments.model.resume.PostParseResumeResponseModel;
 import com.api.rec.departments.model.resume.PostUploadResumeRequestModel;
 import com.api.rec.departments.model.resume.PostUploadResumeResponseModel;
 import com.api.rec.departments.util.TokenUtil;
@@ -81,9 +61,6 @@ import com.azure.core.credential.TokenCredential;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 
 import reactor.core.publisher.Flux;
 
@@ -122,6 +99,8 @@ public class ResumeService {
 	private ViewResumeJobRepository viewResumeJobRepository;
 
 	public TbResume postUploadResumeAffinda(TbUser tbUser, MultipartFile file) throws Exception {
+		ObjectMapper mapper = new ObjectMapper();
+		JsonNode rootNode;
 		Gson gson = new Gson();
 
 		String apiKey = env.getProperty("key.affinda");
@@ -158,11 +137,44 @@ public class ResumeService {
 
 		if (data != null) {
 			tbResume.setTbrDataPhoneNumbers(gson.toJson(data.get("phoneNumbers")));
+			String[] tbrDataPhoneNumbersArray = tbResume.getTbrDataPhoneNumbers().split(",");
+			String tbrDataPhoneNumbersString = "";
+			for (int i = 0; i < tbrDataPhoneNumbersArray.length; i++) {
+				tbrDataPhoneNumbersString += tbrDataPhoneNumbersArray[i].replace("[", "").replace("]", "").replace("\"",
+						"") + ",";
+			}
+			tbResume.setTbrDataPhoneNumbers(
+					tbrDataPhoneNumbersString.substring(0, tbrDataPhoneNumbersString.length() - 1));
+
 			tbResume.setTbrDataWebsites(gson.toJson(data.get("websites")));
+			String[] tbrDataWebsitesArray = tbResume.getTbrDataWebsites().split(",");
+			String tbrDataWebsitesString = "";
+			for (int i = 0; i < tbrDataWebsitesArray.length; i++) {
+				tbrDataWebsitesString += tbrDataWebsitesArray[i].replace("[", "").replace("]", "").replace("\"", "")
+						+ ",";
+			}
+			tbResume.setTbrDataWebsites(tbrDataWebsitesString.substring(0, tbrDataWebsitesString.length() - 1));
+
 			tbResume.setTbrDataEmails(gson.toJson(data.get("emails")));
+			String[] tbrDataEmailsArray = tbResume.getTbrDataEmails().split(",");
+			String tbrDataEmailsString = "";
+			for (int i = 0; i < tbrDataEmailsArray.length; i++) {
+				tbrDataEmailsString += tbrDataEmailsArray[i].replace("[", "").replace("]", "").replace("\"", "") + ",";
+			}
+			tbResume.setTbrDataEmails(tbrDataEmailsString.substring(0, tbrDataEmailsString.length() - 1));
+
 			tbResume.setTbrDataDateOfBirth((String) data.get("dateOfBirth"));
 			tbResume.setTbrDataObjective((String) data.get("objective"));
+			
 			tbResume.setTbrDataLanguages(gson.toJson(data.get("languages")));
+			String[] tbrDataLanguagesArray = tbResume.getTbrDataLanguages().split(",");
+			String tbrDataLanguagesString = "";
+			for (int i = 0; i < tbrDataLanguagesArray.length; i++) {
+				tbrDataLanguagesString += tbrDataLanguagesArray[i].replace("[", "").replace("]", "").replace("\"", "")
+						+ ",";
+			}
+			tbResume.setTbrDataLanguages(tbrDataLanguagesString.substring(0, tbrDataLanguagesString.length() - 1));
+			
 			tbResume.setTbrDataSummary((String) data.get("summary"));
 			tbResume.setTbrDataTotalYearsExperience((Integer) data.get("totalYearsExperience"));
 			tbResume.setTbrDataProfession((String) data.get("profession"));
@@ -184,11 +196,11 @@ public class ResumeService {
 			tbResume.setTbrDataLocationApartmentNumber((String) dataLocation.get("apartmentNumber"));
 			tbResume.setTbrDataLocationCity((String) dataLocation.get("city"));
 		}
-		
+
 		if (dataEducation != null) {
 			tbResume.setTbrDataEducation(gson.toJson(dataEducation));
 		}
-		
+
 		if (dataWorkExperience != null) {
 			tbResume.setTbrDataWorkExperience(gson.toJson(dataWorkExperience));
 		}
@@ -196,7 +208,7 @@ public class ResumeService {
 		if (dataSkills != null) {
 			tbResume.setTbrDataSkills(gson.toJson(dataSkills));
 		}
-		
+
 		if (dataReferees != null) {
 			tbResume.setTbrDataReferees(gson.toJson(dataReferees));
 		}
@@ -214,7 +226,92 @@ public class ResumeService {
 			tbResume.setTbrMetaOcrConfidence((Double) meta.get("ocrConfidence"));
 		}		
 
-		tbResumeRepository.save(tbResume);
+		tbResumeRepository.save(tbResume);		
+		
+		if (dataEducation != null) {
+			rootNode = mapper.readTree(tbResume.getTbrDataEducation());
+			for (JsonNode node : rootNode) {
+				try {
+					String organization = node.get("organization").asText();
+					String education = node.get("accreditation").get("education") == null ? "" : node.get("accreditation").get("education").asText();
+					String completionDate = node.get("dates").get("completionDate").asText();
+
+					TbResumeEducation tbResumeEducation = new TbResumeEducation();
+					tbResumeEducation.setTbrId(tbResume.getTbrId());
+					tbResumeEducation.setTbreCreateId(tbUser.getTbuId());
+					tbResumeEducation.setTbreCreateDate(new Date());
+					tbResumeEducation.setTbreCreateIdc(tbUser.getTbuCreateIdc());
+					tbResumeEducation.setTbreStatus(TbResumeRepository.Active);
+					tbResumeEducation.setTbreUuid(new Uid().generateString(5));
+					tbResumeEducation.setTbreOrganization(organization);
+					tbResumeEducation.setTbreEducation(education);
+					tbResumeEducation.setTbreCompletionDate(new SimpleDateFormat("yyyy-MM-dd").parse(completionDate));
+					tbResumeEducationRepository.save(tbResumeEducation);
+				} catch (Exception ex) {
+					log.error(ex.getMessage());
+				}
+			}
+		}		
+		
+		if (dataWorkExperience != null) {
+			rootNode = mapper.readTree(tbResume.getTbrDataWorkExperience());
+			for (JsonNode node : rootNode) {
+				try {				
+					String jobTitle = node.get("jobTitle").asText();
+					String organization = node.get("organization").asText();
+					String startDate = node.get("dates").get("startDate").asText();
+					String endDate = node.get("dates").get("endDate").asText();
+					String monthsInPosition = node.get("dates").get("monthsInPosition").asText();
+					String isCurrent = node.get("dates").get("isCurrent").asText();
+					String jobDescription = node.get("jobDescription").asText();			
+
+					TbResumeWorkExperience tbResumeWorkExperience = new TbResumeWorkExperience();
+					tbResumeWorkExperience.setTbrId(tbResume.getTbrId());
+					tbResumeWorkExperience.setTbrweCreateId(tbUser.getTbuId());
+					tbResumeWorkExperience.setTbrweCreateDate(new Date());
+					tbResumeWorkExperience.setTbrweCreateIdc(tbUser.getTbuCreateIdc());
+					tbResumeWorkExperience.setTbrweStatus(TbResumeWorkExperienceRepository.Active);
+					tbResumeWorkExperience.setTbrweUuid(new Uid().generateString(5));
+					tbResumeWorkExperience.setTbrweJobTitle(jobTitle);
+					tbResumeWorkExperience.setTbrweOrganization(organization);
+					tbResumeWorkExperience.setTbrweStartDate(new SimpleDateFormat("yyyy-MM-dd").parse(startDate));
+					tbResumeWorkExperience.setTbrweEndDate(new SimpleDateFormat("yyyy-MM-dd").parse(endDate));
+					tbResumeWorkExperience.setTbrweMonthsInPosition(Integer.parseInt(monthsInPosition));
+					tbResumeWorkExperience.setTbrweIsCurrent(isCurrent);
+					tbResumeWorkExperience.setTbrweJobDescription(jobDescription);
+					tbResumeWorkExperienceRepository.save(tbResumeWorkExperience);
+				} catch (Exception ex) {
+					log.error(ex.getMessage());
+				}
+			}
+		}
+
+		if (dataSkills != null) {
+			rootNode = mapper.readTree(tbResume.getTbrDataSkills());
+			for (JsonNode node : rootNode) {
+				try {				
+					String name = node.get("name").asText();
+					String lastUsed = node.get("lastUsed").asText();
+					String numberOfMonths = node.get("numberOfMonths").asText();
+					String type = node.get("type").asText();
+
+					TbResumeSkill tbResumeSkill = new TbResumeSkill();
+					tbResumeSkill.setTbrId(tbResume.getTbrId());
+					tbResumeSkill.setTbrsCreateId(tbUser.getTbuId());
+					tbResumeSkill.setTbrsCreateDate(new Date());
+					tbResumeSkill.setTbrsCreateIdc(tbUser.getTbuCreateIdc());
+					tbResumeSkill.setTbrsStatus(TbResumeSkillRepository.Active);
+					tbResumeSkill.setTbrsUuid(new Uid().generateString(5));
+					tbResumeSkill.setTbrsName(name);
+					tbResumeSkill.setTbrsLastUsed(new SimpleDateFormat("yyyy-MM-dd").parse(lastUsed));
+					tbResumeSkill.setTbrsNumberOfMonths(Integer.parseInt(numberOfMonths));
+					tbResumeSkill.setTbrsType(type);
+					tbResumeSkillRepository.save(tbResumeSkill);
+				} catch (Exception ex) {
+					log.error(ex.getMessage());
+				}
+			}
+		}
 
 		return tbResume;
 	}
@@ -237,25 +334,32 @@ public class ResumeService {
 
 			if (optTbJob.isPresent()) {
 				String fileNameOri = StringUtils.cleanPath(file.getOriginalFilename());
-				String fileName = StringUtils.cleanPath(file.getOriginalFilename()) + "_" + (new Uid().generateString(5)) + ".pdf";
-				Files.copy(file.getInputStream(), Paths.get(env.getProperty("file.resume.dir") + fileName), StandardCopyOption.REPLACE_EXISTING);				
+				String ext = fileNameOri.substring(fileNameOri.lastIndexOf(".") + 1);
 
-				TbResume tbResume = new TbResume();
-				tbResume.setTbrCreateId(optTbUser.get().getTbuId());
-				tbResume.setTbrCreateDate(new Date());
-				tbResume.setTbrCreateIdc(optTbUser.get().getTbuCreateIdc());
-				tbResume.setTbrStatus(TbResumeRepository.ParsePending);
-				tbResume.setTbrAssigned(TbResumeRepository.Assigned);
-				tbResume.setTbrDataNameRaw("");
-				tbResume.setTbrUuid(new Uid().generateString(5));
-				tbResume.setTbrMetaFileName(fileName);
-				tbResume.setTbjId(optTbJob.get().getTbjId());
-				tbResumeRepository.save(tbResume);
+				if (ext.equals("pdf")) {
+					String fileName = StringUtils.cleanPath(file.getOriginalFilename()) + "_" + (new Uid().generateString(5)) + "." + ext;
+					Files.copy(file.getInputStream(), Paths.get(env.getProperty("file.resume.dir") + fileName), StandardCopyOption.REPLACE_EXISTING);				
 	
-				responseModel.setTbResume(tbResume);
-				responseModel.setFileName(fileName);
-				responseModel.setFileNameOri(fileNameOri);
-				responseModel.setHttpStatus(HttpStatus.OK);
+					TbResume tbResume = postUploadResumeAffinda(optTbUser.get(), file);					
+					tbResume.setTbrCreateId(optTbUser.get().getTbuId());
+					tbResume.setTbrCreateDate(new Date());
+					tbResume.setTbrCreateIdc(optTbUser.get().getTbuCreateIdc());
+					tbResume.setTbrStatus(TbResumeRepository.Active);
+					tbResume.setTbrAssigned(TbResumeRepository.Assigned);
+					tbResume.setTbrDataNameRaw(tbResume.getTbrDataNameFirst() + " " + tbResume.getTbrDataNameMiddle() + " " + tbResume.getTbrDataNameLast());
+					tbResume.setTbrUuid(new Uid().generateString(5));
+					tbResume.setTbrMetaFileName(fileName);
+					tbResume.setTbjId(optTbJob.get().getTbjId());
+					tbResumeRepository.save(tbResume);
+		
+					responseModel.setTbResume(tbResume);
+					responseModel.setFileName(fileName);
+					responseModel.setFileNameOri(fileNameOri);
+					responseModel.setHttpStatus(HttpStatus.OK);
+				} else {
+					responseModel.setMessage("File must be PDF");
+					responseModel.setHttpStatus(HttpStatus.BAD_REQUEST);
+				}
 			} else {
 				responseModel.setHttpStatus(HttpStatus.NOT_FOUND);
 			}
@@ -535,6 +639,11 @@ public class ResumeService {
 				TbJob exampleTbJob = new TbJob();
 				exampleTbJob.setTbjId(optTbResume.get().getTbjId());
 				Optional<TbJob> optTbJob = tbJobRepository.findOne(Example.of(exampleTbJob));
+
+				tbResumeWorkExperiences.forEach(tbResumeWorkExperience -> {
+					tbResumeWorkExperience.setTbrweStart(new SimpleDateFormat("yyyy-MM-dd").format(tbResumeWorkExperience.getTbrweStartDate()));
+					tbResumeWorkExperience.setTbrweEnd(new SimpleDateFormat("yyyy-MM-dd").format(tbResumeWorkExperience.getTbrweEndDate()));
+				});
 
 				responseModel.setLstTbResumeCertification(tbResumeCertifications);
 				responseModel.setLstTbResumeEducation(tbResumeEducations);

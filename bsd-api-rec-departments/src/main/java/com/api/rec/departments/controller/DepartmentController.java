@@ -46,7 +46,7 @@ public class DepartmentController {
 		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
 		
 		PostAddDepartmentResponseModel responseModel = departmentService.postAddDepartment(requestModel);
-		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
+		if (responseModel.getMessage() == null ) responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
 		
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
 		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
@@ -66,7 +66,7 @@ public class DepartmentController {
 		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
 		
 		GetDepartmentListResponseModel responseModel = departmentService.getDepartmentList(tbdName, tbdStatus, length, pageSize, pageIndex, requestModel);
-		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
+		if (responseModel.getMessage() == null ) responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
 
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
 		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
@@ -86,7 +86,7 @@ public class DepartmentController {
 		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
 		
 		GetDepartmentResponseModel responseModel = departmentService.getDepartment(tbdUuid, requestModel);
-		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
+		if (responseModel.getMessage() == null ) responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
 		
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
 		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));

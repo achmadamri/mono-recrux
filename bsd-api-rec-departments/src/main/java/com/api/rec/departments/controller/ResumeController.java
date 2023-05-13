@@ -51,7 +51,7 @@ public class ResumeController {
 		log.info("[fid:" + fid + "] requestModel : " + file.toString());
 		
 		PostUploadResumeResponseModel responseModel = resumeService.postUploadResume(requestModel, file);
-		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
+		if (responseModel.getMessage() == null ) responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
 		
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
 		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
@@ -71,7 +71,7 @@ public class ResumeController {
 		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
 		
 		GetResumeListResponseModel responseModel = resumeService.getResumeList(tbrDataNameRaw, tbrStatus, length, pageSize, pageIndex, requestModel);
-		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
+		if (responseModel.getMessage() == null ) responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
 
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
 		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
@@ -91,7 +91,7 @@ public class ResumeController {
 		// log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
 		
 		GetResumeJobListResponseModel responseModel = resumeService.getResumeJobList(tbjId, tbrUuid, tbrDataNameRaw, tbrStatus, tbrAssigned, length, pageSize, pageIndex, requestModel);
-		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
+		if (responseModel.getMessage() == null ) responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
 
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
 		// log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
@@ -106,7 +106,7 @@ public class ResumeController {
 		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
 		
 		PostAddResumeResponseModel responseModel = resumeService.postAddResume(requestModel);
-		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
+		if (responseModel.getMessage() == null ) responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
 		
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
 		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
@@ -126,7 +126,7 @@ public class ResumeController {
 		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
 		
 		GetResumeResponseModel responseModel = resumeService.getResume(tbjUuid, requestModel);
-		responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
+		if (responseModel.getMessage() == null ) responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
 		
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
 		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
