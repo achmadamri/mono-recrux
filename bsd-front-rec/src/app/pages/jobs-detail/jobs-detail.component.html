@@ -149,8 +149,7 @@
                                     <th>ID</th>
                                     <th>Name</th>
                                     <th>Score</th>
-                                    <th>Match</th>
-                                    <th>Status</th>
+                                    <th>AI Status</th>
                                     <th>Assigned</th>
                                     <th>Action</th>
                                 </thead>
@@ -160,7 +159,6 @@
                                         <td>{{viewResumeJob.tbrUuid}}</td>
                                         <td>{{viewResumeJob.tbrDataNameRaw}}</td>
                                         <td>{{viewResumeJob.tbrScore}}</td>
-                                        <td>{{viewResumeJob.tbrStar}}%</td>
                                         <td>{{viewResumeJob.tbrStatus}}</td>
                                         <td>{{viewResumeJob.tbrAssigned}}</td>
                                         <td class="td-actions" *ngIf="viewResumeJob.tbrStatus == 'active' || viewResumeJob.tbrStatus == 'not active'">

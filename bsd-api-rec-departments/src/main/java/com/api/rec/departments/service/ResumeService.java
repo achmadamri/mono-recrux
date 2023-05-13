@@ -7,6 +7,7 @@ import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
@@ -20,9 +21,15 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.affinda.api.client.AffindaAPI;
@@ -352,7 +359,10 @@ public class ResumeService {
 					String fileName = StringUtils.cleanPath(file.getOriginalFilename()) + "_" + (new Uid().generateString(5)) + "." + ext;
 					Files.copy(file.getInputStream(), Paths.get(env.getProperty("file.resume.dir") + fileName), StandardCopyOption.REPLACE_EXISTING);				
 	
-					TbResume tbResume = postUploadResumeAffinda(optTbUser.get(), file);					
+					TbResume tbResume = postUploadResumeAffinda(optTbUser.get(), file);
+					// TbResume exampleTbResume = new TbResume();
+					// exampleTbResume.setTbrUuid("NMXZJ");
+					// TbResume tbResume = tbResumeRepository.findOne(Example.of(exampleTbResume)).orElse(new TbResume());
 					tbResume.setTbrCreateId(optTbUser.get().getTbuId());
 					tbResume.setTbrCreateDate(new Date());
 					tbResume.setTbrCreateIdc(optTbUser.get().getTbuCreateIdc());
@@ -363,6 +373,75 @@ public class ResumeService {
 					tbResume.setTbrMetaFileName(fileName);
 					tbResume.setTbjId(optTbJob.get().getTbjId());
 					tbResumeRepository.save(tbResume);
+
+					// Open AI Start ---------------------------------------------------------------------------------------------
+					TbJob tbJob = tbJobRepository.findById(tbResume.getTbjId()).get();
+					String prompt = "";					
+					
+					prompt += "\\nYou act as my recruiter.";
+
+					TbResumeWorkExperience exampleTbResumeWorkExperience = new TbResumeWorkExperience();
+					exampleTbResumeWorkExperience.setTbrId(tbResume.getTbrId());
+					List<TbResumeWorkExperience> lstTbResumeWorkExperience = tbResumeWorkExperienceRepository.findAll(Example.of(exampleTbResumeWorkExperience));
+					if (lstTbResumeWorkExperience.size() > 0) {
+						prompt += "\\nI have a candidate with work experiences : ";
+						for (TbResumeWorkExperience tbResumeWorkExperience : lstTbResumeWorkExperience) {
+							prompt += tbResumeWorkExperience.getTbrweJobTitle() + ", ";
+						}
+						prompt = prompt.substring(0, prompt.length() - 2) + ".";
+					} else {
+						prompt += "\\nI have a candidate no experience.";
+					}
+					
+					prompt += "\\nDo an assesment for candidate for opening job with job title " + tbJob.getTbjName() + ".";
+					prompt += "\\nGive score and summary for the candidate with the following format : score: value|summary.";
+					prompt += "\\nValue is integer between 0 and 100.";
+
+					final String uri = "https://api.openai.com/v1/completions";
+					RestTemplate restTemplate = new RestTemplate();
+
+					HttpHeaders headers = new HttpHeaders();
+					headers.setContentType(MediaType.APPLICATION_JSON);
+					headers.setBearerAuth("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");
+
+					String requestJson = "{\"model\": \"text-davinci-003\", \"prompt\": \"" + prompt + "\", \"max_tokens\": 1024, \"temperature\": 0}";
+
+					log.info("------------------------------------------------------------------");		
+					log.info(requestJson);
+					log.info("------------------------------------------------------------------");
+
+					HttpEntity<String> entity = new HttpEntity<String>(requestJson, headers);
+
+					ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.POST, entity, String.class);
+
+					log.info("------------------------------------------------------------------");		
+					log.info(response.getBody());
+					log.info("------------------------------------------------------------------");
+
+					ObjectMapper mapper = new ObjectMapper();
+					JsonNode rootNodeGpt = mapper.readTree(response.getBody());
+					JsonNode choicesNode = rootNodeGpt.path("choices");
+					Iterator<JsonNode> choicesIterator = choicesNode.elements();
+					Integer score = 0;
+					String note = "";
+					while (choicesIterator.hasNext()) {
+						JsonNode choiceNode = choicesIterator.next();
+						if (choiceNode.get("text") != null) {
+							// text = \n\nScore: 70|The candidate has a good set of skills and work experiences that could be beneficial in the role of Song Writer. The candidate has a good technical background in web services, programming languages and cloud platforms, as well as experience in managing teams and projects. The candidate could benefit from some additional knowledge and experience in the areas of music composition and songwriting.
+							// split text using |							
+							String[] arrText = choiceNode.get("text").asText().split("\\|");
+							log.info(arrText[0]); // Score: 70
+							log.info(arrText[1]); // The candidate has a good set of skills and work experiences that could be beneficial in the role of Song Writer. The candidate has a good technical background in web services, programming languages and cloud platforms, as well as experience in managing teams and projects. The candidate could benefit from some additional knowledge and experience in the areas of music composition and songwriting.
+							score = Integer.parseInt(arrText[0].split(": ")[1]);
+							note = arrText[1];
+						}
+					}
+
+					tbResume.setTbrScore(score);
+					tbResume.setTbrNote("AI Note:\n\n" + note);
+					tbResumeRepository.save(tbResume);
+
+					// Open AI End ---------------------------------------------------------------------------------------------
 		
 					responseModel.setTbResume(tbResume);
 					responseModel.setFileName(fileName);
