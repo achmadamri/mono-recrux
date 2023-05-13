@@ -232,9 +232,9 @@ public class ResumeService {
 			rootNode = mapper.readTree(tbResume.getTbrDataEducation());
 			for (JsonNode node : rootNode) {
 				try {
-					String organization = node.get("organization").asText();
-					String education = node.get("accreditation").get("education") == null ? "" : node.get("accreditation").get("education").asText();
-					String completionDate = node.get("dates").get("completionDate").asText();
+					String organization = node.get("organization") == null ? "" : node.get("organization").asText();
+					String education = node.get("accreditation") == null ? "" : node.get("accreditation").get("education") == null ? "" : node.get("accreditation").get("education").asText();
+					String completionDate = node.get("dates") == null ? "" : node.get("dates").get("completionDate") == null ? "" : node.get("dates").get("completionDate").asText();
 
 					TbResumeEducation tbResumeEducation = new TbResumeEducation();
 					tbResumeEducation.setTbrId(tbResume.getTbrId());
@@ -245,7 +245,11 @@ public class ResumeService {
 					tbResumeEducation.setTbreUuid(new Uid().generateString(5));
 					tbResumeEducation.setTbreOrganization(organization);
 					tbResumeEducation.setTbreEducation(education);
-					tbResumeEducation.setTbreCompletionDate(new SimpleDateFormat("yyyy-MM-dd").parse(completionDate));
+					try {
+						tbResumeEducation.setTbreCompletionDate(new SimpleDateFormat("yyyy-MM-dd").parse(completionDate));
+					} catch (Exception ex) {
+						log.error(ex.getMessage());
+					}
 					tbResumeEducationRepository.save(tbResumeEducation);
 				} catch (Exception ex) {
 					log.error(ex.getMessage());
@@ -256,14 +260,14 @@ public class ResumeService {
 		if (dataWorkExperience != null) {
 			rootNode = mapper.readTree(tbResume.getTbrDataWorkExperience());
 			for (JsonNode node : rootNode) {
-				try {				
-					String jobTitle = node.get("jobTitle").asText();
-					String organization = node.get("organization").asText();
-					String startDate = node.get("dates").get("startDate").asText();
-					String endDate = node.get("dates").get("endDate").asText();
-					String monthsInPosition = node.get("dates").get("monthsInPosition").asText();
-					String isCurrent = node.get("dates").get("isCurrent").asText();
-					String jobDescription = node.get("jobDescription").asText();			
+				try {
+					String jobTitle = node.get("jobTitle") == null ? "" : node.get("jobTitle").asText();
+					String organization = node.get("organization") == null ? "" : node.get("organization").asText();
+					String startDate = node.get("dates") == null ? "" : node.get("dates").get("startDate") == null ? "" : node.get("dates").get("startDate").asText();
+					String endDate = node.get("dates") == null ? "" : node.get("dates").get("endDate") == null ? "" : node.get("dates").get("endDate").asText();
+					String monthsInPosition = node.get("dates") == null ? "" : node.get("dates").get("monthsInPosition") == null ? "" : node.get("dates").get("monthsInPosition").asText();
+					String isCurrent = node.get("dates") == null ? "" : node.get("dates").get("isCurrent") == null ? "" : node.get("dates").get("isCurrent").asText();
+					String jobDescription = node.get("jobDescription") == null ? "" : node.get("jobDescription").asText();			
 
 					TbResumeWorkExperience tbResumeWorkExperience = new TbResumeWorkExperience();
 					tbResumeWorkExperience.setTbrId(tbResume.getTbrId());
@@ -274,9 +278,13 @@ public class ResumeService {
 					tbResumeWorkExperience.setTbrweUuid(new Uid().generateString(5));
 					tbResumeWorkExperience.setTbrweJobTitle(jobTitle);
 					tbResumeWorkExperience.setTbrweOrganization(organization);
-					tbResumeWorkExperience.setTbrweStartDate(new SimpleDateFormat("yyyy-MM-dd").parse(startDate));
-					tbResumeWorkExperience.setTbrweEndDate(new SimpleDateFormat("yyyy-MM-dd").parse(endDate));
-					tbResumeWorkExperience.setTbrweMonthsInPosition(Integer.parseInt(monthsInPosition));
+					try {
+						tbResumeWorkExperience.setTbrweStartDate(new SimpleDateFormat("yyyy-MM-dd").parse(startDate));
+						tbResumeWorkExperience.setTbrweEndDate(new SimpleDateFormat("yyyy-MM-dd").parse(endDate));
+						tbResumeWorkExperience.setTbrweMonthsInPosition(Integer.parseInt(monthsInPosition));
+					} catch (Exception ex) {
+						log.error(ex.getMessage());
+					}					
 					tbResumeWorkExperience.setTbrweIsCurrent(isCurrent);
 					tbResumeWorkExperience.setTbrweJobDescription(jobDescription);
 					tbResumeWorkExperienceRepository.save(tbResumeWorkExperience);
@@ -290,10 +298,10 @@ public class ResumeService {
 			rootNode = mapper.readTree(tbResume.getTbrDataSkills());
 			for (JsonNode node : rootNode) {
 				try {				
-					String name = node.get("name").asText();
-					String lastUsed = node.get("lastUsed").asText();
-					String numberOfMonths = node.get("numberOfMonths").asText();
-					String type = node.get("type").asText();
+					String name = node.get("name") == null ? "" : node.get("name").asText();
+					String lastUsed = node.get("lastUsed") == null ? "" : node.get("lastUsed").asText();
+					String numberOfMonths = node.get("numberOfMonths") == null ? "" : node.get("numberOfMonths").asText();
+					String type = node.get("type") == null ? "" : node.get("type").asText();
 
 					TbResumeSkill tbResumeSkill = new TbResumeSkill();
 					tbResumeSkill.setTbrId(tbResume.getTbrId());
@@ -303,8 +311,12 @@ public class ResumeService {
 					tbResumeSkill.setTbrsStatus(TbResumeSkillRepository.Active);
 					tbResumeSkill.setTbrsUuid(new Uid().generateString(5));
 					tbResumeSkill.setTbrsName(name);
-					tbResumeSkill.setTbrsLastUsed(new SimpleDateFormat("yyyy-MM-dd").parse(lastUsed));
-					tbResumeSkill.setTbrsNumberOfMonths(Integer.parseInt(numberOfMonths));
+					try {
+						tbResumeSkill.setTbrsLastUsed(new SimpleDateFormat("yyyy-MM-dd").parse(lastUsed));
+						tbResumeSkill.setTbrsNumberOfMonths(Integer.parseInt(numberOfMonths));
+					} catch (Exception ex) {
+						log.error(ex.getMessage());
+					}										
 					tbResumeSkill.setTbrsType(type);
 					tbResumeSkillRepository.save(tbResumeSkill);
 				} catch (Exception ex) {
@@ -635,15 +647,14 @@ public class ResumeService {
 				exampleTbResumeWorkExperience.setTbrId(optTbResume.get().getTbrId());
 				exampleTbResumeWorkExperience.setTbrweStatus(TbResumeWorkExperienceRepository.Active);
 				List<TbResumeWorkExperience> tbResumeWorkExperiences = tbResumeWorkExperienceRepository.findAll(Example.of(exampleTbResumeWorkExperience));
+				tbResumeWorkExperiences.forEach(tbResumeWorkExperience -> {
+					if (tbResumeWorkExperience.getTbrweStartDate() != null) tbResumeWorkExperience.setTbrweStart(new SimpleDateFormat("yyyy-MM-dd").format(tbResumeWorkExperience.getTbrweStartDate()));
+					if (tbResumeWorkExperience.getTbrweEndDate() != null) tbResumeWorkExperience.setTbrweEnd(new SimpleDateFormat("yyyy-MM-dd").format(tbResumeWorkExperience.getTbrweEndDate()));
+				});
 
 				TbJob exampleTbJob = new TbJob();
 				exampleTbJob.setTbjId(optTbResume.get().getTbjId());
 				Optional<TbJob> optTbJob = tbJobRepository.findOne(Example.of(exampleTbJob));
-
-				tbResumeWorkExperiences.forEach(tbResumeWorkExperience -> {
-					tbResumeWorkExperience.setTbrweStart(new SimpleDateFormat("yyyy-MM-dd").format(tbResumeWorkExperience.getTbrweStartDate()));
-					tbResumeWorkExperience.setTbrweEnd(new SimpleDateFormat("yyyy-MM-dd").format(tbResumeWorkExperience.getTbrweEndDate()));
-				});
 
 				responseModel.setLstTbResumeCertification(tbResumeCertifications);
 				responseModel.setLstTbResumeEducation(tbResumeEducations);
