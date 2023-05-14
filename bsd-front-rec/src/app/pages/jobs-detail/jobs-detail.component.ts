@@ -235,7 +235,7 @@ export class JobsDetailComponent implements OnInit {
   }
 
   kanban() {
-    this.router.navigate(['/jobskanban/' + this.postAddJobRequest.tbJob.tbjUuid]);
+    this.router.navigate(['/jobs/kanban/' + this.postAddJobRequest.tbJob.tbjUuid]);
   }
 
   generate() {

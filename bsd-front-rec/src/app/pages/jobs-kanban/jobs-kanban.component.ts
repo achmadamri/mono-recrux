@@ -149,81 +149,32 @@ export class JobsKanbanComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       this.postAddJobRequest.tbJob.tbjUuid = params.get('tbjUuid');
 
-      if (this.postAddJobRequest.tbJob.tbjUuid != '0') {
-        this.jobService.getJob(this.postAddJobRequest.tbJob.tbjUuid)
-          .subscribe(
-            successResponse => {
-              this.getJobResponse = successResponse;
-
-              this.postAddJobRequest.tbJob.tbjId = this.getJobResponse.tbJob.tbjId;
-              this.postAddJobRequest.tbJob.tbjUuid = this.getJobResponse.tbJob.tbjUuid;
-              this.postAddJobRequest.tbJob.tbjName = this.getJobResponse.tbJob.tbjName;
-              this.postAddJobRequest.tbJob.tbjDescription = this.getJobResponse.tbJob.tbjDescription;
-              this.postAddJobRequest.tbJob.tbjStatus = this.getJobResponse.tbJob.tbjStatus;
-              this.postAddJobRequest.tbJob.tbjResumeStatus = this.getJobResponse.tbJob.tbjResumeStatus;
-
-              this.getResumeJobListRequest.viewResumeJob.tbjId = this.postAddJobRequest.tbJob.tbjId;
-
-              this.getResumeJobList(null);
-            },
-            errorResponse => {
-              this.getJobResponse = new GetJobResponse();
-              this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
-            }
-          );
-
-        this.saveUpdate = 'Update';
-      } else {
-        this.postAddJobRequest.tbJob.tbjId = null;
-        this.postAddJobRequest.tbJob.tbjName = null;
-        this.postAddJobRequest.tbJob.tbjDescription = null;
-        this.postAddJobRequest.tbJob.tbjStatus = null;
-        this.postAddJobRequest.tbJob.tbjResumeStatus = 'Scheduling Interview, HR Interview, Hiring Manager Interview, Technical Test, Offer';
-
-        this.getResumeJobListRequest.viewResumeJob.tbjId = null;
-
-        this.saveUpdate = 'Save';
-      }
-    });
-  }
-
-  saveupdate() {
-    this.clicked = !this.clicked;
-
-    this.jobService.postAddJob(this.postAddJobRequest)
+      this.jobService.getJob(this.postAddJobRequest.tbJob.tbjUuid)
       .subscribe(
         successResponse => {
-          this.clicked = !this.clicked;
-          this.postAddJobResponse = successResponse;
-          this.util.showNotification('info', 'top', 'center', successResponse.message);
+          this.getJobResponse = successResponse;
 
-          this.jobService.getJob(this.postAddJobResponse.tbJob.tbjUuid)
-            .subscribe(
-              successResponse => {
-                this.getJobResponse = successResponse;
+          this.postAddJobRequest.tbJob.tbjId = this.getJobResponse.tbJob.tbjId;
+          this.postAddJobRequest.tbJob.tbjUuid = this.getJobResponse.tbJob.tbjUuid;
+          this.postAddJobRequest.tbJob.tbjName = this.getJobResponse.tbJob.tbjName;
+          this.postAddJobRequest.tbJob.tbjDescription = this.getJobResponse.tbJob.tbjDescription;
+          this.postAddJobRequest.tbJob.tbjStatus = this.getJobResponse.tbJob.tbjStatus;
+          this.postAddJobRequest.tbJob.tbjResumeStatus = this.getJobResponse.tbJob.tbjResumeStatus;
 
-                this.postAddJobRequest.tbJob.tbjId = this.getJobResponse.tbJob.tbjId;
-                this.postAddJobRequest.tbJob.tbjUuid = this.getJobResponse.tbJob.tbjUuid;
-                this.postAddJobRequest.tbJob.tbjName = this.getJobResponse.tbJob.tbjName;
-                this.postAddJobRequest.tbJob.tbjDescription = this.getJobResponse.tbJob.tbjDescription;
-                this.postAddJobRequest.tbJob.tbjStatus = this.getJobResponse.tbJob.tbjStatus;
+          this.getResumeJobListRequest.viewResumeJob.tbjId = this.postAddJobRequest.tbJob.tbjId;
 
-                this.getResumeJobListRequest.viewResumeJob.tbjId = this.postAddJobRequest.tbJob.tbjId;
-
-                this.getResumeJobList(null);
-              },
-              errorResponse => {
-                this.getJobResponse = new GetJobResponse();
-                this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
-              }
-            );        
+          this.getResumeJobList(null);
         },
         errorResponse => {
-          this.clicked = !this.clicked;
-          this.postAddJobResponse = new PostAddJobResponse();
+          this.getJobResponse = new GetJobResponse();
           this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
         }
       );
+    });
+  }
+
+  view(tbrUuid: string) {
+    this.router.navigate(['/resumes/' + tbrUuid]);
   }
 
   onFileChanged(event) {

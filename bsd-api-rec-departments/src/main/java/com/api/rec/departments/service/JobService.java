@@ -118,6 +118,7 @@ public class JobService {
 					if (requestModel.getTbJob().getTbjName() != null) tbJob.setTbjName(requestModel.getTbJob().getTbjName());
 					if (requestModel.getTbJob().getTbjDescription() != null) tbJob.setTbjDescription(requestModel.getTbJob().getTbjDescription());
 					if (requestModel.getTbJob().getTbjStatus() != null) tbJob.setTbjStatus(requestModel.getTbJob().getTbjStatus());
+					if (requestModel.getTbJob().getTbjResumeStatus() != null) tbJob.setTbjResumeStatus(requestModel.getTbJob().getTbjResumeStatus());
 					if (requestModel.getTbJob().getTbdId() != null) tbJob.setTbdId(requestModel.getTbJob().getTbdId());
 					if (requestModel.getTbJob().getTbdId() != null) {
 						if (requestModel.getTbJob().getTbdId() == 0) {

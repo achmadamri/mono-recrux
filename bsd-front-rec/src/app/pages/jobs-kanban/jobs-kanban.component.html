@@ -37,34 +37,33 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                           <mat-form-field class="example-full-width">
-                                            <input matInput placeholder="Id" type="text" [(ngModel)]="postAddJobRequest.tbJob.tbjUuid" name="tbjUuid" disabled>
+                                            <input matInput placeholder="Id" type="text" [(ngModel)]="postAddJobRequest.tbJob.tbjUuid" name="tbjUuid" readonly>
                                           </mat-form-field>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
                                           <mat-form-field class="example-full-width">
-                                            <input matInput placeholder="Name" type="text" [(ngModel)]="postAddJobRequest.tbJob.tbjName" name="tbjName">
+                                            <input matInput placeholder="Name" type="text" [(ngModel)]="postAddJobRequest.tbJob.tbjName" name="tbjName" readonly>
                                           </mat-form-field>
                                         </div>
                                     </div>
-                                    <div class="row" *ngIf="saveUpdate == 'Update'">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                          <mat-form-field class="example-full-width">
+                                            <input matInput placeholder="Resume Status" type="text" [(ngModel)]="postAddJobRequest.tbJob.tbjResumeStatus" name="tbjResumeStatus" readonly>
+                                          </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="row">
                                         <div class="col-md-12">
                                             <mat-radio-group aria-label="Status" [(ngModel)]="postAddJobRequest.tbJob.tbjStatus" name="tbjStatus">
-                                                <mat-radio-button value="active">Active</mat-radio-button>
+                                                <mat-radio-button value="active" disabled>Active</mat-radio-button>
                                                 &nbsp;
-                                                <mat-radio-button value="not active">Not Active</mat-radio-button>
+                                                <mat-radio-button value="not active" disabled>Not Active</mat-radio-button>
                                             </mat-radio-group>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                          <mat-form-field class="example-full-width">
-                                            <input matInput placeholder="Resume Status" type="text" [(ngModel)]="postAddJobRequest.tbJob.tbjResumeStatus" name="tbjResumeStatus">
-                                          </mat-form-field>
-                                        </div>
-                                    </div>
-                                    <button mat-raised-button type="submit" class="btn btn-danger pull-right" [disabled]="clicked" (click)="saveupdate();">{{saveUpdate}}</button>
                                     <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked" (click)="back();">Back</button>
                                     <div class="clearfix"></div>
                                 </form>
@@ -120,7 +119,7 @@
                         <div class="table-responsive">
                             <div cdkDropListGroup>                                
                                 <div class="example-container" *ngFor="let list of kanbanList">
-                                    <h4 class="card-title">{{list.title}}</h4>
+                                    <h4 class="card-title"><b>{{list.title}}</b></h4>
                                     <div cdkDropList [cdkDropListData]="list.list" class="example-list" (cdkDropListDropped)="drop($event)">
                                         <div class="example-box" *ngFor="let item of list.list" cdkDrag>
                                             <div class="circle">
@@ -129,11 +128,8 @@
                                                 </p>
                                             </div>
                                             <div class="info">
-                                                <h4>{{ item.tbrDataNameRaw }}</h4>
-                                                <div *ngIf="item.tbrStar != null">
-                                                    <mat-icon *ngFor="let i of [].constructor(item.tbrStar); let index = index">star</mat-icon>
-                                                </div>                                                
-                                                <h7>score : {{ item.tbrScore }}</h7>
+                                                <h4 style="cursor: pointer;" (click)="view(item.tbrUuid);">{{item.tbrDataNameRaw}}</h4>                                                
+                                                <h7>score : {{ item.tbrScore }}</h7>                                                
                                             </div>                                            
                                         </div>                                        
                                     </div>
