@@ -54,7 +54,7 @@ public class ResumeController {
 		if (responseModel.getMessage() == null ) responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
 		
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
-		// log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
+		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
 
 		return responseEntity;
 	}
@@ -74,7 +74,7 @@ public class ResumeController {
 		if (responseModel.getMessage() == null ) responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
 
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
-		// log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
+		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
 
 		return responseEntity;
 	}
@@ -94,7 +94,7 @@ public class ResumeController {
 		if (responseModel.getMessage() == null ) responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
 
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
-		// log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
+		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
 
 		return responseEntity;
 	}
@@ -109,7 +109,22 @@ public class ResumeController {
 		if (responseModel.getMessage() == null ) responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
 		
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
-		// log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
+		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
+
+		return responseEntity;
+	}
+
+	@PostMapping("/postkanbanresume")
+	@Transactional
+	public HttpEntity<?> postKanbanResume(@Valid @RequestBody PostAddResumeRequestModel requestModel) throws Exception {		
+		String fid = new Uid().generateString(20);
+		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
+		
+		PostAddResumeResponseModel responseModel = resumeService.postKanbanResume(requestModel);
+		if (responseModel.getMessage() == null ) responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
+		
+		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
+		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
 
 		return responseEntity;
 	}
@@ -129,7 +144,27 @@ public class ResumeController {
 		if (responseModel.getMessage() == null ) responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
 		
 		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
-		// log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
+		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
+
+		return responseEntity;
+	}
+
+	@GetMapping("/getregenerate")
+	public HttpEntity<?> getRegenerate(@RequestParam String tbjUuid, @RequestParam String email, @RequestParam String token, @RequestParam String requestId, @RequestParam String requestDate) throws Exception {
+		GetResumeRequestModel requestModel = new GetResumeRequestModel();
+		requestModel.setEmail(email);
+		requestModel.setToken(token);
+		requestModel.setRequestId(requestId);
+		requestModel.setRequestDate(requestDate);
+		
+		String fid = new Uid().generateString(20);
+		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
+		
+		GetResumeResponseModel responseModel = resumeService.getRegenerate(tbjUuid, requestModel);
+		if (responseModel.getMessage() == null ) responseModel.setMessage(responseModel.getHttpStatus().getReasonPhrase());
+		
+		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getHttpStatus());
+		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
 
 		return responseEntity;
 	}

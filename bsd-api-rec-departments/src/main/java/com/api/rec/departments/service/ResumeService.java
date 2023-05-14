@@ -65,6 +65,8 @@ import com.api.rec.departments.model.resume.PostUploadResumeResponseModel;
 import com.api.rec.departments.util.TokenUtil;
 import com.api.rec.departments.util.Uid;
 import com.azure.core.credential.TokenCredential;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
@@ -372,77 +374,11 @@ public class ResumeService {
 					tbResume.setTbrUuid(new Uid().generateString(5));
 					tbResume.setTbrMetaFileName(fileName);
 					tbResume.setTbjId(optTbJob.get().getTbjId());
-					tbResume.setTbrResumeStatus(optTbJob.get().getTbjResumeStatus().split(",")[0].trim());					
+					tbResume.setTbrResumeStatus(optTbJob.get().getTbjResumeStatus().split(",")[0].trim());
+
+					tbResume = openAI(tbResume);
+
 					tbResumeRepository.save(tbResume);
-
-					// Open AI Start ---------------------------------------------------------------------------------------------
-					TbJob tbJob = tbJobRepository.findById(tbResume.getTbjId()).get();
-					String prompt = "";					
-					
-					prompt += "\\nYou act as my recruiter.";
-
-					TbResumeWorkExperience exampleTbResumeWorkExperience = new TbResumeWorkExperience();
-					exampleTbResumeWorkExperience.setTbrId(tbResume.getTbrId());
-					List<TbResumeWorkExperience> lstTbResumeWorkExperience = tbResumeWorkExperienceRepository.findAll(Example.of(exampleTbResumeWorkExperience));
-					if (lstTbResumeWorkExperience.size() > 0) {
-						prompt += "\\nI have a candidate with work experiences : ";
-						for (TbResumeWorkExperience tbResumeWorkExperience : lstTbResumeWorkExperience) {
-							prompt += tbResumeWorkExperience.getTbrweJobTitle() + ", ";
-						}
-						prompt = prompt.substring(0, prompt.length() - 2) + ".";
-					} else {
-						prompt += "\\nI have a candidate no experience.";
-					}
-					
-					prompt += "\\nDo an assesment for candidate for opening job with job title " + tbJob.getTbjName() + ".";
-					prompt += "\\nGive score and summary for the candidate with the following format : score: value|summary.";
-					prompt += "\\nValue is integer between 0 and 100.";
-
-					final String uri = "https://api.openai.com/v1/completions";
-					RestTemplate restTemplate = new RestTemplate();
-
-					HttpHeaders headers = new HttpHeaders();
-					headers.setContentType(MediaType.APPLICATION_JSON);
-					headers.setBearerAuth("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");
-
-					String requestJson = "{\"model\": \"text-davinci-003\", \"prompt\": \"" + prompt + "\", \"max_tokens\": 1024, \"temperature\": 0}";
-
-					log.info("------------------------------------------------------------------");		
-					log.info(requestJson);
-					log.info("------------------------------------------------------------------");
-
-					HttpEntity<String> entity = new HttpEntity<String>(requestJson, headers);
-
-					ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.POST, entity, String.class);
-
-					log.info("------------------------------------------------------------------");		
-					log.info(response.getBody());
-					log.info("------------------------------------------------------------------");
-
-					ObjectMapper mapper = new ObjectMapper();
-					JsonNode rootNodeGpt = mapper.readTree(response.getBody());
-					JsonNode choicesNode = rootNodeGpt.path("choices");
-					Iterator<JsonNode> choicesIterator = choicesNode.elements();
-					Integer score = 0;
-					String note = "";
-					while (choicesIterator.hasNext()) {
-						JsonNode choiceNode = choicesIterator.next();
-						if (choiceNode.get("text") != null) {
-							// text = \n\nScore: 70|The candidate has a good set of skills and work experiences that could be beneficial in the role of Song Writer. The candidate has a good technical background in web services, programming languages and cloud platforms, as well as experience in managing teams and projects. The candidate could benefit from some additional knowledge and experience in the areas of music composition and songwriting.
-							// split text using |							
-							String[] arrText = choiceNode.get("text").asText().split("\\|");
-							log.info(arrText[0]); // Score: 70
-							log.info(arrText[1]); // The candidate has a good set of skills and work experiences that could be beneficial in the role of Song Writer. The candidate has a good technical background in web services, programming languages and cloud platforms, as well as experience in managing teams and projects. The candidate could benefit from some additional knowledge and experience in the areas of music composition and songwriting.
-							score = Integer.parseInt(arrText[0].split(": ")[1]);
-							note = arrText[1];
-						}
-					}
-
-					tbResume.setTbrScore(score);
-					tbResume.setTbrAINote(note);
-					tbResumeRepository.save(tbResume);
-
-					// Open AI End ---------------------------------------------------------------------------------------------
 		
 					responseModel.setTbResume(tbResume);
 					responseModel.setFileName(fileName);
@@ -460,7 +396,78 @@ public class ResumeService {
 		}
 
 		return responseModel;
-	}	
+	}
+	
+	private TbResume openAI(TbResume tbResume) throws JsonMappingException, JsonProcessingException {
+		// Open AI Start ---------------------------------------------------------------------------------------------
+		TbJob tbJob = tbJobRepository.findById(tbResume.getTbjId()).get();
+		String prompt = "";					
+
+		prompt += "\\nYou act as my recruiter.";
+
+		TbResumeWorkExperience exampleTbResumeWorkExperience = new TbResumeWorkExperience();
+		exampleTbResumeWorkExperience.setTbrId(tbResume.getTbrId());
+		List<TbResumeWorkExperience> lstTbResumeWorkExperience = tbResumeWorkExperienceRepository.findAll(Example.of(exampleTbResumeWorkExperience));
+		if (lstTbResumeWorkExperience.size() > 0) {
+			prompt += "\\nI have a candidate with work experiences : ";
+			for (TbResumeWorkExperience tbResumeWorkExperience : lstTbResumeWorkExperience) {
+				prompt += tbResumeWorkExperience.getTbrweJobTitle() + ", ";
+			}
+			prompt = prompt.substring(0, prompt.length() - 2) + ".";
+		} else {
+			prompt += "\\nI have a candidate no experience.";
+		}
+
+		prompt += "\\nDo an assesment for candidate for opening job with job title " + tbJob.getTbjName() + ".";
+		prompt += "\\nGive score and summary for the candidate with the following format : score: value|summary.";
+		prompt += "\\nValue is integer between 0 and 100.";
+
+		final String uri = "https://api.openai.com/v1/completions";
+		RestTemplate restTemplate = new RestTemplate();
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.setBearerAuth("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");
+
+		String requestJson = "{\"model\": \"text-davinci-003\", \"prompt\": \"" + prompt + "\", \"max_tokens\": 1024, \"temperature\": 0}";
+
+		log.info("------------------------------------------------------------------");		
+		log.info(requestJson);
+		log.info("------------------------------------------------------------------");
+
+		HttpEntity<String> entity = new HttpEntity<String>(requestJson, headers);
+
+		ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.POST, entity, String.class);
+
+		log.info("------------------------------------------------------------------");		
+		log.info(response.getBody());
+		log.info("------------------------------------------------------------------");
+
+		ObjectMapper mapper = new ObjectMapper();
+		JsonNode rootNodeGpt = mapper.readTree(response.getBody());
+		JsonNode choicesNode = rootNodeGpt.path("choices");
+		Iterator<JsonNode> choicesIterator = choicesNode.elements();
+		Integer score = 0;
+		String note = "";
+		while (choicesIterator.hasNext()) {
+			JsonNode choiceNode = choicesIterator.next();
+			if (choiceNode.get("text") != null) {
+				// text = \n\nScore: 70|The candidate has a good set of skills and work experiences that could be beneficial in the role of Song Writer. The candidate has a good technical background in web services, programming languages and cloud platforms, as well as experience in managing teams and projects. The candidate could benefit from some additional knowledge and experience in the areas of music composition and songwriting.
+				// split text using |							
+				String[] arrText = choiceNode.get("text").asText().split("\\|");
+				log.info(arrText[0]); // Score: 70
+				log.info(arrText[1]); // The candidate has a good set of skills and work experiences that could be beneficial in the role of Song Writer. The candidate has a good technical background in web services, programming languages and cloud platforms, as well as experience in managing teams and projects. The candidate could benefit from some additional knowledge and experience in the areas of music composition and songwriting.
+				score = Integer.parseInt(arrText[0].split(": ")[1]);
+				note = arrText[1];
+			}
+		}
+
+		tbResume.setTbrScore(score);
+		tbResume.setTbrAINote(note);
+		// Open AI End -------------------------------------------------------------------------------------------------
+
+		return tbResume;
+	}
 	
 	public GetResumeListResponseModel getResumeList(String tbrDataNameRaw, String tbrStatus, String length, String pageSize, String pageIndex, GetResumeListRequestModel requestModel) throws Exception {
 		GetResumeListResponseModel responseModel = new GetResumeListResponseModel(requestModel);
@@ -600,83 +607,136 @@ public class ResumeService {
 					tbResume.setTbrUpdateId(optTbUser.get().getTbuId());
 					tbResume.setTbrUpdateDate(new Date());
 
-					if (requestModel.getTbResume().getTbrDataNameFirst() != null) tbResume.setTbrDataNameFirst(requestModel.getTbResume().getTbrDataNameFirst());
-					if (requestModel.getTbResume().getTbrDataNameMiddle() != null) tbResume.setTbrDataNameMiddle(requestModel.getTbResume().getTbrDataNameMiddle());
-					if (requestModel.getTbResume().getTbrDataNameLast() != null) tbResume.setTbrDataNameLast(requestModel.getTbResume().getTbrDataNameLast());
-
-					if (requestModel.getTbResume().getTbrDataPhoneNumbers() != null) tbResume.setTbrDataPhoneNumbers(requestModel.getTbResume().getTbrDataPhoneNumbers());
-					if (requestModel.getTbResume().getTbrDataEmails() != null) tbResume.setTbrDataEmails(requestModel.getTbResume().getTbrDataEmails());
-					if (requestModel.getTbResume().getTbrDataWebsites() != null) tbResume.setTbrDataWebsites(requestModel.getTbResume().getTbrDataWebsites());
-
-					if (requestModel.getTbResume().getTbrDataLocationStreet() != null) tbResume.setTbrDataLocationStreet(requestModel.getTbResume().getTbrDataLocationStreet());
-					if (requestModel.getTbResume().getTbrDataLocationApartmentNumber() != null) tbResume.setTbrDataLocationApartmentNumber(requestModel.getTbResume().getTbrDataLocationApartmentNumber());
-					if (requestModel.getTbResume().getTbrDataLocationCity() != null) tbResume.setTbrDataLocationCity(requestModel.getTbResume().getTbrDataLocationCity());
-
-					if (requestModel.getTbResume().getTbrDataLocationState() != null) tbResume.setTbrDataLocationState(requestModel.getTbResume().getTbrDataLocationState());
-					if (requestModel.getTbResume().getTbrDataLocationCountry() != null) tbResume.setTbrDataLocationCountry(requestModel.getTbResume().getTbrDataLocationCountry());
-					if (requestModel.getTbResume().getTbrDataLocationPostalCode() != null) tbResume.setTbrDataLocationPostalCode(requestModel.getTbResume().getTbrDataLocationPostalCode());
-
-					if (requestModel.getTbResume().getTbrDataLanguages() != null) tbResume.setTbrDataLanguages(requestModel.getTbResume().getTbrDataLanguages());
-					
-					tbResume.setTbrDataNameRaw(
-						(tbResume.getTbrDataNameFirst() == null ? "" : tbResume.getTbrDataNameFirst()) + " " + 
-						(tbResume.getTbrDataNameMiddle() == null ? "" : tbResume.getTbrDataNameMiddle()) + " " + 
-						(tbResume.getTbrDataNameLast() == null ? "" : tbResume.getTbrDataNameLast())
-					);
-
-					if (requestModel.getTbResume().getTbrStatus() != null) tbResume.setTbrStatus(requestModel.getTbResume().getTbrStatus());
-					if (requestModel.getTbResume().getTbjId() != null) {
-						if (requestModel.getTbResume().getTbjId() == 0) {
-							tbResume.setTbrAssigned(TbResumeRepository.NotAssigned);
-							tbResume.setTbjId(null);
-						} else {
-							tbResume.setTbrAssigned(TbResumeRepository.Assigned);							
-							tbResume.setTbjId(requestModel.getTbResume().getTbjId());
-						}
-					}
-
-					tbResume.setTbrNote(requestModel.getTbResume().getTbrNote());
-					
-					tbResume = tbResumeRepository.save(tbResume);
-
-					for (TbResumeEducation tbResumeEducation : requestModel.getLstTbResumeEducation()) {
-						if (tbResumeEducation.getTbreId() == null) {
-							tbResumeEducation.setTbreCreateId(optTbUser.get().getTbuId());
-							tbResumeEducation.setTbreCreateDate(new Date());
-							tbResumeEducation.setTbreCreateIdc(optTbUser.get().getTbuCreateIdc());
-							tbResumeEducation.setTbreStatus(TbResumeEducationRepository.Active);
-							tbResumeEducation.setTbreUuid(new Uid().generateString(5));
-							tbResumeEducation.setTbrId(tbResume.getTbrId());
-						} else {
-							tbResumeEducation.setTbreUpdateId(optTbUser.get().getTbuId());
-							tbResumeEducation.setTbreUpdateDate(new Date());
-						}
-						tbResumeEducationRepository.save(tbResumeEducation);						
-					}
-
-					for (TbResumeWorkExperience tbResumeWorkExperience : requestModel.getLstTbResumeWorkExperience()) {
-						if (tbResumeWorkExperience.getTbrweId() == null) {
-							tbResumeWorkExperience.setTbrweCreateId(optTbUser.get().getTbuId());
-							tbResumeWorkExperience.setTbrweCreateDate(new Date());
-							tbResumeWorkExperience.setTbrweCreateIdc(optTbUser.get().getTbuCreateIdc());
-							tbResumeWorkExperience.setTbrweStatus(TbResumeWorkExperienceRepository.Active);
-							tbResumeWorkExperience.setTbrweUuid(new Uid().generateString(5));
-							tbResumeWorkExperience.setTbrId(tbResume.getTbrId());
-						} else {
-							tbResumeWorkExperience.setTbrweUpdateId(optTbUser.get().getTbuId());
-							tbResumeWorkExperience.setTbrweUpdateDate(new Date());
-							tbResumeWorkExperience.setTbrweCreateIdc(optTbUser.get().getTbuCreateIdc());
-							tbResumeWorkExperience.setTbrId(tbResume.getTbrId());							
-						}
-						tbResumeWorkExperienceRepository.save(tbResumeWorkExperience);
-					}
+					if (requestModel.getTbResume().getTbjId() == tbResume.getTbjId()) {
+						if (requestModel.getTbResume().getTbrDataNameFirst() != null) tbResume.setTbrDataNameFirst(requestModel.getTbResume().getTbrDataNameFirst());
+						if (requestModel.getTbResume().getTbrDataNameMiddle() != null) tbResume.setTbrDataNameMiddle(requestModel.getTbResume().getTbrDataNameMiddle());
+						if (requestModel.getTbResume().getTbrDataNameLast() != null) tbResume.setTbrDataNameLast(requestModel.getTbResume().getTbrDataNameLast());
 	
-					responseModel.setTbResume(tbResume);
-					responseModel.setHttpStatus(HttpStatus.OK);
+						if (requestModel.getTbResume().getTbrDataPhoneNumbers() != null) tbResume.setTbrDataPhoneNumbers(requestModel.getTbResume().getTbrDataPhoneNumbers());
+						if (requestModel.getTbResume().getTbrDataEmails() != null) tbResume.setTbrDataEmails(requestModel.getTbResume().getTbrDataEmails());
+						if (requestModel.getTbResume().getTbrDataWebsites() != null) tbResume.setTbrDataWebsites(requestModel.getTbResume().getTbrDataWebsites());
+	
+						if (requestModel.getTbResume().getTbrDataLocationStreet() != null) tbResume.setTbrDataLocationStreet(requestModel.getTbResume().getTbrDataLocationStreet());
+						if (requestModel.getTbResume().getTbrDataLocationApartmentNumber() != null) tbResume.setTbrDataLocationApartmentNumber(requestModel.getTbResume().getTbrDataLocationApartmentNumber());
+						if (requestModel.getTbResume().getTbrDataLocationCity() != null) tbResume.setTbrDataLocationCity(requestModel.getTbResume().getTbrDataLocationCity());
+	
+						if (requestModel.getTbResume().getTbrDataLocationState() != null) tbResume.setTbrDataLocationState(requestModel.getTbResume().getTbrDataLocationState());
+						if (requestModel.getTbResume().getTbrDataLocationCountry() != null) tbResume.setTbrDataLocationCountry(requestModel.getTbResume().getTbrDataLocationCountry());
+						if (requestModel.getTbResume().getTbrDataLocationPostalCode() != null) tbResume.setTbrDataLocationPostalCode(requestModel.getTbResume().getTbrDataLocationPostalCode());
+	
+						if (requestModel.getTbResume().getTbrDataLanguages() != null) tbResume.setTbrDataLanguages(requestModel.getTbResume().getTbrDataLanguages());
+						
+						tbResume.setTbrDataNameRaw(
+							(tbResume.getTbrDataNameFirst() == null ? "" : tbResume.getTbrDataNameFirst()) + " " + 
+							(tbResume.getTbrDataNameMiddle() == null ? "" : tbResume.getTbrDataNameMiddle()) + " " + 
+							(tbResume.getTbrDataNameLast() == null ? "" : tbResume.getTbrDataNameLast())
+						);
+	
+						if (requestModel.getTbResume().getTbrStatus() != null) tbResume.setTbrStatus(requestModel.getTbResume().getTbrStatus());
+						if (requestModel.getTbResume().getTbjId() != null) {
+							if (requestModel.getTbResume().getTbjId() == 0) {
+								tbResume.setTbrAssigned(TbResumeRepository.NotAssigned);
+								tbResume.setTbjId(null);
+							} else {
+								tbResume.setTbrAssigned(TbResumeRepository.Assigned);							
+								tbResume.setTbjId(requestModel.getTbResume().getTbjId());
+							}
+						}
+	
+						tbResume.setTbrNote(requestModel.getTbResume().getTbrNote());
+						
+						tbResume = tbResumeRepository.save(tbResume);
+	
+						for (TbResumeEducation tbResumeEducation : requestModel.getLstTbResumeEducation()) {
+							if (tbResumeEducation.getTbreId() == null) {
+								tbResumeEducation.setTbreCreateId(optTbUser.get().getTbuId());
+								tbResumeEducation.setTbreCreateDate(new Date());
+								tbResumeEducation.setTbreCreateIdc(optTbUser.get().getTbuCreateIdc());
+								tbResumeEducation.setTbreStatus(TbResumeEducationRepository.Active);
+								tbResumeEducation.setTbreUuid(new Uid().generateString(5));
+								tbResumeEducation.setTbrId(tbResume.getTbrId());
+							} else {
+								tbResumeEducation.setTbreUpdateId(optTbUser.get().getTbuId());
+								tbResumeEducation.setTbreUpdateDate(new Date());
+							}
+							tbResumeEducationRepository.save(tbResumeEducation);						
+						}
+	
+						for (TbResumeWorkExperience tbResumeWorkExperience : requestModel.getLstTbResumeWorkExperience()) {
+							if (tbResumeWorkExperience.getTbrweId() == null) {
+								tbResumeWorkExperience.setTbrweCreateId(optTbUser.get().getTbuId());
+								tbResumeWorkExperience.setTbrweCreateDate(new Date());
+								tbResumeWorkExperience.setTbrweCreateIdc(optTbUser.get().getTbuCreateIdc());
+								tbResumeWorkExperience.setTbrweStatus(TbResumeWorkExperienceRepository.Active);
+								tbResumeWorkExperience.setTbrweUuid(new Uid().generateString(5));
+								tbResumeWorkExperience.setTbrId(tbResume.getTbrId());
+							} else {
+								tbResumeWorkExperience.setTbrweUpdateId(optTbUser.get().getTbuId());
+								tbResumeWorkExperience.setTbrweUpdateDate(new Date());
+								tbResumeWorkExperience.setTbrweCreateIdc(optTbUser.get().getTbuCreateIdc());
+								tbResumeWorkExperience.setTbrId(tbResume.getTbrId());							
+							}
+							tbResumeWorkExperienceRepository.save(tbResumeWorkExperience);
+						}
+		
+						responseModel.setTbResume(tbResume);
+						responseModel.setHttpStatus(HttpStatus.OK);	
+					} else {
+						if (requestModel.getTbResume().getTbjId() != null) {
+							if (requestModel.getTbResume().getTbjId() == 0) {
+								tbResume.setTbrAssigned(TbResumeRepository.NotAssigned);
+								tbResume.setTbjId(null);
+							} else {
+								tbResume.setTbrAssigned(TbResumeRepository.Assigned);							
+								tbResume.setTbjId(requestModel.getTbResume().getTbjId());
+							}
+						}
+
+						tbResume = tbResumeRepository.save(tbResume);
+
+						responseModel.setTbResume(tbResume);
+						responseModel.setHttpStatus(HttpStatus.OK);	
+					}					
 				} else {
 					responseModel.setHttpStatus(HttpStatus.NOT_FOUND);
 				}
 			}
+		} else {
+			responseModel.setHttpStatus(HttpStatus.UNAUTHORIZED);
+		}
+		
+		return responseModel;
+	}
+
+	public PostAddResumeResponseModel postKanbanResume(PostAddResumeRequestModel requestModel) throws Exception {
+		PostAddResumeResponseModel responseModel = new PostAddResumeResponseModel(requestModel);
+		
+		tokenUtil.claims(requestModel);
+		
+		TbUser exampleTbUser = new TbUser();
+		exampleTbUser.setTbuEmail(requestModel.getEmail());
+		exampleTbUser.setTbuStatus(TbUserRepository.Active);
+		Optional<TbUser> optTbUser = tbUserRepository.findOne(Example.of(exampleTbUser));
+
+		if (optTbUser.isPresent()) {
+			TbResume exampleTbResume = new TbResume();
+				exampleTbResume.setTbrUuid(requestModel.getTbResume().getTbrUuid());
+				exampleTbResume.setTbrCreateIdc(optTbUser.get().getTbuCreateIdc());
+				Optional<TbResume> optTbResume = tbResumeRepository.findOne(Example.of(exampleTbResume));
+				
+				if (optTbResume.isPresent()) {
+					TbResume tbResume = optTbResume.get();
+					tbResume.setTbrUpdateId(optTbUser.get().getTbuId());
+					tbResume.setTbrUpdateDate(new Date());
+					tbResume.setTbrResumeStatus(requestModel.getTbResume().getTbrResumeStatus());
+
+					tbResume = tbResumeRepository.save(tbResume);
+
+					responseModel.setTbResume(tbResume);
+					responseModel.setHttpStatus(HttpStatus.OK);	
+				} else {
+					responseModel.setHttpStatus(HttpStatus.NOT_FOUND);
+				}
 		} else {
 			responseModel.setHttpStatus(HttpStatus.UNAUTHORIZED);
 		}
@@ -732,17 +792,21 @@ public class ResumeService {
 					if (tbResumeWorkExperience.getTbrweEndDate() != null) tbResumeWorkExperience.setTbrweEnd(new SimpleDateFormat("yyyy-MM-dd").format(tbResumeWorkExperience.getTbrweEndDate()));
 				});
 
-				TbJob exampleTbJob = new TbJob();
-				exampleTbJob.setTbjId(optTbResume.get().getTbjId());
-				Optional<TbJob> optTbJob = tbJobRepository.findOne(Example.of(exampleTbJob));
+				if (optTbResume.get().getTbjId() != null) {
+					TbJob exampleTbJob = new TbJob();
+					exampleTbJob.setTbjId(optTbResume.get().getTbjId());
+					Optional<TbJob> optTbJob = tbJobRepository.findOne(Example.of(exampleTbJob));
+					responseModel.setTbJob(optTbJob.get());
+				} else {
+					responseModel.setTbJob(new TbJob());
+				}
 
 				responseModel.setLstTbResumeCertification(tbResumeCertifications);
 				responseModel.setLstTbResumeEducation(tbResumeEducations);
 				responseModel.setLstTbResumeSkillHard(tbResumeSkillsHard);
 				responseModel.setLstTbResumeSkillSoft(tbResumeSkillsSoft);
 				responseModel.setLstTbResumeWorkExperience(tbResumeWorkExperiences);				
-				responseModel.setTbResume(optTbResume.get());
-				responseModel.setTbJob(optTbJob.get());
+				responseModel.setTbResume(optTbResume.get());				
 				
 				responseModel.setHttpStatus(HttpStatus.OK);
 			} else {
@@ -753,5 +817,86 @@ public class ResumeService {
 		}
 		
 		return responseModel;
-	}	
+	}
+
+	public GetResumeResponseModel getRegenerate(String tbjUuid, GetResumeRequestModel requestModel) throws Exception {
+		GetResumeResponseModel responseModel = new GetResumeResponseModel(requestModel);
+		
+		tokenUtil.claims(requestModel);
+		
+		TbUser exampleTbUser = new TbUser();
+		exampleTbUser.setTbuEmail(requestModel.getEmail());
+		exampleTbUser.setTbuStatus(TbUserRepository.Active);
+		Optional<TbUser> optTbUser = tbUserRepository.findOne(Example.of(exampleTbUser));
+		
+		if (optTbUser.isPresent()) {
+			TbResume exampleTbResume = new TbResume();
+			exampleTbResume.setTbrUuid(tbjUuid);
+			exampleTbResume.setTbrCreateId(optTbUser.get().getTbuCreateId());
+			Optional<TbResume> optTbResume = tbResumeRepository.findOne(Example.of(exampleTbResume));					
+			
+			if (optTbResume.isPresent()) {
+				TbResume tbResume = optTbResume.get();
+				tbResume = openAI(tbResume);
+
+				optTbResume.get().setTbrScore(tbResume.getTbrScore());
+				optTbResume.get().setTbrAINote(tbResume.getTbrAINote());
+
+				TbResumeCertification exampleTbResumeCertification = new TbResumeCertification();
+				exampleTbResumeCertification.setTbrId(optTbResume.get().getTbrId());
+				exampleTbResumeCertification.setTbrcStatus(TbResumeCertificationRepository.Active);
+				List<TbResumeCertification> tbResumeCertifications = tbResumeCertificationRepository.findAll(Example.of(exampleTbResumeCertification));
+
+				TbResumeEducation exampleTbResumeEducation = new TbResumeEducation();
+				exampleTbResumeEducation.setTbrId(optTbResume.get().getTbrId());
+				exampleTbResumeEducation.setTbreStatus(TbResumeEducationRepository.Active);
+				List<TbResumeEducation> tbResumeEducations = tbResumeEducationRepository.findAll(Example.of(exampleTbResumeEducation));
+
+				TbResumeSkill exampleTbResumeSkill = new TbResumeSkill();
+				exampleTbResumeSkill.setTbrId(optTbResume.get().getTbrId());
+				exampleTbResumeSkill.setTbrsStatus(TbResumeSkillRepository.Active);
+				exampleTbResumeSkill.setTbrsType("hard_skill");				
+				List<TbResumeSkill> tbResumeSkillsHard = tbResumeSkillRepository.findAll(Example.of(exampleTbResumeSkill), Sort.by(Sort.Direction.DESC, "tbrsScore"));
+
+				exampleTbResumeSkill = new TbResumeSkill();
+				exampleTbResumeSkill.setTbrId(optTbResume.get().getTbrId());
+				exampleTbResumeSkill.setTbrsStatus(TbResumeSkillRepository.Active);
+				exampleTbResumeSkill.setTbrsType("soft_skill");				
+				List<TbResumeSkill> tbResumeSkillsSoft = tbResumeSkillRepository.findAll(Example.of(exampleTbResumeSkill), Sort.by(Sort.Direction.DESC, "tbrsScore"));
+
+				TbResumeWorkExperience exampleTbResumeWorkExperience = new TbResumeWorkExperience();
+				exampleTbResumeWorkExperience.setTbrId(optTbResume.get().getTbrId());
+				exampleTbResumeWorkExperience.setTbrweStatus(TbResumeWorkExperienceRepository.Active);
+				List<TbResumeWorkExperience> tbResumeWorkExperiences = tbResumeWorkExperienceRepository.findAll(Example.of(exampleTbResumeWorkExperience));
+				tbResumeWorkExperiences.forEach(tbResumeWorkExperience -> {
+					if (tbResumeWorkExperience.getTbrweStartDate() != null) tbResumeWorkExperience.setTbrweStart(new SimpleDateFormat("yyyy-MM-dd").format(tbResumeWorkExperience.getTbrweStartDate()));
+					if (tbResumeWorkExperience.getTbrweEndDate() != null) tbResumeWorkExperience.setTbrweEnd(new SimpleDateFormat("yyyy-MM-dd").format(tbResumeWorkExperience.getTbrweEndDate()));
+				});
+
+				if (optTbResume.get().getTbjId() != null) {
+					TbJob exampleTbJob = new TbJob();
+					exampleTbJob.setTbjId(optTbResume.get().getTbjId());
+					Optional<TbJob> optTbJob = tbJobRepository.findOne(Example.of(exampleTbJob));
+					responseModel.setTbJob(optTbJob.get());
+				} else {
+					responseModel.setTbJob(new TbJob());
+				}
+
+				responseModel.setLstTbResumeCertification(tbResumeCertifications);
+				responseModel.setLstTbResumeEducation(tbResumeEducations);
+				responseModel.setLstTbResumeSkillHard(tbResumeSkillsHard);
+				responseModel.setLstTbResumeSkillSoft(tbResumeSkillsSoft);
+				responseModel.setLstTbResumeWorkExperience(tbResumeWorkExperiences);				
+				responseModel.setTbResume(optTbResume.get());				
+				
+				responseModel.setHttpStatus(HttpStatus.OK);
+			} else {
+				responseModel.setHttpStatus(HttpStatus.NOT_FOUND);
+			}
+		} else {
+			responseModel.setHttpStatus(HttpStatus.UNAUTHORIZED);
+		}
+		
+		return responseModel;
+	}
 }

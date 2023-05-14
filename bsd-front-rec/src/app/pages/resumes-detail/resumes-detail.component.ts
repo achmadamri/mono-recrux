@@ -77,6 +77,28 @@ export class ResumesDetailComponent implements OnInit {
     this.location.back();
   }
 
+  regenerate() {
+    this.clicked = !this.clicked;
+
+    this.resumeService.getRegenerate(this.postAddResumeRequest.tbResume.tbrUuid)
+    .subscribe(
+      successResponse => {
+        this.clicked = !this.clicked;
+        this.getResumeResponse = successResponse;
+
+        this.postAddResumeRequest.lstTbResumeEducation = this.getResumeResponse.lstTbResumeEducation;
+        this.postAddResumeRequest.lstTbResumeWorkExperience = this.getResumeResponse.lstTbResumeWorkExperience;
+
+        this.postAddResumeRequest.tbResume = this.getResumeResponse.tbResume;
+      },
+      errorResponse => {
+        this.clicked = !this.clicked;
+        this.getResumeResponse = new GetResumeResponse();
+        this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
+      }
+    );
+  }
+
   update() {
     this.clicked = !this.clicked;
     
@@ -88,19 +110,19 @@ export class ResumesDetailComponent implements OnInit {
         this.util.showNotification('info', 'top', 'center', successResponse.message);
 
         this.resumeService.getResume(this.postAddResumeRequest.tbResume.tbrUuid)
-      .subscribe(
-        successResponse => {
-          this.getResumeResponse = successResponse;
+        .subscribe(
+          successResponse => {
+            this.getResumeResponse = successResponse;
 
-          this.postAddResumeRequest.lstTbResumeEducation = this.getResumeResponse.lstTbResumeEducation;
-          this.postAddResumeRequest.lstTbResumeWorkExperience = this.getResumeResponse.lstTbResumeWorkExperience;
+            this.postAddResumeRequest.lstTbResumeEducation = this.getResumeResponse.lstTbResumeEducation;
+            this.postAddResumeRequest.lstTbResumeWorkExperience = this.getResumeResponse.lstTbResumeWorkExperience;
 
-          this.postAddResumeRequest.tbResume = this.getResumeResponse.tbResume;
-        },
-        errorResponse => {
-          this.getResumeResponse = new GetResumeResponse();
-          this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
-        }
+            this.postAddResumeRequest.tbResume = this.getResumeResponse.tbResume;
+          },
+          errorResponse => {
+            this.getResumeResponse = new GetResumeResponse();
+            this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
+          }
       );
       },
       errorResponse => {

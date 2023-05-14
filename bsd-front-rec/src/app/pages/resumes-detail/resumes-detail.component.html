@@ -4,7 +4,8 @@
       <div class="col-md-6">
         <div class="card">
           <div class="card-header card-header-danger">            
-            <h4 class="card-title">{{getResumeResponse.tbJob.tbjName}} ({{getResumeResponse.tbJob.tbjUuid}})</h4>
+            <h4 class="card-title" *ngIf="getResumeResponse.tbJob.tbjName == null">{{postAddResumeRequest.tbResume.tbrDataNameRaw}}</h4>
+            <h4 class="card-title" *ngIf="getResumeResponse.tbJob.tbjName != null">{{getResumeResponse.tbJob.tbjName}} ({{getResumeResponse.tbJob.tbjUuid}}) - {{postAddResumeRequest.tbResume.tbrDataNameRaw}}</h4>
           </div>
           <div class="card-body">
             <form>
@@ -46,6 +47,7 @@
                   </mat-radio-group>
                 </div>
               </div>
+              <button mat-raised-button type="submit" class="btn btn-danger pull-right" [disabled]="clicked" (click)="regenerate();">Regenerate Score / AI Note</button>
               <button mat-raised-button type="submit" class="btn btn-danger pull-right" [disabled]="clicked" (click)="update();">Update</button>
               <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked" (click)="back();">Back</button>
               <div class="clearfix"></div>
@@ -263,18 +265,18 @@
                   </thead>
                   <tbody *ngIf="getResumeResponse.lstTbResumeWorkExperience">
                       <tr *ngFor="let tbResumeWorkExperience of getResumeResponse.lstTbResumeWorkExperience; let i=index;" [class.not-active]="tbResumeWorkExperience.tbrweStatus === 'not active'">
-                          <td style="width: 5%;" style="vertical-align: top;">{{i + 1 + (pageSize * pageIndex)}}</td>           
-                          <td style="width: 15%;" style="vertical-align: top;">
+                          <td style="width: 5%; vertical-align: top;">{{i + 1 + (pageSize * pageIndex)}}</td>           
+                          <td style="width: 20%; vertical-align: top;">
                             <mat-form-field class="example-full-width">
                               <input matInput placeholder="Job Title" type="text" [(ngModel)]="tbResumeWorkExperience.tbrweJobTitle" name="tbrweJobTitle" [class.not-active]="tbResumeWorkExperience.tbrweStatus === 'not active'">
                             </mat-form-field>                            
                           </td>
-                          <td style="width: 15%;" style="vertical-align: top;">
+                          <td style="width: 15%; vertical-align: top;">
                             <mat-form-field class="example-full-width">
                               <input matInput placeholder="Organization" type="text" [(ngModel)]="tbResumeWorkExperience.tbrweOrganization" name="tbrweOrganization" [class.not-active]="tbResumeWorkExperience.tbrweStatus === 'not active'">
                             </mat-form-field>                            
                           </td>
-                          <td style="width: 20%;" style="vertical-align: top;">
+                          <td style="width: 10%; vertical-align: top;">
                             <mat-form-field class="example-full-width">
                               <mat-date-range-input [rangePicker]="picker" (click)="picker.open()">
                                 <input matStartDate placeholder="Start date" [(ngModel)]="tbResumeWorkExperience.tbrweStart" name="tbrweStart" [class.not-active]="tbResumeWorkExperience.tbrweStatus === 'not active'">
@@ -283,7 +285,7 @@
                               <mat-date-range-picker #picker></mat-date-range-picker>
                             </mat-form-field>                              
                           </td>
-                          <td style="width: 40%;" style="vertical-align: top;">
+                          <td style="width: 45%; vertical-align: top;">
                             <mat-form-field class="example-full-width">
                               <textarea matInput placeholder="Description" [(ngModel)]="tbResumeWorkExperience.tbrweJobDescription" name="tbrweJobDescription" rows="10" [class.not-active]="tbResumeWorkExperience.tbrweStatus === 'not active'"></textarea>
                             </mat-form-field>

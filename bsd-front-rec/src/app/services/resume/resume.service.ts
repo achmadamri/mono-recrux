@@ -93,6 +93,18 @@ export class ResumeService {
 
     return this.httpClient.post<PostAddResumeResponse>(`${this.apiUrl}/postaddresume`, postAddResumeRequest, { headers });
   }
+
+  postKanbanResume(postAddResumeRequest: PostAddResumeRequest): Observable<PostAddResumeResponse> {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json');
+
+    postAddResumeRequest.email = localStorage.getItem('email');
+    postAddResumeRequest.token = localStorage.getItem('token');
+    postAddResumeRequest.requestId = this.util.randomString(10);
+    postAddResumeRequest.requestDate = ((new Date(Date.now() - ((new Date()).getTimezoneOffset() * 60000))).toISOString().slice(0, -1)) + '000';
+
+    return this.httpClient.post<PostAddResumeResponse>(`${this.apiUrl}/postkanbanresume`, postAddResumeRequest, { headers });
+  }
   
   getResume(tbjUuid: string): Observable<GetResumeResponse> {
     const headers = new HttpHeaders()
@@ -107,5 +119,20 @@ export class ResumeService {
       ;
 
     return this.httpClient.get<GetResumeResponse>(`${this.apiUrl}/getresume`, { headers, params });
+  }
+  
+  getRegenerate(tbjUuid: string): Observable<GetResumeResponse> {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json');
+
+    const params = new HttpParams()
+      .set('requestId', this.util.randomString(10))
+      .set('requestDate', ((new Date(Date.now() - ((new Date()).getTimezoneOffset() * 60000))).toISOString().slice(0, -1)) + '000')
+      .set('email', localStorage.getItem('email'))
+      .set('token', localStorage.getItem('token'))
+      .set('tbjUuid', tbjUuid)
+      ;
+
+    return this.httpClient.get<GetResumeResponse>(`${this.apiUrl}/getregenerate`, { headers, params });
   }
 }
