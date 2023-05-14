@@ -90,7 +90,6 @@ export class JobsKanbanComponent implements OnInit {
           this.resumeService.postKanbanResume(this.postAddResumeRequest)
             .subscribe(
               successResponse => {
-                this.clicked = !this.clicked;
                 this.postAddResumeResponse = successResponse;
 
                 this.resumeService.getResume(this.postAddResumeRequest.tbResume.tbrUuid)
@@ -107,7 +106,6 @@ export class JobsKanbanComponent implements OnInit {
                   );
               },
               errorResponse => {
-                this.clicked = !this.clicked;
                 this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
               }
             );
