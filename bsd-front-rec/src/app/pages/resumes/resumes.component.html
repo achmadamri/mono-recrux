@@ -53,7 +53,7 @@
                                         <td>{{viewResumeJob.tbjName}}</td>
                                         <td>{{viewResumeJob.tbrUuid}}</td>
                                         <td>{{viewResumeJob.tbrDataNameRaw}}</td>
-                                        <td>{{viewResumeJob.tbrScore}}</td>
+                                        <td title="{{viewResumeJob.tbrAINote}}">{{viewResumeJob.tbrScore}}</td>
                                         <td>{{viewResumeJob.tbrStatus}}</td>
                                         <td class="td-actions" *ngIf="viewResumeJob.tbrStatus == 'active' || viewResumeJob.tbrStatus == 'not active'">
                                             <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(viewResumeJob.tbrUuid);" *ngIf="viewResumeJob.tbrStatus != 'parsing'"><mat-icon>visibility</mat-icon></button>
