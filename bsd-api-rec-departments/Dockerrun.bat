@@ -1,0 +1,1 @@
+docker run -d -p 2082:2082 bsd-api-rec-departments

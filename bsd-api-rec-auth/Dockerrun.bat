@@ -1,0 +1,1 @@
+docker run -d -p 2080:2080 bsd-api-rec-auth

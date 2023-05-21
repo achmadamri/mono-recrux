@@ -1,0 +1,1 @@
+docker run -d -p 2081:2081 bsd-api-rec-member
