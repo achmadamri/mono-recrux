@@ -1,4 +1,4 @@
-package com.api.rec.member.db.entity;
+package com.api.rec.departments.db.entity;
 
 import java.io.Serializable;
 import java.util.Date;

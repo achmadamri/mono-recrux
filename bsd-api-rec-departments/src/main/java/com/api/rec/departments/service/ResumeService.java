@@ -36,6 +36,7 @@ import com.affinda.api.client.AffindaAPI;
 import com.affinda.api.client.AffindaAPIBuilder;
 import com.affinda.api.client.AffindaTokenCredential;
 import com.affinda.api.client.models.ResumeRequestBody;
+import com.api.rec.departments.db.entity.TbCompany;
 import com.api.rec.departments.db.entity.TbJob;
 import com.api.rec.departments.db.entity.TbResume;
 import com.api.rec.departments.db.entity.TbResumeCertification;
@@ -44,6 +45,7 @@ import com.api.rec.departments.db.entity.TbResumeSkill;
 import com.api.rec.departments.db.entity.TbResumeWorkExperience;
 import com.api.rec.departments.db.entity.TbUser;
 import com.api.rec.departments.db.entity.ViewResumeJob;
+import com.api.rec.departments.db.repository.TbCompanyRepository;
 import com.api.rec.departments.db.repository.TbJobRepository;
 import com.api.rec.departments.db.repository.TbResumeCertificationRepository;
 import com.api.rec.departments.db.repository.TbResumeEducationRepository;
@@ -62,6 +64,8 @@ import com.api.rec.departments.model.resume.PostAddResumeRequestModel;
 import com.api.rec.departments.model.resume.PostAddResumeResponseModel;
 import com.api.rec.departments.model.resume.PostUploadResumeRequestModel;
 import com.api.rec.departments.model.resume.PostUploadResumeResponseModel;
+import com.api.rec.departments.model.user.PostSyncCompanyRequestModel;
+import com.api.rec.departments.model.user.PostSyncCompanyResponseModel;
 import com.api.rec.departments.util.TokenUtil;
 import com.api.rec.departments.util.Uid;
 import com.azure.core.credential.TokenCredential;
@@ -107,7 +111,24 @@ public class ResumeService {
 	@Autowired
 	private ViewResumeJobRepository viewResumeJobRepository;
 
-	public TbResume postUploadResumeAffinda(TbUser tbUser, MultipartFile file) throws Exception {
+	@Autowired
+	private TbCompanyRepository tbCompanyRepository;
+
+	public TbResume postUploadResumeAffinda(TbUser tbUser, MultipartFile file, TbCompany tbCompany) throws Exception {
+		tbCompany.setTbcParse(tbCompany.getTbcParse() - 1);
+		tbCompanyRepository.save(tbCompany);
+
+		PostSyncCompanyRequestModel postSyncCompanyRequestModel = new PostSyncCompanyRequestModel();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS000");
+		postSyncCompanyRequestModel.setRequestDate(sdf.format(new Date()));
+		postSyncCompanyRequestModel.setRequestId(new Uid().generateString(10));
+		postSyncCompanyRequestModel.setEmail(tbUser.getTbuEmail());
+		postSyncCompanyRequestModel.setTbCompany(tbCompany);
+		
+		HttpEntity<PostSyncCompanyRequestModel> request = new HttpEntity<>(postSyncCompanyRequestModel);
+		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.postForEntity(env.getProperty("services.bsd.api.rec.member") + "user/postsynccompany", request, String.class);
+
 		ObjectMapper mapper = new ObjectMapper();
 		JsonNode rootNode;
 		Gson gson = new Gson();
@@ -149,8 +170,7 @@ public class ResumeService {
 			String[] tbrDataPhoneNumbersArray = tbResume.getTbrDataPhoneNumbers().split(",");
 			String tbrDataPhoneNumbersString = "";
 			for (int i = 0; i < tbrDataPhoneNumbersArray.length; i++) {
-				tbrDataPhoneNumbersString += tbrDataPhoneNumbersArray[i].replace("[", "").replace("]", "").replace("\"",
-						"") + ",";
+				tbrDataPhoneNumbersString += tbrDataPhoneNumbersArray[i].replace("[", "").replace("]", "").replace("\"", "") + ",";
 			}
 			tbResume.setTbrDataPhoneNumbers(
 					tbrDataPhoneNumbersString.substring(0, tbrDataPhoneNumbersString.length() - 1));
@@ -159,8 +179,7 @@ public class ResumeService {
 			String[] tbrDataWebsitesArray = tbResume.getTbrDataWebsites().split(",");
 			String tbrDataWebsitesString = "";
 			for (int i = 0; i < tbrDataWebsitesArray.length; i++) {
-				tbrDataWebsitesString += tbrDataWebsitesArray[i].replace("[", "").replace("]", "").replace("\"", "")
-						+ ",";
+				tbrDataWebsitesString += tbrDataWebsitesArray[i].replace("[", "").replace("]", "").replace("\"", "") + ",";
 			}
 			tbResume.setTbrDataWebsites(tbrDataWebsitesString.substring(0, tbrDataWebsitesString.length() - 1));
 
@@ -179,8 +198,7 @@ public class ResumeService {
 			String[] tbrDataLanguagesArray = tbResume.getTbrDataLanguages().split(",");
 			String tbrDataLanguagesString = "";
 			for (int i = 0; i < tbrDataLanguagesArray.length; i++) {
-				tbrDataLanguagesString += tbrDataLanguagesArray[i].replace("[", "").replace("]", "").replace("\"", "")
-						+ ",";
+				tbrDataLanguagesString += tbrDataLanguagesArray[i].replace("[", "").replace("]", "").replace("\"", "") + ",";
 			}
 			tbResume.setTbrDataLanguages(tbrDataLanguagesString.substring(0, tbrDataLanguagesString.length() - 1));
 			
@@ -348,44 +366,64 @@ public class ResumeService {
 		Optional<TbUser> optTbUser = tbUserRepository.findOne(Example.of(exampleTbUser));
 
 		if (optTbUser.isPresent()) {
-			TbJob exampleTbJob = new TbJob();
-			exampleTbJob.setTbjCreateIdc(optTbUser.get().getTbuCreateIdc());
-			exampleTbJob.setTbjUuid(requestModel.getTbjUuid());
-			Optional<TbJob> optTbJob = tbJobRepository.findOne(Example.of(exampleTbJob));
+			TbCompany exampleTbCompany = new TbCompany();
+			exampleTbCompany.setTbcId(optTbUser.get().getTbuCreateIdc());
+			Optional<TbCompany> optTbCompany = tbCompanyRepository.findOne(Example.of(exampleTbCompany));
 
-			if (optTbJob.isPresent()) {
-				String fileNameOri = StringUtils.cleanPath(file.getOriginalFilename());
-				String ext = fileNameOri.substring(fileNameOri.lastIndexOf(".") + 1);
-
-				if (ext.equals("pdf")) {
-					String fileName = StringUtils.cleanPath(file.getOriginalFilename()) + "_" + (new Uid().generateString(5)) + "." + ext;
-					Files.copy(file.getInputStream(), Paths.get(env.getProperty("file.resume.dir") + fileName), StandardCopyOption.REPLACE_EXISTING);				
-	
-					TbResume tbResume = postUploadResumeAffinda(optTbUser.get(), file);
-					// TbResume exampleTbResume = new TbResume();
-					// exampleTbResume.setTbrUuid("NMXZJ");
-					// TbResume tbResume = tbResumeRepository.findOne(Example.of(exampleTbResume)).orElse(new TbResume());
-					tbResume.setTbrCreateId(optTbUser.get().getTbuId());
-					tbResume.setTbrCreateDate(new Date());
-					tbResume.setTbrCreateIdc(optTbUser.get().getTbuCreateIdc());
-					tbResume.setTbrStatus(TbResumeRepository.Active);
-					tbResume.setTbrAssigned(TbResumeRepository.Assigned);
-					tbResume.setTbrDataNameRaw(tbResume.getTbrDataNameFirst() + " " + tbResume.getTbrDataNameMiddle() + " " + tbResume.getTbrDataNameLast());
-					tbResume.setTbrUuid(new Uid().generateString(5));
-					tbResume.setTbrMetaFileName(fileName);
-					tbResume.setTbjId(optTbJob.get().getTbjId());
-					tbResume.setTbrResumeStatus(optTbJob.get().getTbjResumeStatus().split(",")[0].trim());
-
-					tbResume = openAI(tbResume);
-
-					tbResumeRepository.save(tbResume);
+			if (optTbCompany.isPresent()) {
+				if (optTbCompany.get().getTbcParse() > 0 && optTbCompany.get().getTbcToken() > 1024) {
+					TbJob exampleTbJob = new TbJob();
+					exampleTbJob.setTbjCreateIdc(optTbUser.get().getTbuCreateIdc());
+					exampleTbJob.setTbjUuid(requestModel.getTbjUuid());
+					Optional<TbJob> optTbJob = tbJobRepository.findOne(Example.of(exampleTbJob));
 		
-					responseModel.setTbResume(tbResume);
-					responseModel.setFileName(fileName);
-					responseModel.setFileNameOri(fileNameOri);
-					responseModel.setHttpStatus(HttpStatus.OK);
+					if (optTbJob.isPresent()) {
+						String fileNameOri = StringUtils.cleanPath(file.getOriginalFilename());
+						String ext = fileNameOri.substring(fileNameOri.lastIndexOf(".") + 1);
+		
+						if (ext.equals("pdf")) {
+							String fileName = StringUtils.cleanPath(file.getOriginalFilename()) + "_" + (new Uid().generateString(5)) + "." + ext;
+							Files.copy(file.getInputStream(), Paths.get(env.getProperty("file.resume.dir") + fileName), StandardCopyOption.REPLACE_EXISTING);				
+			
+							// TbResume tbResume = postUploadResumeAffinda(optTbUser.get(), file, optTbCompany.get());
+							// DEBUG START -------------------------------------------------------------------------------------------
+							TbCompany tbCompany = optTbCompany.get();
+							tbCompany.setTbcParse(tbCompany.getTbcParse() - 1);
+							tbCompanyRepository.save(tbCompany);
+							TbResume exampleTbResume = new TbResume();
+							exampleTbResume.setTbrUuid("A46E6");
+							TbResume tbResume = tbResumeRepository.findOne(Example.of(exampleTbResume)).orElse(new TbResume());							
+							// tbResume.setTbrCreateId(optTbUser.get().getTbuId());
+							// tbResume.setTbrCreateDate(new Date());
+							// tbResume.setTbrCreateIdc(optTbUser.get().getTbuCreateIdc());
+							// tbResume.setTbrStatus(TbResumeRepository.Active);
+							// tbResume.setTbrAssigned(TbResumeRepository.Assigned);
+							// tbResume.setTbrDataNameRaw(tbResume.getTbrDataNameFirst() + " " + tbResume.getTbrDataNameMiddle() + " " + tbResume.getTbrDataNameLast());
+							// tbResume.setTbrUuid(new Uid().generateString(5));
+							// tbResume.setTbrMetaFileName(fileName);
+							// tbResume.setTbjId(optTbJob.get().getTbjId());
+							// tbResume.setTbrResumeStatus(optTbJob.get().getTbjResumeStatus().split(",")[0].trim());
+							// DEBUG END ---------------------------------------------------------------------------------------------
+		
+							// Open AI Start ---------------------------------------------------------------------------------------------
+							tbResume = openAI(optTbUser.get(), tbResume, optTbCompany.get());
+							// Open AI End -----------------------------------------------------------------------------------------------
+		
+							tbResumeRepository.save(tbResume);
+				
+							responseModel.setTbResume(tbResume);
+							responseModel.setFileName(fileName);
+							responseModel.setFileNameOri(fileNameOri);
+							responseModel.setHttpStatus(HttpStatus.OK);
+						} else {
+							responseModel.setMessage("File must be PDF");
+							responseModel.setHttpStatus(HttpStatus.BAD_REQUEST);
+						}
+					} else {
+						responseModel.setHttpStatus(HttpStatus.NOT_FOUND);
+					}
 				} else {
-					responseModel.setMessage("File must be PDF");
+					responseModel.setMessage("You have no parse credit");
 					responseModel.setHttpStatus(HttpStatus.BAD_REQUEST);
 				}
 			} else {
@@ -398,10 +436,9 @@ public class ResumeService {
 		return responseModel;
 	}
 	
-	private TbResume openAI(TbResume tbResume) throws JsonMappingException, JsonProcessingException {
-		// Open AI Start ---------------------------------------------------------------------------------------------
+	private TbResume openAI(TbUser tbUser, TbResume tbResume, TbCompany tbCompany) throws JsonMappingException, JsonProcessingException {
 		TbJob tbJob = tbJobRepository.findById(tbResume.getTbjId()).get();
-		String prompt = "";					
+		String prompt = "";
 
 		prompt += "\\nYou act as my recruiter.";
 
@@ -464,8 +501,26 @@ public class ResumeService {
 
 		tbResume.setTbrScore(score);
 		tbResume.setTbrAINote(note);
-		// Open AI End -------------------------------------------------------------------------------------------------
 
+		JsonNode usageNode = rootNodeGpt.path("usage");
+		if (usageNode.get("total_tokens") != null) {
+			tbCompany.setTbcToken(tbCompany.getTbcToken() - usageNode.get("total_tokens").asInt());
+			tbCompanyRepository.save(tbCompany);
+
+			PostSyncCompanyRequestModel postSyncCompanyRequestModel = new PostSyncCompanyRequestModel();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS000");
+			postSyncCompanyRequestModel.setRequestDate(sdf.format(new Date()));
+			postSyncCompanyRequestModel.setRequestId(new Uid().generateString(10));
+			postSyncCompanyRequestModel.setEmail(tbUser.getTbuEmail());
+			postSyncCompanyRequestModel.setTbCompany(tbCompany);
+
+			HttpHeaders headersPostSyncCompany = new HttpHeaders();
+			headersPostSyncCompany.setContentType(MediaType.APPLICATION_JSON);
+			HttpEntity<PostSyncCompanyRequestModel> requestPostSyncCompany = new HttpEntity<>(postSyncCompanyRequestModel, headersPostSyncCompany);
+			RestTemplate restTemplatePostSyncCompany = new RestTemplate();
+			restTemplatePostSyncCompany.postForEntity(env.getProperty("services.bsd.api.rec.member") + "user/postsynccompany", requestPostSyncCompany, String.class);
+		}
+		
 		return tbResume;
 	}
 	
@@ -833,66 +888,79 @@ public class ResumeService {
 			TbResume exampleTbResume = new TbResume();
 			exampleTbResume.setTbrUuid(tbjUuid);
 			exampleTbResume.setTbrCreateId(optTbUser.get().getTbuCreateId());
-			Optional<TbResume> optTbResume = tbResumeRepository.findOne(Example.of(exampleTbResume));					
-			
-			if (optTbResume.isPresent()) {
-				TbResume tbResume = optTbResume.get();
-				tbResume = openAI(tbResume);
+			Optional<TbResume> optTbResume = tbResumeRepository.findOne(Example.of(exampleTbResume));
 
-				optTbResume.get().setTbrScore(tbResume.getTbrScore());
-				optTbResume.get().setTbrAINote(tbResume.getTbrAINote());
+			TbCompany exampleTbCompany = new TbCompany();
+			exampleTbCompany.setTbcId(optTbUser.get().getTbuCreateIdc());
+			Optional<TbCompany> optTbCompany = tbCompanyRepository.findOne(Example.of(exampleTbCompany));
 
-				TbResumeCertification exampleTbResumeCertification = new TbResumeCertification();
-				exampleTbResumeCertification.setTbrId(optTbResume.get().getTbrId());
-				exampleTbResumeCertification.setTbrcStatus(TbResumeCertificationRepository.Active);
-				List<TbResumeCertification> tbResumeCertifications = tbResumeCertificationRepository.findAll(Example.of(exampleTbResumeCertification));
-
-				TbResumeEducation exampleTbResumeEducation = new TbResumeEducation();
-				exampleTbResumeEducation.setTbrId(optTbResume.get().getTbrId());
-				exampleTbResumeEducation.setTbreStatus(TbResumeEducationRepository.Active);
-				List<TbResumeEducation> tbResumeEducations = tbResumeEducationRepository.findAll(Example.of(exampleTbResumeEducation));
-
-				TbResumeSkill exampleTbResumeSkill = new TbResumeSkill();
-				exampleTbResumeSkill.setTbrId(optTbResume.get().getTbrId());
-				exampleTbResumeSkill.setTbrsStatus(TbResumeSkillRepository.Active);
-				exampleTbResumeSkill.setTbrsType("hard_skill");				
-				List<TbResumeSkill> tbResumeSkillsHard = tbResumeSkillRepository.findAll(Example.of(exampleTbResumeSkill), Sort.by(Sort.Direction.DESC, "tbrsScore"));
-
-				exampleTbResumeSkill = new TbResumeSkill();
-				exampleTbResumeSkill.setTbrId(optTbResume.get().getTbrId());
-				exampleTbResumeSkill.setTbrsStatus(TbResumeSkillRepository.Active);
-				exampleTbResumeSkill.setTbrsType("soft_skill");				
-				List<TbResumeSkill> tbResumeSkillsSoft = tbResumeSkillRepository.findAll(Example.of(exampleTbResumeSkill), Sort.by(Sort.Direction.DESC, "tbrsScore"));
-
-				TbResumeWorkExperience exampleTbResumeWorkExperience = new TbResumeWorkExperience();
-				exampleTbResumeWorkExperience.setTbrId(optTbResume.get().getTbrId());
-				exampleTbResumeWorkExperience.setTbrweStatus(TbResumeWorkExperienceRepository.Active);
-				List<TbResumeWorkExperience> tbResumeWorkExperiences = tbResumeWorkExperienceRepository.findAll(Example.of(exampleTbResumeWorkExperience));
-				tbResumeWorkExperiences.forEach(tbResumeWorkExperience -> {
-					if (tbResumeWorkExperience.getTbrweStartDate() != null) tbResumeWorkExperience.setTbrweStart(new SimpleDateFormat("yyyy-MM-dd").format(tbResumeWorkExperience.getTbrweStartDate()));
-					if (tbResumeWorkExperience.getTbrweEndDate() != null) tbResumeWorkExperience.setTbrweEnd(new SimpleDateFormat("yyyy-MM-dd").format(tbResumeWorkExperience.getTbrweEndDate()));
-				});
-
-				if (optTbResume.get().getTbjId() != null) {
-					TbJob exampleTbJob = new TbJob();
-					exampleTbJob.setTbjId(optTbResume.get().getTbjId());
-					Optional<TbJob> optTbJob = tbJobRepository.findOne(Example.of(exampleTbJob));
-					responseModel.setTbJob(optTbJob.get());
+			if (optTbCompany.isPresent()) {
+				if (optTbCompany.get().getTbcParse() > 0 && optTbCompany.get().getTbcToken() > 1024) {
+					if (optTbResume.isPresent()) {
+						TbResume tbResume = optTbResume.get();
+						tbResume = openAI(optTbUser.get(), tbResume, optTbCompany.get());
+		
+						optTbResume.get().setTbrScore(tbResume.getTbrScore());
+						optTbResume.get().setTbrAINote(tbResume.getTbrAINote());
+		
+						TbResumeCertification exampleTbResumeCertification = new TbResumeCertification();
+						exampleTbResumeCertification.setTbrId(optTbResume.get().getTbrId());
+						exampleTbResumeCertification.setTbrcStatus(TbResumeCertificationRepository.Active);
+						List<TbResumeCertification> tbResumeCertifications = tbResumeCertificationRepository.findAll(Example.of(exampleTbResumeCertification));
+		
+						TbResumeEducation exampleTbResumeEducation = new TbResumeEducation();
+						exampleTbResumeEducation.setTbrId(optTbResume.get().getTbrId());
+						exampleTbResumeEducation.setTbreStatus(TbResumeEducationRepository.Active);
+						List<TbResumeEducation> tbResumeEducations = tbResumeEducationRepository.findAll(Example.of(exampleTbResumeEducation));
+		
+						TbResumeSkill exampleTbResumeSkill = new TbResumeSkill();
+						exampleTbResumeSkill.setTbrId(optTbResume.get().getTbrId());
+						exampleTbResumeSkill.setTbrsStatus(TbResumeSkillRepository.Active);
+						exampleTbResumeSkill.setTbrsType("hard_skill");				
+						List<TbResumeSkill> tbResumeSkillsHard = tbResumeSkillRepository.findAll(Example.of(exampleTbResumeSkill), Sort.by(Sort.Direction.DESC, "tbrsScore"));
+		
+						exampleTbResumeSkill = new TbResumeSkill();
+						exampleTbResumeSkill.setTbrId(optTbResume.get().getTbrId());
+						exampleTbResumeSkill.setTbrsStatus(TbResumeSkillRepository.Active);
+						exampleTbResumeSkill.setTbrsType("soft_skill");				
+						List<TbResumeSkill> tbResumeSkillsSoft = tbResumeSkillRepository.findAll(Example.of(exampleTbResumeSkill), Sort.by(Sort.Direction.DESC, "tbrsScore"));
+		
+						TbResumeWorkExperience exampleTbResumeWorkExperience = new TbResumeWorkExperience();
+						exampleTbResumeWorkExperience.setTbrId(optTbResume.get().getTbrId());
+						exampleTbResumeWorkExperience.setTbrweStatus(TbResumeWorkExperienceRepository.Active);
+						List<TbResumeWorkExperience> tbResumeWorkExperiences = tbResumeWorkExperienceRepository.findAll(Example.of(exampleTbResumeWorkExperience));
+						tbResumeWorkExperiences.forEach(tbResumeWorkExperience -> {
+							if (tbResumeWorkExperience.getTbrweStartDate() != null) tbResumeWorkExperience.setTbrweStart(new SimpleDateFormat("yyyy-MM-dd").format(tbResumeWorkExperience.getTbrweStartDate()));
+							if (tbResumeWorkExperience.getTbrweEndDate() != null) tbResumeWorkExperience.setTbrweEnd(new SimpleDateFormat("yyyy-MM-dd").format(tbResumeWorkExperience.getTbrweEndDate()));
+						});
+		
+						if (optTbResume.get().getTbjId() != null) {
+							TbJob exampleTbJob = new TbJob();
+							exampleTbJob.setTbjId(optTbResume.get().getTbjId());
+							Optional<TbJob> optTbJob = tbJobRepository.findOne(Example.of(exampleTbJob));
+							responseModel.setTbJob(optTbJob.get());
+						} else {
+							responseModel.setTbJob(new TbJob());
+						}
+		
+						responseModel.setLstTbResumeCertification(tbResumeCertifications);
+						responseModel.setLstTbResumeEducation(tbResumeEducations);
+						responseModel.setLstTbResumeSkillHard(tbResumeSkillsHard);
+						responseModel.setLstTbResumeSkillSoft(tbResumeSkillsSoft);
+						responseModel.setLstTbResumeWorkExperience(tbResumeWorkExperiences);				
+						responseModel.setTbResume(optTbResume.get());				
+						
+						responseModel.setHttpStatus(HttpStatus.OK);
+					} else {
+						responseModel.setHttpStatus(HttpStatus.NOT_FOUND);
+					}
 				} else {
-					responseModel.setTbJob(new TbJob());
+					responseModel.setMessage("You have no parse credit");
+					responseModel.setHttpStatus(HttpStatus.BAD_REQUEST);
 				}
-
-				responseModel.setLstTbResumeCertification(tbResumeCertifications);
-				responseModel.setLstTbResumeEducation(tbResumeEducations);
-				responseModel.setLstTbResumeSkillHard(tbResumeSkillsHard);
-				responseModel.setLstTbResumeSkillSoft(tbResumeSkillsSoft);
-				responseModel.setLstTbResumeWorkExperience(tbResumeWorkExperiences);				
-				responseModel.setTbResume(optTbResume.get());				
-				
-				responseModel.setHttpStatus(HttpStatus.OK);
 			} else {
 				responseModel.setHttpStatus(HttpStatus.NOT_FOUND);
-			}
+			}			
 		} else {
 			responseModel.setHttpStatus(HttpStatus.UNAUTHORIZED);
 		}

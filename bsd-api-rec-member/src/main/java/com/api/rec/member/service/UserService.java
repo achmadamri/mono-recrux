@@ -21,11 +21,13 @@ import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.api.rec.member.db.entity.TbCompany;
 import com.api.rec.member.db.entity.TbNotification;
 import com.api.rec.member.db.entity.TbNotificationData;
 import com.api.rec.member.db.entity.TbUser;
 import com.api.rec.member.db.entity.TbUserMenu;
 import com.api.rec.member.db.entity.ViewUserMenu;
+import com.api.rec.member.db.repository.TbCompanyRepository;
 import com.api.rec.member.db.repository.TbNotificationDataRepository;
 import com.api.rec.member.db.repository.TbNotificationRepository;
 import com.api.rec.member.db.repository.TbUserMenuRepository;
@@ -41,6 +43,8 @@ import com.api.rec.member.model.user.GetUserRequestModel;
 import com.api.rec.member.model.user.GetUserResponseModel;
 import com.api.rec.member.model.user.PostConfirmationRequestModel;
 import com.api.rec.member.model.user.PostConfirmationResponseModel;
+import com.api.rec.member.model.user.PostSyncCompanyRequestModel;
+import com.api.rec.member.model.user.PostSyncCompanyResponseModel;
 import com.api.rec.member.model.user.PostUserAddRequestModel;
 import com.api.rec.member.model.user.PostUserAddResponseModel;
 import com.api.rec.member.model.user.PostUserChangePasswordRequestModel;
@@ -83,6 +87,31 @@ public class UserService {
 	
 	@Autowired
 	private TbNotificationDataRepository tbNotificationDataRepository;
+	
+	@Autowired
+	private TbCompanyRepository tbCompanyRepository;
+
+	public PostSyncCompanyResponseModel postSyncCompany(PostSyncCompanyRequestModel requestModel) throws Exception {
+		PostSyncCompanyResponseModel responseModel = new PostSyncCompanyResponseModel(requestModel);
+		
+		TbUser exampleTbUser = new TbUser();
+		exampleTbUser.setTbuEmail(requestModel.getEmail());
+		exampleTbUser.setTbuStatus(TbUserRepository.Active);
+		Optional<TbUser> optTbUser = tbUserRepository.findOne(Example.of(exampleTbUser));
+		
+		optTbUser.ifPresentOrElse(tbUser -> {
+			TbCompany tbCompany = requestModel.getTbCompany();			
+			tbCompanyRepository.save(tbCompany);
+			
+			responseModel.setStatus("200");
+			responseModel.setMessage("Company ok");
+		}, () -> {
+			responseModel.setStatus("404");
+			responseModel.setMessage("Not found");
+		});
+		
+		return responseModel;
+	}
 	
 	public GetUserResponseModel getUser(String tbuId, GetUserRequestModel requestModel) throws Exception {
 		GetUserResponseModel responseModel = new GetUserResponseModel(requestModel);

@@ -25,6 +25,8 @@ import com.api.rec.member.model.user.GetUserRequestModel;
 import com.api.rec.member.model.user.GetUserResponseModel;
 import com.api.rec.member.model.user.PostConfirmationRequestModel;
 import com.api.rec.member.model.user.PostConfirmationResponseModel;
+import com.api.rec.member.model.user.PostSyncCompanyRequestModel;
+import com.api.rec.member.model.user.PostSyncCompanyResponseModel;
 import com.api.rec.member.model.user.PostUserAddRequestModel;
 import com.api.rec.member.model.user.PostUserAddResponseModel;
 import com.api.rec.member.model.user.PostUserChangePasswordRequestModel;
@@ -49,6 +51,20 @@ public class UserController {
 	
 	@Autowired
     private UserService userService;
+	
+	@PostMapping("/postsynccompany")
+	@Transactional
+	public HttpEntity<?> postSyncCompany(@Valid @RequestBody PostSyncCompanyRequestModel requestModel) throws Exception {
+		String fid = new Uid().generateString(20);
+		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
+		
+		PostSyncCompanyResponseModel responseModel = userService.postSyncCompany(requestModel);
+		
+		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getStatus().equals("200") ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
+
+		return responseEntity;
+	}
 	
 	@GetMapping("/getuser")
 	@Transactional

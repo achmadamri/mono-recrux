@@ -90,6 +90,8 @@ export class ResumesDetailComponent implements OnInit {
         this.postAddResumeRequest.lstTbResumeWorkExperience = this.getResumeResponse.lstTbResumeWorkExperience;
 
         this.postAddResumeRequest.tbResume = this.getResumeResponse.tbResume;
+
+        this.util.showNotification('info', 'top', 'center', this.getResumeResponse.message);
       },
       errorResponse => {
         this.clicked = !this.clicked;

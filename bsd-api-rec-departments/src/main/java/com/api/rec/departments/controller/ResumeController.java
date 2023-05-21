@@ -45,7 +45,6 @@ public class ResumeController {
 	private ResumeService resumeService;
 	
 	@PostMapping("/postuploadresume")
-	@Transactional
 	public HttpEntity<?> postUploadResume(PostUploadResumeRequestModel requestModel, @Valid @RequestParam("file") MultipartFile file) throws Exception {
 		String fid = new Uid().generateString(20);
 		log.info("[fid:" + fid + "] requestModel : " + file.toString());
