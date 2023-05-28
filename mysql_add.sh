@@ -1,1 +1,0 @@
-docker run --name mysql --network host -p 127.0.0.1:3306:3306 -e MYSQL_ROOT_PASSWORD=P@55w0rd -d mysql:latest
