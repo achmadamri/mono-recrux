@@ -19,6 +19,10 @@ import { UserEditResponse } from './usereditresponse';
 import { UserChangePasswordRequest } from './userchangepasswordrequest';
 import { UserChangePasswordResponse } from './userchangepasswordresponse';
 import { UserRegisterRequest } from './userregisterrequest';
+import { UserUpdateRequest } from './userupdaterequest';
+import { UserUpdateResponse } from './userupdateresponse';
+import { UserConfirmationPaymentRequest } from './userconfirmationpaymentrequest';
+import { UserConfirmationPaymentResponse } from './userconfirmationpaymentresponse';
 
 @Injectable({
   providedIn: 'root'
@@ -149,5 +153,29 @@ export class UserService {
       ;
 
     return this.httpClient.get<GetUserMenuListResponse>(`${this.apiUrl}/getusermenulist`, { headers, params });
+  }
+
+  postUpdate(userUpdateRequest: UserUpdateRequest): Observable<UserUpdateResponse> {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json');
+
+    userUpdateRequest.email = localStorage.getItem('email');
+    userUpdateRequest.token = localStorage.getItem('token');
+    userUpdateRequest.requestId = this.util.randomString(10);
+    userUpdateRequest.requestDate = ((new Date(Date.now() - ((new Date()).getTimezoneOffset() * 60000))).toISOString().slice(0, -1)) + '000';
+
+    return this.httpClient.put<UserUpdateResponse>(`${this.apiUrl}/putupdate`, userUpdateRequest, { headers });
+  }
+
+  postConfirmationPayment(userConfirmationPaymentRequest: UserConfirmationPaymentRequest): Observable<UserConfirmationPaymentResponse> {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json');
+
+    userConfirmationPaymentRequest.email = localStorage.getItem('email');
+    userConfirmationPaymentRequest.token = localStorage.getItem('token');
+    userConfirmationPaymentRequest.requestId = this.util.randomString(10);
+    userConfirmationPaymentRequest.requestDate = ((new Date(Date.now() - ((new Date()).getTimezoneOffset() * 60000))).toISOString().slice(0, -1)) + '000';
+
+    return this.httpClient.post<UserConfirmationPaymentResponse>(`${this.apiUrl}/postconfirmationpayment`, userConfirmationPaymentRequest, { headers });
   }
 }

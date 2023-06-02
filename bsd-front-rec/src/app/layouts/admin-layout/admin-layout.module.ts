@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminLayoutRoutes } from './admin-layout.routing';
 import { DashboardComponent } from '../../dashboard/dashboard.component';
-import { UserProfileComponent } from '../../user-profile/user-profile.component';
+import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
 import { TableListComponent } from '../../table-list/table-list.component';
 import { TypographyComponent } from '../../typography/typography.component';
 import { IconsComponent } from '../../icons/icons.component';
@@ -38,6 +38,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CKEditorModule } from 'ckeditor4-angular';
 import { JobsKanbanComponent } from 'app/pages/jobs-kanban/jobs-kanban.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { NgxPayPalModule } from 'ngx-paypal';
+import { UserSubscriptionComponent } from 'app/pages/user-subcription/user-subscription.component';
 
 @NgModule({
   imports: [
@@ -61,11 +63,13 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     MatTableModule,
     MatProgressSpinnerModule,
     CKEditorModule,
-    DragDropModule
+    DragDropModule,
+    NgxPayPalModule,
   ],
   declarations: [
     DashboardComponent,
     UserProfileComponent,
+    UserSubscriptionComponent,
     LoginComponent,
     RegisterComponent,
     ResumesComponent,

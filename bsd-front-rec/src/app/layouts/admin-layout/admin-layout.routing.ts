@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { DashboardComponent } from '../../dashboard/dashboard.component';
-import { UserProfileComponent } from '../../user-profile/user-profile.component';
+import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
 import { TableListComponent } from '../../table-list/table-list.component';
 import { TypographyComponent } from '../../typography/typography.component';
 import { IconsComponent } from '../../icons/icons.component';
@@ -20,6 +20,7 @@ import { JobsDetailComponent } from 'app/pages/jobs-detail/jobs-detail.component
 import { ResumesDetailComponent } from 'app/pages/resumes-detail/resumes-detail.component';
 import { ResumesComponent } from 'app/pages/resumes/resumes.component';
 import { JobsKanbanComponent } from 'app/pages/jobs-kanban/jobs-kanban.component';
+import { UserSubscriptionComponent } from 'app/pages/user-subcription/user-subscription.component';
 
 export const AdminLayoutRoutes: Routes = [
     // {
@@ -66,6 +67,7 @@ export const AdminLayoutRoutes: Routes = [
     // }
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
     { path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard] },
+    { path: 'user-subscription', component: UserSubscriptionComponent, canActivate: [AuthGuard] },
     { path: 'table-list', component: TableListComponent, canActivate: [AuthGuard] },
     { path: 'typography', component: TypographyComponent, canActivate: [AuthGuard] },
     { path: 'icons', component: IconsComponent, canActivate: [AuthGuard] },
