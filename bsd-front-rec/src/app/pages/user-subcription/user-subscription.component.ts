@@ -53,6 +53,16 @@ export class UserSubscriptionComponent implements OnInit {
         actions.order.capture().then((details: any) => {
           console.log('Payment completed', details);
           // Implement further logic after payment completion
+          this.postAddRequest.tbPayment.tbpOrderId = data.orderID;
+          this.postAddRequest.tbPayment.tbpPayerId = data.payerID;
+          this.postAddRequest.tbPayment.tbpPaymentSource = data.paymentSource;
+          this.postAddRequest.tbPayment.tbpIntent = details.intent;
+          this.postAddRequest.tbPayment.tbpLinks = JSON.stringify(details.links);
+          this.postAddRequest.tbPayment.tbpPayer = JSON.stringify(details.payer);
+          this.postAddRequest.tbPayment.tbpPurchaseUnits = JSON.stringify(details.purchase_units);
+          this.postAddRequest.tbPayment.tbpStatus = details.status;
+          this.postAddRequest.tbPayment.tbpCreateTime = details.create_time;
+          this.postAddRequest.tbPayment.tbpUpdateTime = details.update_time;
 
           this.paymentService.postAdd(this.postAddRequest)
           .subscribe(

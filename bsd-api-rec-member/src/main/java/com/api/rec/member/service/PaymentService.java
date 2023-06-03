@@ -1,5 +1,6 @@
 package com.api.rec.member.service;
 
+import java.util.Date;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -9,7 +10,9 @@ import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
+import com.api.rec.member.db.entity.TbPayment;
 import com.api.rec.member.db.entity.TbUser;
+import com.api.rec.member.db.repository.TbPaymentRepository;
 import com.api.rec.member.db.repository.TbUserRepository;
 import com.api.rec.member.model.payment.PostAddRequestModel;
 import com.api.rec.member.model.payment.PostAddResponseModel;
@@ -28,6 +31,9 @@ public class PaymentService {
 	@Autowired
 	private TbUserRepository tbUserRepository;
 	
+	@Autowired
+	private TbPaymentRepository tbPaymentRepository;
+	
 	public PostAddResponseModel postAdd(PostAddRequestModel requestModel) throws Exception {
 		PostAddResponseModel responseModel = new PostAddResponseModel(requestModel);
 		
@@ -39,6 +45,12 @@ public class PaymentService {
 		Optional<TbUser> optTbUser = tbUserRepository.findOne(Example.of(exampleTbUser));
 		
 		if (optTbUser.isPresent()) {
+			TbPayment tbPayment = requestModel.getTbPayment();
+			tbPayment.setTbpCreateId(optTbUser.get().getTbuId());
+			tbPayment.setTbpCreateDate(new Date());
+			tbPayment.setTbpCreateIdc(optTbUser.get().getTbuCreateIdc());			
+			tbPaymentRepository.save(tbPayment);
+			
 			responseModel.setStatus("200");
 			responseModel.setMessage(env.getProperty("service.payment.postadd.ok"));
 		} else {
