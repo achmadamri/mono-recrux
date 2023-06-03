@@ -16,7 +16,7 @@ export class PaymentService {
 
   constructor(private httpClient: HttpClient) { }
 
-  postUserAdd(postAddRequest: PostAddRequest): Observable<PostAddResponse> {
+  postAdd(postAddRequest: PostAddRequest): Observable<PostAddResponse> {
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json');
 

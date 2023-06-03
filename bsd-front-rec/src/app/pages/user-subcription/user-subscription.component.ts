@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { PaymentService } from 'app/services/payment/payment.service';
+import { PostAddRequest } from 'app/services/payment/postaddrequest';
+import { PostAddResponse } from 'app/services/payment/postaddresponse';
+import { TbPayment } from 'app/services/payment/tbpayment';
 import { Util } from 'app/util';
 
 @Component({
@@ -7,9 +11,13 @@ import { Util } from 'app/util';
 })
 export class UserSubscriptionComponent implements OnInit {
   public payPalConfig: any;
-  util: Util = new Util(); 
+  util: Util = new Util();
+  postAddRequest: PostAddRequest = new PostAddRequest();
+  postAddResponse: PostAddResponse = new PostAddResponse();
 
-  constructor() {
+  constructor(
+    private paymentService: PaymentService
+  ) {
     this.payPalConfig = {
       clientId: 'Ae3-Xtq7YMEO1QEoXJghga4nQOWL50Odcq9sH69CkJkI0jLlndgTucTGorGdQgJj8P3hyfBEHCSo7Y9g',
       createOrderOnClient: (data: any) => {
@@ -45,6 +53,18 @@ export class UserSubscriptionComponent implements OnInit {
         actions.order.capture().then((details: any) => {
           console.log('Payment completed', details);
           // Implement further logic after payment completion
+
+          this.paymentService.postAdd(this.postAddRequest)
+          .subscribe(
+            successResponse => {
+              this.postAddResponse = successResponse;
+            },
+            errorResponse => {
+              this.postAddResponse = new PostAddResponse();
+              this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
+            }
+          );
+
           this.util.showNotification('info', 'bottom', 'center', 'Payment completed');
         });
       },
