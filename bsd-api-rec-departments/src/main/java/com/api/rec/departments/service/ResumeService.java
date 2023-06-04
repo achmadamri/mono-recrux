@@ -386,13 +386,6 @@ public class ResumeService {
 							Files.copy(file.getInputStream(), Paths.get(env.getProperty("file.resume.dir") + fileName), StandardCopyOption.REPLACE_EXISTING);				
 			
 							// TbResume tbResume = postUploadResumeAffinda(optTbUser.get(), file, optTbCompany.get());
-							// DEBUG START -------------------------------------------------------------------------------------------
-							TbCompany tbCompany = optTbCompany.get();
-							tbCompany.setTbcParse(tbCompany.getTbcParse() - 1);
-							tbCompanyRepository.save(tbCompany);
-							TbResume exampleTbResume = new TbResume();
-							exampleTbResume.setTbrUuid("A46E6");
-							TbResume tbResume = tbResumeRepository.findOne(Example.of(exampleTbResume)).orElse(new TbResume());							
 							// tbResume.setTbrCreateId(optTbUser.get().getTbuId());
 							// tbResume.setTbrCreateDate(new Date());
 							// tbResume.setTbrCreateIdc(optTbUser.get().getTbuCreateIdc());
@@ -403,6 +396,14 @@ public class ResumeService {
 							// tbResume.setTbrMetaFileName(fileName);
 							// tbResume.setTbjId(optTbJob.get().getTbjId());
 							// tbResume.setTbrResumeStatus(optTbJob.get().getTbjResumeStatus().split(",")[0].trim());
+							
+							// DEBUG START -------------------------------------------------------------------------------------------
+							TbCompany tbCompany = optTbCompany.get();
+							tbCompany.setTbcParse(tbCompany.getTbcParse() - 1);
+							tbCompanyRepository.save(tbCompany);
+							TbResume exampleTbResume = new TbResume();
+							exampleTbResume.setTbrUuid("A46E6");
+							TbResume tbResume = tbResumeRepository.findOne(Example.of(exampleTbResume)).orElse(new TbResume());														
 							// DEBUG END ---------------------------------------------------------------------------------------------
 		
 							// Open AI Start ---------------------------------------------------------------------------------------------
@@ -440,24 +441,53 @@ public class ResumeService {
 		TbJob tbJob = tbJobRepository.findById(tbResume.getTbjId()).get();
 		String prompt = "";
 
-		prompt += "\\nYou act as my recruiter.";
+		prompt += "\\nYou are acting as the recruiter.";
+
+		TbResumeSkill exampleTbResumeSkill = new TbResumeSkill();
+		exampleTbResumeSkill.setTbrId(tbResume.getTbrId());
+		exampleTbResumeSkill.setTbrsType(TbResumeSkillRepository.SoftSkill);
+		List<TbResumeSkill> lstTbResumeSkill = tbResumeSkillRepository.findAll(Example.of(exampleTbResumeSkill));
+		if (lstTbResumeSkill.size() > 0) {
+			prompt += "\\nI have a candidate with relevant soft skills:";
+			for (TbResumeSkill tbResumeSkill : lstTbResumeSkill) {
+				prompt += "\\n- " + tbResumeSkill.getTbrsName();
+			}
+			prompt += "\\nThese skills make the candidate a suitable fit for the position.";
+		} else {
+			prompt += "\\nI have a candidate with no soft skills.";
+		}
+
+		exampleTbResumeSkill = new TbResumeSkill();
+		exampleTbResumeSkill.setTbrId(tbResume.getTbrId());
+		exampleTbResumeSkill.setTbrsType(TbResumeSkillRepository.HardSkill);
+		lstTbResumeSkill = tbResumeSkillRepository.findAll(Example.of(exampleTbResumeSkill));
+		if (lstTbResumeSkill.size() > 0) {
+			prompt += "\\nI have a candidate with relevant hard skills:";
+			for (TbResumeSkill tbResumeSkill : lstTbResumeSkill) {
+				prompt += "\\n- " + tbResumeSkill.getTbrsName();
+			}
+			prompt += "\\nThese skills make the candidate a suitable fit for the position.";
+		} else {
+			prompt += "\\nI have a candidate with no hard skills.";
+		}
 
 		TbResumeWorkExperience exampleTbResumeWorkExperience = new TbResumeWorkExperience();
 		exampleTbResumeWorkExperience.setTbrId(tbResume.getTbrId());
 		List<TbResumeWorkExperience> lstTbResumeWorkExperience = tbResumeWorkExperienceRepository.findAll(Example.of(exampleTbResumeWorkExperience));
 		if (lstTbResumeWorkExperience.size() > 0) {
-			prompt += "\\nI have a candidate with work experiences : ";
+			prompt += "\\nI have a candidate with relevant work experience:";
 			for (TbResumeWorkExperience tbResumeWorkExperience : lstTbResumeWorkExperience) {
-				prompt += tbResumeWorkExperience.getTbrweJobTitle() + ", ";
+				prompt += "\\n- " + tbResumeWorkExperience.getTbrweJobTitle();
 			}
-			prompt = prompt.substring(0, prompt.length() - 2) + ".";
+			prompt += "\\nThese experiences make the candidate a suitable fit for the position.";
 		} else {
-			prompt += "\\nI have a candidate no experience.";
+			prompt += "\\nI have a candidate with no prior work experience.";
+			prompt += "\\nHowever, their skills make them a potential candidate for the position.";
 		}
 
-		prompt += "\\nDo an assesment for candidate for opening job with job title " + tbJob.getTbjName() + ".";
-		prompt += "\\nGive score and summary for the candidate with the following format : score: value|summary.";
-		prompt += "\\nValue is integer between 0 and 100.";
+		prompt += "\\nPlease conduct an assessment for the candidate applying for the job with the title: " + tbJob.getTbjName() + ".";
+		prompt += "\\nProvide a score and summary for the candidate using the following format: score: value|summary.";
+		prompt += "\\nThe value should be an integer between 0 and 100, representing the candidate's suitability for the job.";
 
 		final String uri = "https://api.openai.com/v1/completions";
 		RestTemplate restTemplate = new RestTemplate();
