@@ -39,7 +39,6 @@ import { CKEditorModule } from 'ckeditor4-angular';
 import { JobsKanbanComponent } from 'app/pages/jobs-kanban/jobs-kanban.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgxPayPalModule } from 'ngx-paypal';
-import { UserSubscriptionComponent } from 'app/pages/user-subcription/user-subscription.component';
 
 @NgModule({
   imports: [
@@ -69,7 +68,6 @@ import { UserSubscriptionComponent } from 'app/pages/user-subcription/user-subsc
   declarations: [
     DashboardComponent,
     UserProfileComponent,
-    UserSubscriptionComponent,
     LoginComponent,
     RegisterComponent,
     ResumesComponent,

@@ -1,4 +1,4 @@
-export class TbUser {
+export class TbCompany {
 	tbcId: number;
 	tbcCreateDate: string;
 	tbcCreateId: number;

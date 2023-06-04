@@ -3,12 +3,23 @@ package com.api.rec.member.service;
 import java.util.Date;
 import java.util.Optional;
 
+import org.apache.tomcat.util.codec.binary.Base64;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Example;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 
 import com.api.rec.member.db.entity.TbPayment;
 import com.api.rec.member.db.entity.TbUser;
@@ -33,6 +44,66 @@ public class PaymentService {
 	
 	@Autowired
 	private TbPaymentRepository tbPaymentRepository;
+
+	private static String accessToken = "";
+
+	private String getAccessToken() {
+		RestTemplate restTemplate = new RestTemplate();
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Accept", "application/json");
+		headers.add("Accept-Language", "en_US");
+
+		byte[] encodedAuth = Base64.encodeBase64((env.getProperty("paypall.client_id") + ":" + env.getProperty("paypall.client_secret")).getBytes());
+		String authHeader = "Basic " + new String(encodedAuth );
+		headers.set("Authorization", authHeader);
+		
+		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+		map.add("grant_type", "client_credentials");
+		
+		HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(map, headers);
+		ResponseEntity<String> responseEntity = restTemplate.exchange("https://api-m.sandbox.paypal.com/v1/oauth2/token", HttpMethod.POST, httpEntity, String.class);
+		
+		JSONObject jsonObject = new JSONObject(responseEntity.getBody());
+		
+		return jsonObject.getString("access_token");
+	}
+	
+	private JSONObject getPaymentDetail(String id) {
+		try {
+			RestTemplate restTemplate = new RestTemplate();
+			HttpHeaders headers = new HttpHeaders();
+			headers.add("Content-Type", "application/json");
+			headers.add("Authorization", "Bearer " + PaymentService.accessToken);
+			HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(headers);
+			ResponseEntity<String> responseEntity = restTemplate.exchange("https://api.sandbox.paypal.com/v2/checkout/orders/" + id, HttpMethod.GET, httpEntity, String.class);
+			
+			if (responseEntity.getStatusCode() == HttpStatus.OK) {
+				return new JSONObject(responseEntity.getBody());			
+			} else {
+				return null;
+			}
+		} catch (HttpClientErrorException e) {
+			if (e.getMessage().equals("401 Unauthorized")) {
+				PaymentService.accessToken = getAccessToken();
+				
+				RestTemplate restTemplate = new RestTemplate();
+				HttpHeaders headers = new HttpHeaders();
+				headers.add("Content-Type", "application/json");
+				headers.add("Authorization", "Bearer " + PaymentService.accessToken);
+				HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(headers);
+				ResponseEntity<String> responseEntity = restTemplate.exchange("https://api.sandbox.paypal.com/v2/checkout/orders/" + id, HttpMethod.GET, httpEntity, String.class);
+				
+				if (responseEntity.getStatusCode() == HttpStatus.OK) {
+					return new JSONObject(responseEntity.getBody());
+				} else {
+					return null;
+				}
+			} else {
+				throw e;				
+			}
+		}
+	}
 	
 	public PostAddResponseModel postAdd(PostAddRequestModel requestModel) throws Exception {
 		PostAddResponseModel responseModel = new PostAddResponseModel(requestModel);
@@ -45,14 +116,26 @@ public class PaymentService {
 		Optional<TbUser> optTbUser = tbUserRepository.findOne(Example.of(exampleTbUser));
 		
 		if (optTbUser.isPresent()) {
-			TbPayment tbPayment = requestModel.getTbPayment();
-			tbPayment.setTbpCreateId(optTbUser.get().getTbuId());
-			tbPayment.setTbpCreateDate(new Date());
-			tbPayment.setTbpCreateIdc(optTbUser.get().getTbuCreateIdc());			
-			tbPaymentRepository.save(tbPayment);
-			
-			responseModel.setStatus("200");
-			responseModel.setMessage(env.getProperty("service.payment.postadd.ok"));
+			JSONObject paymentDetail = getPaymentDetail(requestModel.getTbPayment().getTbpOrderId());
+
+			if (paymentDetail != null) {
+				if (paymentDetail.getString("status").equals("COMPLETED")) {
+					TbPayment tbPayment = requestModel.getTbPayment();
+					tbPayment.setTbpCreateId(optTbUser.get().getTbuId());
+					tbPayment.setTbpCreateDate(new Date());
+					tbPayment.setTbpCreateIdc(optTbUser.get().getTbuCreateIdc());			
+					tbPaymentRepository.save(tbPayment);
+					
+					responseModel.setStatus("200");
+					responseModel.setMessage(env.getProperty("service.payment.postadd.ok"));
+				} else {
+					responseModel.setStatus("404");
+					responseModel.setMessage(env.getProperty("service.payment.postadd.notfound"));
+				}
+			} else {
+				responseModel.setStatus("404");
+				responseModel.setMessage(env.getProperty("service.payment.postadd.notfound"));
+			}
 		} else {
 			responseModel.setStatus("404");
 			responseModel.setMessage(env.getProperty("service.payment.postadd.notfound"));

@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -18,7 +19,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import com.api.rec.member.db.entity.TbCompany;
@@ -130,6 +138,11 @@ public class UserService {
 		
 		if (optTbUser.isPresent()) {
 			responseModel.setTbUser(optTbUser.get());
+
+			TbCompany exampleTbCompany = new TbCompany();
+			exampleTbCompany.setTbcId(optTbUser.get().getTbuCreateIdc());
+			Optional<TbCompany> optTbCompany = tbCompanyRepository.findOne(Example.of(exampleTbCompany));
+			responseModel.setTbCompany(optTbCompany.get());
 			
 			ViewUserMenu exampleViewUserMenu = new ViewUserMenu();
 			exampleViewUserMenu.setTbuId(optTbUser.get().getTbuId());
