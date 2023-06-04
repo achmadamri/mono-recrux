@@ -410,6 +410,8 @@ public class ResumeService {
 							tbResume = openAI(optTbUser.get(), tbResume, optTbCompany.get());
 							// Open AI End -----------------------------------------------------------------------------------------------
 		
+							// @TODO: add email notification after resume is uploaded
+
 							tbResumeRepository.save(tbResume);
 				
 							responseModel.setTbResume(tbResume);

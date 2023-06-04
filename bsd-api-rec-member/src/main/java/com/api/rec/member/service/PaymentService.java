@@ -125,6 +125,9 @@ public class PaymentService {
 					tbPayment.setTbpCreateDate(new Date());
 					tbPayment.setTbpCreateIdc(optTbUser.get().getTbuCreateIdc());			
 					tbPaymentRepository.save(tbPayment);
+
+					// @TODO: update tb_company after payment
+					// @TODO: sync tb_company
 					
 					responseModel.setStatus("200");
 					responseModel.setMessage(env.getProperty("service.payment.postadd.ok"));

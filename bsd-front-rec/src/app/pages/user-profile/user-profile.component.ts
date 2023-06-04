@@ -7,6 +7,7 @@ import { UserGetResponse } from 'app/services/user/usergetresponse';
 import { PostAddRequest } from 'app/services/payment/postaddrequest';
 import { PostAddResponse } from 'app/services/payment/postaddresponse';
 import { PaymentService } from 'app/services/payment/payment.service';
+import { IOnInitCallbackActions, IPayPalConfig } from 'ngx-paypal';
 
 @Component({
   selector: 'app-user-profile',
@@ -17,9 +18,15 @@ export class UserProfileComponent implements OnInit {
   util: Util = new Util();
   userGetRequest: UserGetRequest = new UserGetRequest();
   userGetResponse: UserGetResponse = new UserGetResponse();
-  public payPalConfig: any;
+  payPalConfig: IPayPalConfig;
+  payPalAction: IOnInitCallbackActions;
   postAddRequest: PostAddRequest = new PostAddRequest();
-  postAddResponse: PostAddResponse = new PostAddResponse();
+  postAddResponse: PostAddResponse = new PostAddResponse();  
+  subs: string[] = ['Enterprise Subscription'];  
+  subsAmount: string[] = ['1200'];
+  sub: string;
+  orderName: string;
+  orderAmount: string;
 
   constructor(
     private router: Router,
@@ -35,21 +42,21 @@ export class UserProfileComponent implements OnInit {
           purchase_units: [{
             amount: {
               currency_code: 'USD',
-              value: '10.00',
+              value: this.orderAmount,
               breakdown: {
                 item_total: {
                   currency_code: 'USD',
-                  value: '10.00'
+                  value: this.orderAmount
                 }
               }
             },
             items: [{
-              name: 'Enterprise Subscription',
+              name: this.orderName,
               quantity: '1',
               category: 'DIGITAL_GOODS',
               unit_amount: {
                 currency_code: 'USD',
-                value: '10.00',
+                value: this.orderAmount,
               },
             }]
           }],
@@ -87,17 +94,37 @@ export class UserProfileComponent implements OnInit {
           );
         });
       },
+      onInit: (data, actions) => {
+        this.payPalAction = actions;
+        this.payPalAction.disable();
+      },
+      onClick: (data, actions) => {
+        if (this.sub == null) {
+          this.util.showNotification('danger', 'top', 'center', 'Pick subscription');        
+        } else {
+          for (var index in this.subs) {
+            if (this.sub == this.subs[index]) {
+              this.orderName = this.subs[index];
+              this.orderAmount = this.subsAmount[index];
+            }
+          }
+        }
+      },
       onError: (err: any) => {
         // Implementation to handle payment errors
         console.error('Error during payment', err);
-        this.util.showNotification('danger', 'bottom', 'center', 'Error during payment');
+        this.util.showNotification('danger', 'top', 'center', 'Error during payment');
       },
       onCancel: (data: any, actions: any) => {
         // Implementation to handle payment cancellation
         console.log('Payment cancelled', data);
-        this.util.showNotification('danger', 'bottom', 'center', 'Payment cancelled');
+        this.util.showNotification('danger', 'top', 'center', 'Payment cancelled');
       }
     };
+  }
+
+  subEvent(e) {
+    this.payPalAction.enable();
   }
 
   ngOnInit() {

@@ -75,11 +75,11 @@
             <form>
               <div class="row">
                 <div class="col-md-8">
-                  <mat-radio-group aria-label="Status" name="tbpType" name="tbrStatus">
-                    <mat-radio-button value="active">Active</mat-radio-button>
-                    &nbsp;
-                    <mat-radio-button value="not active">Not Active</mat-radio-button>
-                  </mat-radio-group>
+                  <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="sub" (change)="subEvent($event)">
+                  <mat-radio-button class="example-radio-button" *ngFor="let sub of subs" [value]="sub">
+                    {{sub}}
+                  </mat-radio-button>
+                </mat-radio-group>
                 </div>
               </div>
               <br>

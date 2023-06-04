@@ -178,4 +178,7 @@ export class UserService {
 
     return this.httpClient.post<UserConfirmationPaymentResponse>(`${this.apiUrl}/postconfirmationpayment`, userConfirmationPaymentRequest, { headers });
   }
+
+  // @TODO : add user module
+  // @TODO : add dashboard module
 }
