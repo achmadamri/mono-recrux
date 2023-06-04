@@ -466,7 +466,6 @@ public class ResumeService {
 			for (TbResumeSkill tbResumeSkill : lstTbResumeSkill) {
 				prompt += "\\n- " + tbResumeSkill.getTbrsName();
 			}
-			prompt += "\\nThese skills make the candidate a suitable fit for the position.";
 		} else {
 			prompt += "\\nI have a candidate with no hard skills.";
 		}
@@ -479,7 +478,6 @@ public class ResumeService {
 			for (TbResumeWorkExperience tbResumeWorkExperience : lstTbResumeWorkExperience) {
 				prompt += "\\n- " + tbResumeWorkExperience.getTbrweJobTitle();
 			}
-			prompt += "\\nThese experiences make the candidate a suitable fit for the position.";
 		} else {
 			prompt += "\\nI have a candidate with no prior work experience.";
 			prompt += "\\nHowever, their skills make them a potential candidate for the position.";
@@ -488,6 +486,7 @@ public class ResumeService {
 		prompt += "\\nPlease conduct an assessment for the candidate applying for the job with the title: " + tbJob.getTbjName() + ".";
 		prompt += "\\nProvide a score and summary for the candidate using the following format: score: value|summary.";
 		prompt += "\\nThe value should be an integer between 0 and 100, representing the candidate's suitability for the job.";
+		prompt += "\\nFocus on providing a professional HR insight and evaluation without mentioning the candidate's specific skills.";
 
 		final String uri = "https://api.openai.com/v1/completions";
 		RestTemplate restTemplate = new RestTemplate();
