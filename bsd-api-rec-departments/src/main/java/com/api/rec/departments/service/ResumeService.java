@@ -439,6 +439,8 @@ public class ResumeService {
 	
 	private TbResume openAI(TbUser tbUser, TbResume tbResume, TbCompany tbCompany) throws JsonMappingException, JsonProcessingException {
 		TbJob tbJob = tbJobRepository.findById(tbResume.getTbjId()).get();
+
+		// Get feedback start ---------------------------------------------------------------------------------------------
 		String prompt = "";
 
 		prompt += "\\nYou are acting as the recruiter.";
@@ -549,6 +551,92 @@ public class ResumeService {
 			RestTemplate restTemplatePostSyncCompany = new RestTemplate();
 			restTemplatePostSyncCompany.postForEntity(env.getProperty("services.bsd.api.rec.member") + "user/postsynccompany", requestPostSyncCompany, String.class);
 		}
+
+		// Get feedback end -----------------------------------------------------------------------------------------------
+
+		// Get note start ------------------------------------------------------------------------------------------------
+		prompt = "";
+
+		prompt += "\\nYou are acting as the recruiter.";
+
+		exampleTbResumeSkill = new TbResumeSkill();
+		exampleTbResumeSkill.setTbrId(tbResume.getTbrId());
+		exampleTbResumeSkill.setTbrsType(TbResumeSkillRepository.SoftSkill);
+		lstTbResumeSkill = tbResumeSkillRepository.findAll(Example.of(exampleTbResumeSkill));
+		if (lstTbResumeSkill.size() > 0) {
+			prompt += "\\nI have a candidate with relevant soft skills:";
+			for (TbResumeSkill tbResumeSkill : lstTbResumeSkill) {
+				prompt += "\\n- " + tbResumeSkill.getTbrsName();
+			}
+			prompt += "\\nThese skills make the candidate a suitable fit for the position.";
+		} else {
+			prompt += "\\nI have a candidate with no soft skills.";
+		}
+
+		exampleTbResumeSkill = new TbResumeSkill();
+		exampleTbResumeSkill.setTbrId(tbResume.getTbrId());
+		exampleTbResumeSkill.setTbrsType(TbResumeSkillRepository.HardSkill);
+		lstTbResumeSkill = tbResumeSkillRepository.findAll(Example.of(exampleTbResumeSkill));
+		if (lstTbResumeSkill.size() > 0) {
+			prompt += "\\nI have a candidate with relevant hard skills:";
+			for (TbResumeSkill tbResumeSkill : lstTbResumeSkill) {
+				prompt += "\\n- " + tbResumeSkill.getTbrsName();
+			}
+		} else {
+			prompt += "\\nI have a candidate with no hard skills.";
+		}
+
+		exampleTbResumeWorkExperience = new TbResumeWorkExperience();
+		exampleTbResumeWorkExperience.setTbrId(tbResume.getTbrId());
+		lstTbResumeWorkExperience = tbResumeWorkExperienceRepository.findAll(Example.of(exampleTbResumeWorkExperience));
+		if (lstTbResumeWorkExperience.size() > 0) {
+			prompt += "\\nI have a candidate with relevant work experience:";
+			for (TbResumeWorkExperience tbResumeWorkExperience : lstTbResumeWorkExperience) {
+				prompt += "\\n- " + tbResumeWorkExperience.getTbrweJobTitle();
+			}
+		} else {
+			prompt += "\\nI have a candidate with no prior work experience.";
+			prompt += "\\nHowever, their skills make them a potential candidate for the position.";
+		}
+
+		prompt += "\\nPlease conduct an assessment for the candidate applying for the job with the title: " + tbJob.getTbjName() + ".";
+		prompt += "\\nAdditionally, please provide a list of questions for the HR Manager to use during the interview session with the candidate.";
+
+		restTemplate = new RestTemplate();
+
+		headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.setBearerAuth("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");
+
+		requestJson = "{\"model\": \"text-davinci-003\", \"prompt\": \"" + prompt + "\", \"max_tokens\": 1024, \"temperature\": 0}";
+
+		log.info("------------------------------------------------------------------");		
+		log.info(requestJson);
+		log.info("------------------------------------------------------------------");
+
+		entity = new HttpEntity<String>(requestJson, headers);
+
+		response = restTemplate.exchange(uri, HttpMethod.POST, entity, String.class);
+
+		log.info("------------------------------------------------------------------");		
+		log.info(response.getBody());
+		log.info("------------------------------------------------------------------");
+
+		mapper = new ObjectMapper();
+		rootNodeGpt = mapper.readTree(response.getBody());
+		choicesNode = rootNodeGpt.path("choices");
+		choicesIterator = choicesNode.elements();
+		note = "";
+		while (choicesIterator.hasNext()) {
+			JsonNode choiceNode = choicesIterator.next();
+			if (choiceNode.get("text") != null) {
+				note = choiceNode.get("text").asText().replace("\n", "<br/>");
+			}
+		}
+
+		tbResume.setTbrNote(note);
+
+		// Get note end --------------------------------------------------------------------------------------------------
 		
 		return tbResume;
 	}
