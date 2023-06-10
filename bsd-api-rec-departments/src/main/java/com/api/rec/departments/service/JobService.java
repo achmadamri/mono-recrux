@@ -94,6 +94,11 @@ public class JobService {
 						tbJob.setTbjCreateDate(new Date());
 						tbJob.setTbjStatus(TbJobRepository.Active);
 						tbJob.setTbjUuid(new Uid().generateString(5));
+
+						if (tbJob.getTbjResumeStatus().contains("Onboard") == false) {
+							tbJob.setTbjResumeStatus(tbJob.getTbjResumeStatus() + ", Onboard");
+						}
+
 						tbJob = tbJobRepository.save(tbJob);
 		
 						responseModel.setTbJob(tbJob);
@@ -128,6 +133,10 @@ public class JobService {
 						}
 					}
 					
+					if (tbJob.getTbjResumeStatus().contains("Onboard") == false) {
+						tbJob.setTbjResumeStatus(tbJob.getTbjResumeStatus() + ", Onboard");
+					}
+
 					tbJob = tbJobRepository.save(tbJob);
 	
 					responseModel.setTbJob(tbJob);

@@ -78,9 +78,7 @@ export class UserProfileComponent implements OnInit {
       },
       onApprove: (data: any, actions: any) => {
         // Implementation to handle the payment approval
-        console.log('Payment approved', data);
         actions.order.capture().then((details: any) => {
-          console.log('Payment completed', details);
 
           // Implement further logic after payment completion
           this.postAddRequest.tbPayment.tbpOrderId = data.orderID;
@@ -145,7 +143,6 @@ export class UserProfileComponent implements OnInit {
       },
       onCancel: (data: any, actions: any) => {
         // Implementation to handle payment cancellation
-        console.log('Payment cancelled', data);
         this.util.showNotification('danger', 'top', 'center', 'Payment cancelled');
       }
     };

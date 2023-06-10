@@ -78,11 +78,8 @@ export class JobsKanbanComponent implements OnInit {
 
     for (let i = 0; i < this.kanbanList.length; i++) {
       if (this.kanbanList[i].list === event.container.data) {
-        console.log(this.kanbanList[i].title);
-        console.log(this.kanbanList[i].list);
 
         for (let ii = 0; ii < this.kanbanList[i].list.length; ii++) {
-          console.log(this.kanbanList[i].list[ii]);
 
           this.postAddResumeRequest.tbResume.tbrUuid = this.kanbanList[i].list[ii].tbrUuid;
           this.postAddResumeRequest.tbResume.tbrResumeStatus = this.kanbanList[i].title;

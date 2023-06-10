@@ -95,7 +95,7 @@ export class JobsDetailComponent implements OnInit {
         this.postAddJobRequest.tbJob.tbjName = null;
         this.postAddJobRequest.tbJob.tbjDescription = null;
         this.postAddJobRequest.tbJob.tbjStatus = null;
-        this.postAddJobRequest.tbJob.tbjResumeStatus = 'Scheduling Interview, HR Interview, Hiring Manager Interview, Technical Test, Offer';
+        this.postAddJobRequest.tbJob.tbjResumeStatus = 'Scheduling Interview, HR Interview, Hiring Manager Interview, Technical Test, Offer, Onboard';
 
         this.getResumeJobListRequest.viewResumeJob.tbjId = null;
 
@@ -152,6 +152,7 @@ export class JobsDetailComponent implements OnInit {
                 this.postAddJobRequest.tbJob.tbjName = this.getJobResponse.tbJob.tbjName;
                 this.postAddJobRequest.tbJob.tbjDescription = this.getJobResponse.tbJob.tbjDescription;
                 this.postAddJobRequest.tbJob.tbjStatus = this.getJobResponse.tbJob.tbjStatus;
+                this.postAddJobRequest.tbJob.tbjResumeStatus = this.getJobResponse.tbJob.tbjResumeStatus;
 
                 this.getResumeJobListRequest.viewResumeJob.tbjId = this.postAddJobRequest.tbJob.tbjId;
 

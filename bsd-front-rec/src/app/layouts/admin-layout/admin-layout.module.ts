@@ -39,6 +39,7 @@ import { CKEditorModule } from 'ckeditor4-angular';
 import { JobsKanbanComponent } from 'app/pages/jobs-kanban/jobs-kanban.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgxPayPalModule } from 'ngx-paypal';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   imports: [
@@ -64,6 +65,7 @@ import { NgxPayPalModule } from 'ngx-paypal';
     CKEditorModule,
     DragDropModule,
     NgxPayPalModule,
+    MatSlideToggleModule,
   ],
   declarations: [
     DashboardComponent,
