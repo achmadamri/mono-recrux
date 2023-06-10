@@ -143,7 +143,6 @@ public class PaymentService {
 					optTbCompany.get().setTbcToken(optTbCompany.get().getTbcToken() + token);
 					tbCompanyRepository.save(optTbCompany.get());
 
-					// @TODO: sync tb_company
 					PostSyncCompanyRequestModel postSyncCompanyRequestModel = new PostSyncCompanyRequestModel();
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS000");
 					postSyncCompanyRequestModel.setRequestDate(sdf.format(new Date()));
