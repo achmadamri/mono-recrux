@@ -65,7 +65,6 @@ import com.api.rec.departments.model.resume.PostAddResumeResponseModel;
 import com.api.rec.departments.model.resume.PostUploadResumeRequestModel;
 import com.api.rec.departments.model.resume.PostUploadResumeResponseModel;
 import com.api.rec.departments.model.user.PostSyncCompanyRequestModel;
-import com.api.rec.departments.model.user.PostSyncCompanyResponseModel;
 import com.api.rec.departments.util.TokenUtil;
 import com.api.rec.departments.util.Uid;
 import com.azure.core.credential.TokenCredential;

@@ -12,12 +12,16 @@ import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.api.rec.departments.db.entity.TbCompany;
 import com.api.rec.departments.db.entity.TbUser;
+import com.api.rec.departments.db.repository.TbCompanyRepository;
 import com.api.rec.departments.db.repository.TbUserRepository;
 import com.api.rec.departments.model.auth.PostAddRequestModel;
 import com.api.rec.departments.model.auth.PutUpdateRequestModel;
 import com.api.rec.departments.model.user.PostConfirmationRequestModel;
 import com.api.rec.departments.model.user.PostConfirmationResponseModel;
+import com.api.rec.departments.model.user.PostSyncCompanyRequestModel;
+import com.api.rec.departments.model.user.PostSyncCompanyResponseModel;
 import com.api.rec.departments.model.user.PostUserAddRequestModel;
 import com.api.rec.departments.model.user.PostUserAddResponseModel;
 import com.api.rec.departments.model.user.PostUserChangePasswordRequestModel;
@@ -42,6 +46,31 @@ public class UserService {
 	
 	@Autowired
 	private TbUserRepository tbUserRepository;
+	
+	@Autowired
+	private TbCompanyRepository tbCompanyRepository;
+
+	public PostSyncCompanyResponseModel postSyncCompany(PostSyncCompanyRequestModel requestModel) throws Exception {
+		PostSyncCompanyResponseModel responseModel = new PostSyncCompanyResponseModel(requestModel);
+		
+		TbUser exampleTbUser = new TbUser();
+		exampleTbUser.setTbuEmail(requestModel.getEmail());
+		exampleTbUser.setTbuStatus(TbUserRepository.Active);
+		Optional<TbUser> optTbUser = tbUserRepository.findOne(Example.of(exampleTbUser));
+		
+		optTbUser.ifPresentOrElse(tbUser -> {
+			TbCompany tbCompany = requestModel.getTbCompany();
+			tbCompanyRepository.save(tbCompany);
+			
+			responseModel.setStatus("200");
+			responseModel.setMessage("Company ok");
+		}, () -> {
+			responseModel.setStatus("404");
+			responseModel.setMessage("Not found");
+		});
+		
+		return responseModel;
+	}
 	
 	public PostUserAddResponseModel postUserAdd(PostUserAddRequestModel requestModel) throws Exception {
 		PostUserAddResponseModel responseModel = new PostUserAddResponseModel(requestModel);

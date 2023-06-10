@@ -1,5 +1,6 @@
 package com.api.rec.member.service;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
 
@@ -21,13 +22,17 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import com.api.rec.member.db.entity.TbCompany;
 import com.api.rec.member.db.entity.TbPayment;
 import com.api.rec.member.db.entity.TbUser;
+import com.api.rec.member.db.repository.TbCompanyRepository;
 import com.api.rec.member.db.repository.TbPaymentRepository;
 import com.api.rec.member.db.repository.TbUserRepository;
 import com.api.rec.member.model.payment.PostAddRequestModel;
 import com.api.rec.member.model.payment.PostAddResponseModel;
+import com.api.rec.member.model.user.PostSyncCompanyRequestModel;
 import com.api.rec.member.util.TokenUtil;
+import com.api.rec.member.util.Uid;
 
 @Service
 public class PaymentService {
@@ -44,6 +49,9 @@ public class PaymentService {
 	
 	@Autowired
 	private TbPaymentRepository tbPaymentRepository;
+	
+	@Autowired
+	private TbCompanyRepository tbCompanyRepository;
 
 	private static String accessToken = "";
 
@@ -126,8 +134,26 @@ public class PaymentService {
 					tbPayment.setTbpCreateIdc(optTbUser.get().getTbuCreateIdc());			
 					tbPaymentRepository.save(tbPayment);
 
-					// @TODO: update tb_company after payment
+					int parse = 3000;
+					int token = 1500000;
+					TbCompany exampleTbCompany = new TbCompany();
+					exampleTbCompany.setTbcId(optTbUser.get().getTbuCreateIdc());
+					Optional<TbCompany> optTbCompany = tbCompanyRepository.findOne(Example.of(exampleTbCompany));
+					optTbCompany.get().setTbcParse(optTbCompany.get().getTbcParse() + parse);
+					optTbCompany.get().setTbcToken(optTbCompany.get().getTbcToken() + token);
+					tbCompanyRepository.save(optTbCompany.get());
+
 					// @TODO: sync tb_company
+					PostSyncCompanyRequestModel postSyncCompanyRequestModel = new PostSyncCompanyRequestModel();
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS000");
+					postSyncCompanyRequestModel.setRequestDate(sdf.format(new Date()));
+					postSyncCompanyRequestModel.setRequestId(new Uid().generateString(10));
+					postSyncCompanyRequestModel.setEmail(optTbUser.get().getTbuEmail());
+					postSyncCompanyRequestModel.setTbCompany(optTbCompany.get());
+					
+					HttpEntity<PostSyncCompanyRequestModel> request = new HttpEntity<>(postSyncCompanyRequestModel);
+					RestTemplate restTemplate = new RestTemplate();
+					restTemplate.postForEntity(env.getProperty("services.bsd.api.rec.departments") + "user/postsynccompany", request, String.class);
 					
 					responseModel.setStatus("200");
 					responseModel.setMessage(env.getProperty("service.payment.postadd.ok"));

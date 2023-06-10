@@ -8,6 +8,8 @@ import { PostAddRequest } from 'app/services/payment/postaddrequest';
 import { PostAddResponse } from 'app/services/payment/postaddresponse';
 import { PaymentService } from 'app/services/payment/payment.service';
 import { IOnInitCallbackActions, IPayPalConfig } from 'ngx-paypal';
+import { TbCompany } from 'app/services/user/tbcompany';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-user-profile',
@@ -27,12 +29,24 @@ export class UserProfileComponent implements OnInit {
   sub: string;
   orderName: string;
   orderAmount: string;
+  disablePaymentRadio: boolean = false;
 
   constructor(
     private router: Router,
     private userService: UserService,
-    private paymentService: PaymentService
-  ) {
+    private paymentService: PaymentService,
+    private cdr: ChangeDetectorRef
+  ) { }
+
+  subEvent(e) {
+    this.payPalAction.enable();
+  }
+
+  ngOnInit() {
+    this.userGetResponse.tbCompany = new TbCompany();
+
+    this.disablePaymentRadio = true;
+
     this.payPalConfig = {
       clientId: 'Ae3-Xtq7YMEO1QEoXJghga4nQOWL50Odcq9sH69CkJkI0jLlndgTucTGorGdQgJj8P3hyfBEHCSo7Y9g',
       createOrderOnClient: (data: any) => {
@@ -81,26 +95,40 @@ export class UserProfileComponent implements OnInit {
           this.postAddRequest.tbPayment.tbpUpdateTime = details.update_time;
 
           this.paymentService.postAdd(this.postAddRequest)
-          .subscribe(
-            successResponse => {
-              this.postAddResponse = successResponse;
+            .subscribe(
+              successResponse => {
+                this.postAddResponse = successResponse;
 
-              this.util.showNotification('info', 'top', 'center', 'Payment completed');
-            },
-            errorResponse => {
-              this.postAddResponse = new PostAddResponse();
-              this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
-            }
-          );
+                this.userGetRequest.tbuId = '';
+                this.userService.getUser(this.userGetRequest)
+                .subscribe(
+                  successResponse => {
+                    this.userGetResponse = successResponse;
+
+                    this.cdr.detectChanges();
+
+                    this.util.showNotification('info', 'top', 'center', 'Payment completed. Please refresh this page for the changes to take effect.');
+                  },
+                  errorResponse => {
+                    this.util.showNotification('danger', 'top', 'center', errorResponse.error.error + '<br>' + errorResponse.error.message);
+                  }
+                );
+              },
+              errorResponse => {
+                this.postAddResponse = new PostAddResponse();
+                this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
+              }
+            );
         });
       },
       onInit: (data, actions) => {
         this.payPalAction = actions;
         this.payPalAction.disable();
+        this.disablePaymentRadio = false;
       },
       onClick: (data, actions) => {
         if (this.sub == null) {
-          this.util.showNotification('danger', 'top', 'center', 'Pick subscription');        
+          this.util.showNotification('danger', 'top', 'center', 'Pick subscription');
         } else {
           for (var index in this.subs) {
             if (this.sub == this.subs[index]) {
@@ -121,13 +149,7 @@ export class UserProfileComponent implements OnInit {
         this.util.showNotification('danger', 'top', 'center', 'Payment cancelled');
       }
     };
-  }
 
-  subEvent(e) {
-    this.payPalAction.enable();
-  }
-
-  ngOnInit() {
     this.userGetRequest.tbuId = '';
     this.userService.getUser(this.userGetRequest)
     .subscribe(
@@ -139,5 +161,4 @@ export class UserProfileComponent implements OnInit {
       }
     );
   }
-
 }

@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.api.rec.departments.model.user.PostConfirmationRequestModel;
 import com.api.rec.departments.model.user.PostConfirmationResponseModel;
+import com.api.rec.departments.model.user.PostSyncCompanyRequestModel;
+import com.api.rec.departments.model.user.PostSyncCompanyResponseModel;
 import com.api.rec.departments.model.user.PostUserAddRequestModel;
 import com.api.rec.departments.model.user.PostUserAddResponseModel;
 import com.api.rec.departments.model.user.PostUserChangePasswordRequestModel;
@@ -41,6 +43,20 @@ public class UserController {
 	
 	@Autowired
     private UserService userService;
+	
+	@PostMapping("/postsynccompany")
+	@Transactional
+	public HttpEntity<?> postSyncCompany(@Valid @RequestBody PostSyncCompanyRequestModel requestModel) throws Exception {
+		String fid = new Uid().generateString(20);
+		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));
+		
+		PostSyncCompanyResponseModel responseModel = userService.postSyncCompany(requestModel);
+		
+		ResponseEntity<?> responseEntity = new ResponseEntity<>(responseModel, responseModel.getStatus().equals("200") ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+		log.info("[fid:" + fid + "] responseEntity : " + objectMapper.writeValueAsString(responseEntity));
+
+		return responseEntity;
+	}
 	
 	@PostMapping("/postuseradd")
 	@Transactional
