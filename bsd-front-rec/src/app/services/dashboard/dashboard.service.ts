@@ -10,9 +10,9 @@ import { GetDashboardResponse } from './getdashboardresponse';
 export class DashboardService {
   util: Util = new Util();
   // local
-  apiUrl = isDevMode() ? 'http://localhost:2082/dashboard' : 'https://amplifio.tech/2082/dashboard';
+  apiUrl = isDevMode() ? 'http://localhost:2082/dashboard' : 'https://app.amplifio.tech/2082/dashboard';
   // codespace
-  // apiUrl = isDevMode() ? '/apidepartments/dashboard' : 'https://amplifio.tech/2082/dashboard';
+  // apiUrl = isDevMode() ? '/apidepartments/dashboard' : 'https://app.amplifio.tech/2082/dashboard';
 
   constructor(private httpClient: HttpClient) { }
 
