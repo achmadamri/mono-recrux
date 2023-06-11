@@ -1343,7 +1343,7 @@ INSERT INTO `tb_user` VALUES
 (12,'2022-02-14 11:19:22',1,NULL,'2022-03-29 09:57:20',1,'pic12@mail.com','202cb962ac59075b964b07152d234b70','pic','twelve',NULL,'active',NULL,NULL,'uzf4niy96076mn4crvfsalm9r06uoey2spjj',NULL,NULL),
 (13,'2022-02-16 07:42:39',1,NULL,'2022-03-29 09:57:29',1,'pic13@mail.com','202cb962ac59075b964b07152d234b70','pic','thirteen',NULL,'active',NULL,NULL,'oka59r3uxjbqi7pfwpv2kbiyf1tuxedqvam6',NULL,NULL),
 (14,'2022-02-24 03:08:59',1,NULL,'2022-04-18 06:25:36',14,'pic14@mail.com','202cb962ac59075b964b07152d234b70','pic','fourteen',NULL,'active',NULL,NULL,'ntw5zeue28u72o3bkbdukg0hjahj25bqcljx',NULL,NULL),
-(28,'2022-12-13 15:22:59',NULL,1,'2023-06-10 09:12:57',28,'achmad.amri@gmail.com','202cb962ac59075b964b07152d234b70','Achmad','Amri','081380782318','active','71imewz8stbcafcx7s2rrukdyzx6plwbdze9gparu9tlrz1wqlw9yhcuq4jp13xprvwa2o4jkqblhxnoz87c7oh9k631uerecms1',NULL,'B8FWHEZZH230EG78CCA7TMNOPOZXUIQ3DV38',NULL,NULL);
+(28,'2022-12-13 15:22:59',NULL,1,'2023-06-11 13:39:26',28,'test1@mail.com','202cb962ac59075b964b07152d234b70','Achmad','Amri','081380782318','active','71imewz8stbcafcx7s2rrukdyzx6plwbdze9gparu9tlrz1wqlw9yhcuq4jp13xprvwa2o4jkqblhxnoz87c7oh9k631uerecms1',NULL,'TM5A0MD9R3RWQ4IO98T85E5GQGV2AYS0D4P1',NULL,NULL);
 /*!40000 ALTER TABLE `tb_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1687,4 +1687,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-06-11 16:53:04
+-- Dump completed on 2023-06-11 20:40:52
