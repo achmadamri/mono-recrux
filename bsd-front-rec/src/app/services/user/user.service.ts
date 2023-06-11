@@ -29,9 +29,9 @@ import { UserConfirmationPaymentResponse } from './userconfirmationpaymentrespon
 })
 export class UserService {
   util: Util = new Util();  
-  apiUrl = isDevMode() ? 'http://localhost:2081/user' : 'https://domain.com/2081/user';
+  apiUrl = isDevMode() ? 'http://localhost:2081/user' : 'https://amplifio.tech/2081/user';
   // codespace
-  // apiUrl = isDevMode() ? '/apimember/user' : 'https://domain.com/2081/user';
+  // apiUrl = isDevMode() ? '/apimember/user' : 'https://amplifio.tech/2081/user';
 
   constructor(private httpClient: HttpClient) { }
 

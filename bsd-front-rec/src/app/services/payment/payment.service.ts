@@ -10,9 +10,9 @@ import { PostAddResponse } from './postaddresponse';
 })
 export class PaymentService {
   util: Util = new Util();  
-  apiUrl = isDevMode() ? 'http://localhost:2081/payment' : 'https://domain.com/2081/payment';
+  apiUrl = isDevMode() ? 'http://localhost:2081/payment' : 'https://amplifio.tech/2081/payment';
   // codespace
-  // apiUrl = isDevMode() ? '/apimember/payment' : 'https://domain.com/2081/payment';
+  // apiUrl = isDevMode() ? '/apimember/payment' : 'https://amplifio.tech/2081/payment';
 
   constructor(private httpClient: HttpClient) { }
 
