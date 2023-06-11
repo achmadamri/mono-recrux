@@ -13,13 +13,13 @@ import javax.persistence.TemporalType;
 
 
 /**
- * The persistent class for the view_dash_job_resume database table.
+ * The persistent class for the view_dash_job_fill database table.
  * 
  */
 @Entity
-@Table(name="view_dash_job_resume")
-@NamedQuery(name="ViewDashJobResume.findAll", query="SELECT t FROM ViewDashJobResume t")
-public class ViewDashJobResume implements Serializable {
+@Table(name="view_dash_job_fill")
+@NamedQuery(name="ViewDashJobFill.findAll", query="SELECT t FROM ViewDashJobFill t")
+public class ViewDashJobFill implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

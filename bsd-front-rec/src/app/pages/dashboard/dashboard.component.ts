@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { DashboardService } from 'app/services/dashboard/dashboard.service';
+import { GetDashboardRequest } from 'app/services/dashboard/getdashboardrequest';
+import { GetDashboardResponse } from 'app/services/dashboard/getdashboardresponse';
+import { Util } from 'app/util';
 import * as Chartist from 'chartist';
 
 @Component({
@@ -6,8 +10,14 @@ import * as Chartist from 'chartist';
   templateUrl: './dashboard.component.html'
 })
 export class DashboardComponent implements OnInit {
+  util: Util = new Util();
+  getDashboardRequest: GetDashboardRequest = new GetDashboardRequest();
+  getDashboardResponse: GetDashboardResponse = new GetDashboardResponse();
 
-  constructor() { }
+  constructor(
+    private dashboardService: DashboardService
+  ) { }
+
   startAnimationForLineChart(chart) {
     let seq: any, delays: any, durations: any;
     seq = 0;
@@ -41,6 +51,7 @@ export class DashboardComponent implements OnInit {
 
     seq = 0;
   };
+
   startAnimationForBarChart(chart) {
     let seq2: any, delays2: any, durations2: any;
 
@@ -64,51 +75,70 @@ export class DashboardComponent implements OnInit {
 
     seq2 = 0;
   };
+
   ngOnInit() {
-    /* ----------==========     Daily Sales Chart initialization For Documentation    ==========---------- */
-    const dataJobFillChart: any = {
-      labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
-      series: [
-        [12, 17, 7, 17, 23, 18, 38]
-      ]
-    };
+    this.dashboardService.getDashboard()
+      .subscribe(
+        successResponse => {
+          this.getDashboardResponse = successResponse;
 
-    const optionsJobFillChart: any = {
-      lineSmooth: Chartist.Interpolation.cardinal({
-        tension: 0
-      }),
-      low: 0,
-      high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-      chartPadding: { top: 0, right: 0, bottom: 0, left: 0 },
-      height: '300px',
-    }
+          /* ----------==========     Daily Sales Chart initialization For Documentation    ==========---------- */
+          const jobFillLabels = this.getDashboardResponse.lstViewDashJobFill.map(x => x.tbjName);
+          const jobFillSeries = this.getDashboardResponse.lstViewDashJobFill.map(x => x.tbrCreateDateCount);
 
-    var jobFillChart = new Chartist.Line('#jobFillChart', dataJobFillChart, optionsJobFillChart);
+          var dataJobFillChart = {
+            labels: jobFillLabels,
+            series: [
+              jobFillSeries
+            ]
+          };
+          var optionsJobFillChart = {
+            axisX: {
+              showGrid: false
+            },
+            chartPadding: { top: 0, right: 5, bottom: 0, left: 0 },
+            height: '300px',
+          };
+          var responsiveOptions: any[] = [
+            ['screen and (max-width: 640px)', {
+              seriesBarDistance: 5,
+              axisX: {
+                labelInterpolationFnc: function (value) {
+                  return value[0];
+                }
+              }
+            }]
+          ];
+          var jobFillChart = new Chartist.Bar('#jobFillChart', dataJobFillChart, optionsJobFillChart, responsiveOptions);
 
-    this.startAnimationForLineChart(jobFillChart);
+          //start animation for the Emails Subscription Chart
+          this.startAnimationForBarChart(jobFillChart);
 
-    /* ----------==========     Completed Tasks Chart initialization    ==========---------- */
-    const dataJobCompletionChart: any = {
-      labels: ['12p', '3p', '6p', '9p', '12p', '3a', '6a', '9a'],
-      series: [
-        [230, 750, 450, 300, 280, 240, 200, 190]
-      ]
-    };
+          /* ----------==========     Completed Tasks Chart initialization    ==========---------- */
+          const completionLabels = this.getDashboardResponse.lstViewDashJobCompletion.map(x => x.status);
+          const completionSeries = this.getDashboardResponse.lstViewDashJobCompletion.map(x => x.countData);
 
-    const optionsJobCompletionChart: any = {
-      lineSmooth: Chartist.Interpolation.cardinal({
-        tension: 0
-      }),
-      low: 0,
-      high: 1000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-      chartPadding: { top: 0, right: 0, bottom: 0, left: 0 },
-      height: '300px',
-    }
+          const dataJobCompletionChart: any = {
+            labels: completionLabels,
+            series: completionSeries
+          };
 
-    var jobCompletionChart = new Chartist.Line('#jobCompletionChart', dataJobCompletionChart, optionsJobCompletionChart);
+          const optionsJobCompletionChart: any = {
+            labelInterpolationFnc: function (value) {
+              return value;
+            },
+            height: '285px'
+          };
 
-    // start animation for the Completed Tasks Chart - Line Chart
-    this.startAnimationForLineChart(jobCompletionChart);
+          var jobCompletionChart = new Chartist.Pie('#jobCompletionChart', dataJobCompletionChart, optionsJobCompletionChart);
+
+          // start animation for the Completed Tasks Chart - Pie Chart
+          this.startAnimationForBarChart(jobCompletionChart);
+        },
+        errorResponse => {
+          this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
+        }
+      );
   }
 
 }

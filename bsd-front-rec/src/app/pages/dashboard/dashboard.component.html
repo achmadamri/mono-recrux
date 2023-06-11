@@ -8,7 +8,7 @@
                             <i class="material-icons">content_copy</i>
                         </div>
                         <p class="card-category">Parse Limit</p>
-                        <h3 class="card-title">49/50</h3>
+                        <h3 class="card-title">{{getDashboardResponse.parseLimit}}</h3>
                     </div>
                 </div>
             </div>
@@ -19,7 +19,7 @@
                             <i class="material-icons">store</i>
                         </div>
                         <p class="card-category">Token</p>
-                        <h3 class="card-title">837/2048</h3>
+                        <h3 class="card-title">{{getDashboardResponse.token}}</h3>
                     </div>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                             <i class="material-icons">info_outline</i>
                         </div>
                         <p class="card-category">Total Job</p>
-                        <h3 class="card-title">75</h3>
+                        <h3 class="card-title">{{getDashboardResponse.totalJob}}</h3>
                     </div>
                 </div>
             </div>
@@ -41,7 +41,7 @@
                             <i class="fa fa-twitter"></i>
                         </div>
                         <p class="card-category">Total Resume</p>
-                        <h3 class="card-title">+245</h3>
+                        <h3 class="card-title">{{getDashboardResponse.totalResume}}</h3>
                     </div>
                 </div>
             </div>
@@ -59,7 +59,7 @@
             </div>
             <div class="col-md-6">
                 <div class="card card-chart">
-                    <div class="card-header card-header-danger">
+                    <div class="card-header">
                         <div class="ct-chart" id="jobCompletionChart"></div>
                     </div>
                     <div class="card-body">

@@ -3,7 +3,8 @@ package com.api.rec.departments.model.dashboard;
 import java.util.List;
 
 import com.api.rec.departments.db.entity.TbUser;
-import com.api.rec.departments.db.entity.ViewDashJobResume;
+import com.api.rec.departments.db.entity.ViewDashJobCompletion;
+import com.api.rec.departments.db.entity.ViewDashJobFill;
 import com.api.rec.departments.model.ResponseModel;
 
 public class GetDashboardResponseModel extends ResponseModel {
@@ -14,15 +15,17 @@ public class GetDashboardResponseModel extends ResponseModel {
 
 	private TbUser tbUser;
 
-	private String parseLimit;
+	private Integer parseLimit;
 
-	private String token;
+	private Integer token;
 
-	private String totalJob;
+	private Long totalJob;
 
-	private String totalResume;
+	private Long totalResume;
 
-	private List<ViewDashJobResume> lstViewDashJobResume;
+	private List<ViewDashJobFill> lstViewDashJobFill;
+
+	private List<ViewDashJobCompletion> lstViewDashJobCompletion;
 
 	public TbUser getTbUser() {
 		return tbUser;
@@ -32,43 +35,51 @@ public class GetDashboardResponseModel extends ResponseModel {
 		this.tbUser = tbUser;
 	}
 
-	public String getParseLimit() {
+	public Integer getParseLimit() {
 		return parseLimit;
 	}
 
-	public void setParseLimit(String parseLimit) {
+	public void setParseLimit(Integer parseLimit) {
 		this.parseLimit = parseLimit;
 	}
 
-	public String getToken() {
+	public Integer getToken() {
 		return token;
 	}
 
-	public void setToken(String token) {
+	public void setToken(Integer token) {
 		this.token = token;
 	}
 
-	public String getTotalJob() {
+	public Long getTotalJob() {
 		return totalJob;
 	}
 
-	public void setTotalJob(String totalJob) {
+	public void setTotalJob(Long totalJob) {
 		this.totalJob = totalJob;
 	}
 
-	public String getTotalResume() {
+	public Long getTotalResume() {
 		return totalResume;
 	}
 
-	public void setTotalResume(String totalResume) {
+	public void setTotalResume(Long totalResume) {
 		this.totalResume = totalResume;
 	}
 
-	public List<ViewDashJobResume> getLstViewDashJobResume() {
-		return lstViewDashJobResume;
+	public List<ViewDashJobFill> getLstViewDashJobFill() {
+		return lstViewDashJobFill;
 	}
 
-	public void setLstViewDashJobResume(List<ViewDashJobResume> lstViewDashJobResume) {
-		this.lstViewDashJobResume = lstViewDashJobResume;
+	public void setLstViewDashJobFill(List<ViewDashJobFill> lstViewDashJobFill) {
+		this.lstViewDashJobFill = lstViewDashJobFill;
+	}
+
+	public List<ViewDashJobCompletion> getLstViewDashJobCompletion() {
+		return lstViewDashJobCompletion;
+	}
+
+	public void setLstViewDashJobCompletion(List<ViewDashJobCompletion> lstViewDashJobCompletion) {
+		this.lstViewDashJobCompletion = lstViewDashJobCompletion;
 	}
 }
