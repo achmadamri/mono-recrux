@@ -136,20 +136,29 @@ public class UserService {
 			responseModel.setStatus("403");
 			responseModel.setMessage("Data already exists. Email : " + requestModel.getTbUser().getTbuEmail());
 		} else {
+			TbCompany tbCompany = new TbCompany();				
+			tbCompany.setTbcCreateDate(requestModel.getTbCompany().getTbcCreateDate());
+			tbCompany.setTbcCreateId(null);
+			tbCompany.setTbcParse(requestModel.getTbCompany().getTbcParse());
+			tbCompany.setTbcToken(requestModel.getTbCompany().getTbcToken());
+			tbCompany.setTbcName(requestModel.getTbCompany().getTbcName());
+			tbCompanyRepository.save(tbCompany);
+
 			TbUser tbUser = new TbUser();
-				tbUser.setTbuEmail(requestModel.getTbUser().getTbuEmail());
-				tbUser.setTbuFirstname(requestModel.getTbUser().getTbuFirstname());
-				tbUser.setTbuLastname(requestModel.getTbUser().getTbuLastname());
-				tbUser.setTbuMobilePhone(requestModel.getTbUser().getTbuMobilePhone());
-				tbUser.setTbuPassword(requestModel.getTbUser().getTbuPassword());
-				tbUser.setTbuCreateDate(requestModel.getTbUser().getTbuCreateDate());
-				tbUser.setTbuCreateId(null);
-				tbUser.setTbuStatus(requestModel.getTbUser().getTbuStatus());
-				tbUser.setTbuType(requestModel.getTbUser().getTbuType());
-				tbUser.setTbuExpired(requestModel.getTbUser().getTbuExpired());
-				tbUser.setTbuUid(requestModel.getTbUser().getTbuUid());
-				tbUser.setTbuTokenSalt(requestModel.getTbUser().getTbuTokenSalt());
-				tbUserRepository.save(tbUser);
+			tbUser.setTbuCreateDate(requestModel.getTbUser().getTbuCreateDate());
+			tbUser.setTbuCreateId(null);
+			tbUser.setTbuCreateIdc(tbCompany.getTbcId());
+			tbUser.setTbuEmail(requestModel.getTbUser().getTbuEmail());
+			tbUser.setTbuFirstname(requestModel.getTbUser().getTbuFirstname());
+			tbUser.setTbuLastname(requestModel.getTbUser().getTbuLastname());
+			tbUser.setTbuMobilePhone(requestModel.getTbUser().getTbuMobilePhone());
+			tbUser.setTbuPassword(requestModel.getTbUser().getTbuPassword());
+			tbUser.setTbuStatus(requestModel.getTbUser().getTbuStatus());
+			tbUser.setTbuType(requestModel.getTbUser().getTbuType());
+			tbUser.setTbuExpired(requestModel.getTbUser().getTbuExpired());
+			tbUser.setTbuUid(requestModel.getTbUser().getTbuUid());
+			tbUser.setTbuTokenSalt(requestModel.getTbUser().getTbuTokenSalt());
+			tbUserRepository.save(tbUser);
 		}
 		
 		responseModel.setStatus("200");

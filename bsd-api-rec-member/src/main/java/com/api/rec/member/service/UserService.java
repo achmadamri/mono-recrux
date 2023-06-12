@@ -390,6 +390,10 @@ public class UserService {
 				com.api.rec.member.model.departments.TbUser postUserRegisterOrderTbUser = new com.api.rec.member.model.departments.TbUser();
 				postUserRegisterOrderTbUser = (com.api.rec.member.model.departments.TbUser) simpleMapper.assign(tbUser, postUserRegisterOrderTbUser);
 				postUserRegisterOrderRequestModel.setTbUser(postUserRegisterOrderTbUser);
+				com.api.rec.member.model.departments.TbCompany postUserRegisterOrderTbCompany = new com.api.rec.member.model.departments.TbCompany();
+				postUserRegisterOrderTbCompany = (com.api.rec.member.model.departments.TbCompany) simpleMapper.assign(tbCompany, postUserRegisterOrderTbCompany);
+				postUserRegisterOrderRequestModel.setTbCompany(postUserRegisterOrderTbCompany);
+
 				HttpEntity<com.api.rec.member.model.departments.PostUserRegisterRequestModel> requestPostUserRegisterOrder = new HttpEntity<>(postUserRegisterOrderRequestModel);
 				restTemplate.postForEntity(env.getProperty("services.bsd.api.rec.departments") + "user/postuserregister", requestPostUserRegisterOrder, String.class);
 	
