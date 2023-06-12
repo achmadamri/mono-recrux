@@ -28,7 +28,12 @@ export class RegisterComponent implements OnInit {
   register() {
     this.clicked = !this.clicked;
 
-    this.userService.postUserRegister(this.userRegisterRequest)
+    if (this.userRegisterRequest.tbUser.tbuPassword !== this.userRegisterRequest.tbUser.tbuPasswordConfirm) {
+      this.clicked = !this.clicked;
+
+      this.util.showNotification('danger', 'top', 'center', 'Password not match.');
+    } else {
+      this.userService.postUserRegister(this.userRegisterRequest)
       .subscribe(
         successResponse => {
           this.clicked = !this.clicked;
@@ -45,6 +50,7 @@ export class RegisterComponent implements OnInit {
           this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
         }
       );
+    }    
   }
 
   login() {

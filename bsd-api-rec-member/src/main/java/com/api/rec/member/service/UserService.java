@@ -323,14 +323,23 @@ public class UserService {
 				responseModel.setStatus("403");
 				responseModel.setMessage(env.getProperty("service.user.postregister.emailalreadyexist") + requestModel.getTbUser().getTbuEmail());
 			} else {
+				TbCompany tbCompany = new TbCompany();				
+				tbCompany.setTbcCreateDate(new Date());
+				tbCompany.setTbcCreateId(null);
+				tbCompany.setTbcParse(3);
+				tbCompany.setTbcToken(1024);
+				tbCompany.setTbcName(requestModel.getTbCompany().getTbcName());
+				tbCompanyRepository.save(tbCompany);
+
 				TbUser tbUser = new TbUser();
+				tbUser.setTbuCreateDate(new Date());
+				tbUser.setTbuCreateId(null);
+				tbUser.setTbuCreateIdc(tbCompany.getTbcId());
 				tbUser.setTbuEmail(requestModel.getTbUser().getTbuEmail());
 				tbUser.setTbuFirstname(requestModel.getTbUser().getTbuFirstname());
 				tbUser.setTbuLastname(requestModel.getTbUser().getTbuLastname());
 				tbUser.setTbuMobilePhone(requestModel.getTbUser().getTbuMobilePhone());
-				tbUser.setTbuPassword(new MD5().get(requestModel.getTbUser().getTbuPassword()));
-				tbUser.setTbuCreateDate(new Date());
-				tbUser.setTbuCreateId(null);
+				tbUser.setTbuPassword(new MD5().get(requestModel.getTbUser().getTbuPassword()));				
 				tbUser.setTbuStatus(TbUserRepository.NeedConfirmation);
 				tbUser.setTbuType("alpha");
 				LocalDateTime expired = LocalDateTime.now(ZoneOffset.UTC);
@@ -338,9 +347,6 @@ public class UserService {
 				tbUser.setTbuExpired(Date.from(expired.toInstant(ZoneOffset.UTC)));
 				tbUser.setTbuUid(new Uid().generateString(100));
 				tbUser.setTbuTokenSalt(new Uid().generateString(36));
-				tbUserRepository.save(tbUser);
-
-				tbUser.setTbuCreateIdc(tbUser.getTbuId());
 				tbUserRepository.save(tbUser);
 
 				TbNotification exampleTbNotification = new TbNotification();
