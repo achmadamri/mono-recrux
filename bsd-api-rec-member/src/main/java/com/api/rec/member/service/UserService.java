@@ -356,7 +356,7 @@ public class UserService {
 				strHtml = strHtml.replaceAll("\\$\\{NAME\\}", tbUser.getTbuFirstname());
 				strHtml = strHtml.replaceAll("\\$\\{EMAIL\\}", tbUser.getTbuEmail());
 
-				strHtml = strHtml.replaceAll("\\$\\{URL\\}", "http://" + env.getProperty("services.domain") + ":4200/#/confirmation?uuid=" + tbUser.getTbuUid());
+				strHtml = strHtml.replaceAll("\\$\\{URL\\}", "http://" + env.getProperty("services.domain") + "/#/confirmation?uuid=" + tbUser.getTbuUid());
 				tbNotificationData.setTbndHtml(strHtml);
 
 				tbNotificationDataRepository.save(tbNotificationData);
@@ -388,8 +388,8 @@ public class UserService {
 				MailjetRequest request = new MailjetRequest(Emailv31.resource)
 											.property(Emailv31.MESSAGES, new JSONArray().put(new JSONObject()
 											.put(Emailv31.Message.FROM, new JSONObject()
-											.put("Email", "no-reply@dafba.com")
-											.put("Name", "no-reply"))
+											.put("Email", "ana@amplifio.tech")
+											.put("Name", "Ana"))
 											.put(Emailv31.Message.TO, new JSONArray().put(new JSONObject()
 											.put("Email", tbNotificationData.getTbndTo())
 											.put("Name", tbUser.getTbuFirstname())))
