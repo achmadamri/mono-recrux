@@ -22,6 +22,9 @@ public class ViewDashJobCompletion implements Serializable {
 	@Id
 	private String uuid;
 
+	@Column(name="tbr_create_idc")
+	private Integer tbrCreateIdc;
+
 	@Column(name="status")
 	private String status;
 
@@ -34,6 +37,14 @@ public class ViewDashJobCompletion implements Serializable {
 
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
+	}
+
+	public Integer getTbrCreateIdc() {
+		return tbrCreateIdc;
+	}
+
+	public void setTbrCreateIdc(Integer tbrCreateIdc) {
+		this.tbrCreateIdc = tbrCreateIdc;
 	}
 
 	public String getStatus() {

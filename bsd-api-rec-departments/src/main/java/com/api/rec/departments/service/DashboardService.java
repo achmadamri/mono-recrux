@@ -14,6 +14,8 @@ import com.api.rec.departments.db.entity.TbCompany;
 import com.api.rec.departments.db.entity.TbJob;
 import com.api.rec.departments.db.entity.TbResume;
 import com.api.rec.departments.db.entity.TbUser;
+import com.api.rec.departments.db.entity.ViewDashJobCompletion;
+import com.api.rec.departments.db.entity.ViewDashJobFill;
 import com.api.rec.departments.db.repository.TbCompanyRepository;
 import com.api.rec.departments.db.repository.TbJobRepository;
 import com.api.rec.departments.db.repository.TbResumeRepository;
@@ -81,8 +83,13 @@ public class DashboardService {
 			responseModel.setTotalJob(tbJobRepository.count(Example.of(exampleTbJob)));
 			responseModel.setTotalResume(tbResumeRepository.count(Example.of(exampleTbResume)));
 
-			responseModel.setLstViewDashJobFill(viewDashJobFillRepository.findAll());
-			responseModel.setLstViewDashJobCompletion(viewDashJobCompletionRepository.findAll());
+			ViewDashJobFill exampleViewDashJobFill = new ViewDashJobFill();
+			exampleViewDashJobFill.setTbjCreateIdc(optTbUser.get().getTbuCreateIdc());
+			responseModel.setLstViewDashJobFill(viewDashJobFillRepository.findAll(Example.of(exampleViewDashJobFill)));
+
+			ViewDashJobCompletion exampleViewDashJobCompletion = new ViewDashJobCompletion();
+			exampleViewDashJobCompletion.setTbrCreateIdc(optTbUser.get().getTbuCreateIdc());
+			responseModel.setLstViewDashJobCompletion(viewDashJobCompletionRepository.findAll(Example.of(exampleViewDashJobCompletion)));
 
 			responseModel.setHttpStatus(HttpStatus.OK);
 		} else {
