@@ -340,6 +340,9 @@ public class UserService {
 				tbUser.setTbuTokenSalt(new Uid().generateString(36));
 				tbUserRepository.save(tbUser);
 
+				tbUser.setTbuCreateIdc(tbUser.getTbuId());
+				tbUserRepository.save(tbUser);
+
 				TbNotification exampleTbNotification = new TbNotification();
 				exampleTbNotification.setTbnCode("EMAIL.CONFIRMATION");
 				exampleTbNotification.setTbnStatus(TbNotificationRepository.statusActive);
