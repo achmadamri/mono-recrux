@@ -61,7 +61,7 @@ export class ResumesDetailComponent implements OnInit {
           this.postAddResumeRequest.lstTbResumeEducation = this.getResumeResponse.lstTbResumeEducation;
           this.postAddResumeRequest.lstTbResumeWorkExperience = this.getResumeResponse.lstTbResumeWorkExperience;
 
-          const serverUrl = isDevMode() ? 'http://localhost/' : 'https://app.amplifio.tech/'
+          const serverUrl = isDevMode() ? 'http://localhost/resume/' : 'https://app.amplifio.tech/resume/'
           const fileUrl = serverUrl + this.getResumeResponse.tbResume.tbrMetaFileName;
           this.pdfFrame.nativeElement.src = fileUrl;
 
