@@ -384,25 +384,27 @@ public class ResumeService {
 							String fileName = StringUtils.cleanPath(file.getOriginalFilename()) + "_" + (new Uid().generateString(5)) + "." + ext;
 							Files.copy(file.getInputStream(), Paths.get(env.getProperty("file.resume.dir") + fileName), StandardCopyOption.REPLACE_EXISTING);				
 			
-							// TbResume tbResume = postUploadResumeAffinda(optTbUser.get(), file, optTbCompany.get());
-							// tbResume.setTbrCreateId(optTbUser.get().getTbuId());
-							// tbResume.setTbrCreateDate(new Date());
-							// tbResume.setTbrCreateIdc(optTbUser.get().getTbuCreateIdc());
-							// tbResume.setTbrStatus(TbResumeRepository.Active);
-							// tbResume.setTbrAssigned(TbResumeRepository.Assigned);
-							// tbResume.setTbrDataNameRaw(tbResume.getTbrDataNameFirst() + " " + tbResume.getTbrDataNameMiddle() + " " + tbResume.getTbrDataNameLast());
-							// tbResume.setTbrUuid(new Uid().generateString(5));
-							// tbResume.setTbrMetaFileName(fileName);
-							// tbResume.setTbjId(optTbJob.get().getTbjId());
-							// tbResume.setTbrResumeStatus(optTbJob.get().getTbjResumeStatus().split(",")[0].trim());
+							// PRODUCTION START ---------------------------------------------------------------------------------------
+							TbResume tbResume = postUploadResumeAffinda(optTbUser.get(), file, optTbCompany.get());
+							tbResume.setTbrCreateId(optTbUser.get().getTbuId());
+							tbResume.setTbrCreateDate(new Date());
+							tbResume.setTbrCreateIdc(optTbUser.get().getTbuCreateIdc());
+							tbResume.setTbrStatus(TbResumeRepository.Active);
+							tbResume.setTbrAssigned(TbResumeRepository.Assigned);
+							tbResume.setTbrDataNameRaw(tbResume.getTbrDataNameFirst() + " " + tbResume.getTbrDataNameMiddle() + " " + tbResume.getTbrDataNameLast());
+							tbResume.setTbrUuid(new Uid().generateString(5));
+							tbResume.setTbrMetaFileName(fileName);
+							tbResume.setTbjId(optTbJob.get().getTbjId());
+							tbResume.setTbrResumeStatus(optTbJob.get().getTbjResumeStatus().split(",")[0].trim());
+							// PRODUCTION END -----------------------------------------------------------------------------------------
 							
 							// DEBUG START -------------------------------------------------------------------------------------------
-							TbCompany tbCompany = optTbCompany.get();
-							tbCompany.setTbcParse(tbCompany.getTbcParse() - 1);
-							tbCompanyRepository.save(tbCompany);
-							TbResume exampleTbResume = new TbResume();
-							exampleTbResume.setTbrUuid("A46E6");
-							TbResume tbResume = tbResumeRepository.findOne(Example.of(exampleTbResume)).orElse(new TbResume());														
+							// TbCompany tbCompany = optTbCompany.get();
+							// tbCompany.setTbcParse(tbCompany.getTbcParse() - 1);
+							// tbCompanyRepository.save(tbCompany);
+							// TbResume exampleTbResume = new TbResume();
+							// exampleTbResume.setTbrUuid("A46E6");
+							// TbResume tbResume = tbResumeRepository.findOne(Example.of(exampleTbResume)).orElse(new TbResume());														
 							// DEBUG END ---------------------------------------------------------------------------------------------
 		
 							// Open AI Start ---------------------------------------------------------------------------------------------
