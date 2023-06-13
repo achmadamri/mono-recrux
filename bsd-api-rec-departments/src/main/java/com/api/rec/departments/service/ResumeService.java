@@ -370,7 +370,7 @@ public class ResumeService {
 			Optional<TbCompany> optTbCompany = tbCompanyRepository.findOne(Example.of(exampleTbCompany));
 
 			if (optTbCompany.isPresent()) {
-				if (optTbCompany.get().getTbcParse() > 0 && optTbCompany.get().getTbcToken() > 1024) {
+				if (optTbCompany.get().getTbcParse() > 0 && optTbCompany.get().getTbcToken() > 0) {
 					TbJob exampleTbJob = new TbJob();
 					exampleTbJob.setTbjCreateIdc(optTbUser.get().getTbuCreateIdc());
 					exampleTbJob.setTbjUuid(requestModel.getTbjUuid());
@@ -1016,7 +1016,7 @@ public class ResumeService {
 			Optional<TbCompany> optTbCompany = tbCompanyRepository.findOne(Example.of(exampleTbCompany));
 
 			if (optTbCompany.isPresent()) {
-				if (optTbCompany.get().getTbcParse() > 0 && optTbCompany.get().getTbcToken() > 1024) {
+				if (optTbCompany.get().getTbcParse() > 0 && optTbCompany.get().getTbcToken() > 0) {
 					if (optTbResume.isPresent()) {
 						TbResume tbResume = optTbResume.get();
 						tbResume = openAI(optTbUser.get(), tbResume, optTbCompany.get());
