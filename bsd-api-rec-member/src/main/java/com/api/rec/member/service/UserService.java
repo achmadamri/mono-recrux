@@ -329,7 +329,7 @@ public class UserService {
 				tbCompany.setTbcCreateDate(new Date());
 				tbCompany.setTbcCreateId(null);
 				tbCompany.setTbcParse(3);
-				tbCompany.setTbcToken(1024);
+				tbCompany.setTbcToken(2048);
 				tbCompany.setTbcName(requestModel.getTbCompany().getTbcName());
 				tbCompanyRepository.save(tbCompany);
 
