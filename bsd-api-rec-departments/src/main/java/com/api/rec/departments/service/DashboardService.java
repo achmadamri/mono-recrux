@@ -77,18 +77,17 @@ public class DashboardService {
 			TbResume exampleTbResume = new TbResume();
 			exampleTbResume.setTbrCreateIdc(optTbUser.get().getTbuCreateIdc());
 
-			responseModel.setParseLimit(tbCompany.getTbcParse());
-			responseModel.setToken(tbCompany.getTbcToken());
-
-			responseModel.setTotalJob(tbJobRepository.count(Example.of(exampleTbJob)));
-			responseModel.setTotalResume(tbResumeRepository.count(Example.of(exampleTbResume)));
-
 			ViewDashJobFill exampleViewDashJobFill = new ViewDashJobFill();
 			exampleViewDashJobFill.setTbjCreateIdc(optTbUser.get().getTbuCreateIdc());
-			responseModel.setLstViewDashJobFill(viewDashJobFillRepository.findAll(Example.of(exampleViewDashJobFill)));
 
 			ViewDashJobCompletion exampleViewDashJobCompletion = new ViewDashJobCompletion();
 			exampleViewDashJobCompletion.setTbrCreateIdc(optTbUser.get().getTbuCreateIdc());
+
+			responseModel.setParseLimit(tbCompany.getTbcParse());
+			responseModel.setToken(tbCompany.getTbcToken());
+			responseModel.setTotalJob(tbJobRepository.count(Example.of(exampleTbJob)));
+			responseModel.setTotalResume(tbResumeRepository.count(Example.of(exampleTbResume)));
+			responseModel.setLstViewDashJobFill(viewDashJobFillRepository.findAll(Example.of(exampleViewDashJobFill)));
 			responseModel.setLstViewDashJobCompletion(viewDashJobCompletionRepository.findAll(Example.of(exampleViewDashJobCompletion)));
 
 			responseModel.setHttpStatus(HttpStatus.OK);

@@ -63,6 +63,7 @@ public class DepartmentService {
 				if (requestModel.getTbDepartment().getTbdName() != null) {
 					TbDepartment exampleTbDepartment = new TbDepartment();
 					exampleTbDepartment.setTbdName(requestModel.getTbDepartment().getTbdName());
+					exampleTbDepartment.setTbdCreateIdc(optTbUser.get().getTbuCreateIdc());
 					Optional<TbDepartment> optTbDepartment = tbDepartmentRepository.findOne(Example.of(exampleTbDepartment));
 					
 					if (optTbDepartment.isPresent()) {

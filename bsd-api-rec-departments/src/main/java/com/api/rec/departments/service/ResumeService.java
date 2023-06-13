@@ -751,6 +751,7 @@ public class ResumeService {
 				if (requestModel.getTbResume().getTbrDataNameRaw() != null) {
 					TbResume exampleTbResume = new TbResume();
 					exampleTbResume.setTbrDataNameRaw(requestModel.getTbResume().getTbrDataNameRaw());
+					exampleTbResume.setTbrCreateIdc(optTbUser.get().getTbuCreateIdc());
 					Optional<TbResume> optTbResume = tbResumeRepository.findOne(Example.of(exampleTbResume));
 					
 					if (optTbResume.isPresent()) {
