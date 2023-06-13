@@ -314,9 +314,13 @@ public class UserService {
 	public PostUserRegisterResponseModel postUserRegister(PostUserRegisterRequestModel requestModel) throws Exception {
 		PostUserRegisterResponseModel responseModel = new PostUserRegisterResponseModel(requestModel);
 
-		if (requestModel.getAgree() == null) requestModel.setAgree("false");
+		boolean mandatory = true;
+		
+		if (requestModel.getTbUser().getTbuFirstname().equals("") || requestModel.getTbUser().getTbuLastname().equals("") || requestModel.getTbUser().getTbuEmail().equals("") || requestModel.getTbUser().getTbuPassword().equals("") || requestModel.getTbUser().getTbuMobilePhone().equals("") || requestModel.getAgree() == null) {
+			mandatory = false;
+		}
 
-		if (requestModel.getAgree().equals("true")) {
+		if (mandatory) {
 			TbUser exampleTbUserNew = new TbUser();
 			exampleTbUserNew.setTbuEmail(requestModel.getTbUser().getTbuEmail());
 			Optional<TbUser> optTbUserNew = tbUserRepository.findOne(Example.of(exampleTbUserNew));
@@ -426,7 +430,7 @@ public class UserService {
 			}
 		} else {
 			responseModel.setStatus("403");
-			responseModel.setMessage(env.getProperty("service.user.postregister.notagree"));
+			responseModel.setMessage(env.getProperty("service.user.postregister.mandatory"));
 		}
 		
 		return responseModel;
