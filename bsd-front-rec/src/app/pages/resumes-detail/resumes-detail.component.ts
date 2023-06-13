@@ -1,3 +1,4 @@
+import { isDevMode } from '@angular/core';
 import { Location } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
@@ -60,7 +61,8 @@ export class ResumesDetailComponent implements OnInit {
           this.postAddResumeRequest.lstTbResumeEducation = this.getResumeResponse.lstTbResumeEducation;
           this.postAddResumeRequest.lstTbResumeWorkExperience = this.getResumeResponse.lstTbResumeWorkExperience;
 
-          const fileUrl = 'http://localhost/resume/' + this.getResumeResponse.tbResume.tbrMetaFileName;
+          const serverUrl = isDevMode() ? 'http://localhost/' : 'https://app.amplifio.tech/'
+          const fileUrl = serverUrl + this.getResumeResponse.tbResume.tbrMetaFileName;
           this.pdfFrame.nativeElement.src = fileUrl;
 
           this.postAddResumeRequest.tbResume = this.getResumeResponse.tbResume;
