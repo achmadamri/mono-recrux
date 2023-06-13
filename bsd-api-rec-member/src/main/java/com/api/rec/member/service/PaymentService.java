@@ -155,8 +155,8 @@ public class PaymentService {
 					postSyncCompanyRequestModel.setRequestDate(sdf.format(new Date()));
 					postSyncCompanyRequestModel.setRequestId(new Uid().generateString(10));
 					postSyncCompanyRequestModel.setEmail(optTbUser.get().getTbuEmail());
-					com.api.rec.member.model.user.TbCompany postSyncCompanyTbCompany = new com.api.rec.member.model.user.TbCompany();
-					postSyncCompanyTbCompany = (com.api.rec.member.model.user.TbCompany) simpleMapper.assign(optTbCompany.get(), postSyncCompanyTbCompany);
+					TbCompany postSyncCompanyTbCompany = new TbCompany();
+					postSyncCompanyTbCompany = (TbCompany) simpleMapper.assign(optTbCompany.get(), postSyncCompanyTbCompany);
 					postSyncCompanyRequestModel.setTbCompany(postSyncCompanyTbCompany);
 					HttpEntity<PostSyncCompanyRequestModel> requestPostUserRegisterOrder = new HttpEntity<>(postSyncCompanyRequestModel, headersPost);
 					restTemplate.postForEntity(env.getProperty("services.bsd.api.rec.departments") + "user/postsynccompany", requestPostUserRegisterOrder, String.class);
