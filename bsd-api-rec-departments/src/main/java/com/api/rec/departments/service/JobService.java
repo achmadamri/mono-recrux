@@ -22,9 +22,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.api.rec.departments.db.entity.TbCompany;
 import com.api.rec.departments.db.entity.TbJob;
 import com.api.rec.departments.db.entity.TbUser;
 import com.api.rec.departments.db.entity.ViewJobDepartment;
+import com.api.rec.departments.db.repository.TbCompanyRepository;
 import com.api.rec.departments.db.repository.TbJobRepository;
 import com.api.rec.departments.db.repository.TbUserRepository;
 import com.api.rec.departments.db.repository.ViewJobDepartmentRepository;
@@ -64,7 +66,7 @@ public class JobService {
 	private ViewJobDepartmentRepository viewJobDepartmentRepository;
 
 	@Autowired
-	private ViewResumeJobRepository viewResumeJobRepository;
+	private TbCompanyRepository tbCompanyRepository;
 
 	public PostAddJobResponseModel postAddJob(PostAddJobRequestModel requestModel) throws Exception {
 		PostAddJobResponseModel responseModel = new PostAddJobResponseModel(requestModel);
@@ -234,6 +236,11 @@ public class JobService {
 				tbjDescription = tbjDescription.replaceAll("[^\\x00-\\x7F]", "");
 				optTbJob.get().setTbjDescription(tbjDescription);
 				tbJobRepository.save(optTbJob.get());
+
+				JsonNode usageNode = rootNodeGpt.path("usage");
+				TbCompany tbCompany = tbCompanyRepository.findById(optTbUser.get().getTbuCreateIdc()).get();
+				tbCompany.setTbcToken(tbCompany.getTbcToken() - usageNode.get("total_tokens").asInt());
+				tbCompanyRepository.save(tbCompany);
 
 				responseModel.setTbJob(optTbJob.get());
 				responseModel.setHttpStatus(HttpStatus.OK);
