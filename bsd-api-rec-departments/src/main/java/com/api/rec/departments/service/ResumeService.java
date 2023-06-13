@@ -65,6 +65,7 @@ import com.api.rec.departments.model.resume.PostAddResumeResponseModel;
 import com.api.rec.departments.model.resume.PostUploadResumeRequestModel;
 import com.api.rec.departments.model.resume.PostUploadResumeResponseModel;
 import com.api.rec.departments.model.user.PostSyncCompanyRequestModel;
+import com.api.rec.departments.util.SimpleMapper;
 import com.api.rec.departments.util.TokenUtil;
 import com.api.rec.departments.util.Uid;
 import com.azure.core.credential.TokenCredential;
@@ -117,16 +118,21 @@ public class ResumeService {
 		tbCompany.setTbcParse(tbCompany.getTbcParse() - 1);
 		tbCompanyRepository.save(tbCompany);
 
-		PostSyncCompanyRequestModel postSyncCompanyRequestModel = new PostSyncCompanyRequestModel();
+		RestTemplate restTemplate = new RestTemplate();
+		
+		HttpHeaders headersPost = new HttpHeaders();
+		headersPost.setContentType(MediaType.APPLICATION_JSON);
+		SimpleMapper simpleMapper = new SimpleMapper();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS000");
+		PostSyncCompanyRequestModel postSyncCompanyRequestModel = new PostSyncCompanyRequestModel();
 		postSyncCompanyRequestModel.setRequestDate(sdf.format(new Date()));
 		postSyncCompanyRequestModel.setRequestId(new Uid().generateString(10));
 		postSyncCompanyRequestModel.setEmail(tbUser.getTbuEmail());
-		postSyncCompanyRequestModel.setTbCompany(tbCompany);
-		
-		HttpEntity<PostSyncCompanyRequestModel> request = new HttpEntity<>(postSyncCompanyRequestModel);
-		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.postForEntity(env.getProperty("services.bsd.api.rec.member") + "user/postsynccompany", request, String.class);
+		com.api.rec.departments.model.user.TbCompany postSyncCompanyTbCompany = new com.api.rec.departments.model.user.TbCompany();
+		postSyncCompanyTbCompany = (com.api.rec.departments.model.user.TbCompany) simpleMapper.assign(tbCompany, postSyncCompanyTbCompany);
+		postSyncCompanyRequestModel.setTbCompany(postSyncCompanyTbCompany);
+		HttpEntity<PostSyncCompanyRequestModel> requestPostUserRegisterOrder = new HttpEntity<>(postSyncCompanyRequestModel, headersPost);
+		restTemplate.postForEntity(env.getProperty("services.bsd.api.rec.member") + "user/postsynccompany", requestPostUserRegisterOrder, String.class);
 
 		ObjectMapper mapper = new ObjectMapper();
 		JsonNode rootNode;
@@ -541,18 +547,19 @@ public class ResumeService {
 			tbCompany.setTbcToken(tbCompany.getTbcToken() - usageNode.get("total_tokens").asInt());
 			tbCompanyRepository.save(tbCompany);
 
-			PostSyncCompanyRequestModel postSyncCompanyRequestModel = new PostSyncCompanyRequestModel();
+			HttpHeaders headersPost = new HttpHeaders();
+			headersPost.setContentType(MediaType.APPLICATION_JSON);
+			SimpleMapper simpleMapper = new SimpleMapper();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS000");
+			PostSyncCompanyRequestModel postSyncCompanyRequestModel = new PostSyncCompanyRequestModel();
 			postSyncCompanyRequestModel.setRequestDate(sdf.format(new Date()));
 			postSyncCompanyRequestModel.setRequestId(new Uid().generateString(10));
 			postSyncCompanyRequestModel.setEmail(tbUser.getTbuEmail());
-			postSyncCompanyRequestModel.setTbCompany(tbCompany);
-
-			HttpHeaders headersPostSyncCompany = new HttpHeaders();
-			headersPostSyncCompany.setContentType(MediaType.APPLICATION_JSON);
-			HttpEntity<PostSyncCompanyRequestModel> requestPostSyncCompany = new HttpEntity<>(postSyncCompanyRequestModel, headersPostSyncCompany);
-			RestTemplate restTemplatePostSyncCompany = new RestTemplate();
-			restTemplatePostSyncCompany.postForEntity(env.getProperty("services.bsd.api.rec.member") + "user/postsynccompany", requestPostSyncCompany, String.class);
+			com.api.rec.departments.model.user.TbCompany postSyncCompanyTbCompany = new com.api.rec.departments.model.user.TbCompany();
+			postSyncCompanyTbCompany = (com.api.rec.departments.model.user.TbCompany) simpleMapper.assign(tbCompany, postSyncCompanyTbCompany);
+			postSyncCompanyRequestModel.setTbCompany(postSyncCompanyTbCompany);
+			HttpEntity<PostSyncCompanyRequestModel> requestPostUserRegisterOrder = new HttpEntity<>(postSyncCompanyRequestModel, headersPost);
+			restTemplate.postForEntity(env.getProperty("services.bsd.api.rec.member") + "user/postsynccompany", requestPostUserRegisterOrder, String.class);
 		}
 
 		// Get feedback end -----------------------------------------------------------------------------------------------

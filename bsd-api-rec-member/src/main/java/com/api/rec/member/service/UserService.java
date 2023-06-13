@@ -100,7 +100,9 @@ public class UserService {
 		Optional<TbUser> optTbUser = tbUserRepository.findOne(Example.of(exampleTbUser));
 		
 		optTbUser.ifPresentOrElse(tbUser -> {
-			TbCompany tbCompany = requestModel.getTbCompany();			
+			TbCompany tbCompany = tbCompanyRepository.findById(tbUser.getTbuCreateIdc()).get();
+			tbCompany.setTbcParse(requestModel.getTbCompany().getTbcParse());
+			tbCompany.setTbcToken(requestModel.getTbCompany().getTbcToken());
 			tbCompanyRepository.save(tbCompany);
 			
 			responseModel.setStatus("200");

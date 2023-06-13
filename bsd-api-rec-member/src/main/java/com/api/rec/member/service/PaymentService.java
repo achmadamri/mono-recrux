@@ -15,6 +15,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -31,6 +32,7 @@ import com.api.rec.member.db.repository.TbUserRepository;
 import com.api.rec.member.model.payment.PostAddRequestModel;
 import com.api.rec.member.model.payment.PostAddResponseModel;
 import com.api.rec.member.model.user.PostSyncCompanyRequestModel;
+import com.api.rec.member.util.SimpleMapper;
 import com.api.rec.member.util.TokenUtil;
 import com.api.rec.member.util.Uid;
 
@@ -143,16 +145,21 @@ public class PaymentService {
 					optTbCompany.get().setTbcToken(optTbCompany.get().getTbcToken() + token);
 					tbCompanyRepository.save(optTbCompany.get());
 
-					PostSyncCompanyRequestModel postSyncCompanyRequestModel = new PostSyncCompanyRequestModel();
+					RestTemplate restTemplate = new RestTemplate();
+
+					HttpHeaders headersPost = new HttpHeaders();
+					headersPost.setContentType(MediaType.APPLICATION_JSON);
+					SimpleMapper simpleMapper = new SimpleMapper();
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS000");
+					PostSyncCompanyRequestModel postSyncCompanyRequestModel = new PostSyncCompanyRequestModel();
 					postSyncCompanyRequestModel.setRequestDate(sdf.format(new Date()));
 					postSyncCompanyRequestModel.setRequestId(new Uid().generateString(10));
 					postSyncCompanyRequestModel.setEmail(optTbUser.get().getTbuEmail());
-					postSyncCompanyRequestModel.setTbCompany(optTbCompany.get());
-					
-					HttpEntity<PostSyncCompanyRequestModel> request = new HttpEntity<>(postSyncCompanyRequestModel);
-					RestTemplate restTemplate = new RestTemplate();
-					restTemplate.postForEntity(env.getProperty("services.bsd.api.rec.departments") + "user/postsynccompany", request, String.class);
+					com.api.rec.member.model.user.TbCompany postSyncCompanyTbCompany = new com.api.rec.member.model.user.TbCompany();
+					postSyncCompanyTbCompany = (com.api.rec.member.model.user.TbCompany) simpleMapper.assign(optTbCompany.get(), postSyncCompanyTbCompany);
+					postSyncCompanyRequestModel.setTbCompany(postSyncCompanyTbCompany);
+					HttpEntity<PostSyncCompanyRequestModel> requestPostUserRegisterOrder = new HttpEntity<>(postSyncCompanyRequestModel, headersPost);
+					restTemplate.postForEntity(env.getProperty("services.bsd.api.rec.departments") + "user/postsynccompany", requestPostUserRegisterOrder, String.class);
 					
 					responseModel.setStatus("200");
 					responseModel.setMessage(env.getProperty("service.payment.postadd.ok"));
