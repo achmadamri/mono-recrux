@@ -1,5 +1,6 @@
 package com.api.rec.departments.service;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -41,6 +42,8 @@ import com.api.rec.departments.model.job.GetJobRequestModel;
 import com.api.rec.departments.model.job.GetJobResponseModel;
 import com.api.rec.departments.model.job.PostAddJobRequestModel;
 import com.api.rec.departments.model.job.PostAddJobResponseModel;
+import com.api.rec.departments.model.user.PostSyncCompanyRequestModel;
+import com.api.rec.departments.util.SimpleMapper;
 import com.api.rec.departments.util.TokenUtil;
 import com.api.rec.departments.util.Uid;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -241,6 +244,20 @@ public class JobService {
 				TbCompany tbCompany = tbCompanyRepository.findById(optTbUser.get().getTbuCreateIdc()).get();
 				tbCompany.setTbcToken(tbCompany.getTbcToken() - usageNode.get("total_tokens").asInt());
 				tbCompanyRepository.save(tbCompany);
+
+				HttpHeaders headersPost = new HttpHeaders();
+				headersPost.setContentType(MediaType.APPLICATION_JSON);
+				SimpleMapper simpleMapper = new SimpleMapper();
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS000");
+				PostSyncCompanyRequestModel postSyncCompanyRequestModel = new PostSyncCompanyRequestModel();
+				postSyncCompanyRequestModel.setRequestDate(sdf.format(new Date()));
+				postSyncCompanyRequestModel.setRequestId(new Uid().generateString(10));
+				postSyncCompanyRequestModel.setEmail(optTbUser.get().getTbuEmail());
+				TbCompany postSyncCompanyTbCompany = new TbCompany();
+				postSyncCompanyTbCompany = (TbCompany) simpleMapper.assign(tbCompany, postSyncCompanyTbCompany);
+				postSyncCompanyRequestModel.setTbCompany(postSyncCompanyTbCompany);
+				HttpEntity<PostSyncCompanyRequestModel> requestPostUserRegisterOrder = new HttpEntity<>(postSyncCompanyRequestModel, headersPost);
+				restTemplate.postForEntity(env.getProperty("services.bsd.api.rec.member") + "user/postsynccompany", requestPostUserRegisterOrder, String.class);
 
 				responseModel.setTbJob(optTbJob.get());
 				responseModel.setHttpStatus(HttpStatus.OK);
