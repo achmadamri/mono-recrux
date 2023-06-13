@@ -314,10 +314,12 @@ public class UserService {
 	public PostUserRegisterResponseModel postUserRegister(PostUserRegisterRequestModel requestModel) throws Exception {
 		PostUserRegisterResponseModel responseModel = new PostUserRegisterResponseModel(requestModel);
 
-		boolean mandatory = true;
-		
-		if (requestModel.getTbUser().getTbuFirstname().equals("") || requestModel.getTbUser().getTbuLastname().equals("") || requestModel.getTbUser().getTbuEmail().equals("") || requestModel.getTbUser().getTbuPassword().equals("") || requestModel.getTbUser().getTbuMobilePhone().equals("") || requestModel.getAgree() == null) {
-			mandatory = false;
+		boolean mandatory = false;		
+
+		if (requestModel.getTbUser().getTbuFirstname() != null && requestModel.getTbUser().getTbuLastname() != null && requestModel.getTbUser().getTbuEmail() != null && requestModel.getTbUser().getTbuPassword() != null && requestModel.getTbUser().getTbuMobilePhone() != null && requestModel.getAgree() != null) {
+			if (!requestModel.getTbUser().getTbuFirstname().equals("") && !requestModel.getTbUser().getTbuLastname().equals("") && !requestModel.getTbUser().getTbuEmail().equals("") && !requestModel.getTbUser().getTbuPassword().equals("") && !requestModel.getTbUser().getTbuMobilePhone().equals("") && !requestModel.getAgree().equals("")) {
+				mandatory = true;
+			}
 		}
 
 		if (mandatory) {
