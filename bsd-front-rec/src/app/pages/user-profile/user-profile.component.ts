@@ -49,10 +49,10 @@ export class UserProfileComponent implements OnInit {
 
     this.payPalConfig = {
       // Sandbox
-      clientId: 'Ae3-Xtq7YMEO1QEoXJghga4nQOWL50Odcq9sH69CkJkI0jLlndgTucTGorGdQgJj8P3hyfBEHCSo7Y9g',
+      // clientId: 'Ae3-Xtq7YMEO1QEoXJghga4nQOWL50Odcq9sH69CkJkI0jLlndgTucTGorGdQgJj8P3hyfBEHCSo7Y9g',
 
       // Live
-      // clientId: 'AW7LgrI4uwbytT2JevxUp9NnJYD7_CFb96n9GdIMzIOqzXHgUbxhJY4_Zr3B0igu6x0_kAUMYSXP-fVZ',
+      clientId: 'AW7LgrI4uwbytT2JevxUp9NnJYD7_CFb96n9GdIMzIOqzXHgUbxhJY4_Zr3B0igu6x0_kAUMYSXP-fVZ',
       
       createOrderOnClient: (data: any) => {
         // Implementation to create the PayPal order on the client-side
