@@ -68,8 +68,10 @@ export class ResumesDetailComponent implements OnInit {
           this.postAddResumeRequest.tbResume = this.getResumeResponse.tbResume;
         },
         errorResponse => {
-          this.getResumeResponse = new GetResumeResponse();
-          this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
+          if (this.postAddResumeRequest.tbResume.tbrUuid !== "0") {
+            this.getResumeResponse = new GetResumeResponse();
+            this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
+          }
         }
       );
     });

@@ -1,14 +1,14 @@
 <div class="main-content">
   <div class="container-fluid">
-    <div class="row">
+    <div class="row" *ngIf="postAddResumeRequest.tbResume.tbrId != null">
       <div class="col-md-6">
         <div class="card">
           <div class="card-header card-header-danger">
-            <h4 class="card-title" *ngIf="postAddResumeRequest.tbResume.tbrId != null">{{postAddResumeRequest.tbResume.tbrDataNameRaw}}</h4>
-            <h4 class="card-title" *ngIf="postAddResumeRequest.tbResume.tbrId == null">Resumes</h4>
+            <h4 class="card-title">{{postAddResumeRequest.tbResume.tbrDataNameRaw}}</h4>
+            <h4 class="card-title">Resumes</h4>
           </div>
           <div class="card-body">
-            <form *ngIf="postAddResumeRequest.tbResume.tbrId != null">
+            <form>
               <div class="row">
                 <div class="col-md-12">
                   <mat-form-field class="example-full-width">
