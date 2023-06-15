@@ -1030,6 +1030,8 @@ public class ResumeService {
 		
 						optTbResume.get().setTbrScore(tbResume.getTbrScore());
 						optTbResume.get().setTbrAINote(tbResume.getTbrAINote());
+
+						tbCompanyRepository.save(optTbCompany.get());
 		
 						TbResumeCertification exampleTbResumeCertification = new TbResumeCertification();
 						exampleTbResumeCertification.setTbrId(optTbResume.get().getTbrId());
