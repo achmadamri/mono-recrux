@@ -1,4 +1,6 @@
 # mono-recrux
+docker-compose up -d
+
 ng build --configuration=production
 
 sudo cp -r bsd-front-rec/dist/* /var/www/html/

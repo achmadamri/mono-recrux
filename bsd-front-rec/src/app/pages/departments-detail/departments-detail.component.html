@@ -4,7 +4,8 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header card-header-danger">
-                        <h4 class="card-title">{{postAddDepartmentRequest.tbDepartment.tbdName}}</h4>
+                        <h4 class="card-title" *ngIf="postAddDepartmentRequest.tbDepartment.tbdId != null">{{postAddDepartmentRequest.tbDepartment.tbdName}}</h4>
+                        <h4 class="card-title" *ngIf="postAddDepartmentRequest.tbDepartment.tbdId == null">Departments</h4>
                     </div>
                     <div class="card-body">
                         <form>

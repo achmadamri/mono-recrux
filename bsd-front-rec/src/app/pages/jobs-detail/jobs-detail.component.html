@@ -6,7 +6,8 @@
                     <div class="card-header card-header-tabs card-header-danger">
                         <div class="nav-tabs-navigation">
                             <div class="nav-tabs-wrapper">                                
-                                <h4 class="card-title">{{postAddJobRequest.tbJob.tbjName}} ({{postAddJobRequest.tbJob.tbjUuid}})</h4>
+                                <h4 class="card-title" *ngIf="postAddJobRequest.tbJob.tbjId != null">{{postAddJobRequest.tbJob.tbjName}} ({{postAddJobRequest.tbJob.tbjUuid}})</h4>
+                                <h4 class="card-title" *ngIf="postAddJobRequest.tbJob.tbjId == null">Jobs</h4>
                                 <ul class="nav nav-tabs" data-tabs="tabs">
                                     <li class="nav-item">                                        
                                         <a mat-button class="nav-link active" href="#job" data-toggle="tab">
@@ -20,7 +21,7 @@
                                             <div class="ripple-container"></div>
                                         </a>
                                     </li>
-                                    <li class="nav-item">
+                                    <li class="nav-item" *ngIf="postAddJobRequest.tbJob.tbjId != null">
                                         <a mat-button class="nav-link" href="#resumeuppload" data-toggle="tab">
                                             <i class="material-icons">cloud_upload</i> Resume Upload
                                             <div class="ripple-container"></div>
