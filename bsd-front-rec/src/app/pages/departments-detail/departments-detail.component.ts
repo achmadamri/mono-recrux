@@ -57,27 +57,30 @@ export class DepartmentsDetailComponent implements OnInit {
 
       if (this.postAddDepartmentRequest.tbDepartment.tbdUuid != '0') {
         this.departmentService.getDepartment(this.postAddDepartmentRequest.tbDepartment.tbdUuid)
-        .subscribe(
-          successResponse => {
-            this.getDepartmentResponse = successResponse;
+          .subscribe(
+            successResponse => {
+              this.getDepartmentResponse = successResponse;
 
-            this.postAddDepartmentRequest.tbDepartment.tbdId = this.getDepartmentResponse.tbDepartment.tbdId;
-            this.postAddDepartmentRequest.tbDepartment.tbdUuid = this.getDepartmentResponse.tbDepartment.tbdUuid;
-            this.postAddDepartmentRequest.tbDepartment.tbdName = this.getDepartmentResponse.tbDepartment.tbdName;
-            this.postAddDepartmentRequest.tbDepartment.tbdStatus = this.getDepartmentResponse.tbDepartment.tbdStatus;
+              this.postAddDepartmentRequest.tbDepartment.tbdId = this.getDepartmentResponse.tbDepartment.tbdId;
+              this.postAddDepartmentRequest.tbDepartment.tbdUuid = this.getDepartmentResponse.tbDepartment.tbdUuid;
+              this.postAddDepartmentRequest.tbDepartment.tbdName = this.getDepartmentResponse.tbDepartment.tbdName;
+              this.postAddDepartmentRequest.tbDepartment.tbdStatus = this.getDepartmentResponse.tbDepartment.tbdStatus;
 
-            this.getJobDepartmentListRequest.viewJobDepartment.tbdId = this.postAddDepartmentRequest.tbDepartment.tbdId;
+              this.getJobDepartmentListRequest.viewJobDepartment.tbdId = this.postAddDepartmentRequest.tbDepartment.tbdId;
 
-            this.getJobDepartmentList(this.pageEvent);
-          },
-          errorResponse => {            
-            this.getDepartmentResponse = new GetDepartmentResponse();
-            this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
-          }
-        );
+              this.getJobDepartmentList(this.pageEvent);
+            },
+            errorResponse => {
+              this.getDepartmentResponse = new GetDepartmentResponse();
+              this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
+            }
+          );
 
         this.saveUpdate = 'Update';
       } else {
+        this.postAddDepartmentRequest.tbDepartment.tbdId = null;
+        this.postAddDepartmentRequest.tbDepartment.tbdName = null;
+
         this.saveUpdate = 'Save';
       }
     });
