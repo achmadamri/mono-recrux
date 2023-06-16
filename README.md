@@ -1,4 +1,9 @@
 # mono-recrux
+
+1. Go to Application.java. Open it and codespace will suggest to install plugin for java
+2. Go to docker-compose.yml. Open it and codespace will suggest to install plugin for docker
+
+
 npm install -g @angular/cli
 
 docker-compose up -d
