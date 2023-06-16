@@ -135,7 +135,6 @@ export class JobsKanbanComponent implements OnInit {
         errorResponse => {
           this.clicked = !this.clicked;
           this.getResumeJobListResponse = new GetResumeJobListResponse();
-          this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
         }
       );
   }

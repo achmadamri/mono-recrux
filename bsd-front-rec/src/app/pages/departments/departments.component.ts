@@ -67,7 +67,6 @@ export class DepartmentsComponent implements OnInit {
           this.length = 0;
           this.clicked = !this.clicked;
           this.getDepartmentListResponse = new GetDepartmentListResponse();
-          this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
         }
       );
   }

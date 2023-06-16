@@ -67,7 +67,6 @@ export class JobsComponent implements OnInit {
           this.length = 0;
           this.clicked = !this.clicked;
           this.getJobListResponse = new GetJobListResponse();
-          this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
         }
       );
   }

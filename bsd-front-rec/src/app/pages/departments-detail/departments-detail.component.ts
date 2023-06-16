@@ -108,7 +108,6 @@ export class DepartmentsDetailComponent implements OnInit {
           this.length = 0;
           this.clicked = !this.clicked;
           this.getJobDepartmentListResponse = new GetJobDepartmentListResponse();
-          this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
         }
       );
   }
