@@ -302,7 +302,7 @@ export class JobsDetailComponent implements OnInit {
           this.length = 0;
           this.clicked = !this.clicked;
           this.getResumeJobListResponse = new GetResumeJobListResponse();
-          this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
+          // this.util.showNotification('danger', 'top', 'center', errorResponse.error.message);
         }
       );
   }
