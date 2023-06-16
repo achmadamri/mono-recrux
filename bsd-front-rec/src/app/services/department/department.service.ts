@@ -13,9 +13,9 @@ import { GetDepartmentResponse } from './getdepartmentresponse';
 export class DepartmentService {
   util: Util = new Util();
   // local
-  apiUrl = isDevMode() ? 'http://localhost:2082/department' : 'https://app.amplifio.tech/2082/department';
+  // apiUrl = isDevMode() ? 'http://localhost:2082/department' : 'https://app.amplifio.tech/2082/department';
   // codespace
-  // apiUrl = isDevMode() ? '/apidepartments/department' : 'https://app.amplifio.tech/2082/department';
+  apiUrl = isDevMode() ? '/apidepartments/department' : 'https://app.amplifio.tech/2082/department';
 
   constructor(private httpClient: HttpClient) { }
   
