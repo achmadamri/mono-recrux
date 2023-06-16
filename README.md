@@ -1,4 +1,6 @@
 # mono-recrux
+npm install -g @angular/cli
+
 docker-compose up -d
 
 ng build --configuration=production
