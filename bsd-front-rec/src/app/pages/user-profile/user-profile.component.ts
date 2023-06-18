@@ -24,7 +24,7 @@ export class UserProfileComponent implements OnInit {
   payPalAction: IOnInitCallbackActions;
   postAddRequest: PostAddRequest = new PostAddRequest();
   postAddResponse: PostAddResponse = new PostAddResponse();  
-  subs: string[] = ['Standard Subscription', 'Enterprise Subscription'];  
+  subs: string[] = ['Standard Subscription (Yearly. 300 parse. 150000 token. $151)', 'Enterprise Subscription (Yearly. 3000 parse. 1500000 token. $1,210'];  
   subsAmount: string[] = ['151', '1210'];
   sub: string;
   orderName: string;
