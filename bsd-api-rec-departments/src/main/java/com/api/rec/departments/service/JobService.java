@@ -204,63 +204,76 @@ public class JobService {
 			Optional<TbJob> optTbJob = tbJobRepository.findOne(Example.of(exampleTbJob));
 			
 			if (optTbJob.isPresent()) {
-				String prompt = "You act as my human resources expert and create a job description for " + optTbJob.get().getTbjName() + ".";
-		
-				final String uri = "https://api.openai.com/v1/completions";
-				RestTemplate restTemplate = new RestTemplate();
-		
-				HttpHeaders headers = new HttpHeaders();
-				headers.setContentType(MediaType.APPLICATION_JSON);
-				headers.setBearerAuth("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");
-		
-				String requestJson = "{\"model\": \"text-davinci-003\", \"prompt\": \"" + prompt + "\", \"max_tokens\": 1000, \"temperature\": 0}";
-		
-				HttpEntity<String> entity = new HttpEntity<String>(requestJson, headers);
-		
-				ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.POST, entity, String.class);
+				TbCompany exampleTbCompany = new TbCompany();
+				exampleTbCompany.setTbcId(optTbUser.get().getTbuCreateIdc());
+				Optional<TbCompany> optTbCompany = tbCompanyRepository.findOne(Example.of(exampleTbCompany));
 
-				log.info("------------------------------------------------------------------");				
-				log.info(response.getBody());
-				log.info("------------------------------------------------------------------");
+				if (optTbCompany.isPresent()) {
+					if (optTbCompany.get().getTbcToken() > 0) {
+						String prompt = "You act as my human resources expert and create a job description for " + optTbJob.get().getTbjName() + ".";
+		
+						final String uri = "https://api.openai.com/v1/completions";
+						RestTemplate restTemplate = new RestTemplate();
 				
-				// Save the job description
-				ObjectMapper mapper = new ObjectMapper();
-				JsonNode rootNodeGpt = mapper.readTree(response.getBody());
-				JsonNode choicesNodeGpt = rootNodeGpt.path("choices");
-				JsonNode choiceNodeGpt = choicesNodeGpt.get(0);
-				JsonNode textNodeGpt = choiceNodeGpt.path("text");
-				String tbjDescription = textNodeGpt.asText();
-				log.info("------------------------------------------------------------------");				
-				log.info(tbjDescription);
-				log.info("------------------------------------------------------------------");
+						HttpHeaders headers = new HttpHeaders();
+						headers.setContentType(MediaType.APPLICATION_JSON);
+						headers.setBearerAuth("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");
 				
-				// Save the job description and trim for 1000 char. Convert non readable characters to empty string
-				tbjDescription = tbjDescription.substring(0, Math.min(tbjDescription.length(), 10000));
-				tbjDescription = tbjDescription.replaceAll("[^\\x00-\\x7F]", "");
-				optTbJob.get().setTbjDescription(tbjDescription);
-				tbJobRepository.save(optTbJob.get());
+						String requestJson = "{\"model\": \"text-davinci-003\", \"prompt\": \"" + prompt + "\", \"max_tokens\": 1000, \"temperature\": 0}";
+				
+						HttpEntity<String> entity = new HttpEntity<String>(requestJson, headers);
+				
+						ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.POST, entity, String.class);
 
-				JsonNode usageNode = rootNodeGpt.path("usage");
-				TbCompany tbCompany = tbCompanyRepository.findById(optTbUser.get().getTbuCreateIdc()).get();
-				tbCompany.setTbcToken(tbCompany.getTbcToken() - usageNode.get("total_tokens").asInt());
-				tbCompanyRepository.save(tbCompany);
+						log.info("------------------------------------------------------------------");				
+						log.info(response.getBody());
+						log.info("------------------------------------------------------------------");
+						
+						// Save the job description
+						ObjectMapper mapper = new ObjectMapper();
+						JsonNode rootNodeGpt = mapper.readTree(response.getBody());
+						JsonNode choicesNodeGpt = rootNodeGpt.path("choices");
+						JsonNode choiceNodeGpt = choicesNodeGpt.get(0);
+						JsonNode textNodeGpt = choiceNodeGpt.path("text");
+						String tbjDescription = textNodeGpt.asText();
+						log.info("------------------------------------------------------------------");				
+						log.info(tbjDescription);
+						log.info("------------------------------------------------------------------");
+						
+						// Save the job description and trim for 1000 char. Convert non readable characters to empty string
+						tbjDescription = tbjDescription.substring(0, Math.min(tbjDescription.length(), 10000));
+						tbjDescription = tbjDescription.replaceAll("[^\\x00-\\x7F]", "");
+						optTbJob.get().setTbjDescription(tbjDescription);
+						tbJobRepository.save(optTbJob.get());
 
-				HttpHeaders headersPost = new HttpHeaders();
-				headersPost.setContentType(MediaType.APPLICATION_JSON);
-				SimpleMapper simpleMapper = new SimpleMapper();
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS000");
-				PostSyncCompanyRequestModel postSyncCompanyRequestModel = new PostSyncCompanyRequestModel();
-				postSyncCompanyRequestModel.setRequestDate(sdf.format(new Date()));
-				postSyncCompanyRequestModel.setRequestId(new Uid().generateString(10));
-				postSyncCompanyRequestModel.setEmail(optTbUser.get().getTbuEmail());
-				TbCompany postSyncCompanyTbCompany = new TbCompany();
-				postSyncCompanyTbCompany = (TbCompany) simpleMapper.assign(tbCompany, postSyncCompanyTbCompany);
-				postSyncCompanyRequestModel.setTbCompany(postSyncCompanyTbCompany);
-				HttpEntity<PostSyncCompanyRequestModel> requestPostUserRegisterOrder = new HttpEntity<>(postSyncCompanyRequestModel, headersPost);
-				restTemplate.postForEntity(env.getProperty("services.bsd.api.rec.member") + "user/postsynccompany", requestPostUserRegisterOrder, String.class);
+						JsonNode usageNode = rootNodeGpt.path("usage");
+						TbCompany tbCompany = tbCompanyRepository.findById(optTbUser.get().getTbuCreateIdc()).get();
+						tbCompany.setTbcToken(tbCompany.getTbcToken() - usageNode.get("total_tokens").asInt());
+						tbCompanyRepository.save(tbCompany);
 
-				responseModel.setTbJob(optTbJob.get());
-				responseModel.setHttpStatus(HttpStatus.OK);
+						HttpHeaders headersPost = new HttpHeaders();
+						headersPost.setContentType(MediaType.APPLICATION_JSON);
+						SimpleMapper simpleMapper = new SimpleMapper();
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS000");
+						PostSyncCompanyRequestModel postSyncCompanyRequestModel = new PostSyncCompanyRequestModel();
+						postSyncCompanyRequestModel.setRequestDate(sdf.format(new Date()));
+						postSyncCompanyRequestModel.setRequestId(new Uid().generateString(10));
+						postSyncCompanyRequestModel.setEmail(optTbUser.get().getTbuEmail());
+						TbCompany postSyncCompanyTbCompany = new TbCompany();
+						postSyncCompanyTbCompany = (TbCompany) simpleMapper.assign(tbCompany, postSyncCompanyTbCompany);
+						postSyncCompanyRequestModel.setTbCompany(postSyncCompanyTbCompany);
+						HttpEntity<PostSyncCompanyRequestModel> requestPostUserRegisterOrder = new HttpEntity<>(postSyncCompanyRequestModel, headersPost);
+						restTemplate.postForEntity(env.getProperty("services.bsd.api.rec.member") + "user/postsynccompany", requestPostUserRegisterOrder, String.class);
+
+						responseModel.setTbJob(optTbJob.get());
+						responseModel.setHttpStatus(HttpStatus.OK);
+					} else {
+						responseModel.setMessage("You have no parse credit");
+						responseModel.setHttpStatus(HttpStatus.BAD_REQUEST);
+					}
+				} else {
+					responseModel.setHttpStatus(HttpStatus.NOT_FOUND);
+				}				
 			} else {
 				responseModel.setHttpStatus(HttpStatus.NOT_FOUND);
 			}
