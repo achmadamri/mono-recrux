@@ -334,7 +334,7 @@ public class UserService {
 				TbCompany tbCompany = new TbCompany();				
 				tbCompany.setTbcCreateDate(new Date());
 				tbCompany.setTbcCreateId(null);
-				tbCompany.setTbcParse(3);
+				tbCompany.setTbcParse(15);
 				tbCompany.setTbcToken(2048);
 				tbCompany.setTbcName(requestModel.getTbCompany().getTbcName());
 				tbCompanyRepository.save(tbCompany);
@@ -351,7 +351,7 @@ public class UserService {
 				tbUser.setTbuStatus(TbUserRepository.NeedConfirmation);
 				tbUser.setTbuType("alpha");
 				LocalDateTime expired = LocalDateTime.now(ZoneOffset.UTC);
-				expired = expired.plusDays(7);
+				expired = expired.plusDays(30);
 				tbUser.setTbuExpired(Date.from(expired.toInstant(ZoneOffset.UTC)));
 				tbUser.setTbuUid(new Uid().generateString(100));
 				tbUser.setTbuTokenSalt(new Uid().generateString(36));
