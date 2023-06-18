@@ -129,15 +129,24 @@ public class PaymentService {
 			JSONObject paymentDetail = getPaymentDetail(requestModel.getTbPayment().getTbpOrderId());
 
 			if (paymentDetail != null) {
-				if (paymentDetail.getString("status").equals("COMPLETED")) {
+				if (paymentDetail.getString("status").equals("COMPLETED")) {					
 					TbPayment tbPayment = requestModel.getTbPayment();
 					tbPayment.setTbpCreateId(optTbUser.get().getTbuId());
 					tbPayment.setTbpCreateDate(new Date());
 					tbPayment.setTbpCreateIdc(optTbUser.get().getTbuCreateIdc());			
 					tbPaymentRepository.save(tbPayment);
 
-					int parse = 3000;
-					int token = 1500000;
+					int parse = 0;
+					int token = 0;
+
+					if (paymentDetail.getJSONArray("purchase_units").getJSONObject(0).getJSONObject("amount").getDouble("value") == 151) {
+						parse = 300;
+						token = 150000;
+					} else if (paymentDetail.getJSONArray("purchase_units").getJSONObject(0).getJSONObject("amount").getDouble("value") == 1210) {
+						parse = 3000;
+						token = 1500000;
+					}
+
 					TbCompany exampleTbCompany = new TbCompany();
 					exampleTbCompany.setTbcId(optTbUser.get().getTbuCreateIdc());
 					Optional<TbCompany> optTbCompany = tbCompanyRepository.findOne(Example.of(exampleTbCompany));
