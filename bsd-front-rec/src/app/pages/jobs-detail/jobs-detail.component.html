@@ -148,6 +148,7 @@
                             <table class="table table-hover">
                                 <thead>
                                     <th>No</th>
+                                    <th>Create Date</th>
                                     <th>ID</th>
                                     <th>Name</th>
                                     <th>Score</th>
@@ -158,6 +159,7 @@
                                 <tbody *ngIf="getResumeJobListResponse.lstViewResumeJob[0].tbrUuid != undefined">
                                     <tr *ngFor="let viewResumeJob of getResumeJobListResponse.lstViewResumeJob; let i=index;">
                                         <td>{{i + 1 + (pageSize * pageIndex)}}</td>
+                                        <td>{{viewResumeJob.tbrCreateDate | date: 'medium'}}</td>
                                         <td>{{viewResumeJob.tbrUuid}}</td>
                                         <td>{{viewResumeJob.tbrDataNameRaw}}</td>
                                         <td>{{viewResumeJob.tbrScore}}</td>
