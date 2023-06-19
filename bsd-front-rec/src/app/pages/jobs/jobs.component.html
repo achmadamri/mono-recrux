@@ -44,7 +44,7 @@
                                     <tr *ngFor="let tbJob of getJobListResponse.lstTbJob; let i=index;">
                                         <td>{{i + 1 + (pageSize * pageIndex)}}</td>
                                         <td>{{tbJob.tbjUuid}}</td>
-                                        <td title="{{tbJob.tbjDescription}}" style="cursor: pointer">{{tbJob.tbjName}}</td>
+                                        <td>{{tbJob.tbjName}}</td>
                                         <td>{{tbJob.tbjStatus}}</td>
                                         <td class="td-actions">
                                             <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(tbJob.tbjUuid);"><mat-icon>visibility</mat-icon></button>

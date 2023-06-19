@@ -42,18 +42,16 @@
                                     <th>Job Name</th>
                                     <th>ID</th>
                                     <th>Name</th>
-                                    <th>Score</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </thead>
                                 <tbody *ngIf="getResumeJobListResponse.lstViewResumeJob[0].tbrUuid != undefined">
                                     <tr *ngFor="let viewResumeJob of getResumeJobListResponse.lstViewResumeJob; let i=index;">
-                                        <td>{{i + 1 + (pageSize * pageIndex)}}</td>                                        
+                                        <td>{{i + 1 + (pageSize * pageIndex)}}</td>
                                         <td>{{viewResumeJob.tbjUuid}}</td>
                                         <td>{{viewResumeJob.tbjName}}</td>
                                         <td>{{viewResumeJob.tbrUuid}}</td>
                                         <td>{{viewResumeJob.tbrDataNameRaw}}</td>
-                                        <td title="{{viewResumeJob.tbrAINote}}">{{viewResumeJob.tbrScore}}</td>
                                         <td>{{viewResumeJob.tbrStatus}}</td>
                                         <td class="td-actions" *ngIf="viewResumeJob.tbrStatus == 'active' || viewResumeJob.tbrStatus == 'not active'">
                                             <button mat-icon-button title="View" [disabled]="clicked" (click)="edit(viewResumeJob.tbrUuid);" *ngIf="viewResumeJob.tbrStatus != 'parsing'"><mat-icon>visibility</mat-icon></button>
