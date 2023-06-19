@@ -161,7 +161,7 @@ public class DepartmentService {
                 .withMatcher("tbdStatus", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
 			;
 
-			Page<TbDepartment> pgTbDepartment = tbDepartmentRepository.findAll(Example.of(exampleTbDepartment, matcher), PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbdId").ascending()));
+			Page<TbDepartment> pgTbDepartment = tbDepartmentRepository.findAll(Example.of(exampleTbDepartment, matcher), PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbdCreateDate").descending()));
 			
 			if (pgTbDepartment.toList().size() > 0) {
 				responseModel.setLstTbDepartment(pgTbDepartment.toList());				

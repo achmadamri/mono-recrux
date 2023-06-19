@@ -305,7 +305,7 @@ public class JobService {
                 .withMatcher("tbjStatus", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
 			;
 
-			Page<TbJob> pgTbJob = tbJobRepository.findAll(Example.of(exampleTbJob, matcher), PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbjId").ascending()));
+			Page<TbJob> pgTbJob = tbJobRepository.findAll(Example.of(exampleTbJob, matcher), PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbjCreateDate").descending()));
 			
 			if (pgTbJob.toList().size() > 0) {
 				responseModel.setLstTbJob(pgTbJob.toList());				
