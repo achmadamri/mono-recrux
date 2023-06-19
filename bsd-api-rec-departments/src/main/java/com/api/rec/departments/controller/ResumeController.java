@@ -79,12 +79,14 @@ public class ResumeController {
 	}
 
 	@GetMapping("/getresumejoblist")
-	public HttpEntity<?> getResumeJobList(@RequestParam Integer tbjId, @RequestParam String tbrUuid, @RequestParam String tbrDataNameRaw, @RequestParam String tbrStatus, @RequestParam String tbrAssigned, @RequestParam String length, @RequestParam String pageSize, @RequestParam String pageIndex, @RequestParam String email, @RequestParam String token, @RequestParam String requestId, @RequestParam String requestDate) throws Exception {
+	public HttpEntity<?> getResumeJobList(@RequestParam Integer tbjId, @RequestParam String tbrUuid, @RequestParam String tbrDataNameRaw, @RequestParam String tbrStatus, @RequestParam String tbrAssigned, @RequestParam String length, @RequestParam String pageSize, @RequestParam String pageIndex, @RequestParam String email, @RequestParam String token, @RequestParam String requestId, @RequestParam String requestDate, @RequestParam String sort, @RequestParam String sortDirection) throws Exception {
 		GetResumeJobListRequestModel requestModel = new GetResumeJobListRequestModel();
 		requestModel.setEmail(email);
 		requestModel.setToken(token);
 		requestModel.setRequestId(requestId);
 		requestModel.setRequestDate(requestDate);
+		requestModel.setSort(sort);
+		requestModel.setSortDirection(sortDirection);
 		
 		String fid = new Uid().generateString(20);
 		log.info("[fid:" + fid + "] requestModel : " + objectMapper.writeValueAsString(requestModel));

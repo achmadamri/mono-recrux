@@ -58,7 +58,7 @@ export class ResumesComponent implements OnInit {
     localStorage.setItem('resume.pageEvent', JSON.stringify(this.pageEvent));
     localStorage.setItem('resume.request', JSON.stringify(this.getResumeJobListRequest));
 
-    this.resumeService.getResumeJobList(this.getResumeJobListRequest, this.pageEvent.length, this.pageEvent.pageSize, this.pageEvent.pageIndex)
+    this.resumeService.getResumeJobList(this.getResumeJobListRequest, this.pageEvent.length, this.pageEvent.pageSize, this.pageEvent.pageIndex, 'tbr_create_date', 'desc')
       .subscribe(
         successResponse => {
           this.clicked = !this.clicked;

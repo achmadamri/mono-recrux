@@ -701,17 +701,21 @@ public class ResumeService {
 		if (optTbUser.isPresent()) {
 			List<ViewResumeJob> lstViewResumeJob = new ArrayList<ViewResumeJob>();
 
+			String property = requestModel.getSort();
+			Sort.Direction direction = requestModel.getSortDirection().equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+			Sort sort = Sort.by(direction, property);
+
 			if (tbrAssigned.equals("")) {
 				if (tbjId == null) {
-					lstViewResumeJob = viewResumeJobRepository.findList(optTbUser.get().getTbuCreateIdc(), tbrUuid, tbrDataNameRaw, PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by(Sort.Order.asc("tbj_id"), Sort.Order.desc("tbr_score"))));
+					lstViewResumeJob = viewResumeJobRepository.findList(optTbUser.get().getTbuCreateIdc(), tbrUuid, tbrDataNameRaw, PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), sort));
 				} else {
-					lstViewResumeJob = viewResumeJobRepository.find(optTbUser.get().getTbuCreateIdc(), tbjId, PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by(Sort.Order.asc("tbj_id"), Sort.Order.desc("tbr_score"))));
+					lstViewResumeJob = viewResumeJobRepository.find(optTbUser.get().getTbuCreateIdc(), tbjId, PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), sort));
 				}				
 			} else {
 				if (tbrAssigned.equals("assigned")) {
-					lstViewResumeJob = viewResumeJobRepository.findAssigned(optTbUser.get().getTbuCreateIdc(), tbjId, tbrUuid, tbrDataNameRaw, tbrStatus, tbrAssigned, PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by(Sort.Order.asc("tbj_id"), Sort.Order.desc("tbr_score"))));
+					lstViewResumeJob = viewResumeJobRepository.findAssigned(optTbUser.get().getTbuCreateIdc(), tbjId, tbrUuid, tbrDataNameRaw, tbrStatus, tbrAssigned, PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), sort));
 				} else if (tbrAssigned.equals("not assigned")) {
-					lstViewResumeJob = viewResumeJobRepository.findNotAssigned(optTbUser.get().getTbuCreateIdc(), tbrUuid, tbrDataNameRaw, tbrStatus, tbrAssigned, PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by(Sort.Order.asc("tbj_id"), Sort.Order.desc("tbr_score"))));
+					lstViewResumeJob = viewResumeJobRepository.findNotAssigned(optTbUser.get().getTbuCreateIdc(), tbrUuid, tbrDataNameRaw, tbrStatus, tbrAssigned, PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), sort));
 				}
 			}			
 			

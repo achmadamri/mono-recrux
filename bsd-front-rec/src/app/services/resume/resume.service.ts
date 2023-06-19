@@ -59,7 +59,7 @@ export class ResumeService {
     return this.httpClient.get<GetResumeListResponse>(`${this.apiUrl}/getresumelist`, { headers, params });
   }
   
-  getResumeJobList(getResumeJobListRequest: GetResumeJobListRequest, length: number, pageSize: number, pageIndex: number): Observable<GetResumeJobListResponse> {
+  getResumeJobList(getResumeJobListRequest: GetResumeJobListRequest, length: number, pageSize: number, pageIndex: number, sort: string, sortDirection: string): Observable<GetResumeJobListResponse> {
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json');
 
@@ -68,6 +68,8 @@ export class ResumeService {
       .set('requestDate', ((new Date(Date.now() - ((new Date()).getTimezoneOffset() * 60000))).toISOString().slice(0, -1)) + '000')
       .set('email', localStorage.getItem('email'))
       .set('token', localStorage.getItem('token'))
+      .set('sort', sort)
+      .set('sortDirection', sortDirection)
       .set('length', length.toString())
       .set('pageSize', pageSize.toString())
       .set('pageIndex', pageIndex.toString())

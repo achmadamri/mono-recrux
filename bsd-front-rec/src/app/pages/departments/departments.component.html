@@ -35,6 +35,7 @@
                             <table class="table table-hover">
                                 <thead>
                                     <th>No</th>
+                                    <th>Create Date</th>
                                     <th>ID</th>
                                     <th>Name</th>
                                     <th>Status</th>
@@ -43,6 +44,7 @@
                                 <tbody *ngIf="getDepartmentListResponse.lstTbDepartment[0].tbdUuid != undefined">
                                     <tr *ngFor="let tbDepartment of getDepartmentListResponse.lstTbDepartment; let i=index;">
                                         <td>{{i + 1 + (pageSize * pageIndex)}}</td>
+                                        <td>{{tbDepartment.tbdCreateDate | date: 'medium'}}</td>
                                         <td>{{tbDepartment.tbdUuid}}</td>
                                         <td>{{tbDepartment.tbdName}}</td>
                                         <td>{{tbDepartment.tbdStatus}}</td>

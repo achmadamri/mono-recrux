@@ -38,6 +38,7 @@
                             <table class="table table-hover">
                                 <thead>
                                     <th>No</th>
+                                    <th>Create Date</th>
                                     <th>Job ID</th>
                                     <th>Job Name</th>
                                     <th>ID</th>
@@ -48,6 +49,7 @@
                                 <tbody *ngIf="getResumeJobListResponse.lstViewResumeJob[0].tbrUuid != undefined">
                                     <tr *ngFor="let viewResumeJob of getResumeJobListResponse.lstViewResumeJob; let i=index;">
                                         <td>{{i + 1 + (pageSize * pageIndex)}}</td>
+                                        <td>{{viewResumeJob.tbrCreateDate | date: 'medium'}}</td>
                                         <td>{{viewResumeJob.tbjUuid}}</td>
                                         <td>{{viewResumeJob.tbjName}}</td>
                                         <td>{{viewResumeJob.tbrUuid}}</td>

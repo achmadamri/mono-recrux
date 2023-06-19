@@ -9,6 +9,10 @@ public class RequestModel {
 
 	private String requestDate;
 
+	private String sort;
+
+	private String sortDirection;
+
 	public String getEmail() {
 		return email;
 	}
@@ -39,5 +43,21 @@ public class RequestModel {
 
 	public void setRequestDate(String requestDate) {
 		this.requestDate = requestDate;
+	}
+
+	public String getSort() {
+		return sort;
+	}
+
+	public void setSort(String sort) {
+		this.sort = sort;
+	}
+
+	public String getSortDirection() {
+		return sortDirection;
+	}
+
+	public void setSortDirection(String sortDirection) {
+		this.sortDirection = sortDirection;
 	}
 }

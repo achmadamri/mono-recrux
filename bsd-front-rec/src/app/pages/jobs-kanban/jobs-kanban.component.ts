@@ -115,7 +115,7 @@ export class JobsKanbanComponent implements OnInit {
   getResumeJobList(pageEvent: PageEvent) {
     this.clicked = !this.clicked;
 
-    this.resumeService.getResumeJobList(this.getResumeJobListRequest, 999999, 999999, 0)
+    this.resumeService.getResumeJobList(this.getResumeJobListRequest, 999999, 999999, 0, 'tbr_score', 'desc')
       .subscribe(
         successResponse => {
           this.clicked = !this.clicked;
