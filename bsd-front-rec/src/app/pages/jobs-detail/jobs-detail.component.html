@@ -66,7 +66,7 @@
                                             </mat-radio-group>
                                         </div>
                                     </div>
-                                    <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked" (click)="kanban();">Jobs Kanban</button>
+                                    <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked" (click)="kanban();">Board</button>
                                     <button mat-raised-button type="submit" class="btn btn-danger pull-right" [disabled]="clicked" (click)="saveupdate();">{{saveUpdate}}</button>
                                     <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked" (click)="back();">Back</button>                                    
                                     <div class="clearfix"></div>
@@ -180,7 +180,7 @@
                                 </tbody>
                             </table>
                             <mat-paginator *ngIf="getResumeJobListResponse.lstViewResumeJob[0].tbrUuid != undefined" [length]="length" [pageSize]="pageSize" [pageIndex]="pageIndex" [previousPageIndex]="previousPageIndex" [pageSizeOptions]="pageSizeOptions" (page)="getPage($event)" [disabled]="clicked"></mat-paginator>
-                            <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked" (click)="refresh();">Refresh</button>
+                            <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked" (click)="back();">Add</button>
                             <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked" (click)="filter();">Filter</button>
                             <button mat-raised-button type="button" class="btn btn-danger pull-right" [disabled]="clicked" (click)="back();">Back</button>
                         </div>

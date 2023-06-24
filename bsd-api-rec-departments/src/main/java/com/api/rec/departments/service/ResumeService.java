@@ -644,7 +644,7 @@ public class ResumeService {
 			}
 		}
 
-		tbResume.setTbrNote(note);
+		tbResume.setTbrNote(tbResume.getTbrNote() + note);
 
 		// Get note end --------------------------------------------------------------------------------------------------
 		
@@ -1034,6 +1034,7 @@ public class ResumeService {
 		
 						optTbResume.get().setTbrScore(tbResume.getTbrScore());
 						optTbResume.get().setTbrAINote(tbResume.getTbrAINote());
+						optTbResume.get().setTbrNote(tbResume.getTbrNote());
 
 						tbCompanyRepository.save(optTbCompany.get());
 		
