@@ -186,4 +186,8 @@ export class DepartmentsDetailComponent implements OnInit {
     this.router.navigate(['/jobs/' + tbjUuid]);
   }
 
+  add() {
+    this.router.navigate(['/jobs/0']);
+  }
+
 }

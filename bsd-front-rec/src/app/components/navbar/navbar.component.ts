@@ -3,6 +3,7 @@ import { ROUTES } from '../sidebar/sidebar.component';
 import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
+import { TbUser } from 'app/services/user/tbuser';
 
 @Component({
   selector: 'app-navbar',
@@ -17,6 +18,7 @@ export class NavbarComponent implements OnInit {
     private toggleButton: any;
     private sidebarVisible: boolean;
     sidebarMiniVisible: boolean;
+    tbUser: TbUser = new TbUser();
 
     constructor(location: Location,  private element: ElementRef, private router: Router) {
       this.location = location;
@@ -24,6 +26,7 @@ export class NavbarComponent implements OnInit {
     }
 
     ngOnInit(){
+      this.tbUser = JSON.parse(localStorage.getItem('user'));
       this.sidebarMiniVisible = true;        
       this.listTitles = ROUTES.filter(listTitle => listTitle);
       const navbar: HTMLElement = this.element.nativeElement;

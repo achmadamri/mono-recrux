@@ -29,3 +29,9 @@ mysql -uroot -pP@55w0rd -h127.0.01 bsd_api_rec_member < bsd-api-rec-member/bsd_a
 mysqldump -uroot -pP@55w0rd bsd_api_rec_auth > bsd-api-rec-auth/bsd_api_rec_auth.sql
 mysqldump -uroot -pP@55w0rd bsd_api_rec_departments > bsd-api-rec-departments/bsd_api_rec_departments.sql
 mysqldump -uroot -pP@55w0rd bsd_api_rec_member > bsd-api-rec-member/bsd_api_rec_member.sql
+
+Note :
+1. Pasang button Add di department detail, masuk ke halaman Job creation, dan load Departmentnya untuk langsung dipasang di Job ketika di save
+2. Di job detail pasang button Add, untuk masuk ke halaman resume kosong. Ini menu baru, untuk isi resume manual
+3. Di resume detail, cukup 1 tab saja isinya Information, Personal Details, Resume, dll...
+4. Upload Resume dihilangkan. Nanti akan ada menu baru isinya halaman job yang bisa diakses publik, dan publik bisa bebas upload resume mereka terhadap job itu, kemudian setelah upload akan masuk ke halaman resume detail dan mereka bisa melengkapi data2nya
