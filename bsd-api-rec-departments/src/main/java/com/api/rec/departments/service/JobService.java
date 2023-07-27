@@ -340,6 +340,11 @@ public class JobService {
 				viewJobDepartmentRepository.findAssigned(optTbUser.get().getTbuCreateIdc(), tbdId, tbjUuid, tbjName, tbjStatus, tbjAssigned, PageRequest.of(Integer.valueOf(pageIndex), Integer.valueOf(pageSize), Sort.by("tbj_id").ascending()));
 
 			if (lstViewJobDepartment.size() > 0) {
+				// check lstViewJobDepartment if tbjAssigned is empty then set tbjAssigned to "not assigned"
+				for (ViewJobDepartment viewJobDepartment : lstViewJobDepartment) {
+					if (viewJobDepartment.getTbjAssigned() == null) viewJobDepartment.setTbjAssigned(TbJobRepository.NotAssigned);
+				}
+
 				responseModel.setLstViewJobDepartment(lstViewJobDepartment);				
 				responseModel.setLength(
 					tbjAssigned == "" ?
